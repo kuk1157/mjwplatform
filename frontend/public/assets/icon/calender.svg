@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16">
+  <g id="그룹_61" data-name="그룹 61" transform="translate(0.5 0.5)">
+    <rect id="사각형_71" data-name="사각형 71" width="15" height="13.307" rx="0.769" transform="translate(0 1.693)" fill="none" stroke="#434752" stroke-width="1"/>
+    <line id="선_14" data-name="선 14" y2="3.356" transform="translate(3)" fill="none" stroke="#434752" stroke-linecap="round" stroke-width="1"/>
+    <line id="선_15" data-name="선 15" y2="3.356" transform="translate(12)" fill="none" stroke="#434752" stroke-linecap="round" stroke-width="1"/>
+    <line id="선_16" data-name="선 16" x2="15" transform="translate(0 5.406)" fill="none" stroke="#434752" stroke-width="1"/>
+    <g id="그룹_20" data-name="그룹 20" transform="translate(2.644 8.346)">
+      <line id="선_17" data-name="선 17" x2="1.662" fill="none" stroke="#434752" stroke-linecap="round" stroke-width="1"/>
+      <line id="선_18" data-name="선 18" x2="1.662" transform="translate(4.025)" fill="none" stroke="#434752" stroke-linecap="round" stroke-width="1"/>
+      <line id="선_19" data-name="선 19" x2="1.662" transform="translate(8.051)" fill="none" stroke="#434752" stroke-linecap="round" stroke-width="1"/>
+      <line id="선_20" data-name="선 20" x2="1.662" transform="translate(0 3.654)" fill="none" stroke="#434752" stroke-linecap="round" stroke-width="1"/>
+      <line id="선_21" data-name="선 21" x2="1.662" transform="translate(4.025 3.654)" fill="none" stroke="#434752" stroke-linecap="round" stroke-width="1"/>
+      <line id="선_22" data-name="선 22" x2="1.662" transform="translate(8.051 3.654)" fill="none" stroke="#434752" stroke-linecap="round" stroke-width="1"/>
+    </g>
+  </g>
+</svg>

@@ -1,0 +1,514 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@font-face {
+    font-family: "Pretendard";
+    font-weight: 900;
+    font-display: swap;
+    src:
+        local("Pretendard Black"),
+        url(/assets/fonts/woff2/Pretendard-Black.woff2) format("woff2"),
+        url(/assets/fonts/woff/Pretendard-Black.woff) format("woff");
+}
+
+li::marker {
+    color: #21a089;
+}
+.react-datepicker-wrapper,
+.react-datepicker__input-container {
+    width: inherit !important;
+}
+@font-face {
+    font-family: "Pretendard";
+    font-weight: 800;
+    font-display: swap;
+    src:
+        local("Pretendard ExtraBold"),
+        url(/assets/fonts/woff2/Pretendard-ExtraBold.woff2) format("woff2"),
+        url(/assets/fonts/woff/Pretendard-ExtraBold.woff) format("woff");
+}
+
+@font-face {
+    font-family: "Pretendard";
+    font-weight: 700;
+    font-display: swap;
+    src:
+        local("Pretendard Bold"),
+        url(/assets/fonts/woff2/Pretendard-Bold.woff2) format("woff2"),
+        url(/assets/fonts/woff/Pretendard-Bold.woff) format("woff");
+}
+
+@font-face {
+    font-family: "Pretendard";
+    font-weight: 600;
+    font-display: swap;
+    src:
+        local("Pretendard SemiBold"),
+        url(/assets/fonts/woff2/Pretendard-SemiBold.woff2) format("woff2"),
+        url(/assets/fonts/woff/Pretendard-SemiBold.woff) format("woff");
+}
+
+@font-face {
+    font-family: "Pretendard";
+    font-weight: 500;
+    font-display: swap;
+    src:
+        local("Pretendard Medium"),
+        url(/assets/fonts/woff2/Pretendard-Medium.woff2) format("woff2"),
+        url(/assets/fonts/woff/Pretendard-Medium.woff) format("woff");
+}
+
+@font-face {
+    font-family: "PretendardRegular";
+    font-weight: 400;
+    font-display: swap;
+    src:
+        local("Pretendard Regular"),
+        url(/assets/fonts/woff2/Pretendard-Regular.woff2) format("woff2"),
+        url(/assets/fonts/woff/Pretendard-Regular.woff) format("woff");
+}
+
+@font-face {
+    font-family: "Pretendard";
+    font-weight: 300;
+    font-display: swap;
+    src:
+        local("Pretendard Light"),
+        url(/assets/fonts/woff2/Pretendard-Light.woff2) format("woff2"),
+        url(/assets/fonts/woff/Pretendard-Light.woff) format("woff");
+}
+
+@font-face {
+    font-family: "Pretendard";
+    font-weight: 200;
+    font-display: swap;
+    src:
+        local("Pretendard ExtraLight"),
+        url(/assets/fonts/woff2/Pretendard-ExtraLight.woff2) format("woff2"),
+        url(/assets/fonts/woff/Pretendard-ExtraLight.woff) format("woff");
+}
+
+@font-face {
+    font-family: "Pretendard";
+    font-weight: 100;
+    font-display: swap;
+    src:
+        local("Pretendard Thin"),
+        url(/assets/fonts/woff2/Pretendard-Thin.woff2) format("woff2"),
+        url(/assets/fonts/woff/Pretendard-Thin.woff) format("woff");
+}
+
+@font-face {
+    font-family: "TmoneyRoundWind";
+    font-weight: 400;
+    font-display: swap;
+    src:
+        local("TmoneyRoundWindRegular"),
+        url(/assets/fonts/ttf/TmoneyRoundWindRegular.ttf) format("truetype");
+}
+
+@font-face {
+    font-family: "TmoneyRoundWind";
+    font-weight: 800;
+    font-display: swap;
+    src:
+        local("TmoneyRoundWindExtraBold"),
+        url(/assets/fonts/ttf/TmoneyRoundWindExtraBold.ttf) format("truetype");
+}
+
+/* main {
+    margin-top: 100px;
+} */
+
+/* react-datepicker css 커스텀 */
+.react-datepicker-wrapper,
+.react-datepicker__input-container {
+    width: inherit !important;
+}
+
+input {
+    outline: none;
+}
+
+/* quill 관련 css */
+
+.quill {
+    box-sizing: border-box;
+    line-height: 1.42;
+    height: 100%;
+    outline: none;
+    overflow-y: auto;
+    padding: 12px 15px;
+    tab-size: 4;
+    -moz-tab-size: 4;
+    text-align: left;
+    white-space: pre-wrap;
+    word-wrap: break-word;
+}
+.quill > * {
+    cursor: text;
+}
+.quill p,
+.quill ol,
+.quill ul,
+.quill pre,
+.quill blockquote,
+.quill h1,
+.quill h2,
+.quill h3,
+.quill h4,
+.quill h5,
+.quill h6 {
+    margin: 0;
+    padding: 0;
+    counter-reset: list-1 list-2 list-3 list-4 list-5 list-6 list-7 list-8
+        list-9;
+}
+.quill ol,
+.quill ul {
+    padding-left: 1.5em;
+}
+.quill ol > li,
+.quill ul > li {
+    list-style-type: none;
+}
+.quill ul > li::before {
+    content: "\2022";
+}
+.quill ul[data-checked="true"],
+.quill ul[data-checked="false"] {
+    pointer-events: none;
+}
+.quill ul[data-checked="true"] > li *,
+.quill ul[data-checked="false"] > li * {
+    pointer-events: all;
+}
+.quill ul[data-checked="true"] > li::before,
+.quill ul[data-checked="false"] > li::before {
+    color: #777;
+    cursor: pointer;
+    pointer-events: all;
+}
+.quill ul[data-checked="true"] > li::before {
+    content: "\2611";
+}
+.quill ul[data-checked="false"] > li::before {
+    content: "\2610";
+}
+.quill li::before {
+    display: inline-block;
+    white-space: nowrap;
+    width: 1.2em;
+}
+.quill li:not(.ql-direction-rtl)::before {
+    margin-left: -1.5em;
+    margin-right: 0.3em;
+    text-align: right;
+}
+.quill li.ql-direction-rtl::before {
+    margin-left: 0.3em;
+    margin-right: -1.5em;
+}
+.quill ol li:not(.ql-direction-rtl),
+.quill ul li:not(.ql-direction-rtl) {
+    padding-left: 1.5em;
+}
+.quill ol li.ql-direction-rtl,
+.quill ul li.ql-direction-rtl {
+    padding-right: 1.5em;
+}
+.quill ol li {
+    counter-reset: list-1 list-2 list-3 list-4 list-5 list-6 list-7 list-8
+        list-9;
+    counter-increment: list-0;
+}
+.quill ol li:before {
+    content: counter(list-0, decimal) ". ";
+}
+.quill ol li.ql-indent-1 {
+    counter-increment: list-1;
+}
+.quill ol li.ql-indent-1:before {
+    content: counter(list-1, lower-alpha) ". ";
+}
+.quill ol li.ql-indent-1 {
+    counter-reset: list-2 list-3 list-4 list-5 list-6 list-7 list-8 list-9;
+}
+.quill ol li.ql-indent-2 {
+    counter-increment: list-2;
+}
+.quill ol li.ql-indent-2:before {
+    content: counter(list-2, lower-roman) ". ";
+}
+.quill ol li.ql-indent-2 {
+    counter-reset: list-3 list-4 list-5 list-6 list-7 list-8 list-9;
+}
+.quill ol li.ql-indent-3 {
+    counter-increment: list-3;
+}
+.quill ol li.ql-indent-3:before {
+    content: counter(list-3, decimal) ". ";
+}
+.quill ol li.ql-indent-3 {
+    counter-reset: list-4 list-5 list-6 list-7 list-8 list-9;
+}
+.quill ol li.ql-indent-4 {
+    counter-increment: list-4;
+}
+.quill ol li.ql-indent-4:before {
+    content: counter(list-4, lower-alpha) ". ";
+}
+.quill ol li.ql-indent-4 {
+    counter-reset: list-5 list-6 list-7 list-8 list-9;
+}
+.quill ol li.ql-indent-5 {
+    counter-increment: list-5;
+}
+.quill ol li.ql-indent-5:before {
+    content: counter(list-5, lower-roman) ". ";
+}
+.quill ol li.ql-indent-5 {
+    counter-reset: list-6 list-7 list-8 list-9;
+}
+.quill ol li.ql-indent-6 {
+    counter-increment: list-6;
+}
+.quill ol li.ql-indent-6:before {
+    content: counter(list-6, decimal) ". ";
+}
+.quill ol li.ql-indent-6 {
+    counter-reset: list-7 list-8 list-9;
+}
+.quill ol li.ql-indent-7 {
+    counter-increment: list-7;
+}
+.quill ol li.ql-indent-7:before {
+    content: counter(list-7, lower-alpha) ". ";
+}
+.quill ol li.ql-indent-7 {
+    counter-reset: list-8 list-9;
+}
+.quill ol li.ql-indent-8 {
+    counter-increment: list-8;
+}
+.quill ol li.ql-indent-8:before {
+    content: counter(list-8, lower-roman) ". ";
+}
+.quill ol li.ql-indent-8 {
+    counter-reset: list-9;
+}
+.quill ol li.ql-indent-9 {
+    counter-increment: list-9;
+}
+.quill ol li.ql-indent-9:before {
+    content: counter(list-9, decimal) ". ";
+}
+.quill .ql-indent-1:not(.ql-direction-rtl) {
+    padding-left: 3em;
+}
+.quill li.ql-indent-1:not(.ql-direction-rtl) {
+    padding-left: 4.5em;
+}
+.quill .ql-indent-1.ql-direction-rtl.ql-align-right {
+    padding-right: 3em;
+}
+.quill li.ql-indent-1.ql-direction-rtl.ql-align-right {
+    padding-right: 4.5em;
+}
+.quill .ql-indent-2:not(.ql-direction-rtl) {
+    padding-left: 6em;
+}
+.quill li.ql-indent-2:not(.ql-direction-rtl) {
+    padding-left: 7.5em;
+}
+.quill .ql-indent-2.ql-direction-rtl.ql-align-right {
+    padding-right: 6em;
+}
+.quill li.ql-indent-2.ql-direction-rtl.ql-align-right {
+    padding-right: 7.5em;
+}
+.quill .ql-indent-3:not(.ql-direction-rtl) {
+    padding-left: 9em;
+}
+.quill li.ql-indent-3:not(.ql-direction-rtl) {
+    padding-left: 10.5em;
+}
+.quill .ql-indent-3.ql-direction-rtl.ql-align-right {
+    padding-right: 9em;
+}
+.quill li.ql-indent-3.ql-direction-rtl.ql-align-right {
+    padding-right: 10.5em;
+}
+.quill .ql-indent-4:not(.ql-direction-rtl) {
+    padding-left: 12em;
+}
+.quill li.ql-indent-4:not(.ql-direction-rtl) {
+    padding-left: 13.5em;
+}
+.quill .ql-indent-4.ql-direction-rtl.ql-align-right {
+    padding-right: 12em;
+}
+.quill li.ql-indent-4.ql-direction-rtl.ql-align-right {
+    padding-right: 13.5em;
+}
+.quill .ql-indent-5:not(.ql-direction-rtl) {
+    padding-left: 15em;
+}
+.quill li.ql-indent-5:not(.ql-direction-rtl) {
+    padding-left: 16.5em;
+}
+.quill .ql-indent-5.ql-direction-rtl.ql-align-right {
+    padding-right: 15em;
+}
+.quill li.ql-indent-5.ql-direction-rtl.ql-align-right {
+    padding-right: 16.5em;
+}
+.quill .ql-indent-6:not(.ql-direction-rtl) {
+    padding-left: 18em;
+}
+.quill li.ql-indent-6:not(.ql-direction-rtl) {
+    padding-left: 19.5em;
+}
+.quill .ql-indent-6.ql-direction-rtl.ql-align-right {
+    padding-right: 18em;
+}
+.quill li.ql-indent-6.ql-direction-rtl.ql-align-right {
+    padding-right: 19.5em;
+}
+.quill .ql-indent-7:not(.ql-direction-rtl) {
+    padding-left: 21em;
+}
+.quill li.ql-indent-7:not(.ql-direction-rtl) {
+    padding-left: 22.5em;
+}
+.quill .ql-indent-7.ql-direction-rtl.ql-align-right {
+    padding-right: 21em;
+}
+.quill li.ql-indent-7.ql-direction-rtl.ql-align-right {
+    padding-right: 22.5em;
+}
+.quill .ql-indent-8:not(.ql-direction-rtl) {
+    padding-left: 24em;
+}
+.quill li.ql-indent-8:not(.ql-direction-rtl) {
+    padding-left: 25.5em;
+}
+.quill .ql-indent-8.ql-direction-rtl.ql-align-right {
+    padding-right: 24em;
+}
+.quill li.ql-indent-8.ql-direction-rtl.ql-align-right {
+    padding-right: 25.5em;
+}
+.quill .ql-indent-9:not(.ql-direction-rtl) {
+    padding-left: 27em;
+}
+.quill li.ql-indent-9:not(.ql-direction-rtl) {
+    padding-left: 28.5em;
+}
+.quill .ql-indent-9.ql-direction-rtl.ql-align-right {
+    padding-right: 27em;
+}
+.quill li.ql-indent-9.ql-direction-rtl.ql-align-right {
+    padding-right: 28.5em;
+}
+.quill .ql-video {
+    display: block;
+    max-width: 100%;
+}
+.quill .ql-video.ql-align-center {
+    margin: 0 auto;
+}
+.quill .ql-video.ql-align-right {
+    margin: 0 0 0 auto;
+}
+.quill .ql-bg-black {
+    background-color: #000;
+}
+.quill .ql-bg-red {
+    background-color: #e60000;
+}
+.quill .ql-bg-orange {
+    background-color: #f90;
+}
+.quill .ql-bg-yellow {
+    background-color: #ff0;
+}
+.quill .ql-bg-green {
+    background-color: #008a00;
+}
+.quill .ql-bg-blue {
+    background-color: #06c;
+}
+.quill .ql-bg-purple {
+    background-color: #93f;
+}
+.quill .ql-color-white {
+    color: #fff;
+}
+.quill .ql-color-red {
+    color: #e60000;
+}
+.quill .ql-color-orange {
+    color: #f90;
+}
+.quill .ql-color-yellow {
+    color: #ff0;
+}
+.quill .ql-color-green {
+    color: #008a00;
+}
+.quill .ql-color-blue {
+    color: #06c;
+}
+.quill .ql-color-purple {
+    color: #93f;
+}
+.quill .ql-font-serif {
+    font-family:
+        Georgia,
+        Times New Roman,
+        serif;
+}
+.quill .ql-font-monospace {
+    font-family:
+        Monaco,
+        Courier New,
+        monospace;
+}
+.quill .ql-size-small {
+    font-size: 0.75em;
+}
+.quill .ql-size-large {
+    font-size: 1.5em;
+}
+.quill .ql-size-huge {
+    font-size: 2.5em;
+}
+.quill .ql-direction-rtl {
+    direction: rtl;
+    text-align: inherit;
+}
+.quill .ql-align-center {
+    text-align: center;
+}
+.quill .ql-align-justify {
+    text-align: justify;
+}
+.quill .ql-align-right {
+    text-align: right;
+}
+.quill.ql-blank::before {
+    color: rgba(0, 0, 0, 0.6);
+    content: attr(data-placeholder);
+    font-style: italic;
+    left: 15px;
+    pointer-events: none;
+    position: absolute;
+    right: 15px;
+}
+.react-datepicker__input-container {
+    input {
+        width: 100% !important;
+    }
+}

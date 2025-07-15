@@ -1,0 +1,15 @@
+{
+    "title": "공지사항",
+    "detail_btn": "상세정보",
+    "table_th_num": "번호",
+    "table_th_title": "제목",
+    "table_th_author": "글쓴이",
+    "table_th_crated_at": "등록일",
+    "table_th_view": "조회",
+    "search_filter1": "전체",
+    "detail_next": "다음글",
+    "detail_prev": "이전글",
+    "detail_to_list": "목록",
+    "last_page": "마지막 글 입니다.",
+    "first_page": "첫 글 입니다."
+}

@@ -1,0 +1,530 @@
+{
+    "tab1": "Company history",
+    "tab2": "Patent and award details",
+
+    "applicationDate": "App/Reg Date",
+    "country": "Country",
+    "applicationNumber": "App/Reg No.",
+    "patentName": "Patent/Program Name",
+    "note": "Note",
+
+    "korea": "South Korea",
+    "prefix": "No.",
+    "suffix": "",
+    "filed": "Filed",
+    "registered": "Registered",
+    "patent1": "Text-based Coding Block Generation Development Module",
+    "patent2": "Exercise Management System Using Metaverse Service",
+    "patent3": "Location-based NFT Issuance System",
+    "patent4": "User-customized Advertising System in Metaverse Service",
+    "patent5": "Blockchain-based Product Viewing System Applicable to Metaverse Service",
+    "patent6": "Blockchain-based Product Sharing System Applicable to Metaverse Service",
+    "patent7": "Location-based Augmented Reality System Using Metaverse Service",
+    "patent8": "Video Transaction Utilization System in Metaverse Service",
+    "patent9": "Metaverse Service Operation Server with Carbon Emission Information",
+    "patent10": "Virtual Reality Device",
+    "patent11": "Control Signal System for Multiple VR Video Data",
+    "awardsAndCerts": "Company Awards and Development Certificates",
+    "kosmeCommendation": "KOSME Commendation",
+    "metaverseAward": "Metaverse Contest Special Award",
+    "ventureCert": "Venture Business Certification",
+    "rdDeptCert": "R&D Department Certificate",
+
+    "history": {
+        "2024": [
+            {
+                "month": "10",
+                "items": [
+                    "[Future Vehicle Business Unit] Metaverse Education Platform Enhancement Service (RIS Future Vehicle Parts Business Unit)",
+                    "Online Behavior Intervention Center Website Construction Service (Pudding Jaramteo Website)",
+                    "Participation in 『FIX 2024』 Future Innovation Technology Expo (Participation in Daegu Technopark Joint Pavilion)",
+                    "『2024 Star Company Fostering Project』 One-Point Support Project Agreement"
+                ]
+            },
+            {
+                "month": "08",
+                "items": [
+                    "Selected as a new star company in 2024 (Pre-star company)",
+                    "Participation in 2024 Domestic Contents Exhibition DIP Joint Pavilion (Pudding Bada)",
+                    "Registration of a corporate research institute with the Korea Institute of Information and Communication Technology",
+                    "Production of Yeongnam's No. 1 Media Facade Promotion Page",
+                    "Production of Lee In-sung Metaverse Memorial Hall"
+                ]
+            },
+            {
+                "month": "07",
+                "items": [
+                    "2024 『Metaverse Daegu World Creation Project』 Demonstration Service Support Project (Sports Community)"
+                ]
+            },
+            {
+                "month": "06",
+                "items": [
+                    "2024 New Tech Specialized Content Production Support Project (Hosted by: Pudding, Participation: Pium)",
+                    "2024 Edutech Soft Lab Construction and Operation Project (Pudding Jaramteo)",
+                    "2024 Data Voucher Support Project Selection (Another Site, Dream Builder)"
+                ]
+            },
+            {
+                "month": "05",
+                "items": [
+                    "Participation in the 2024 Metaverse Expo Tokyo Exhibition (Meta-lecture VR Platform)",
+                    "Yeungnam University LINC3.0 Project Group Industry-Academic Joint Technology Development Project (Digital Banner Solution)",
+                    "2024 Regional Base Content Production Support Project World-Con (Pudding Bada)"
+                ]
+            }
+        ],
+        "2023": [
+            {
+                "month": "12",
+                "items": [
+                    "2023 Data Voucher Support Project Completion of Application and Re-designation of Supplier",
+                    "2023 Local SW Company Daekyung ICT Association's Night / Commendation of Distinguished Service in the Development of Local SW Industry (Daegu Market Award)"
+                ]
+            },
+            {
+                "month": "11",
+                "items": [
+                    "Daegu University Industry-Academic Cooperation Group selects the metaverse sociality promotion program development service (dreaming)",
+                    "AI development service for CPR tutor (Metaeducis Co., Ltd.)",
+                    "Participation in the 2023 Daegu Metabus Fair (11.08~11.10)",
+                    "YU Expo Participation in Industry-Academic Cooperation (11.23)",
+                    "2023 Daegu Regional Specialized 'Offline Photo Zone' Field Demonstration"
+                ]
+            },
+            {
+                "month": "10",
+                "items": [
+                    "Production of AI tutor and media art museum using metaverse (Near Networks)",
+                    "RIS Business Group Performs Meta-Office VR Platform Construction Service",
+                    "Daegu Digital Innovation Promotion Agency selected Edutech Soft Lab construction project in 2023",
+                    "Selection of Edutech Soft Lab Construction and Operation Project in 2023 (Yeosang, Gyeongbuk)",
+                    "‘Y Design Lab’ Media Art Museum Production Service"
+                ]
+            },
+            {
+                "month": "09",
+                "items": [
+                    "2023 Daegu Techno Park Regional Specialized Content Production and Commercialization Project Selection",
+                    "Daegu 3-gyeong platform and content production (Flex Co., Ltd.)",
+                    "Mental Healthcare XR Platform “Halmaldahae” System Development and Enhancement Outsourcing Service",
+                    "Mental Healthcare XR Platform “Halmaldahae” Android OS Native App Development Service",
+                    "Production service for the WIDESIGN LAB media art museum based on WEBGL metaverse (Puding World)",
+                    "Production of Gyeongbuk Metastory (Metaverse+History) Tour (Andong Metaverse)",
+                    "EdTech Softlab Verification Directory Book Production (Puding Edu)",
+                    "2023 Regional Specialized Content Production and Commercialization (Technology Doctor, TP)",
+                    "Patent registration for location-based augmented reality system using metaverse service"
+                ]
+            },
+            {
+                "month": "08",
+                "items": [
+                    "Yeungnam University RIS Future Vehicle Business Group VR Meta Lecture Platform Service Selection",
+                    "Metaverse (WEBGL) construction and content production service (MetaEdusys Co., Ltd.)",
+                    "Registration of suppliers supporting big data utilization"
+                ]
+            },
+            {
+                "month": "07",
+                "items": [
+                    "Metaverse Library Platform Development Service (Origin Factory)",
+                    "Daegu Global Game Center Operation Project in 2023 to strengthen the competitiveness of puzzle game 'Isle' using artificial intelligence MO-AI",
+                    "Development of Gimhae Metabus Library Platform"
+                ]
+            },
+            {
+                "month": "06",
+                "items": [
+                    "AI Learning Data Processing Service (Near Networks Co., Ltd.)",
+                    "Selection of four demand companies for 2023 data voucher support project"
+                ]
+            },
+            {
+                "month": "05",
+                "items": [
+                    "Register for Moai Clip Service",
+                    "2023 Industrial Convergence Metabus Development Support Project “RIS Project Metabus Campus Construction” Selection of the Daegu Digital Innovation Promotion Agency to carry out the Daegu Regional Specialized Content Development Support Project in 2023",
+                    "“Creating convergence contents using AI image classification model and Daegu 10 Views”"
+                ]
+            },
+            {
+                "month": "04",
+                "items": [
+                    "Daegu Digital Innovation Promotion Agency carries out a project to support industrial convergence metaverse development in 2023",
+                    "PUDDING World Clip Service Registration",
+                    "2023 Industrial Convergence Metaverse Development Support Project",
+                    "[Project to create foundation for training SW talent in regional industry in 2023] Selection of program for 'SW Master Course (Planning Type)' of local SW company (Mafia game)",
+                    "A Metaverse Fitness Healthcare Platform"
+                ]
+            },
+            {
+                "month": "03",
+                "items": [
+                    "Mo-ai service open",
+                    "NIA Data Construction Project (Gyeongbuk Seowon Metaverse Image and 3D Data) - Final Results Average",
+                    "RAPA Dalseo Art Center Dokdo Metaverse Experience Center Opening Ceremony"
+                ]
+            },
+            {
+                "month": "02",
+                "items": [
+                    "Patent Application for Text-Based Coding Block Generation Development Module",
+                    "Selection of suppliers for industrial-specific innovation voucher support projects in 2023"
+                ]
+            },
+            {
+                "month": "01",
+                "items": ["Ces2023 Las Vegas Venetian EXPO (Hall-D) Exhibition"]
+            }
+        ],
+        "2022": [
+            {
+                "month": "12",
+                "items": [
+                    "2022 Daegu Techno Park Regional Specialized Metaverse Creative Content Skill-up “Kim Gwang-seok Street Tourism Content Using Metaverse” Selection and Production"
+                ]
+            },
+            {
+                "month": "11",
+                "items": [
+                    "PUDDING, CMA Global, and Korea Textile Development Institute selected as Daegu Techno Park Regional Innovation Leading Companies (2nd)",
+                    "B2C Commercialization Metaverse Service Platform \"Puding World\" Officially Launched"
+                ]
+            },
+            {
+                "month": "10",
+                "items": [
+                    "2022 Daegu Digital Innovation Promotion Agency KMF&KME 2022 Participation “Puding World”",
+                    "2022 Korea ICT Convergence Expo DIP Joint Pavilion Booth Participation “Puding World”",
+                    "2023 Data Voucher Support Project Supplier Application and Redesignation Selection Completed",
+                    "2022 NIA AI Learning Data Construction Quality Inspection Tool “Puding Works” Construction",
+                    "Govir Co., Ltd. Govir Maker is working on additional functions and advancements"
+                ]
+            },
+            {
+                "month": "09",
+                "items": [
+                    "2021 Mid-term Ministry of SMEs and Startups Technology Customized Partner Support Project Finishes \"Real Meeting\" Project",
+                    "2022 Daegu Digital Innovation Agency XR Company Market Development Selection \"PUDDING World\" Marketing Field",
+                    "Participation in the first Daegu Content Fair exhibition booth in 2022 \"PUDDING World\"",
+                    "Daegu University Industry-Academic Cooperation Group selected \"PUDDING World\" in the field of prototypes and intellectual property rights for Inopolis Campus support project"
+                ]
+            },
+            {
+                "month": "08",
+                "items": [
+                    "Complete the start-up selection technology development project",
+                    "XR Enterprise Market Market Development Support Project Selection"
+                ]
+            },
+            {
+                "month": "07",
+                "items": ["2022 Daegu Drone Industry Metaverse Exhibition Held"]
+            },
+            {
+                "month": "06",
+                "items": [
+                    "Participation in the 2022 Metaverse Expo Exhibition",
+                    "Metaverse Leading Content Discovery Support Project"
+                ]
+            },
+            {
+                "month": "05",
+                "items": [
+                    "Data Construction Project for Artificial Intelligence Learning in 2022",
+                    "Selection of Metabus Image and 3D Data Metabus Platform and Service Development Support Project for World Culture Wired Temple in Gyeongsangbuk-do",
+                    "Development of Dokdo Metabus Service"
+                ]
+            },
+            {
+                "month": "03",
+                "items": [
+                    "2021 Mid-term Ministry of SMEs and Startups Technology Customized Partner Support Project \"Real Meeting\" Project Completed"
+                ]
+            },
+            {
+                "month": "01",
+                "items": ["2022 Data Voucher Supplier Selection"]
+            }
+        ],
+        "2021": [
+            {
+                "month": "12",
+                "items": [
+                    "Daegu TP K-Metaverse 2021 Participation",
+                    "Sconect Seoul Auction, K-Auction Metaverse Gallery Contract Negotiation",
+                    "Creating VR content for tartar removal",
+                    "PUDDING World Metaverse B2C Service Preparation"
+                ]
+            },
+            {
+                "month": "11",
+                "items": [
+                    "Suyeong-gu Youth Future IT Festival Metaverse Event in Progress",
+                    "2021 Daegu Drone Industry Metaverse Exhibition Held",
+                    "The 2nd Daegu Maker Festa Metaverse Event Held",
+                    "Daegu Regional Specialized Content Development Support Project Completed (Daegu Art Museum, Palgongsan Gatbawi Section)",
+                    "Survival Swimming Research Institute PUDDING Edu VR Platform License Agreement",
+                    "Daegu Digital Industry Promotion Agency EdTech Support Project (Metaverse Solar System Education)",
+                    "Metaverse Alliance PG Final Plan Submission Completed and Business Sharing Meeting Announcement"
+                ]
+            },
+            {
+                "month": "10",
+                "items": [
+                    "2021 Daegu-Gyeongbuk Global AR/VR Conference and Exhibition (Project to Support Online and Offline Exhibitions at Home and Overseas)",
+                    "Using the PUDDING World 'Class Map' of the Korea Youth Entrepreneurs Foundation",
+                    "Korean Culture Experience Metaverse Content Contest (Winning Special Prize)"
+                ]
+            },
+            {
+                "month": "09",
+                "items": [
+                    "Buying PUDDING HQ",
+                    "Metaverse Event to Celebrate 100th Anniversary of Daeryun Middle and High School",
+                    "Select a content marketing support project by the Daegu Digital Industry Promotion Agency and produce promotional videos"
+                ]
+            },
+            {
+                "month": "08",
+                "items": [
+                    "Another site's outsourcing service production of \"Say What You Want to Say\"",
+                    "NIPA Corporate Demand Linked Training (Dig Entertainment Co., Ltd., ETU)",
+                    "4REAL Masked Singer Metabus Content Production",
+                    "Selection of regional specialized content support project by Daegu Digital Industry Promotion Agency"
+                ]
+            },
+            {
+                "month": "07",
+                "items": [
+                    "PUDDING Logo Replacement",
+                    "Daegu Digital Industry Promotion Agency selected a project to support domestic and foreign exhibitions",
+                    "Production of high VR outsourcing services",
+                    "Selection of LINC 2nd project of Daegu University Industry-Academic Cooperation Group (Produced the Pudding World prototype version)"
+                ]
+            },
+            {
+                "month": "06",
+                "items": [
+                    "Data Voucher business supplier selected by the Data Industry Promotion Agency",
+                    "Ministry of SMEs and Startups selected a technology-specific partner support project outsourcing contract for VR drone advancement",
+                    "Creating a department dedicated to R&D"
+                ]
+            },
+            {
+                "month": "05",
+                "items": ["Selection of venture companies"]
+            },
+            {
+                "month": "04",
+                "items": [
+                    "Selected as a supplier of the AI voucher support project by the Information and Communication Agency"
+                ]
+            },
+            {
+                "month": "03",
+                "items": [
+                    "2021 Non-face-to-face Voucher Platform Supplier Service Implementation",
+                    "Daegu Digital Industry Promotion Agency Game Content Job Creation Project Selection"
+                ]
+            },
+            {
+                "month": "02",
+                "items": [
+                    "Daegu Convention View Produces VR Content to Promote Daegu Business International Conference Complex District",
+                    "Y Design Lab XR PUDDING Studio Production Consultation"
+                ]
+            },
+            {
+                "month": "01",
+                "items": [
+                    "Platform coaching center's non-face-to-face mental care service 'HUMANGRAIN' platform production",
+                    "Jumpillaem J-Pit UI/UX Design and Design"
+                ]
+            }
+        ],
+        "2020": [
+            {
+                "month": "12",
+                "items": [
+                    "Participation in AR/VR conference at Daegu National Science Museum & IR pitching",
+                    "Daegu Medical Convergence Complex VR Image Web Player Production",
+                    "Production of VR promotional contents in the international complex district",
+                    "Production and progress of non-face-to-face online worship (G-P&E) platform",
+                    "Producing and progressing VR video and image web player with Daegu Convention View"
+                ]
+            },
+            {
+                "month": "11",
+                "items": [
+                    "Daegu Catholic University Hospital VR Web Player Production"
+                ]
+            },
+            {
+                "month": "10",
+                "items": ["Create '두리번' VR Web Player"]
+            },
+            {
+                "month": "09",
+                "items": [
+                    "Selection of K-Non-face-to-face Voucher Supplier",
+                    "DIP Early VR Support Company Selection",
+                    "Selection of regional specialized content support project"
+                ]
+            },
+            {
+                "month": "08",
+                "items": [
+                    "Production of VR video web player for Kyungyang Cyber University"
+                ]
+            },
+            {
+                "month": "07",
+                "items": ["Development of AI Covimental Care Platform"]
+            },
+            {
+                "month": "06",
+                "items": [
+                    "Daegu Techno Park AR‧MR Content Support Project Selection",
+                    "Daegu University LINC+ Project Selection"
+                ]
+            },
+            {
+                "month": "05",
+                "items": [
+                    "Making Holdham Card Game",
+                    "Post Media VR Web Player Delivery"
+                ]
+            },
+            {
+                "month": "04",
+                "items": ["Mask Dream Project Planning"]
+            },
+            {
+                "month": "03",
+                "items": [
+                    "Artificial Intelligence Mental Care Platform Development Contract",
+                    "Contract for development of K-pit platform with Jitpilam Co., Ltd.",
+                    "Delivery of VR room equipment to Kyemyung University"
+                ]
+            },
+            {
+                "month": "02",
+                "items": [
+                    "Creating a VR Drone Simulation",
+                    "PNI simulator OS delivery"
+                ]
+            },
+            {
+                "month": "01",
+                "items": ["Children's Safety Sports Classroom CMS Production"]
+            }
+        ],
+        "2019": [
+            {
+                "month": "11",
+                "items": [
+                    "Pico-based PNI Valkyrie Attraction Solution Development Agreement"
+                ]
+            },
+            {
+                "month": "10",
+                "items": [
+                    "STX Shipbuilding & Marine Engineering Ship Safety Content Development Agreement"
+                ]
+            },
+            {
+                "month": "09",
+                "items": [
+                    "Ulsan Bridge Observatory Video Room VR Content Contract"
+                ]
+            },
+            {
+                "month": "08",
+                "items": ["Berest VR Web Co., Ltd. Delivery of video platforms"]
+            },
+            {
+                "month": "07",
+                "items": [
+                    "Selection of the 1st recruitment of Daegu Special Zone Accelerating Dynamic",
+                    "SK Telecom selected 5GX Accelerating Business Cooperation"
+                ]
+            },
+            {
+                "month": "06",
+                "items": [
+                    "grewcreativelab VR Media Multi-Broadcast Control",
+                    "Client Program Delivery Agreement"
+                ]
+            },
+            {
+                "month": "05",
+                "items": ["PUDDING Co., Ltd. (Conversion to Corporation)"]
+            },
+            {
+                "month": "04",
+                "items": [
+                    "2019 Toyota Ilsan KINTEX Motor Show Attraction Delivery"
+                ]
+            },
+            {
+                "month": "03",
+                "items": [
+                    "Development of VR Non-Face-to-Face Medical Treatment System at Yeungnam University Hospital"
+                ]
+            },
+            {
+                "month": "02",
+                "items": ["Steam VR Toy Tank Game Launched"]
+            },
+            {
+                "month": "01",
+                "items": [
+                    "Gwangju Electronics Components Research Institute Power VR/AR Platform Development",
+                    "PNI PUDDING Ride Solution Delivery"
+                ]
+            }
+        ],
+        "2018": [
+            {
+                "month": "11",
+                "items": [
+                    "Smilegate Stopp VR Game Easy Sling Delivery Agreement",
+                    "Stay Golf PUDDING BioSolutions Delivery Agreement",
+                    "PNI VR Attraction Content Development Business Agreement"
+                ]
+            },
+            {
+                "month": "10",
+                "items": [
+                    "Steam VR Shipsling Game Released",
+                    "Electronic Components Research Institute VR Synchronization Server Construction Service Contract",
+                    "PUDDING Theater Solution Delivery for Gangjinman Ecological Park VR Experience Event"
+                ]
+            },
+            {
+                "month": "09",
+                "items": [
+                    "Global Game Center VR Game Development Project Selection",
+                    "Daegu Haany University VR Center PUDDING Theater, PUDDING Rider Solution Delivery",
+                    "Korea Electric Power Corporation VR Platform Supply Contract"
+                ]
+            },
+            {
+                "month": "08",
+                "items": ["Selection of technology innovation startup projects"]
+            },
+            {
+                "month": "06",
+                "items": [
+                    "Toyota Busan International Motor Show Delivery of 'VR Attraction Management Solution'",
+                    "VREC PUDDING Theater Solutions Delivery Agreement"
+                ]
+            },
+            {
+                "month": "05",
+                "items": ["Establishment of 'PUDDING'"]
+            }
+        ]
+    }
+}

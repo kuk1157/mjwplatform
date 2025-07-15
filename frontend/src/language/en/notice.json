@@ -1,0 +1,15 @@
+{
+    "title": "Notice",
+    "detail_btn": "Detail",
+    "table_th_num": "No.",
+    "table_th_title": "Title",
+    "table_th_author": "Author",
+    "table_th_crated_at": "WriteAt",
+    "table_th_view": "View",
+    "search_filter1": "All",
+    "detail_next": "Next",
+    "detail_prev": "Prev",
+    "detail_to_list": "To List",
+    "last_page": "This is the last post.",
+    "first_page": "This is the first post."
+}
