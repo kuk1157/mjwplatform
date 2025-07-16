@@ -7,6 +7,7 @@ import lombok.Getter;
 
 import java.time.LocalDateTime;
 
+@Entity
 @Getter
 @Table(name = "point") // point 테이블(포인트 테이블)
 public class Point {
@@ -35,6 +36,10 @@ public class Point {
     @Column(name = "point")
     @Schema(description = "점주가 받을 포인트")
     private Integer point;
+
+    @Column(name = "created_at")
+    @Schema(description = "생성일")
+    private LocalDateTime createdAt;
 
 
     // 향후 개별 포인트에 대한 추적 (지급여부확인이 필요할때)을 위한 필드

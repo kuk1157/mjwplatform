@@ -6,6 +6,7 @@ import lombok.Getter;
 
 import java.time.LocalDateTime;
 
+@Entity
 @Getter
 @Table(name = "pay") // pay 테이블 (결제 테이블)
 public class Pay {
@@ -46,6 +47,10 @@ public class Pay {
     @Column(name = "paid_at")
     @Schema(description = "결제 완료일")
     private LocalDateTime paidAt; // 결제가 최종 성공했을 경우(현재로는 서버 이슈, 세션이슈 등 그런상황 발생시엔 남으면안됨.)
+
+    @Column(name = "created_at")
+    @Schema(description = "생성일")
+    private LocalDateTime createdAt;
 
     // 결제 완료일 업데이트
     private void updatePaidAt(){

@@ -5,6 +5,9 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.persistence.*;
 import lombok.Getter;
 
+import java.time.LocalDateTime;
+
+@Entity
 @Getter
 @Table(name = "pay_log") // pay_log 테이블 (결제내역 테이블)
 public class PayLog {
@@ -25,4 +28,8 @@ public class PayLog {
     @Column(name = "pay_amount")
     @Schema(description = "결제 금액")
     private Integer payAmount;
+
+    @Column(name = "created_at")
+    @Schema(description = "생성일")
+    private LocalDateTime createdAt;
 }

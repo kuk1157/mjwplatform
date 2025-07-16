@@ -6,6 +6,7 @@ import lombok.Getter;
 
 import java.time.LocalDateTime;
 
+@Entity
 @Getter
 @Table(name = "point_cash_out_request") // 포인트 현금화 신청 기록 테이블
 public class PointCashOutRequest {

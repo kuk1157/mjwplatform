@@ -6,8 +6,9 @@ import lombok.Getter;
 
 import java.time.LocalDateTime;
 
+@Entity
 @Getter
-@Table(name="order") // order 테이블 (주문 테이블)
+@Table(name="orders") // order 테이블 (주문 테이블)
 public class Order {
 
     @Id
@@ -47,6 +48,10 @@ public class Order {
     @Column(name = "ordered_at")
     @Schema(description = "주문 완료일")
     private LocalDateTime orderedAt; // 점주가 포스기 입력하였을때 update
+
+    @Column(name = "created_at")
+    @Schema(description = "생성일")
+    private LocalDateTime createdAt;
 
     // 점주가 포스기 입력시점에 주문완료일 update 하는 method
     private void updateOrderedAt(LocalDateTime orderedAt){

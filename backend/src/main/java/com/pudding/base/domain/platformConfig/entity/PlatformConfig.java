@@ -4,6 +4,7 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.persistence.*;
 import lombok.Getter;
 
+@Entity
 @Getter
 @Table(name = "platform_config") // platform_config 테이블 (플랫폼 설정 테이블)
 public class PlatformConfig {

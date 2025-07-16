@@ -3,6 +3,9 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.persistence.*;
 import lombok.Getter;
 
+import java.time.LocalDateTime;
+
+@Entity
 @Getter
 @Table(name = "store") // store 테이블 (매장 테이블)
 public class Store {
@@ -24,5 +27,9 @@ public class Store {
     @Column(name = "address")
     @Schema(description = "매장 주소")
     private String address;
+
+    @Column(name = "created_at")
+    @Schema(description = "생성일")
+    private LocalDateTime createdAt;
 
 }
