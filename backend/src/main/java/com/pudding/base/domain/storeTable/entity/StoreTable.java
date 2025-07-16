@@ -7,7 +7,7 @@ import lombok.Getter;
 
 @Getter
 @Table(name = "store_table") // // store_table 테이블 (매장테이블 테이블)
-public class storeTable {
+public class StoreTable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

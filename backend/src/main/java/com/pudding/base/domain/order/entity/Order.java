@@ -8,7 +8,7 @@ import java.time.LocalDateTime;
 
 @Getter
 @Table(name="order") // order 테이블 (주문 테이블)
-public class order {
+public class Order {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

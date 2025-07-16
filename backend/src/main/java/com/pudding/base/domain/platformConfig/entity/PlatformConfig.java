@@ -6,7 +6,7 @@ import lombok.Getter;
 
 @Getter
 @Table(name = "platform_config") // platform_config 테이블 (플랫폼 설정 테이블)
-public class platformConfig {
+public class PlatformConfig {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
