@@ -36,23 +36,25 @@ public class Point {
     @Schema(description = "점주가 받을 포인트")
     private Integer point;
 
-    @Column(name = "status")
-    @Schema(description = "지급 상태값")
-    private String status; // 추후 enum 으로 변경 예정(PENDING, PAID) & 포인트 현금화 신청 버튼 클릭시 업데이트
 
-    @Column(name = "point_at")
-    @Schema(description = "포인트 지급일")
-    private LocalDateTime pointAt; // 포인트 현금화 신청 버튼 클릭시 업데이트
-
-
-    // 지급 상태 PENDING => PAID로 업데이트
-    private void updatePointStatus(String status){
-        this.status = "PAID";
-    }
-
-    // 포인트 지급일 업데이트
-    private void updatePointAt(){
-        this.pointAt = LocalDateTime.now();
-    }
+    // 향후 개별 포인트에 대한 추적 (지급여부확인이 필요할때)을 위한 필드
+//    @Column(name = "status")
+//    @Schema(description = "지급 상태값")
+//    private String status; // 추후 enum 으로 변경 예정(PENDING, PAID) & 포인트 현금화 신청 버튼 클릭시 업데이트
+//
+//    @Column(name = "point_at")
+//    @Schema(description = "포인트 지급일")
+//    private LocalDateTime pointAt; // 포인트 현금화 신청 버튼 클릭시 업데이트
+//
+//
+//    // 지급 상태 PENDING => PAID로 업데이트
+//    private void updatePointStatus(String status){
+//        this.status = "PAID";
+//    }
+//
+//    // 포인트 지급일 업데이트
+//    private void updatePointAt(){
+//        this.pointAt = LocalDateTime.now();
+//    }
 
 }
