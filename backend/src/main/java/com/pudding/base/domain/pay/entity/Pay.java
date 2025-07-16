@@ -33,18 +33,23 @@ public class Pay {
 
     @Column(name = "total_amount")
     @Schema(description = "합계 결제금액")
-    private String totalAmount;
+    private Integer totalAmount;
 
     @Column(name = "discount_amount")
     @Schema(description = "할인된 결제금액")
-    private String discountAmount;
+    private Integer discountAmount;
 
     @Column(name = "final_amount")
     @Schema(description = "최종 결제금액")
-    private String finalAmount;
+    private Integer finalAmount;
 
     @Column(name = "paid_at")
     @Schema(description = "결제 완료일")
     private LocalDateTime paidAt; // 결제가 최종 성공했을 경우(현재로는 서버 이슈, 세션이슈 등 그런상황 발생시엔 남으면안됨.)
+
+    // 결제 완료일 업데이트
+    private void updatePaidAt(){
+        this.paidAt = LocalDateTime.now();
+    }
 
 }

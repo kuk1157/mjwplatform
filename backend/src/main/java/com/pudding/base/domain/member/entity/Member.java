@@ -5,6 +5,7 @@ import com.pudding.base.domain.common.entity.BaseTimeEntity;
 import com.pudding.base.domain.common.enums.IsActive;
 import com.pudding.base.domain.member.enums.Gender;
 import com.pudding.base.domain.member.enums.Role;
+import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Builder;
@@ -51,6 +52,17 @@ public class Member extends BaseTimeEntity {
     @Column(name = "phone_number")
     private String phoneNumber;
 
+    @Column(name = "total_point")
+    @Schema(description = "점주 합계 포인트")
+    private Integer totalPoint; // point 테이블 INSERT 시 (+) , point_cash_out_request 테이블 insert 시 (-)
+
+    @Column(name = "total_cash")
+    @Schema(description = "점주 합계 현금")
+    private Integer totalCash; // point_cash_out_request 테이블 insert 시 (+)
+
+
+
+
     @OneToOne(mappedBy = "member", cascade = CascadeType.REMOVE)
     private Auth auth;
 
@@ -88,6 +100,26 @@ public class Member extends BaseTimeEntity {
     public void updateEmail(String email) { this.email = email; }
     public void updatePhoneNumber(String phoneNumber) { this.phoneNumber = phoneNumber; }
     public void updatePassword(String password) { this.password = password; }
+
+    // point 테이블 INSERT 시 total_point 컬럼(+)
+    private void addTotalPoint(int point){
+        this.totalPoint += point;
+    }
+
+    // point_cash_out_request 테이블 insert시 total_point 컬럼(-)
+    private void useTotalPoint(int cash){
+        if (cash <= 0) {
+            throw new IllegalArgumentException("(-) 금액은 입력할 수 없습니다.");
+        }
+        this.totalPoint -= cash;
+    }
+
+    // point_cash_out_request 테이블 insert시 total_cash 컬럼(+)
+    private void addTotalCash(int cash){
+        this.totalCash += cash;
+    }
+
+
 
     public void updateIsActive(IsActive isActive) {
         if(isActive == IsActive.n) {

@@ -22,4 +22,7 @@ public class PayLog {
     @Schema(description = "결제 타입")
     private String payType; // 추후 enum 으로 활용
 
+    @Column(name = "pay_amount")
+    @Schema(description = "결제 금액")
+    private Integer payAmount;
 }

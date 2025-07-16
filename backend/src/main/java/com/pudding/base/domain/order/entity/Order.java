@@ -42,7 +42,7 @@ public class Order {
 
     @Column(name = "price")
     @Schema(description = "주문 금액")
-    private String price;
+    private Integer price;
 
     @Column(name = "ordered_at")
     @Schema(description = "주문 완료일")
