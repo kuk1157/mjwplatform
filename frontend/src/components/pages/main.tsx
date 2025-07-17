@@ -31,15 +31,16 @@ function MainPage() {
         try {
             if (!orderPrice) {
                 alert("주문 금액을 입력해주세요.");
+                return;
             }
 
             const url = "/api/v1/pay";
             const response = await axios.post(url, {
                 amount: Number(orderPrice),
+                headers: { "Content-Type": "application/json" },
             });
             console.log("결제 등록 결과:", response.data);
         } catch (error) {
-            alert(11);
             console.error("결제 등록 실패:", error);
         }
     };
@@ -59,7 +60,7 @@ function MainPage() {
                 </button>
             </div>
             <div className="bg-slate-400 p-4 my-7">
-                <form onSubmit={(e) => e.preventDefault()}>
+                <form onSubmit={(e) => e.preventDefault()} method="post">
                     <input
                         type="text"
                         placeholder="주문 금액 입력"
