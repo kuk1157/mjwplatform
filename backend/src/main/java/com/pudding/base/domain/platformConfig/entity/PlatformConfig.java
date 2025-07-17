@@ -13,7 +13,7 @@ public class PlatformConfig {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     @Schema(description = "고유번호")
-    private Long id;
+    private Integer id;
 
     @Column(name = "point_rate")
     @Schema(description = "기본 포인트 적립률")

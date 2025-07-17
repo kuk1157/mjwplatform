@@ -14,7 +14,7 @@ public class Store {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     @Schema(description = "고유번호")
-    private Long id;
+    private Integer id;
 
     @Column(name = "owner_id")
     @Schema(description = "점주 고유번호")
