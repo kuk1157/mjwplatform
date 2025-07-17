@@ -2,12 +2,16 @@ package com.pudding.base.domain.pay.entity;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.persistence.*;
+import lombok.AccessLevel;
+import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
 
 @Entity
 @Getter
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Table(name = "pay") // pay 테이블 (결제 테이블)
 public class Pay {
     @Id
@@ -32,13 +36,13 @@ public class Pay {
     @Schema(description = "고객 고유번호")
     private Integer userId;
 
-    @Column(name = "total_amount")
-    @Schema(description = "합계 결제금액")
-    private Integer totalAmount;
+    @Column(name = "amount")
+    @Schema(description = "결제금액")
+    private Integer amount;
 
     @Column(name = "discount_amount")
-    @Schema(description = "할인된 결제금액")
-    private Integer discountAmount;
+    @Schema(description = "할인금액(3%)")
+    private Double discountAmount;
 
     @Column(name = "final_amount")
     @Schema(description = "최종 결제금액")
@@ -56,5 +60,14 @@ public class Pay {
     private void updatePaidAt(){
         this.paidAt = LocalDateTime.now();
     }
+
+    @Builder
+    public Pay(Integer amount, Double discountAmount, Integer finalAmount){
+        this.amount = amount;
+        this.discountAmount = discountAmount;
+        this.finalAmount = finalAmount;
+    }
+
+
 
 }
