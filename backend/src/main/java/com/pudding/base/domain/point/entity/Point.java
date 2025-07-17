@@ -3,19 +3,21 @@ package com.pudding.base.domain.point.entity;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.persistence.*;
+import lombok.Builder;
 import lombok.Getter;
 
 import java.time.LocalDateTime;
 
 @Entity
 @Getter
+@Builder
 @Table(name = "point") // point 테이블(포인트 테이블)
 public class Point {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     @Schema(description = "고유번호")
-    private Long id;
+    private Integer id;
 
     @Column(name = "pay_id")
     @Schema(description = "결제 고유번호")
@@ -35,7 +37,7 @@ public class Point {
 
     @Column(name = "point")
     @Schema(description = "점주가 받을 포인트")
-    private Integer point;
+    private Double point;
 
     @Column(name = "created_at")
     @Schema(description = "생성일")

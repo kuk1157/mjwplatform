@@ -3,19 +3,21 @@ package com.pudding.base.domain.payLog.entity;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.persistence.*;
+import lombok.Builder;
 import lombok.Getter;
 
 import java.time.LocalDateTime;
 
 @Entity
 @Getter
+@Builder
 @Table(name = "pay_log") // pay_log 테이블 (결제내역 테이블)
 public class PayLog {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     @Schema(description = "고유번호")
-    private Long id;
+    private Integer id;
 
     @Column(name = "pay_id")
     @Schema(description = "결제 고유번호")

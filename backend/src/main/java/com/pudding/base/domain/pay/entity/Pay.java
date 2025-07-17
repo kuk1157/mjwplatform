@@ -18,7 +18,7 @@ public class Pay {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     @Schema(description = "고유번호")
-    private Long id;
+    private Integer id;
 
     @Column(name = "order_id")
     @Schema(description = "주문 고유번호")
