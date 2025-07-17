@@ -43,10 +43,11 @@ public class PayServiceImpl implements PayService {
         // 결제 고유번호(savedPay - id 추출), 결제금액 finalAmount 2개 넣기
         PayLog payLog = PayLog.builder()
                 .payId(savedPay.getId())
-                .payAmount(finalAmount)
+                .amount(payDto.getAmount())
+                .discountAmount(discount)
+                .finalAmount(finalAmount)
                 .build();
         payLogRepository.save(payLog); // 곧바로 저장
-
 
         // point 포인트 insert
         // 결제 고유번호(savedPay - id 추출), 주문금액(finalAmount), 점주가 받을 포인트(discount)

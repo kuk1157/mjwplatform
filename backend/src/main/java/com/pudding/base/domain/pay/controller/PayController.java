@@ -27,7 +27,6 @@ public class PayController {
 
     private final PayService payService;
 
-
     @Operation(summary = "결제 등록", description= "점주 포스기 입력시 insert")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "성공",
@@ -39,7 +38,6 @@ public class PayController {
         PayDto savePay = payService.createPay(payDto);
         return ResponseEntity.ok(savePay);
     }
-
 
     @Operation(summary = "결제 조회", description = "전체 결제 조회")
     @GetMapping

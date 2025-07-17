@@ -1,18 +1,16 @@
 package com.pudding.base.domain.pay.dto;
 import com.pudding.base.domain.pay.entity.Pay;
 import jakarta.validation.constraints.NotNull;
-import lombok.AccessLevel;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.time.LocalDateTime;
 
 
 @Getter
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class PayDto {
 
-    private Long id;
+    private Integer id;
     private Integer orderId;
     private Integer storeId;
     private Integer ownerId;
@@ -23,7 +21,7 @@ public class PayDto {
     private LocalDateTime paidAt;
 
     @Builder
-    public PayDto(Long id, Integer orderId, Integer storeId, Integer ownerId, Integer userId, Integer amount, Double discountAmount, Integer finalAmount){
+    public PayDto(Integer id, Integer orderId, Integer storeId, Integer ownerId, Integer userId, Integer amount, Double discountAmount, Integer finalAmount){
         this.id = id;
         this.orderId = orderId;
         this.storeId = storeId;
@@ -48,7 +46,8 @@ public class PayDto {
     }
 
     @Getter
-    @NoArgsConstructor(access = AccessLevel.PROTECTED)
+    @Setter
+    @NoArgsConstructor
     public static class Request{
         @NotNull(message = "주문 금액을 입력해주세요.")
         private Integer amount;
