@@ -27,6 +27,17 @@ function MainPage() {
         }
     };
 
+    const TestGetPoint = async () => {
+        try {
+            const url = "/api/v1/point";
+            const response = await axios.get(url);
+            // Page 객체 기준: content 배열만 추출
+            console.log("포인트 조회 결과:", response.data.content);
+        } catch (error) {
+            console.error("포인트 조회 실패:", error);
+        }
+    };
+
     const TestGetPayId = async () => {
         try {
             const url = `/api/v1/pay/1`;
@@ -62,21 +73,23 @@ function MainPage() {
             {/* // 임시 버튼 웹 플랫폼 api 호출 확인용 */}
             <div className="bg-slate-400 p-4 my-7">
                 <button type="button" onClick={TestGetPay}>
-                    결제 전체 조회
+                    결제 전체 조회(완료✅)
                 </button>
             </div>
             <div className="bg-slate-400 p-4 my-7">
                 <button type="button" onClick={TestGetPayId}>
-                    결제 상세 조회
+                    결제 상세 조회(완료✅)
                 </button>
             </div>
             <div className="bg-slate-400 p-4 my-7">
                 <button type="button" onClick={TestGetPayLog}>
-                    결제내역 전체 조회
+                    결제내역 전체 조회(완료✅)
                 </button>
             </div>
             <div className="bg-slate-400 p-4 my-7">
-                <button type="button">포인트 전체 조회</button>
+                <button type="button" onClick={TestGetPoint}>
+                    포인트 전체 조회(완료✅)
+                </button>
             </div>
             <div className="bg-slate-400 p-4 my-7">
                 <form onSubmit={(e) => e.preventDefault()} method="post">
@@ -88,12 +101,12 @@ function MainPage() {
                         className="border p-1 mr-2"
                     />
                     <button type="button" onClick={TestPostay}>
-                        점주 포스기 입력
+                        점주 포스기 입력(완료✅)
                     </button>
                 </form>
             </div>
             <div className="bg-slate-400 p-4">
-                <button type="button">점주 현금화 신청</button>
+                <button type="button">점주 현금화 신청(대기)</button>
             </div>
         </MainContainer>
     );
