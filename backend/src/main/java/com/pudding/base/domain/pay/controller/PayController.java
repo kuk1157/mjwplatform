@@ -33,9 +33,9 @@ public class PayController {
                     content = {@Content(schema = @Schema(implementation = ResponseEntity.class))}),
             @ApiResponse(responseCode = "404", description = "실패"),
     })
-    @PostMapping
-    public ResponseEntity<PayDto> createPay(@RequestBody PayDto.Request payDto){
-        PayDto savePay = payService.createPay(payDto);
+    @PostMapping("/{orderId}")
+    public ResponseEntity<PayDto> createPay(@RequestBody PayDto.Request payDto, @PathVariable Integer orderId){
+        PayDto savePay = payService.createPay(payDto,orderId);
         return ResponseEntity.ok(savePay);
     }
 
@@ -48,7 +48,7 @@ public class PayController {
 
     @Operation(summary = "결제 단건 조회", description = "1개의 결제 조회")
     @GetMapping("/{id}")
-    public ResponseEntity<PayDto> getPayById(@PathVariable Long id) {
+    public ResponseEntity<PayDto> getPayById(@PathVariable Integer id) {
         PayDto payDto = payService.findByPayId(id);
         return ResponseEntity.ok(payDto);
     }
