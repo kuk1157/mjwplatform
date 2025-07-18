@@ -3,14 +3,16 @@ package com.pudding.base.domain.payLog.entity;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.persistence.*;
+import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
 
 @Entity
 @Getter
-@Builder
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Table(name = "pay_log") // pay_log 테이블 (결제내역 테이블)
 public class PayLog {
     @Id
@@ -39,7 +41,20 @@ public class PayLog {
     @Schema(description = "최종 결제금액")
     private Integer finalAmount;
 
-//    @Column(name = "created_at")
-//    @Schema(description = "생성일")
-//    private LocalDateTime createdAt;
+    @Column(name = "created_at")
+    @Schema(description = "생성일")
+    private LocalDateTime createdAt;
+
+
+    @Builder
+    public PayLog(Integer payId, String payType, Integer amount, Double discountAmount, Integer finalAmount, LocalDateTime createdAt) {
+        this.payId = payId;
+        this.payType = payType;
+        this.amount = amount;
+        this.discountAmount = discountAmount;
+        this.finalAmount = finalAmount;
+        this.createdAt = createdAt;
+    }
+
+
 }

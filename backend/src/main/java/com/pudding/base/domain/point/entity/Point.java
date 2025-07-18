@@ -3,14 +3,16 @@ package com.pudding.base.domain.point.entity;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.persistence.*;
+import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
 
 @Entity
 @Getter
-@Builder
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Table(name = "point") // point 테이블(포인트 테이블)
 public class Point {
     @Id
@@ -38,10 +40,21 @@ public class Point {
     @Column(name = "point")
     @Schema(description = "점주가 받을 포인트")
     private Double point;
-//
-//    @Column(name = "created_at")
-//    @Schema(description = "생성일")
-//    private LocalDateTime createdAt;
+
+    @Column(name = "created_at")
+    @Schema(description = "생성일")
+    private LocalDateTime createdAt;
+
+    @Builder
+    public Point(Integer id, Integer payId, Integer storeId, Integer ownerId, Integer orderPrice, Double point, LocalDateTime createdAt){
+        this.id = id;
+        this.payId = payId;
+        this.storeId = storeId;
+        this.ownerId = ownerId;
+        this.orderPrice = orderPrice;
+        this.point = point;
+        this.createdAt = createdAt;
+    }
 
 
     // 향후 개별 포인트에 대한 추적 (지급여부확인이 필요할때)을 위한 필드
