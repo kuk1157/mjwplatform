@@ -16,6 +16,17 @@ function MainPage() {
         }
     };
 
+    const TestGetPayLog = async () => {
+        try {
+            const url = "/api/v1/payLog";
+            const response = await axios.get(url);
+            // Page 객체 기준: content 배열만 추출
+            console.log("결제내역 조회 결과:", response.data.content);
+        } catch (error) {
+            console.error("결제내역 조회 실패:", error);
+        }
+    };
+
     const TestGetPayId = async () => {
         try {
             const url = `/api/v1/pay/1`;
@@ -58,6 +69,14 @@ function MainPage() {
                 <button type="button" onClick={TestGetPayId}>
                     결제 상세 조회
                 </button>
+            </div>
+            <div className="bg-slate-400 p-4 my-7">
+                <button type="button" onClick={TestGetPayLog}>
+                    결제내역 전체 조회
+                </button>
+            </div>
+            <div className="bg-slate-400 p-4 my-7">
+                <button type="button">포인트 전체 조회</button>
             </div>
             <div className="bg-slate-400 p-4 my-7">
                 <form onSubmit={(e) => e.preventDefault()} method="post">
