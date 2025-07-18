@@ -38,7 +38,6 @@ public class PayServiceImpl implements PayService {
     @Transactional
     public PayDto createPay(PayDto.Request payDto, Integer orderId){
 
-
         // 주문과 결제는 1대1 매칭되어야 하기때문에 체크필요함.
         boolean exists = payRepository.existsById(orderId);
         if (exists) {
@@ -50,7 +49,6 @@ public class PayServiceImpl implements PayService {
 
         // 회원 정보 가져오기(order.getOwnerId로 member 테이블 조회)
         Member member = memberRepository.findById(order.getOwnerId()).orElseThrow(() -> new EntityNotFoundException("존재하지 않는 점주입니다."));
-        // member로 점주의 포인트와 현금화 금액 업데이트 로직 아래에 만들면됨. (일단 추후)
 
         // 플랫폼 설정 정보 가져오기
         PlatformConfig platformConfig = platformConfigRepository.findById(1).orElseThrow(() -> new EntityNotFoundException("플랫폼 설정이 존재하지 않습니다."));

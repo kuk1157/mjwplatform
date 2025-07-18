@@ -28,12 +28,14 @@ public class MemberDto {
     private Role role;
     private String email;
     private String phoneNumber;
+    private Integer totalPoint; // 점주 합계 포인트
+    private Integer totalCash; // 점주 합계 현금
     private LocalDateTime createdAt;
     private IsActive isActive;
 
     @Builder
     public MemberDto(Integer id, String loginId, String name, Gender gender, LocalDate birthday, Role role, String email, String phoneNumber,
-                     LocalDateTime createdAt, IsActive isActive) {
+                     Integer totalPoint, Integer totalCash, LocalDateTime createdAt, IsActive isActive) {
         this.id = id;
         this.loginId = loginId;
         this.name = name;
@@ -42,6 +44,8 @@ public class MemberDto {
         this.role = role;
         this.email = email;
         this.phoneNumber = phoneNumber;
+        this.totalPoint = totalPoint;
+        this.totalCash = totalCash;
         this.createdAt = createdAt;
         this.isActive = isActive;
     }
@@ -57,6 +61,8 @@ public class MemberDto {
                 .role(member.getRole())
                 .email(member.getEmail())
                 .phoneNumber(member.getPhoneNumber())
+                .totalPoint(member.getTotalPoint())
+                .totalCash(member.getTotalCash())
                 .createdAt(member.getCreatedAt())
                 .isActive(member.getIsActive())
                 .build();
