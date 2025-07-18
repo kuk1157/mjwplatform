@@ -56,7 +56,14 @@ function MainPage() {
                 return;
             }
 
-            const url = "/api/v1/pay";
+            const order_id = 1; // 추후 주문 상세보기에서 주문정보로 가져갈부분
+            const price = 10000; // 추후 주문 상세보기에서 주문정보로 가져갈부분
+            if (price !== Number(orderPrice)) {
+                alert("주문금액과 포스기 입력금액은 일치해야합니다.");
+                return;
+            }
+
+            const url = `/api/v1/pay/${order_id}`;
             const response = await axios.post(url, {
                 amount: Number(orderPrice),
                 headers: { "Content-Type": "application/json" },
@@ -101,7 +108,7 @@ function MainPage() {
                         className="border p-1 mr-2"
                     />
                     <button type="button" onClick={TestPostay}>
-                        점주 포스기 입력(완료✅)
+                        점주 포스기 입력(완료✅) - 10000원 입력해야함.
                     </button>
                 </form>
             </div>
