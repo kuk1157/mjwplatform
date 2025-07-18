@@ -83,6 +83,9 @@ public class PayServiceImpl implements PayService {
                 .build();
         pointRepository.save(point); // 곧바로 저장
 
+        // 점주의 포인트 +하기
+        member.addTotalPoint(discount);
+
         return PayDto.fromEntity(savedPay);
     }
 

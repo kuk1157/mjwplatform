@@ -102,12 +102,12 @@ public class Member extends BaseTimeEntity {
     public void updatePassword(String password) { this.password = password; }
 
     // point 테이블 INSERT 시 total_point 컬럼(+)
-    private void addTotalPoint(int point){
-        this.totalPoint += point;
+    public void addTotalPoint(double point){
+        this.totalPoint += (int) point;
     }
 
     // point_cash_out_request 테이블 insert시 total_point 컬럼(-)
-    private void useTotalPoint(int cash){
+    public void useTotalPoint(int cash){
         if (cash <= 0) {
             throw new IllegalArgumentException("(-) 금액은 입력할 수 없습니다.");
         }
@@ -115,7 +115,7 @@ public class Member extends BaseTimeEntity {
     }
 
     // point_cash_out_request 테이블 insert시 total_cash 컬럼(+)
-    private void addTotalCash(int cash){
+    public void addTotalCash(int cash){
         this.totalCash += cash;
     }
 
