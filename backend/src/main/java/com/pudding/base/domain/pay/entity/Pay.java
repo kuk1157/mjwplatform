@@ -62,11 +62,17 @@ public class Pay {
     }
 
     @Builder
-    public Pay(Integer amount, Double discountAmount, Integer finalAmount){
+    public Pay(Integer orderId, Integer storeId, Integer ownerId, Integer userId, Integer amount, Double discountAmount, Integer finalAmount){
+        this.orderId = orderId;
+        this.storeId = storeId;
+        this.ownerId = ownerId;
+        this.userId = userId;
         this.amount = amount;
         this.discountAmount = discountAmount;
         this.finalAmount = finalAmount;
     }
+
+
 
 
 

@@ -6,12 +6,12 @@ import org.springframework.data.domain.Pageable;
 
 public interface PayService {
     // 결제 등록
-    PayDto createPay(PayDto.Request payDto);
+    PayDto createPay(PayDto.Request payDto, Integer orderId);
 
     // 결제 전체 조회
     Page<PayDto> findAllPays(Pageable pageable);
 
     // 결제 단건 조회
-    PayDto findByPayId(Long id);
+    PayDto findByPayId(Integer id);
 
 }
