@@ -122,6 +122,8 @@ export interface Member {
     name: string;
     gender: Gender;
     birthday: string;
+    totalPoint: number;
+    totalCash: number;
     role: Role;
     isActive: IsActive;
 }

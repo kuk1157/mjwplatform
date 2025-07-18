@@ -1,9 +1,12 @@
 import { MainContainer } from "../molecules/container";
 import axios from "axios";
 import { useState } from "react";
+import { useRecoilValueLoadable } from "recoil";
+import { userSelectorUpdated } from "src/recoil/userState";
 
 function MainPage() {
     const [orderPrice, setOrderPrice] = useState("");
+    const [requestPrice, setRequestPrice] = useState("");
 
     const TestGetPay = async () => {
         try {
@@ -49,15 +52,15 @@ function MainPage() {
         }
     };
 
-    const TestPostay = async () => {
+    const order_id = 4; // 추후 주문 상세보기에서 주문정보로 가져갈부분
+    const price = 30000; // 추후 주문 상세보기에서 주문정보로 가져갈부분
+    const TestPostpay = async () => {
         try {
             if (!orderPrice) {
                 alert("주문 금액을 입력해주세요.");
                 return;
             }
 
-            const order_id = 1; // 추후 주문 상세보기에서 주문정보로 가져갈부분
-            const price = 10000; // 추후 주문 상세보기에서 주문정보로 가져갈부분
             if (price !== Number(orderPrice)) {
                 alert("주문금액과 포스기 입력금액은 일치해야합니다.");
                 return;
@@ -74,46 +77,110 @@ function MainPage() {
         }
     };
 
+    const TestPostcash = async () => {
+        try {
+            if (!requestPrice) {
+                alert("현금 신청할 금액을 입력해주세요.");
+                return;
+            }
+
+            if (user.totalPoint <= Number(requestPrice)) {
+                alert("현금 신청할 금액은 보유포인트보다 클 수 없습니다.");
+                return;
+            }
+
+            const url = `/api/v1/pointCashOutRequest`;
+            const response = await axios.post(url, {
+                amount: Number(requestPrice),
+                headers: { "Content-Type": "application/json" },
+            });
+            console.log("현금 신청 결과:", response.data);
+        } catch (error) {
+            console.error("현금 신청 실패:", error);
+        }
+    };
+
+    const { contents: user } = useRecoilValueLoadable(userSelectorUpdated);
+
     return (
         <MainContainer className="py-[230px] bg-[#F6F6F6] lg:py-[150px] sm:py-[100px]">
             메인 페이지
             {/* // 임시 버튼 웹 플랫폼 api 호출 확인용 */}
-            <div className="bg-slate-400 p-4 my-7">
-                <button type="button" onClick={TestGetPay}>
+            <div className="bg-white p-4 my-7">
+                <button
+                    className="bg-slate-400 p-2"
+                    type="button"
+                    onClick={TestGetPay}
+                >
                     결제 전체 조회(완료✅)
                 </button>
             </div>
-            <div className="bg-slate-400 p-4 my-7">
-                <button type="button" onClick={TestGetPayId}>
+            <div className="bg-white p-4 my-7">
+                <button
+                    className="bg-slate-400 p-2"
+                    type="button"
+                    onClick={TestGetPayId}
+                >
                     결제 상세 조회(완료✅)
                 </button>
             </div>
-            <div className="bg-slate-400 p-4 my-7">
-                <button type="button" onClick={TestGetPayLog}>
+            <div className="bg-white p-4 my-7">
+                <button
+                    className="bg-slate-400 p-2"
+                    type="button"
+                    onClick={TestGetPayLog}
+                >
                     결제내역 전체 조회(완료✅)
                 </button>
             </div>
-            <div className="bg-slate-400 p-4 my-7">
-                <button type="button" onClick={TestGetPoint}>
+            <div className="bg-white p-4 my-7">
+                <button
+                    className="bg-slate-400 p-2"
+                    type="button"
+                    onClick={TestGetPoint}
+                >
                     포인트 전체 조회(완료✅)
                 </button>
             </div>
-            <div className="bg-slate-400 p-4 my-7">
+            <div className="bg-white p-4 my-7">
                 <form onSubmit={(e) => e.preventDefault()} method="post">
-                    <input
-                        type="text"
-                        placeholder="주문 금액 입력"
-                        value={orderPrice}
-                        onChange={(e) => setOrderPrice(e.target.value)}
-                        className="border p-1 mr-2"
-                    />
-                    <button type="button" onClick={TestPostay}>
-                        점주 포스기 입력(완료✅) - 10000원 입력해야함.
+                    <p className="my-2">
+                        <input
+                            type="text"
+                            placeholder="주문 금액 입력"
+                            value={orderPrice}
+                            onChange={(e) => setOrderPrice(e.target.value)}
+                            className="border p-1 mr-2"
+                        />
+                        [ - {price} 입력해야함. ]
+                    </p>
+                    <button
+                        className="bg-slate-400 p-2"
+                        type="button"
+                        onClick={TestPostpay}
+                    >
+                        점주 포스기 입력(완료✅)
                     </button>
                 </form>
             </div>
-            <div className="bg-slate-400 p-4">
-                <button type="button">점주 현금화 신청(대기)</button>
+            <div className="bg-white p-4">
+                <p>[ 점주 보유 포인트 : {user.totalPoint} ]</p>
+                <p className="my-2">
+                    <input
+                        type="text"
+                        placeholder="현금화 신청 금액 입력"
+                        value={requestPrice}
+                        onChange={(e) => setRequestPrice(e.target.value)}
+                        className="border p-1 mr-2"
+                    />
+                </p>
+                <button
+                    className="bg-slate-400 p-2"
+                    type="button"
+                    onClick={TestPostcash}
+                >
+                    점주 현금화 신청(진행중)
+                </button>
             </div>
         </MainContainer>
     );
