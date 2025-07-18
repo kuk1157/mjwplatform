@@ -9,6 +9,8 @@ import com.pudding.base.domain.pay.entity.Pay;
 import com.pudding.base.domain.pay.repository.PayRepository;
 import com.pudding.base.domain.payLog.entity.PayLog;
 import com.pudding.base.domain.payLog.repository.PayLogRepository;
+import com.pudding.base.domain.platformConfig.entity.PlatformConfig;
+import com.pudding.base.domain.platformConfig.repository.PlatformConfigRepository;
 import com.pudding.base.domain.point.entity.Point;
 import com.pudding.base.domain.point.repository.PointRepository;
 import jakarta.persistence.EntityNotFoundException;
@@ -29,6 +31,7 @@ public class PayServiceImpl implements PayService {
     private final PointRepository pointRepository; // 포인트 기본 jpa 리포지터리 가져오기
     private final OrderRepository orderRepository; // 주문 기본 jpa 리포지터리 가져오기
     private final MemberRepository memberRepository; // 회원 기본 jpa 리포지터리 가져오기
+    private final PlatformConfigRepository platformConfigRepository; // 플랫폼 설정 기본 jpa 리포지터리 가져오기
 
 
     // 결제 등록
@@ -49,7 +52,10 @@ public class PayServiceImpl implements PayService {
         Member member = memberRepository.findById(order.getOwnerId()).orElseThrow(() -> new EntityNotFoundException("존재하지 않는 점주입니다."));
         // member로 점주의 포인트와 현금화 금액 업데이트 로직 아래에 만들면됨. (일단 추후)
 
-        Double discount = payDto.getAmount() * 0.03; // 3% 할인금액 가져오기 0.03 추후에 platform_config 에서 가져오기
+        // 플랫폼 설정 정보 가져오기
+        PlatformConfig platformConfig = platformConfigRepository.findById(1).orElseThrow(() -> new EntityNotFoundException("플랫폼 설정이 존재하지 않습니다."));
+
+        Double discount = payDto.getAmount() * platformConfig.getPointRate(); // 3% platform_config 에서 가져오기
         Integer finalAmount = (int) (payDto.getAmount() - discount); // 최종금액(주문금액 - 할인금액)
         Pay pay = Pay.builder()
                 .orderId(order.getId()) // 주문번호 order 객체로 가져오기
