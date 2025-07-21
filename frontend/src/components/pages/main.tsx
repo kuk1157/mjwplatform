@@ -7,6 +7,7 @@ import { userSelectorUpdated } from "src/recoil/userState";
 function MainPage() {
     const [orderPrice, setOrderPrice] = useState("");
     const [requestPrice, setRequestPrice] = useState("");
+    const { contents: user } = useRecoilValueLoadable(userSelectorUpdated);
 
     const TestGetPay = async () => {
         try {
@@ -101,6 +102,8 @@ function MainPage() {
                 ".cashInput"
             ) as HTMLInputElement | null;
 
+            const memberId = user.id;
+
             if (!requestPrice) {
                 alert("현금 신청할 금액을 입력해주세요.");
                 if (cashInput) {
@@ -125,7 +128,7 @@ function MainPage() {
                 return;
             }
 
-            const url = `/api/v1/pointCashOutRequest`;
+            const url = `/api/v1/pointCashOutRequest/${memberId}`;
             const response = await axios.post(url, {
                 cash: Number(requestPrice),
                 headers: { "Content-Type": "application/json" },
@@ -135,8 +138,6 @@ function MainPage() {
             console.error("현금 신청 실패:", error);
         }
     };
-
-    const { contents: user } = useRecoilValueLoadable(userSelectorUpdated);
 
     return (
         <MainContainer className="py-[230px] bg-[#F6F6F6] lg:py-[150px] sm:py-[100px]">

@@ -117,6 +117,7 @@ export type IsActive = "y" | "n";
 
 /** 멤버테이블 타입 */
 export interface Member {
+    id: number; // 고유번호 활용
     loginId?: string;
     password?: string;
     name: string;
