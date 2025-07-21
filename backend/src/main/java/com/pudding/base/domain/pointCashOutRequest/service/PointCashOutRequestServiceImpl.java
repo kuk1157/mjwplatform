@@ -17,7 +17,7 @@ import java.time.LocalDateTime;
 
 @Service
 @RequiredArgsConstructor
-public class PointCashOutRequestImpl implements PointCashOutRequestService {
+public class PointCashOutRequestServiceImpl implements PointCashOutRequestService {
 
    private final PointCashOutRequestRepository pointCashOutRequestRepository;
    private final StoreRepository storeRepository; // 점주 테이블

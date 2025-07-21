@@ -3,6 +3,7 @@ package com.pudding.base.domain.order.entity;
 import com.pudding.base.domain.common.enums.IsOrderStatus;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.persistence.*;
+import lombok.Builder;
 import lombok.Getter;
 
 import java.time.LocalDateTime;
@@ -54,6 +55,19 @@ public class Order {
     @Column(name = "created_at")
     @Schema(description = "생성일")
     private LocalDateTime createdAt;
+
+
+    @Builder
+    public Order(Integer storeId, Integer ownerId, Integer storeTableId, Integer userId,
+                 String storeName, IsOrderStatus status, Integer price) {
+        this.storeId = storeId;
+        this.ownerId = ownerId;
+        this.storeTableId = storeTableId;
+        this.userId = userId;
+        this.storeName = storeName;
+        this.status = status;
+        this.price = price;
+    }
 
 
     // 점주가 포스기 입력시점에 status(주문상태) update 하는 method

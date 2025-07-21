@@ -11,7 +11,7 @@ import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
-public class StoreTableImpl implements StoreTableService {
+public class StoreTableServiceImpl implements StoreTableService {
 
     private final StoreTableRepository storeTableRepository;
 
