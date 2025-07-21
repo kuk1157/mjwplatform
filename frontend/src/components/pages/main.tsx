@@ -3,11 +3,13 @@ import axios from "axios";
 import { useState } from "react";
 import { useRecoilValueLoadable } from "recoil";
 import { userSelectorUpdated } from "src/recoil/userState";
+import { useNavigate } from "react-router-dom";
 
 function MainPage() {
     const [orderPrice, setOrderPrice] = useState("");
     const [requestPrice, setRequestPrice] = useState("");
     const { contents: user } = useRecoilValueLoadable(userSelectorUpdated);
+    const navigate = useNavigate();
 
     const TestGetPay = async () => {
         try {
@@ -103,6 +105,7 @@ function MainPage() {
             ) as HTMLInputElement | null;
 
             const memberId = user.id;
+            const requestNumber = Number(requestPrice);
 
             if (!requestPrice) {
                 alert("현금 신청할 금액을 입력해주세요.");
@@ -112,7 +115,7 @@ function MainPage() {
                 return;
             }
 
-            if (Number(requestPrice) <= 0) {
+            if (requestNumber <= 0) {
                 alert("0원이나 (-) 금액은 입력할 수 없습니다.");
                 if (cashInput) {
                     setRequestPrice("");
@@ -120,7 +123,7 @@ function MainPage() {
                 return;
             }
 
-            if (user.totalPoint <= Number(requestPrice)) {
+            if (user.totalPoint <= requestNumber) {
                 alert("현금 신청할 금액은 보유포인트보다 클 수 없습니다.");
                 if (cashInput) {
                     setRequestPrice("");
@@ -130,9 +133,11 @@ function MainPage() {
 
             const url = `/api/v1/pointCashOutRequest/${memberId}`;
             const response = await axios.post(url, {
-                cash: Number(requestPrice),
+                cash: requestNumber,
                 headers: { "Content-Type": "application/json" },
             });
+            alert(`${requestNumber}포인트 현금화 신청이 완료 되었습니다.`);
+            navigate(0);
             console.log("현금 신청 결과:", response.data);
         } catch (error) {
             console.error("현금 신청 실패:", error);
@@ -202,6 +207,7 @@ function MainPage() {
             </div>
             <div className="bg-white p-4">
                 <p>[ 점주 보유 포인트 : {user.totalPoint} ]</p>
+                <p>[ 점주 보유 현금 : {user.totalCash} ]</p>
                 <p className="my-2">
                     <input
                         type="number"
