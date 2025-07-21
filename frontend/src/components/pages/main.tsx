@@ -144,10 +144,23 @@ function MainPage() {
         }
     };
 
+    const TestStoreTable = () => {
+        navigate("/testStoreTable");
+    };
+
     return (
         <MainContainer className="py-[230px] bg-[#F6F6F6] lg:py-[150px] sm:py-[100px]">
             메인 페이지
             {/* // 임시 버튼 웹 플랫폼 api 호출 확인용 */}
+            <div className="bg-white p-4 my-7">
+                <button
+                    className="bg-slate-400 p-2"
+                    type="button"
+                    onClick={TestStoreTable}
+                >
+                    매장 테이블로 이동
+                </button>
+            </div>
             <div className="bg-white p-4 my-7">
                 <button
                     className="bg-slate-400 p-2"
@@ -222,7 +235,7 @@ function MainPage() {
                     type="button"
                     onClick={TestPostcash}
                 >
-                    점주 현금화 신청(진행중)
+                    점주 현금화 신청(완료✅)
                 </button>
             </div>
         </MainContainer>

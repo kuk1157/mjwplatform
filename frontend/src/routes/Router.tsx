@@ -6,6 +6,12 @@ import { createBrowserRouter } from "react-router-dom";
 const Main = Loadable({
     Component: lazy(() => import("../components/pages/main")),
 });
+
+// 임시 매장 테이블 페이지
+const TestStoreTable = Loadable({
+    Component: lazy(() => import("../components/pages/testStoreTable")),
+});
+
 const MainLayoutLoader = Loadable({
     Component: lazy(() => import("../components/organisms/mainLayout")),
 });
@@ -115,6 +121,7 @@ const Router = createBrowserRouter([
                 children: [
                     { path: "/notice", element: <Notice /> },
                     { path: "/notice/:id", element: <NoticeDetail /> },
+                    { path: "/testStoreTable", element: <TestStoreTable /> },
                 ],
             },
         ],
