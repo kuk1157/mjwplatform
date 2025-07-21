@@ -2,12 +2,16 @@ package com.pudding.base.domain.pointCashOutRequest.entity;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.persistence.*;
+import lombok.AccessLevel;
+import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
 
 @Entity
 @Getter
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Table(name = "point_cash_out_request") // 포인트 현금화 신청 기록 테이블
 public class PointCashOutRequest {
 
@@ -32,5 +36,15 @@ public class PointCashOutRequest {
     @Column(name = "request_at")
     @Schema(description = "현금화 신청일")
     private LocalDateTime requestAt;
+
+
+    @Builder
+    public PointCashOutRequest(Integer id, Integer storeId, Integer ownerId, Integer cash, LocalDateTime requestAt){
+        this.id = id;
+        this.storeId = storeId;
+        this.ownerId = ownerId;
+        this.cash = cash;
+        this.requestAt = requestAt;
+    }
 
 }
