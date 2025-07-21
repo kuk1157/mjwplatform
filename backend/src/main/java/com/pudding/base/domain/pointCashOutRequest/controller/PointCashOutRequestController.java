@@ -10,10 +10,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 
 @Tag(name = "현금화 신청 API", description = "현금화 신청 관련 API")
@@ -30,9 +27,9 @@ public class PointCashOutRequestController {
                     content = {@Content(schema = @Schema(implementation = ResponseEntity.class))}),
             @ApiResponse(responseCode = "404", description = "실패"),
     })
-    @PostMapping
-    public ResponseEntity<PointCashOutRequestDto> createCashRequest(@RequestBody PointCashOutRequestDto.Request pointCashOutRequestDto){
-        PointCashOutRequestDto saveCashRequest = pointCashOutRequestService.createCashRequest(pointCashOutRequestDto);
+    @PostMapping("/{memberId}")
+    public ResponseEntity<PointCashOutRequestDto> createCashRequest(@RequestBody PointCashOutRequestDto.Request pointCashOutRequestDto, @PathVariable Integer memberId){
+        PointCashOutRequestDto saveCashRequest = pointCashOutRequestService.createCashRequest(pointCashOutRequestDto, memberId);
         return ResponseEntity.ok(saveCashRequest);
     }
 }

@@ -5,6 +5,6 @@ import com.pudding.base.domain.pointCashOutRequest.dto.PointCashOutRequestDto;
 
 public interface PointCashOutRequestService {
 
-    PointCashOutRequestDto createCashRequest(PointCashOutRequestDto.Request pointCashOutRequestDto);
+    PointCashOutRequestDto createCashRequest(PointCashOutRequestDto.Request pointCashOutRequestDto, Integer memberId);
 
 }
