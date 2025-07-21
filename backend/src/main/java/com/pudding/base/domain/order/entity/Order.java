@@ -1,5 +1,6 @@
 package com.pudding.base.domain.order.entity;
 
+import com.pudding.base.domain.common.enums.IsOrderStatus;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.persistence.*;
 import lombok.Getter;
@@ -37,9 +38,10 @@ public class Order {
     @Schema(description = "매장 이름")
     private String storeName;
 
+    @Enumerated(EnumType.STRING)
     @Column(name = "status")
     @Schema(description = "주문 상태")
-    private String status; // enum 세팅 후에 enum 으로 변경
+    private IsOrderStatus status; // 'PENDING','COMPLETE'
 
     @Column(name = "price")
     @Schema(description = "주문 금액")
@@ -53,9 +55,15 @@ public class Order {
     @Schema(description = "생성일")
     private LocalDateTime createdAt;
 
+
+    // 점주가 포스기 입력시점에 status(주문상태) update 하는 method
+    public void updateOrderStatus(IsOrderStatus status){
+        this.status = IsOrderStatus.COMPLETE;
+    }
+
     // 점주가 포스기 입력시점에 주문완료일 update 하는 method
-    private void updateOrderedAt(LocalDateTime orderedAt){
-        this.orderedAt = orderedAt;
+    public void updateOrderedAt(LocalDateTime orderedAt){
+        this.orderedAt = LocalDateTime.now();
     }
 
 

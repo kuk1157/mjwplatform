@@ -1,5 +1,6 @@
 package com.pudding.base.domain.pay.service;
 
+import com.pudding.base.domain.common.enums.IsOrderStatus;
 import com.pudding.base.domain.member.entity.Member;
 import com.pudding.base.domain.member.repository.MemberRepository;
 import com.pudding.base.domain.order.entity.Order;
@@ -33,7 +34,6 @@ public class PayServiceImpl implements PayService {
     private final MemberRepository memberRepository; // 회원 기본 jpa 리포지터리 가져오기
     private final PlatformConfigRepository platformConfigRepository; // 플랫폼 설정 기본 jpa 리포지터리 가져오기
 
-
     // 결제 등록
     @Transactional
     public PayDto createPay(PayDto.Request payDto, Integer orderId){
@@ -47,11 +47,21 @@ public class PayServiceImpl implements PayService {
         // 주문 정보 가져오기 (orderId로 주문테이블 조회)
         Order order = orderRepository.findById(orderId).orElseThrow(() -> new EntityNotFoundException("존재하지 않는 주문입니다"));
 
+        // 주문상태가 대기일 경우에만 결제처리 되도록 - 위에서 1대1 무조건 막히지만, 혹시 몰라서 2차로 방어
+        if (order.getStatus() == IsOrderStatus.COMPLETE) {
+            throw new IllegalArgumentException("이미 결제처리가 완료된 주문은 결제 처리를 할 수 없습니다..");
+        }
+
         // 회원 정보 가져오기(order.getOwnerId로 member 테이블 조회)
         Member member = memberRepository.findById(order.getOwnerId()).orElseThrow(() -> new EntityNotFoundException("존재하지 않는 점주입니다."));
 
         // 플랫폼 설정 정보 가져오기
         PlatformConfig platformConfig = platformConfigRepository.findById(1).orElseThrow(() -> new EntityNotFoundException("플랫폼 설정이 존재하지 않습니다."));
+
+        // 주문상태, 주문완료일 업데이트
+        order.updateOrderStatus(order.getStatus());
+        order.updateOrderedAt(order.getOrderedAt());
+
 
         Double discount = payDto.getAmount() * platformConfig.getPointRate(); // 3% platform_config 에서 가져오기
         Integer finalAmount = (int) (payDto.getAmount() - discount); // 최종금액(주문금액 - 할인금액)
@@ -87,7 +97,7 @@ public class PayServiceImpl implements PayService {
                 .build();
         pointRepository.save(point); // 곧바로 저장
 
-        // 점주의 포인트 +하기
+        // 점주의 포인트 (+) 하기
         member.addTotalPoint(discount);
 
         return PayDto.fromEntity(savedPay);
