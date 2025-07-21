@@ -55,12 +55,12 @@ function TestStoreTable() {
             };
 
             const response = await axios.post(url, orderData);
-            console.log(`테이블 ${tableNumber} 주문 성공:`, response.data);
+            console.log(`${tableNumber}번 주문 성공:`, response.data);
 
             // 주문 성공 후 처리 (예: input 값 초기화, 성공 메시지 등)
-            alert(`테이블 ${tableNumber}에 주문이 완료되었습니다.`);
+            alert(`${tableNumber}번 테이블의 주문이 완료되었습니다.`);
         } catch (error) {
-            console.error(`테이블 ${tableNumber} 주문 실패:`, error);
+            console.error(`${tableNumber}번 테이블 주문 실패:`, error);
         }
     };
 

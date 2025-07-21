@@ -116,12 +116,16 @@ const Router = createBrowserRouter([
                 path: "/myPage/changePassword",
                 element: <ChangePassword />,
             },
+
+            {
+                path: "/testStoreTable",
+                element: <TestStoreTable />,
+            },
             {
                 element: <PageLayoutLoader />,
                 children: [
                     { path: "/notice", element: <Notice /> },
                     { path: "/notice/:id", element: <NoticeDetail /> },
-                    { path: "/testStoreTable", element: <TestStoreTable /> },
                 ],
             },
         ],
