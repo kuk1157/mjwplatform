@@ -56,13 +56,31 @@ function MainPage() {
     const price = 30000; // 추후 주문 상세보기에서 주문정보로 가져갈부분
     const TestPostpay = async () => {
         try {
+            const payInput = document.querySelector(
+                ".payInput"
+            ) as HTMLInputElement | null;
+
             if (!orderPrice) {
                 alert("주문 금액을 입력해주세요.");
+                if (payInput) {
+                    setOrderPrice("");
+                }
+                return;
+            }
+
+            if (Number(orderPrice) <= 0) {
+                alert("0원이나 (-) 금액은 입력할 수 없습니다.");
+                if (payInput) {
+                    setOrderPrice("");
+                }
                 return;
             }
 
             if (price !== Number(orderPrice)) {
                 alert("주문금액과 포스기 입력금액은 일치해야합니다.");
+                if (payInput) {
+                    setOrderPrice("");
+                }
                 return;
             }
 
@@ -79,13 +97,31 @@ function MainPage() {
 
     const TestPostcash = async () => {
         try {
+            const cashInput = document.querySelector(
+                ".cashInput"
+            ) as HTMLInputElement | null;
+
             if (!requestPrice) {
                 alert("현금 신청할 금액을 입력해주세요.");
+                if (cashInput) {
+                    setRequestPrice("");
+                }
+                return;
+            }
+
+            if (Number(requestPrice) <= 0) {
+                alert("0원이나 (-) 금액은 입력할 수 없습니다.");
+                if (cashInput) {
+                    setRequestPrice("");
+                }
                 return;
             }
 
             if (user.totalPoint <= Number(requestPrice)) {
                 alert("현금 신청할 금액은 보유포인트보다 클 수 없습니다.");
+                if (cashInput) {
+                    setRequestPrice("");
+                }
                 return;
             }
 
@@ -146,11 +182,11 @@ function MainPage() {
                 <form onSubmit={(e) => e.preventDefault()} method="post">
                     <p className="my-2">
                         <input
-                            type="text"
+                            type="number"
                             placeholder="주문 금액 입력"
                             value={orderPrice}
                             onChange={(e) => setOrderPrice(e.target.value)}
-                            className="border p-1 mr-2"
+                            className="border p-1 mr-2 payInput"
                         />
                         [ - {price} 입력해야함. ]
                     </p>
@@ -167,11 +203,11 @@ function MainPage() {
                 <p>[ 점주 보유 포인트 : {user.totalPoint} ]</p>
                 <p className="my-2">
                     <input
-                        type="text"
+                        type="number"
                         placeholder="현금화 신청 금액 입력"
                         value={requestPrice}
                         onChange={(e) => setRequestPrice(e.target.value)}
-                        className="border p-1 mr-2"
+                        className="border p-1 mr-2 cashInput"
                     />
                 </p>
                 <button
