@@ -1,6 +1,8 @@
 package com.pudding.base.domain.pointCashOutRequest.service;
 
 
+import com.pudding.base.domain.member.entity.Member;
+import com.pudding.base.domain.member.repository.MemberRepository;
 import com.pudding.base.domain.pointCashOutRequest.dto.PointCashOutRequestDto;
 import com.pudding.base.domain.pointCashOutRequest.entity.PointCashOutRequest;
 import com.pudding.base.domain.pointCashOutRequest.repository.PointCashOutRequestRepository;
@@ -18,7 +20,8 @@ import java.time.LocalDateTime;
 public class PointCashOutRequestImpl implements PointCashOutRequestService {
 
    private final PointCashOutRequestRepository pointCashOutRequestRepository;
-   private final StoreRepository storeRepository;
+   private final StoreRepository storeRepository; // 점주 테이블
+   private final MemberRepository memberRepository; // 회원 테이블
 
     @Transactional
     public PointCashOutRequestDto createCashRequest(PointCashOutRequestDto.Request pointCashOutRequestDto, Integer memberId){
@@ -31,6 +34,9 @@ public class PointCashOutRequestImpl implements PointCashOutRequestService {
             throw new IllegalArgumentException ("매장을 찾을 수 없습니다.");
         }
 
+        // 점주의 보유포인트 업데이트를 하기 위함
+        Member member = memberRepository.findById(memberId).orElseThrow(() -> new EntityNotFoundException("점주가 존재하지 않습니다."));
+
         PointCashOutRequest request = PointCashOutRequest.builder()
                 .storeId(store.getId()) // 매장 고유번호
                 .ownerId(memberId) // 점주 고유번호
@@ -39,6 +45,12 @@ public class PointCashOutRequestImpl implements PointCashOutRequestService {
                 .build();
         pointCashOutRequestRepository.save(request);
 
+
+        // 현금화 신청 금액 (+) - 점주 보유현금 (+)
+        member.addTotalCash(pointCashOutRequestDto.getCash());
+
+        // 현금화 신청 금액 (-) - 점주 보유포인트 (-)
+        member.useTotalPoint(pointCashOutRequestDto.getCash());
         return PointCashOutRequestDto.fromEntity(request);
     }
 }
