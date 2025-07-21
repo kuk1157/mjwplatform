@@ -127,7 +127,7 @@ function MainPage() {
 
             const url = `/api/v1/pointCashOutRequest`;
             const response = await axios.post(url, {
-                amount: Number(requestPrice),
+                cash: Number(requestPrice),
                 headers: { "Content-Type": "application/json" },
             });
             console.log("현금 신청 결과:", response.data);
