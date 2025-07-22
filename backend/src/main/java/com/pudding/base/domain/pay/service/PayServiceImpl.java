@@ -23,6 +23,10 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.util.Optional;
+
 @Service
 @RequiredArgsConstructor
 public class PayServiceImpl implements PayService {
@@ -34,9 +38,12 @@ public class PayServiceImpl implements PayService {
     private final MemberRepository memberRepository; // 회원 기본 jpa 리포지터리 가져오기
     private final PlatformConfigRepository platformConfigRepository; // 플랫폼 설정 기본 jpa 리포지터리 가져오기
 
+
+
     // 결제 등록
     @Transactional
     public PayDto createPay(PayDto.Request payDto, Integer orderId){
+
 
         // 주문과 결제는 1대1 매칭되어야 하기때문에 체크필요함.
         boolean exists = payRepository.existsById(orderId);
@@ -52,6 +59,16 @@ public class PayServiceImpl implements PayService {
             throw new IllegalArgumentException("이미 결제처리가 완료된 주문은 결제 처리를 할 수 없습니다..");
         }
 
+        // 1일 1회 이미 결제된 고객은 점주 금액입력 못하게(결제 데이터 안쌓이게)
+        LocalDateTime start = LocalDate.now().atStartOfDay();
+        LocalDateTime end = start.plusDays(1);
+
+        Integer count = payRepository.countTodayPayments(order.getUserId(), start, end);
+
+        if (count != null && count > 0) {
+            throw new IllegalArgumentException("오늘 이미 결제하셨습니다.");
+        }
+
         // 회원 정보 가져오기(order.getOwnerId로 member 테이블 조회)
         Member member = memberRepository.findById(order.getOwnerId()).orElseThrow(() -> new EntityNotFoundException("존재하지 않는 점주입니다."));
 
@@ -59,8 +76,8 @@ public class PayServiceImpl implements PayService {
         PlatformConfig platformConfig = platformConfigRepository.findById(1).orElseThrow(() -> new EntityNotFoundException("플랫폼 설정이 존재하지 않습니다."));
 
         // 주문상태, 주문완료일 업데이트
-        order.updateOrderStatus(order.getStatus());
-        order.updateOrderedAt(order.getOrderedAt());
+        order.updateOrderStatus();
+        order.updateOrderedAt();
 
 
         Double discount = payDto.getAmount() * platformConfig.getPointRate(); // 3% platform_config 에서 가져오기

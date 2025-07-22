@@ -3,13 +3,16 @@ package com.pudding.base.domain.order.entity;
 import com.pudding.base.domain.common.enums.IsOrderStatus;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.persistence.*;
+import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
 
 @Entity
 @Getter
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Table(name="orders") // order 테이블 (주문 테이블)
 public class Order {
 
@@ -71,12 +74,12 @@ public class Order {
 
 
     // 점주가 포스기 입력시점에 status(주문상태) update 하는 method
-    public void updateOrderStatus(IsOrderStatus status){
+    public void updateOrderStatus(){
         this.status = IsOrderStatus.COMPLETE;
     }
 
     // 점주가 포스기 입력시점에 주문완료일 update 하는 method
-    public void updateOrderedAt(LocalDateTime orderedAt){
+    public void updateOrderedAt(){
         this.orderedAt = LocalDateTime.now();
     }
 
