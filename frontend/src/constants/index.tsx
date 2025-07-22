@@ -25,22 +25,30 @@ const AdminMenuList = [
         seq: 3,
         is_active: "Y",
     },
-    // {
-    //     id: 3,
-    //     name: "공지사항 서브메뉴 테스트1",
-    //     path: "/admin/notice",
-    //     parent_id: 2,
-    //     seq: 3,
-    //     is_active: "Y",
-    // },
-    // {
-    //     id: 4,
-    //     name: "공지사항 서브메뉴 테스트2",
-    //     path: "/admin/notice",
-    //     parent_id: 3,
-    //     seq: 3,
-    //     is_active: "Y",
-    // },
+    {
+        id: 3,
+        name: "매장관리",
+        path: "/admin/notice1",
+        parent_id: null,
+        seq: 3,
+        is_active: "Y",
+    },
+    {
+        id: 4,
+        name: "매장관리",
+        path: "/admin/notice1",
+        parent_id: 3,
+        seq: 3,
+        is_active: "Y",
+    },
+    {
+        id: 5,
+        name: "매장테이블 관리",
+        path: "/admin/notice2",
+        parent_id: 3,
+        seq: 3,
+        is_active: "Y",
+    },
 ];
 
 const UserRoleList = [
