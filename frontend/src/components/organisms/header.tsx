@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { PrimaryContainer } from "../molecules/container";
 import { useMediaQuery } from "../../utils/useMediaQuery";
-import { MenuList } from "../../constans/index";
+import { MenuList } from "../../constants/index";
 
 const Header = () => {
     const [openHamburger, setOpenHamburger] = useState<boolean>(false);

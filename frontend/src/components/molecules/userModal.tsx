@@ -1,4 +1,4 @@
-import { UserRoleList } from "src/constans/index";
+import { UserRoleList } from "src/constants/index";
 import { Button } from "../atoms/button";
 
 type ModalProps = {

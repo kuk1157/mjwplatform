@@ -3,7 +3,7 @@ import { LoginButton } from "../atoms/button";
 import { LoginTitle } from "../atoms/title";
 import axios from "axios";
 import { formatTimeCount, validatePassword } from "src/utils/common";
-import { SocialDomain } from "src/constans/index";
+import { SocialDomain } from "src/constants/index";
 import useImageClick from "src/utils/useImageClick";
 import Portal from "../molecules/portal";
 import ImgModal from "../molecules/imgModal";

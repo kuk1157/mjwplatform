@@ -16,7 +16,7 @@ import UserModal from "./userModal";
 import { formatDate } from "src/utils/common";
 import { useRecoilValue, useSetRecoilState } from "recoil";
 import { sortState } from "src/recoil/sortState";
-import { UserRoleList } from "src/constans/index";
+import { UserRoleList } from "src/constants/index";
 import { cdn } from "src/constans"; // 공지사항 첨부파일 경로 참조
 import { noticeFolder } from "src/constans"; // 공지사항 첨부파일 경로 참조
 // import parse from "html-react-parser"; // 공지사항 내용 html 태그 적용

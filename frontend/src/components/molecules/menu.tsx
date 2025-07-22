@@ -1,7 +1,7 @@
 import { Button } from "../atoms/button";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useCallback, useEffect, useRef, useState } from "react";
-import { MenuList } from "src/constans/index";
+import { MenuList } from "src/constants/index";
 import shortid from "shortid";
 import { useTranslation } from "react-i18next";
 import i18n from "src/language";

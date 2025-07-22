@@ -2,7 +2,7 @@ import { Link, useLocation } from "react-router-dom";
 import { Button } from "../atoms/button";
 import { PageTitle } from "../atoms/title";
 import { formatTimeCount } from "src/utils/common";
-import { SocialDomain } from "src/constans/index";
+import { SocialDomain } from "src/constants/index";
 
 const MyInfo = ({
     ...props

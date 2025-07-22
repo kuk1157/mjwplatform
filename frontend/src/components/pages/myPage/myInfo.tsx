@@ -3,7 +3,7 @@ import { useRecoilValueLoadable } from "recoil";
 import { userSelectorUpdated } from "src/recoil/userState";
 import axios from "axios";
 import { UserApi } from "src/utils/userApi";
-import { SocialDomain } from "src/constans/index";
+import { SocialDomain } from "src/constants/index";
 import { validatePhoneNumber } from "src/utils/common";
 import { MainContainer } from "../../molecules/container";
 import { MyInfo } from "src/components/organisms/myPage";
