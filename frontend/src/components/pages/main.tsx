@@ -1,14 +1,14 @@
 import { MainContainer } from "../molecules/container";
 import axios from "axios";
 import { useState } from "react";
-import { useRecoilValueLoadable } from "recoil";
-import { userSelectorUpdated } from "src/recoil/userState";
+// import { useRecoilValueLoadable } from "recoil";
+// import { userSelectorUpdated } from "src/recoil/userState";
 import { useNavigate } from "react-router-dom";
 
 function MainPage() {
     const [orderPrice, setOrderPrice] = useState("");
-    const [requestPrice, setRequestPrice] = useState("");
-    const { contents: user } = useRecoilValueLoadable(userSelectorUpdated);
+    // const [requestPrice, setRequestPrice] = useState("");
+    // const { contents: user } = useRecoilValueLoadable(userSelectorUpdated);
     const navigate = useNavigate();
 
     const TestGetPay = async () => {
@@ -98,51 +98,51 @@ function MainPage() {
         }
     };
 
-    const TestPostcash = async () => {
-        try {
-            const cashInput = document.querySelector(
-                ".cashInput"
-            ) as HTMLInputElement | null;
+    // const TestPostcash = async () => {
+    //     try {
+    //         const cashInput = document.querySelector(
+    //             ".cashInput"
+    //         ) as HTMLInputElement | null;
 
-            const memberId = user.id;
-            const requestNumber = Number(requestPrice);
+    //         const memberId = user.id;
+    //         const requestNumber = Number(requestPrice);
 
-            if (!requestPrice) {
-                alert("현금 신청할 금액을 입력해주세요.");
-                if (cashInput) {
-                    setRequestPrice("");
-                }
-                return;
-            }
+    //         if (!requestPrice) {
+    //             alert("현금 신청할 금액을 입력해주세요.");
+    //             if (cashInput) {
+    //                 setRequestPrice("");
+    //             }
+    //             return;
+    //         }
 
-            if (requestNumber <= 0) {
-                alert("0원이나 (-) 금액은 입력할 수 없습니다.");
-                if (cashInput) {
-                    setRequestPrice("");
-                }
-                return;
-            }
+    //         if (requestNumber <= 0) {
+    //             alert("0원이나 (-) 금액은 입력할 수 없습니다.");
+    //             if (cashInput) {
+    //                 setRequestPrice("");
+    //             }
+    //             return;
+    //         }
 
-            if (user.totalPoint <= requestNumber) {
-                alert("현금 신청할 금액은 보유포인트보다 클 수 없습니다.");
-                if (cashInput) {
-                    setRequestPrice("");
-                }
-                return;
-            }
+    //         if (user.totalPoint <= requestNumber) {
+    //             alert("현금 신청할 금액은 보유포인트보다 클 수 없습니다.");
+    //             if (cashInput) {
+    //                 setRequestPrice("");
+    //             }
+    //             return;
+    //         }
 
-            const url = `/api/v1/pointCashOutRequest/${memberId}`;
-            const response = await axios.post(url, {
-                cash: requestNumber,
-                headers: { "Content-Type": "application/json" },
-            });
-            alert(`${requestNumber}포인트 현금화 신청이 완료 되었습니다.`);
-            navigate(0);
-            console.log("현금 신청 결과:", response.data);
-        } catch (error) {
-            console.error("현금 신청 실패:", error);
-        }
-    };
+    //         const url = `/api/v1/pointCashOutRequest/${memberId}`;
+    //         const response = await axios.post(url, {
+    //             cash: requestNumber,
+    //             headers: { "Content-Type": "application/json" },
+    //         });
+    //         alert(`${requestNumber}포인트 현금화 신청이 완료 되었습니다.`);
+    //         navigate(0);
+    //         console.log("현금 신청 결과:", response.data);
+    //     } catch (error) {
+    //         console.error("현금 신청 실패:", error);
+    //     }
+    // };
 
     const TestStoreTable = () => {
         navigate("/testStoreTable");
@@ -218,7 +218,8 @@ function MainPage() {
                     </button>
                 </form>
             </div>
-            <div className="bg-white p-4">
+            {/* 임시주석 */}
+            {/* <div className="bg-white p-4">
                 <p>[ 점주 보유 포인트 : {user.totalPoint} ]</p>
                 <p>[ 점주 보유 현금 : {user.totalCash} ]</p>
                 <p className="my-2">
@@ -237,7 +238,7 @@ function MainPage() {
                 >
                     점주 현금화 신청(완료✅)
                 </button>
-            </div>
+            </div> */}
         </MainContainer>
     );
 }
