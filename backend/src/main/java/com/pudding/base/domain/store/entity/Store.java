@@ -1,12 +1,16 @@
 package com.pudding.base.domain.store.entity;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.persistence.*;
+import lombok.AccessLevel;
+import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
 
 @Entity
 @Getter
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Table(name = "store") // store 테이블 (매장 테이블)
 public class Store {
 
@@ -31,5 +35,14 @@ public class Store {
     @Column(name = "created_at")
     @Schema(description = "생성일")
     private LocalDateTime createdAt;
+
+    @Builder
+    public Store(Integer id,Integer ownerId,String name,String address,LocalDateTime createdAt){
+        this.id = id;
+        this.ownerId = ownerId;
+        this.name = name;
+        this.address = address;
+        this.createdAt = createdAt;
+    }
 
 }
