@@ -128,3 +128,18 @@ export interface Member {
     role: Role;
     isActive: IsActive;
 }
+
+// 매장(store) 정보 가져오기
+export interface StoreType {
+    id: number;
+    ownerId: number;
+    name?: string;
+    address?: string;
+}
+
+// 매장 테이블(store_table) 정보 가져오기
+export interface StoreTable {
+    id: number;
+    storeId: number;
+    tableNumber: number;
+}

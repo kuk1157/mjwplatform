@@ -28,7 +28,7 @@ const AdminMenuList = [
     {
         id: 3,
         name: "매장관리",
-        path: "/admin/notice1",
+        path: "/admin/store",
         parent_id: null,
         seq: 3,
         is_active: "Y",
@@ -36,7 +36,7 @@ const AdminMenuList = [
     {
         id: 4,
         name: "매장관리",
-        path: "/admin/notice1",
+        path: "/admin/store",
         parent_id: 3,
         seq: 3,
         is_active: "Y",
@@ -44,7 +44,7 @@ const AdminMenuList = [
     {
         id: 5,
         name: "매장테이블 관리",
-        path: "/admin/notice2",
+        path: "/admin/storeTable",
         parent_id: 3,
         seq: 3,
         is_active: "Y",
