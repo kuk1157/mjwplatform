@@ -227,13 +227,13 @@ const Router = createBrowserRouter([
 
             // 매장관리 - 매장 수정
             {
-                path: "/admin/store/storeEdit/",
+                path: "/admin/store/storeEdit/:id",
                 element: <AdminStoreEdit />,
             },
 
             // 매장관리 - 매장 상세보기
             {
-                path: "/admin/store/storeDetail/",
+                path: "/admin/store/storeDetail/:id",
                 element: <AdminStoreDetail />,
             },
 

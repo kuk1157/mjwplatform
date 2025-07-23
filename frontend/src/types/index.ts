@@ -137,6 +137,12 @@ export interface StoreType {
     address?: string;
 }
 
+// 매장(store) 정보 상세조회용..
+export interface StoreDetailType extends StoreType {
+    ownerName: string;
+    createdAt: string;
+}
+
 // 매장 테이블(store_table) 정보 가져오기
 export interface StoreTable {
     id: number;
