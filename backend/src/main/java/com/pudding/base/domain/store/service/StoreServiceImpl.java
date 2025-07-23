@@ -17,6 +17,12 @@ public class StoreServiceImpl implements StoreService{
 
 
     public StoreDto createStore(StoreDto.Request storeDto){
+
+        boolean exists = storeRepository.existsById(storeDto.getOwnerId());
+        if (exists) {
+            throw new IllegalStateException("선택한 점주는 이미 매장을 보유하고 있습니다.");
+        }
+
         Store store = Store.builder()
                 .ownerId(storeDto.getOwnerId())
                 .name(storeDto.getName())
