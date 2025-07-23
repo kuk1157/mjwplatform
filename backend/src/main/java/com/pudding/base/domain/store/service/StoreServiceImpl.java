@@ -15,6 +15,20 @@ public class StoreServiceImpl implements StoreService{
 
     private final StoreRepository storeRepository;
 
+
+    public StoreDto createStore(StoreDto.Request storeDto){
+        Store store = Store.builder()
+                .ownerId(storeDto.getOwnerId())
+                .name(storeDto.getName())
+                .address(storeDto.getAddress())
+                .build();
+
+        Store savedStore = storeRepository.save(store);
+        return StoreDto.fromEntity(savedStore);
+    }
+
+
+
     public Page<StoreDto> getAllStore(Pageable pageable, String keyword){
         return storeRepository.findByStoreSearch(pageable, keyword);
     }

@@ -3,6 +3,10 @@ package com.pudding.base.domain.store.controller;
 import com.pudding.base.domain.store.dto.StoreDto;
 import com.pudding.base.domain.store.service.StoreService;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -21,12 +25,18 @@ import org.springframework.web.bind.annotation.*;
 public class StoreController {
     private final StoreService storeService;
 
-//    @Operation(summary = "매장(store)등록", description = "관리자 전산에서 매장 등록")
-//    @PostMapping
-//    public ResponseEntity<StoreDto> createStore(@RequestBody StoreDto.Request storeDto){
-//        StoreDto createStore = storeService.createStore(storeDto);
-//        return ResponseEntity.ok(createStore);
-//    }
+
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "성공",
+                    content = {@Content(schema = @Schema(implementation = ResponseEntity.class))}),
+            @ApiResponse(responseCode = "404", description = "실패"),
+    })
+    @Operation(summary = "매장(store)등록", description = "관리자 전산에서 매장 등록")
+    @PostMapping
+    public ResponseEntity<StoreDto> createStore(@RequestBody StoreDto.Request storeDto){
+        StoreDto createStore = storeService.createStore(storeDto);
+        return ResponseEntity.ok(createStore);
+    }
 
     @Operation(summary = "매장(store) 리스트", description = "매장 목록 조회")
     @GetMapping
