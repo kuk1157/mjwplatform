@@ -24,7 +24,7 @@ export function Store() {
     const { data: storeList, isFetching } = useQuery({
         queryKey: ["storeList", page, searchQuery, sortConfig],
         queryFn: async () => {
-            const url = `/api/v1/notice?page=${page - 1}&sort=${sortConfig.key},${sortConfig.array}&size=${itemsPerPage}${searchQuery}`;
+            const url = `/api/v1/stores?page=${page - 1}&sort=${sortConfig.key},${sortConfig.array}&size=${itemsPerPage}${searchQuery}`;
             const res = await axios.get(url);
             return res.data;
         },
