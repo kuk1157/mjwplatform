@@ -29,7 +29,7 @@ export function NoticeCreate() {
 
     // 이전 버튼
     const handleBack = () => {
-        navigate("/admin/noticeTest");
+        navigate("/admin/notice");
     };
 
     // 공지사항 등록(파일첨부 다중 버전)
@@ -79,7 +79,7 @@ export function NoticeCreate() {
                 },
             });
             alert("등록이 완료되었습니다.");
-            navigate("/admin/noticeTest");
+            navigate("/admin/notice");
         } catch (error) {
             alert("공지사항 등록 중 오류가 발생했습니다.");
         }
