@@ -51,17 +51,17 @@ export function Store() {
             width: "10%",
         },
         {
-            key: "title",
+            key: "ownerName",
             value: "점주 이름",
             width: "20%",
         },
         {
-            key: "title",
+            key: "name",
             value: "매장 이름",
             width: "20%",
         },
         {
-            key: "description",
+            key: "address",
             value: "주소",
             width: "30%",
         },
