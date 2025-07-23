@@ -25,7 +25,6 @@ import org.springframework.web.bind.annotation.*;
 public class StoreController {
     private final StoreService storeService;
 
-
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "성공",
                     content = {@Content(schema = @Schema(implementation = ResponseEntity.class))}),
@@ -46,4 +45,10 @@ public class StoreController {
         return ResponseEntity.ok(getStores);
     }
 
+    @Operation(summary = "매장(store) 상세보기", description = "매장 상세 조회")
+    @GetMapping("/{id}")
+    public ResponseEntity<StoreDto> getStoreById(@PathVariable Integer id){
+        StoreDto store = storeService.findStoreById(id);
+        return ResponseEntity.ok(store);
+    }
 }

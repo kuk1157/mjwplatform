@@ -6,7 +6,6 @@ import com.pudding.base.domain.store.repository.StoreRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -15,9 +14,9 @@ public class StoreServiceImpl implements StoreService{
 
     private final StoreRepository storeRepository;
 
-
+    // 매장 등록
     public StoreDto createStore(StoreDto.Request storeDto){
-
+        // 매장 이미 보유하고 있는 점주 예외처리
         boolean exists = storeRepository.existsById(storeDto.getOwnerId());
         if (exists) {
             throw new IllegalStateException("선택한 점주는 이미 매장을 보유하고 있습니다.");
@@ -33,10 +32,14 @@ public class StoreServiceImpl implements StoreService{
         return StoreDto.fromEntity(savedStore);
     }
 
-
-
+    // 매장 전체 조회
     public Page<StoreDto> getAllStore(Pageable pageable, String keyword){
         return storeRepository.findByStoreSearch(pageable, keyword);
+    }
+
+    // 매장 상세 조회
+    public StoreDto findStoreById(Integer id){
+        return storeRepository.findByStoreIdSearch(id);
     }
 
 
