@@ -4,9 +4,11 @@ package com.pudding.base.domain.storeTable.entity;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.persistence.*;
 import lombok.Getter;
+import org.hibernate.annotations.DynamicInsert;
 
 import java.time.LocalDateTime;
 
+@DynamicInsert // createdAt 생성일 insert,update 제외
 @Entity
 @Getter
 @Table(name = "store_table") // // store_table 테이블 (매장테이블 테이블)

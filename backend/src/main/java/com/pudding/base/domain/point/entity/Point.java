@@ -7,9 +7,11 @@ import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.DynamicInsert;
 
 import java.time.LocalDateTime;
 
+@DynamicInsert // createdAt 생성일 insert,update 제외
 @Entity
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
