@@ -32,7 +32,7 @@ public class Store {
     @Schema(description = "매장 주소")
     private String address;
 
-    @Column(name = "created_at")
+    @Column(name = "created_at", insertable = false, updatable = false)
     @Schema(description = "생성일")
     private LocalDateTime createdAt;
 

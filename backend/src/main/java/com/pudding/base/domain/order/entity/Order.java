@@ -55,7 +55,7 @@ public class Order {
     @Schema(description = "주문 완료일")
     private LocalDateTime orderedAt; // 점주가 포스기 입력하였을때 update
 
-    @Column(name = "created_at")
+    @Column(name = "created_at", insertable = false, updatable = false)
     @Schema(description = "생성일")
     private LocalDateTime createdAt;
 

@@ -52,7 +52,7 @@ public class Pay {
     @Schema(description = "결제 완료일")
     private LocalDateTime paidAt; // 결제가 최종 성공했을 경우(현재로는 서버 이슈, 세션이슈 등 그런상황 발생시엔 남으면안됨.)
 
-    @Column(name = "created_at")
+    @Column(name = "created_at", insertable = false, updatable = false)
     @Schema(description = "생성일")
     private LocalDateTime createdAt;
 

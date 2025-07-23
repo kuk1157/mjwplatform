@@ -41,7 +41,7 @@ public class Point {
     @Schema(description = "점주가 받을 포인트")
     private Double point;
 
-    @Column(name = "created_at")
+    @Column(name = "created_at", insertable = false, updatable = false)
     @Schema(description = "생성일")
     private LocalDateTime createdAt;
 

@@ -41,7 +41,7 @@ public class PayLog {
     @Schema(description = "최종 결제금액")
     private Integer finalAmount;
 
-    @Column(name = "created_at")
+    @Column(name = "created_at", insertable = false, updatable = false)
     @Schema(description = "생성일")
     private LocalDateTime createdAt;
 
