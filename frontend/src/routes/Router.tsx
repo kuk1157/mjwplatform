@@ -104,20 +104,20 @@ const AdminStore = Loadable({
     Component: lazy(() => import("../components/pages/admin/store")),
 });
 
-// // 매장 관리 - 매장 등록
-// const AdminUser = Loadable({
-//     Component: lazy(() => import("../components/pages/admin/user")),
-// });
+// 매장 관리 - 매장 등록
+const AdminStoreCreate = Loadable({
+    Component: lazy(() => import("../components/pages/admin/storeCreate")),
+});
 
-// // 매장 관리 - 매장 상세보기
-// const AdminUser = Loadable({
-//     Component: lazy(() => import("../components/pages/admin/user")),
-// });
+// 매장 관리 - 매장 상세보기
+const AdminStoreDetail = Loadable({
+    Component: lazy(() => import("../components/pages/admin/storeDetail")),
+});
 
-// // 매장 관리 - 매장 수정
-// const AdminUser = Loadable({
-//     Component: lazy(() => import("../components/pages/admin/user")),
-// });
+// 매장 관리 - 매장 수정
+const AdminStoreEdit = Loadable({
+    Component: lazy(() => import("../components/pages/admin/storeEdit")),
+});
 
 const Router = createBrowserRouter([
     {
@@ -213,10 +213,28 @@ const Router = createBrowserRouter([
                 element: <AdminUserEdit />,
             },
 
-            // 사용자관리)
+            // 매장관리)
             {
                 path: "/admin/store",
                 element: <AdminStore />,
+            },
+
+            // 매장관리 - 매장 등록
+            {
+                path: "/admin/store/storeCreate/",
+                element: <AdminStoreCreate />,
+            },
+
+            // 매장관리 - 매장 수정
+            {
+                path: "/admin/store/storeEdit/",
+                element: <AdminStoreEdit />,
+            },
+
+            // 매장관리 - 매장 상세보기
+            {
+                path: "/admin/store/storeDetail/",
+                element: <AdminStoreDetail />,
             },
 
             // {
