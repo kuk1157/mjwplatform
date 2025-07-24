@@ -2,7 +2,6 @@ import { useParams } from "react-router-dom";
 import axios from "axios";
 import { useState, useEffect, useCallback, useRef } from "react";
 import { StoreTable } from "src/types";
-import { SubmitButton } from "src/components/organisms/submitButton"; // 공통 등록 버튼 컴포넌트
 
 export function StoreTableList() {
     const { storeId } = useParams();
@@ -46,15 +45,17 @@ export function StoreTableList() {
         fetchStoreName();
     }, [fetchStoreName]);
 
-    if (!tables || tables.length === 0) {
-        return (
-            <div className="flex items-center justify-center min-h-screen bg-gray-100">
-                <p className="text-xl text-gray-600">
-                    매장 테이블이 존재하지 않습니다.
-                </p>
-            </div>
-        );
-    }
+    const tableNumberSubmit = async () => {
+        if (!storeId) return;
+        try {
+            const url = `/api/v1/stores/${storeId}/tables`;
+            await axios.post(url);
+            alert("테이블 등록이 완료되었습니다.");
+            await fetchTables();
+        } catch (error) {
+            console.error("테이블 등록 실패:", error);
+        }
+    };
 
     return (
         <div className="flex flex-col  items-center justify-center min-h-screen bg-gray-100">
@@ -64,53 +65,32 @@ export function StoreTableList() {
                 </h2>
             </div>
             <div className="grid grid-cols-4 gap-4 p-4">
-                {/* 테이블 목록 동적으로 렌더링 */}
-                {tables.map((table, index) => (
-                    <div
-                        key={index}
-                        style={{ backgroundColor: "#21A089" }}
-                        className="w-40 h-40 rounded shadow flex flex-col items-center justify-center"
-                    >
-                        <p className="text-lg font-normal text-white">
-                            테이블번호 : {table.tableNumber}
-                        </p>
+                {tables.length === 0 ? (
+                    <div className="col-span-4 text-center text-gray-500 text-lg">
+                        매장 테이블이 존재하지 않습니다
                     </div>
-                ))}
-                {/* 테이블 목록 동적으로 렌더링 */}
-                {tables.map((table, index) => (
-                    <div
-                        key={index}
-                        style={{ backgroundColor: "#21A089" }}
-                        className="w-40 h-40 rounded shadow flex flex-col items-center justify-center"
-                    >
-                        <p className="text-lg font-normal text-white">
-                            테이블번호 : {table.tableNumber}
-                        </p>
-                    </div>
-                ))}
-
-                {/* 테이블 목록 동적으로 렌더링 */}
-                {tables.map((table, index) => (
-                    <div
-                        key={index}
-                        style={{ backgroundColor: "#21A089" }}
-                        className="w-40 h-40 rounded shadow flex flex-col items-center justify-center"
-                    >
-                        <p className="text-lg font-normal text-white">
-                            테이블번호 : {table.tableNumber}
-                        </p>
-                    </div>
-                ))}
+                ) : (
+                    tables.map((table, index) => (
+                        <div
+                            key={index}
+                            style={{ backgroundColor: "#21A089" }}
+                            className="w-40 h-40 rounded shadow flex flex-col items-center justify-center"
+                        >
+                            <p className="text-lg font-normal text-white">
+                                테이블번호 : {table.tableNumber}
+                            </p>
+                        </div>
+                    ))
+                )}
             </div>
 
-            {/* 공통 등록 버튼 submitButton= */}
-            <div className=" w-[684px]">
-                {
-                    <SubmitButton
-                        label="매장 등록"
-                        path={`/admin/store/${storeId}/StoreTableCreate`}
-                    />
-                }
+            <div className={tables.length === 0 ? "w-[545px]" : "w-[684px]"}>
+                <button
+                    className="px-4 h-9 bg-[#21A089] text-[#fff] rounded-[5px]"
+                    onClick={tableNumberSubmit}
+                >
+                    매장 테이블 등록
+                </button>
             </div>
         </div>
     );
