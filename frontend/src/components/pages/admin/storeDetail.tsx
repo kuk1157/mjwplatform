@@ -50,8 +50,8 @@ function StoreDetail() {
                 </h2>
 
                 <div className="grid gap-x-16 gap-y-6">
-                    <LabelDetail label="점주 이름" value={store?.name} />
-                    <LabelDetail label="매장 이름" value={store?.ownerName} />
+                    <LabelDetail label="점주 이름" value={store?.ownerName} />
+                    <LabelDetail label="매장 이름" value={store?.name} />
                     <LabelDetail label="매장 주소" value={store?.address} />
                     <LabelDetail label="매장 등록일" value={store?.createdAt} />
                 </div>
