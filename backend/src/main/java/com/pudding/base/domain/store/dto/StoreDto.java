@@ -38,7 +38,6 @@ public class StoreDto {
 
 
     @Getter
-    @Setter
     @NoArgsConstructor
     public static class Request {
         @NotNull(message = "점주를 선택해주세요.")
@@ -55,7 +54,6 @@ public class StoreDto {
             this.name = name;
             this.address = address;
         }
-
     }
 
 }

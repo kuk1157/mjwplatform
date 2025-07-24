@@ -46,7 +46,6 @@ public class PayDto {
     }
 
     @Getter
-    @Setter
     @NoArgsConstructor
     public static class Request{
         @NotNull(message = "주문 금액을 입력해주세요.")

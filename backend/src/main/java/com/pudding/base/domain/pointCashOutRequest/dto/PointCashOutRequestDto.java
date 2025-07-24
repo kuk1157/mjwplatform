@@ -36,7 +36,6 @@ public class PointCashOutRequestDto {
     }
 
     @Getter
-    @Setter
     @NoArgsConstructor
     public static class Request{
         @NotNull(message = "현금화 신청 금액을 입력해주세요.")
