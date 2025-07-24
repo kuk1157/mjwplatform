@@ -47,4 +47,10 @@ public class Store {
         this.createdAt = createdAt;
     }
 
+    // 매장 수정 (매장이름, 매장주소만 수정)
+    public void updateStoreInfo(String name, String address){
+        this.name = name;
+        this.address = address;
+    }
+
 }

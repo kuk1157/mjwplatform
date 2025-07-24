@@ -12,6 +12,11 @@ public interface StoreService {
     // 매장(store) 등록
     StoreDto createStore(StoreDto.Request storeDto);
 
+    // 매장(store) 수정
+    StoreDto updateStore(StoreDto.Request storeDto, Integer id);
+
     // 매장(store) 상세 조회
     StoreDto findStoreById(Integer id);
+
+
 }

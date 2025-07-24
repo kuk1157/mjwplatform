@@ -3,6 +3,7 @@ package com.pudding.base.domain.store.service;
 import com.pudding.base.domain.store.dto.StoreDto;
 import com.pudding.base.domain.store.entity.Store;
 import com.pudding.base.domain.store.repository.StoreRepository;
+import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -30,6 +31,13 @@ public class StoreServiceImpl implements StoreService{
 
         Store savedStore = storeRepository.save(store);
         return StoreDto.fromEntity(savedStore);
+    }
+
+    public StoreDto updateStore(StoreDto.Request storeDto, Integer id){
+        Store store = storeRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("존재하지 않는 매장 입니다."));
+        store.updateStoreInfo(storeDto.getName(), storeDto.getAddress());
+        storeRepository.save(store);
+        return StoreDto.fromEntity(store);
     }
 
     // 매장 전체 조회

@@ -30,12 +30,21 @@ public class StoreController {
                     content = {@Content(schema = @Schema(implementation = ResponseEntity.class))}),
             @ApiResponse(responseCode = "404", description = "실패"),
     })
-    @Operation(summary = "매장(store)등록", description = "관리자 전산에서 매장 등록")
+    @Operation(summary = "매장(store) 등록", description = "관리자 전산에서 매장 등록")
     @PostMapping
     public ResponseEntity<StoreDto> createStore(@RequestBody StoreDto.Request storeDto){
         StoreDto createStore = storeService.createStore(storeDto);
         return ResponseEntity.ok(createStore);
     }
+
+
+    @Operation(summary = "매장(store) 수정", description = "관리자 전산에서 매장 수정(매장이름, 매장주소만 가능)")
+    @PatchMapping("/{id}")
+    public ResponseEntity<StoreDto> updateStore(@RequestBody StoreDto.Request storeDto, @PathVariable Integer id){
+        StoreDto updateStore = storeService.updateStore(storeDto, id);
+        return ResponseEntity.ok(updateStore);
+    }
+
 
     @Operation(summary = "매장(store) 리스트", description = "매장 목록 조회")
     @GetMapping
