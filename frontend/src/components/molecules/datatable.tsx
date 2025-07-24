@@ -357,6 +357,29 @@ export const DataTable = ({
                     default:
                         return cellValue ?? "-";
                 }
+            case "admin_storeTablePage":
+                switch (column.key) {
+                    case "detail":
+                        return (
+                            <Button
+                                className="px-[16px] py-[9px] bg-[#21A089] text-white mx-auto text-[15px] rounded"
+                                // 고유번호 넘기는 navigate
+                                onClick={() =>
+                                    navigate(
+                                        `/admin/store/${row.id}/storeTableList`,
+                                        {
+                                            state: row,
+                                        }
+                                    )
+                                }
+                                // onClick={(e) => handleDetailButtonClick(row, e)}
+                            >
+                                상세보기
+                            </Button>
+                        );
+                    default:
+                        return cellValue ?? "-";
+                }
             default:
                 return cellValue ?? "-";
         }
