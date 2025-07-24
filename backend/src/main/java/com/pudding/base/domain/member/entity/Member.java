@@ -11,6 +11,7 @@ import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.DynamicInsert;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -18,6 +19,7 @@ import java.time.LocalDateTime;
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Entity
+@DynamicInsert
 @Table(name = "member")
 public class Member extends BaseTimeEntity {
 
@@ -52,11 +54,11 @@ public class Member extends BaseTimeEntity {
     @Column(name = "phone_number")
     private String phoneNumber;
 
-    @Column(name = "total_point")
+    @Column(name = "total_point", insertable = false, updatable = false)
     @Schema(description = "점주 합계 포인트")
     private Integer totalPoint; // point 테이블 INSERT 시 (+) , point_cash_out_request 테이블 insert 시 (-)
 
-    @Column(name = "total_cash")
+    @Column(name = "total_cash", insertable = false, updatable = false)
     @Schema(description = "점주 합계 현금")
     private Integer totalCash; // point_cash_out_request 테이블 insert 시 (+)
 
