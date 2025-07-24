@@ -3,13 +3,14 @@ package com.pudding.base.domain.storeTable.entity;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.persistence.*;
-import lombok.Getter;
+import lombok.*;
 import org.hibernate.annotations.DynamicInsert;
 
 import java.time.LocalDateTime;
 
 @DynamicInsert // createdAt 생성일 insert,update 제외
 @Entity
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
 @Table(name = "store_table") // // store_table 테이블 (매장테이블 테이블)
 public class StoreTable {
@@ -31,5 +32,14 @@ public class StoreTable {
     @Column(name = "created_at", insertable = false, updatable = false)
     @Schema(description = "생성일")
     private LocalDateTime createdAt;
+
+
+    @Builder
+    public StoreTable(Integer id, Integer storeId, Integer tableNumber, LocalDateTime createdAt){
+        this.id = id;
+        this.storeId = storeId;
+        this.tableNumber = tableNumber;
+        this.createdAt = createdAt;
+    }
 
 }

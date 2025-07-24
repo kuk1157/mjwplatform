@@ -3,5 +3,6 @@ import com.pudding.base.domain.storeTable.dto.StoreTableDto;
 import java.util.List;
 
 public interface StoreTableService {
-    List<StoreTableDto> getTablesByStoreNum(Integer storeNum);
+    List<StoreTableDto> getTablesByStoreId(Integer storeId);
+    StoreTableDto createStoreTable(Integer storeId);
 }
