@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { UserApi } from "src/utils/userApi";
 import { LabelDetail } from "src/components/atoms/labelDetail";
 import { SectionCard } from "../../molecules/card";
+import { UserRoleList } from "src/constants/index";
 import { ActionButtons } from "src/components/organisms/actionButtons"; // 등록, 수정 공통 버튼
 
 export function UserCreate() {
@@ -16,6 +17,7 @@ export function UserCreate() {
         emailDomain: "",
         email: "",
         phoneNumber: "",
+        role: "",
     });
 
     const handleChange = (
@@ -119,12 +121,14 @@ export function UserCreate() {
                 loginId: formData.loginId,
                 phoneNumber: formData.phoneNumber,
                 email: finalEmail,
+                role: formData.role,
             });
             alert("등록이 완료되었습니다.");
             navigate(`/admin/user`);
         } catch (error) {
             console.error("등록 실패", error);
             alert("사용자 등록 중 오류가 발생했습니다.");
+            console.log(formData.role);
         }
     };
 
@@ -160,9 +164,15 @@ export function UserCreate() {
                         </button>
                     </div>
 
+                    {/* 비밀번호 임시 */}
+                    <div className="flex items-center gap-2">
+                        <span className="w-32 font-semibold">비밀번호:</span>
+                        <span>비밀번호 임시로 1234로 등록</span>
+                    </div>
+
                     {/* 이메일 */}
                     <div className="flex items-center gap-2">
-                        <span className="w-32">이메일</span>
+                        <span className="w-32">이메일:</span>
                         <input
                             type="text"
                             name="emailId"
@@ -207,6 +217,21 @@ export function UserCreate() {
                         onKeyDown={(e) => e.preventDefault()}
                         onChange={handleChange}
                     />
+                    <div className="flex items-center gap-2">
+                        <span className="w-32">권한 선택:</span>
+                        <select
+                            name="role"
+                            value={formData.role}
+                            onChange={handleChange}
+                            className="border border-gray-300 rounded px-2 py-2"
+                        >
+                            {UserRoleList.map((item) => (
+                                <option key={item.name} value={item.name}>
+                                    {item.value}
+                                </option>
+                            ))}
+                        </select>
+                    </div>
                 </div>
 
                 {/* 공통 버튼 영역 */}
