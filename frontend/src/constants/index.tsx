@@ -44,7 +44,7 @@ const AdminMenuList = [
     {
         id: 5,
         name: "매장테이블 관리",
-        path: "/admin/storeTable",
+        path: "/admin/store/storeTablePage",
         parent_id: 3,
         seq: 3,
         is_active: "Y",

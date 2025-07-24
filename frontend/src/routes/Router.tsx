@@ -119,9 +119,14 @@ const AdminStoreEdit = Loadable({
     Component: lazy(() => import("../components/pages/admin/storeEdit")),
 });
 
-// 매장 테이블 관리 - 매장 테이블 등록
-const AdminStoreTable = Loadable({
-    Component: lazy(() => import("../components/pages/admin/storeTable")),
+// 매장 테이블 관리 - 매장테이블 페이지(매장 목록 먼저 보여주고 우측에서 매장테이블 보기 클릭)
+const AdminStoreTablePage = Loadable({
+    Component: lazy(() => import("../components/pages/admin/storeTablePage")),
+});
+
+// 매장 테이블 관리 - 매장테이블 목록
+const AdminStoreTableList = Loadable({
+    Component: lazy(() => import("../components/pages/admin/storeTableList")),
 });
 
 // 매장 테이블 관리 - 매장 테이블 등록
@@ -129,7 +134,7 @@ const AdminStoreTableCreate = Loadable({
     Component: lazy(() => import("../components/pages/admin/storeTableCreate")),
 });
 
-// 매장 테이블 관리 - 매장 테이블 등록
+// 매장 테이블 관리 - 매장 테이블 상세보기
 const AdminStoreTableDetail = Loadable({
     Component: lazy(() => import("../components/pages/admin/storeTableDetail")),
 });
@@ -253,20 +258,27 @@ const Router = createBrowserRouter([
             },
 
             // 매장테이블 관리)
+            // 매장테이블 관리 - 매장테이블 페이지(매장 목록 먼저 보여주고 우측에서 매장테이블 보기 클릭)
             {
-                path: "/admin/storeTable",
-                element: <AdminStoreTable />,
+                path: "/admin/store/storeTablePage",
+                element: <AdminStoreTablePage />,
+            },
+
+            // 매장테이블 관리 - 매장테이블 목록
+            {
+                path: "/admin/store/:storeId/storeTableList",
+                element: <AdminStoreTableList />,
             },
 
             // 매장테이블 관리 - 매장테이블 등록
             {
-                path: "/admin/store/storeTableCreate",
+                path: "/admin/store/:storeId/storeTableCreate",
                 element: <AdminStoreTableCreate />,
             },
 
             // 매장테이블 관리 - 매장테이블 상세보기
             {
-                path: "/admin/store/storeTableDetail/:id",
+                path: "/admin/store/:storeId/storeTableDetail/:id",
                 element: <AdminStoreTableDetail />,
             },
 
