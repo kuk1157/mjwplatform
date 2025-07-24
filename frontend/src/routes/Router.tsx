@@ -119,6 +119,21 @@ const AdminStoreEdit = Loadable({
     Component: lazy(() => import("../components/pages/admin/storeEdit")),
 });
 
+// 매장 테이블 관리 - 매장 테이블 등록
+const AdminStoreTable = Loadable({
+    Component: lazy(() => import("../components/pages/admin/storeTable")),
+});
+
+// 매장 테이블 관리 - 매장 테이블 등록
+const AdminStoreTableCreate = Loadable({
+    Component: lazy(() => import("../components/pages/admin/storeTableCreate")),
+});
+
+// 매장 테이블 관리 - 매장 테이블 등록
+const AdminStoreTableDetail = Loadable({
+    Component: lazy(() => import("../components/pages/admin/storeTableDetail")),
+});
+
 const Router = createBrowserRouter([
     {
         path: "/",
@@ -235,6 +250,24 @@ const Router = createBrowserRouter([
             {
                 path: "/admin/store/storeDetail/:id",
                 element: <AdminStoreDetail />,
+            },
+
+            // 매장테이블 관리)
+            {
+                path: "/admin/storeTable",
+                element: <AdminStoreTable />,
+            },
+
+            // 매장테이블 관리 - 매장테이블 등록
+            {
+                path: "/admin/store/storeTableCreate",
+                element: <AdminStoreTableCreate />,
+            },
+
+            // 매장테이블 관리 - 매장테이블 상세보기
+            {
+                path: "/admin/store/storeTableDetail/:id",
+                element: <AdminStoreTableDetail />,
             },
 
             // {
