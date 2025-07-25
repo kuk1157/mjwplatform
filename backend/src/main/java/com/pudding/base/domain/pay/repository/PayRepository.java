@@ -13,4 +13,9 @@ public interface PayRepository extends JpaRepository<Pay, Integer>{
     Integer countTodayPayments(@Param("userId") Integer userId,
                                @Param("start") LocalDateTime start,
                                @Param("end") LocalDateTime end);
+
+    // 하루 총합주문금액 한도 100만원 확인용 쿼리
+    @Query("SELECT COALESCE(SUM(p.amount), 0) FROM Pay p WHERE DATE(p.createdAt) = CURRENT_DATE")
+    Integer getTodayTotalPoint();
+
 }

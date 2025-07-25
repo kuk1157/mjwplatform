@@ -75,6 +75,23 @@ public class PayServiceImpl implements PayService {
         // 플랫폼 설정 정보 가져오기
         PlatformConfig platformConfig = platformConfigRepository.findById(1).orElseThrow(() -> new EntityNotFoundException("플랫폼 설정이 존재하지 않습니다."));
 
+
+//        // 최대 금액 100만원
+//        Integer maxPoint = platformConfig.getMaxStorePrice();
+//
+//        // 오늘 총 적립 포인트
+//        Integer todayTotalPoint = payRepository.getTodayTotalPoint();
+//
+//
+//        int remainQuota = Math.max(0, maxPoint - todayTotalPoint);
+//        int pointToSave = Math.min(remainQuota, payDto.getAmount());
+//
+//        if (todayTotalPoint + payDto.getAmount() > 1_000_000) {
+//            throw new IllegalArgumentException("일일 포인트 적립 한도를 초과하여 결제를 진행할 수 없습니다.");
+//        }
+
+
+
         // 주문상태, 주문완료일 업데이트
         order.updateOrderStatus();
         order.updateOrderedAt();
