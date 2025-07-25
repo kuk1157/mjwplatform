@@ -70,7 +70,7 @@ function TestStoreTable() {
 
     return (
         <div className="flex items-center justify-center min-h-screen bg-gray-100">
-            <div className="flex gap-4 p-4">
+            <div className="grid grid-cols-4 gap-4 p-4">
                 {/* 테이블 목록 동적으로 렌더링 */}
                 {tables.map((table, index) => (
                     <div
