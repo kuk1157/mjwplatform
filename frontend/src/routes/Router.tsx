@@ -139,6 +139,11 @@ const AdminStoreTableDetail = Loadable({
     Component: lazy(() => import("../components/pages/admin/storeTableDetail")),
 });
 
+// 모바일 로그인 페이지
+const MobileLogin = Loadable({
+    Component: lazy(() => import("../components/pages/mobile/login")),
+});
+
 const Router = createBrowserRouter([
     {
         path: "/",
@@ -171,6 +176,7 @@ const Router = createBrowserRouter([
             },
         ],
     },
+
     {
         path: "/admin",
         element: <AdminLayoutLoader />,
@@ -287,6 +293,11 @@ const Router = createBrowserRouter([
             //     element: <AdminUser />,
             // },
         ],
+    },
+    // 모바일 로그인(다대구 로그인 버튼)
+    {
+        path: "/mobile/login",
+        element: <MobileLogin />,
     },
 ]);
 
