@@ -144,6 +144,11 @@ const MobileLogin = Loadable({
     Component: lazy(() => import("../components/pages/mobile/login")),
 });
 
+// 모바일 고객 마이페이지
+const MobileMyPage = Loadable({
+    Component: lazy(() => import("../components/pages/mobile/myPage")),
+});
+
 const Router = createBrowserRouter([
     {
         path: "/",
@@ -298,6 +303,12 @@ const Router = createBrowserRouter([
     {
         path: "/mobile/login",
         element: <MobileLogin />,
+    },
+
+    // 모바일 고객 마이페이지
+    {
+        path: "/mobile/myPage",
+        element: <MobileMyPage />,
     },
 ]);
 

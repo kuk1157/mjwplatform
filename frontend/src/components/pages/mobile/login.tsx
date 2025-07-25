@@ -1,10 +1,14 @@
+import { useNavigate } from "react-router-dom";
+
 export function MobileLogin() {
+    const navigate = useNavigate();
     const LoginSubmit = () => {
         alert(
-            "고객 QR인증 후 버튼 클릭시 did인증, NFT발급 \n매장&매장테이블 정보 물려서 가져가기 "
+            "고객 QR인증 후 버튼 클릭시 did인증, NFT발급 \n매장&매장테이블 정보 물려서 가져가기 \n현재는 바로 마이페이지로 이동"
         );
-    };
 
+        navigate("/mobile/myPage");
+    };
     return (
         <div className="w-screen h-screen flex items-center justify-cente">
             <div className="w-[360px] bg-white text-center p-6 rounded-xl">
@@ -35,5 +39,4 @@ export function MobileLogin() {
         </div>
     );
 }
-
 export default MobileLogin;
