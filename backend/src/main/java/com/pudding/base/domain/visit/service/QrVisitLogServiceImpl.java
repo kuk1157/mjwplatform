@@ -1,9 +1,7 @@
 package com.pudding.base.domain.visit.service;
 
-import com.pudding.base.domain.customer.dto.CustomerDto;
 import com.pudding.base.domain.customer.entity.Customer;
 import com.pudding.base.domain.customer.repository.CustomerRepository;
-import com.pudding.base.domain.customer.service.CustomerService;
 import com.pudding.base.domain.store.entity.Store;
 import com.pudding.base.domain.store.repository.StoreRepository;
 import com.pudding.base.domain.visit.dto.QrVisitLogDto;
