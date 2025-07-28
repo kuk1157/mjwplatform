@@ -3,6 +3,7 @@ package com.pudding.base.domain.customer.entity;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.DynamicInsert;
@@ -25,7 +26,7 @@ public class Customer {
 
     @Column(name = "did")
     @Schema(description = "did")
-    private String ownerId;
+    private String did;
 
     @Column(name = "name")
     @Schema(description = "이름")
@@ -34,6 +35,16 @@ public class Customer {
     @Column(name = "created_at", insertable = false, updatable = false)
     @Schema(description = "생성일")
     private LocalDateTime createdAt;
+
+
+    @Builder
+    public Customer(Integer id, String did, String name, LocalDateTime createdAt){
+        this.id = id;
+        this.did = did;
+        this.name = name;
+        this.createdAt = createdAt;
+    }
+
 
 
 }
