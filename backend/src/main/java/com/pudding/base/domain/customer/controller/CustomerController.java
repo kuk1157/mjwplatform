@@ -14,13 +14,13 @@ import org.springframework.web.bind.annotation.RestController;
 @Tag(name = "고객 관련 API", description = "고객 전체 API")
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/api/v1/customer")
+@RequestMapping("/api/v1/customers")
 public class CustomerController {
 
     private final CustomerService customerService;
 
     @Operation(summary = "고객 등록 api", description = "qr 인증 시에 다대구 측과 연동하여 등록될 api")
-    @PostMapping()
+    @PostMapping
     public ResponseEntity<CustomerDto> createCustomer(@RequestBody CustomerDto.Request customerDto){
         CustomerDto savedCustomer = customerService.createCustomer(customerDto);
         return ResponseEntity.ok(savedCustomer);

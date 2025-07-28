@@ -36,9 +36,6 @@ public class CustomerDto {
                 .build();
     }
 
-
-
-
     @Getter
     @NoArgsConstructor
     public static class Request{
