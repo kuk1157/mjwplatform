@@ -3,6 +3,7 @@ package com.pudding.base.domain.visit.entity;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.DynamicInsert;
@@ -39,10 +40,21 @@ public class QrVisitLog {
 
     @Column(name = "store_name")
     @Schema(description = "매장 이름")
-    private Integer storeName;
+    private String storeName;
 
     @Column(name = "created_at", insertable = false, updatable = false)
     @Schema(description = "생성일")
     private LocalDateTime createdAt;
+
+    @Builder
+    public QrVisitLog(Integer id, Integer ownerId, Integer storeId, Integer storeTableId, Integer customerId, String storeName, LocalDateTime createdAt){
+        this.id = id;
+        this.ownerId = ownerId;
+        this.storeId = storeId;
+        this.storeTableId = storeTableId;
+        this.customerId = customerId;
+        this.storeName = storeName;
+        this.createdAt = createdAt;
+    }
 
 }
