@@ -63,6 +63,9 @@ function MainPage() {
                 ".payInput"
             ) as HTMLInputElement | null;
 
+            alert("입력 못합니다.");
+            return;
+
             if (!orderPrice) {
                 alert("주문 금액을 입력해주세요.");
                 if (payInput) {
@@ -148,6 +151,10 @@ function MainPage() {
         navigate("/testStoreTable");
     };
 
+    const QrVisit = () => {
+        navigate("/qrVisit");
+    };
+
     return (
         <MainContainer className="py-[230px] bg-[#F6F6F6] lg:py-[150px] sm:py-[100px]">
             메인 페이지
@@ -214,9 +221,18 @@ function MainPage() {
                         type="button"
                         onClick={TestPostpay}
                     >
-                        점주 포스기 입력(완료✅)
+                        점주 포스기 입력(예전)
                     </button>
                 </form>
+            </div>
+            <div className="bg-white p-4 my-7">
+                <button
+                    className="bg-slate-400 p-2"
+                    type="button"
+                    onClick={QrVisit}
+                >
+                    금액 입력하러 가기
+                </button>
             </div>
             {/* 임시주석 */}
             {/* <div className="bg-white p-4">

@@ -8,7 +8,7 @@ interface Table {
     createdAt: string;
 }
 
-function TestStoreTable() {
+function QrVisit() {
     const [tables, setTables] = useState<Table[]>([]);
     const [orderAmounts, setOrderAmounts] = useState<{ [key: number]: string }>(
         {}
@@ -106,4 +106,4 @@ function TestStoreTable() {
     );
 }
 
-export default TestStoreTable;
+export default QrVisit;
