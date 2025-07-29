@@ -317,7 +317,7 @@ const Router = createBrowserRouter([
 
     // 모바일 고객 마이페이지
     {
-        path: "/mobile/myPage",
+        path: "/mobile/myPage/:customerId",
         element: <MobileMyPage />,
     },
 ]);
