@@ -7,6 +7,7 @@ import com.pudding.base.domain.member.enums.Role;
 import com.pudding.base.domain.member.repository.MemberRepository;
 import com.pudding.base.domain.store.entity.Store;
 import com.pudding.base.domain.store.repository.StoreRepository;
+import com.pudding.base.domain.storeTable.dto.StoreTableDto;
 import com.pudding.base.domain.visit.dto.VisitLogDto;
 import com.pudding.base.domain.visit.entity.VisitLog;
 import com.pudding.base.domain.visit.repository.VisitLogRepository;
@@ -16,6 +17,8 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -27,7 +30,7 @@ public class VisitLogServiceImpl implements VisitLogService {
     private final MemberRepository memberRepository;
 
 
-    public VisitLogDto createQrVisitLog(VisitLogDto.Request visitDto, Integer storeNum, Integer tableNumber){
+    public VisitLogDto createVisitLog(VisitLogDto.Request visitDto, Integer storeNum, Integer tableNumber){
         Customer customer = customerRepository.findByDid(visitDto.getDid()).orElse(null);
 
         Member member = memberRepository.findByDid(visitDto.getDid()).orElse(null);
@@ -71,5 +74,21 @@ public class VisitLogServiceImpl implements VisitLogService {
         VisitLog savedQrVisit = visitLogRepository.save(visitLog);
         return VisitLogDto.fromEntity(savedQrVisit);
 
+    }
+
+    public List<VisitLogDto> getAllVisitLog(Integer storeNum){
+        List<VisitLog> visitLogs = visitLogRepository.findByStoreId(storeNum);
+        // StoreTable 엔티티를 StoreTableDto로 변환
+        return visitLogs.stream()
+                .map(visitLog -> VisitLogDto.builder()
+                        .id(visitLog.getId())
+                        .ownerId(visitLog.getOwnerId())
+                        .storeId(visitLog.getStoreId())
+                        .storeTableId(visitLog.getStoreTableId())
+                        .customerId(visitLog.getCustomerId())
+                        .storeName(visitLog.getStoreName())
+                        .createdAt(visitLog.getCreatedAt())
+                        .build())
+                .collect(Collectors.toList());
     }
 }
