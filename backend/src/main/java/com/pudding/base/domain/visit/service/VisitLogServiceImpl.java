@@ -3,6 +3,7 @@ package com.pudding.base.domain.visit.service;
 import com.pudding.base.domain.customer.entity.Customer;
 import com.pudding.base.domain.customer.repository.CustomerRepository;
 import com.pudding.base.domain.member.entity.Member;
+import com.pudding.base.domain.member.enums.Role;
 import com.pudding.base.domain.member.repository.MemberRepository;
 import com.pudding.base.domain.store.entity.Store;
 import com.pudding.base.domain.store.repository.StoreRepository;
@@ -12,6 +13,9 @@ import com.pudding.base.domain.visit.repository.VisitLogRepository;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @Service
 @RequiredArgsConstructor
@@ -38,6 +42,11 @@ public class VisitLogServiceImpl implements VisitLogService {
                 member = memberRepository.save(
                         Member.builder()
                                 .did(visitDto.getDid())
+                                .loginId(visitDto.getDid()) // 아이디 임의로 did로 주기(점주용 웹에서 로그인안됨 어차피)
+                                .password("1234") // 임시로 1234
+                                .name("임시이름") // 임시로 "임시이름"
+                                .birthday(LocalDate.from(LocalDateTime.now()))
+                                .role(Role.user)
                                 .build()
                 );
             }

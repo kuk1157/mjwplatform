@@ -14,7 +14,7 @@ import java.time.LocalDateTime;
 @Entity
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-@Table(name="qr_visit_log")
+@Table(name="visit_log")
 public class VisitLog {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
