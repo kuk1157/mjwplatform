@@ -152,7 +152,7 @@ function MainPage() {
     };
 
     const QrVisit = () => {
-        navigate("/qrVisit");
+        navigate("/visit");
     };
 
     return (

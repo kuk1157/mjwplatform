@@ -8,8 +8,8 @@ const Main = Loadable({
 });
 
 // 임시 QR 기록 페이지
-const QrVisit = Loadable({
-    Component: lazy(() => import("../components/pages/qrVisit")),
+const Visit = Loadable({
+    Component: lazy(() => import("../components/pages/visit")),
 });
 
 // 임시 매장 테이블 페이지
@@ -179,8 +179,8 @@ const Router = createBrowserRouter([
             },
 
             {
-                path: "/qrVisit",
-                element: <QrVisit />,
+                path: "/visit",
+                element: <Visit />,
             },
             {
                 element: <PageLayoutLoader />,
