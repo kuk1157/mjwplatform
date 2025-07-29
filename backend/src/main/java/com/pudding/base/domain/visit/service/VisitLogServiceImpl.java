@@ -23,19 +23,33 @@ public class VisitLogServiceImpl implements VisitLogService {
     private final MemberRepository memberRepository;
 
 
-    public VisitLogDto createQrVisitLog(VisitLogDto.Request qrVisitLogDto, Integer storeNum, Integer tableNumber){
-        Customer customer = customerRepository.findByDid(qrVisitLogDto.getDid())
-                .orElse(null);
+    public VisitLogDto createQrVisitLog(VisitLogDto.Request visitDto, Integer storeNum, Integer tableNumber){
+        Customer customer = customerRepository.findByDid(visitDto.getDid()).orElse(null);
+
+        Member member = memberRepository.findByDid(visitDto.getDid()).orElse(null);
 
         Store store = storeRepository.findById(storeNum).orElseThrow(() -> new EntityNotFoundException("존재하지 않는 매장입니다."));
 
 
-        if (customer == null) {
-            // 신규 고객 등록
-            Customer newCustomer = Customer.builder()
-                    .did(qrVisitLogDto.getDid())
-                    .build();
-            customer = customerRepository.save(newCustomer);
+        // member, customer 둘다 없을 경우
+        if (customer == null || member == null) {
+            if (member == null) {
+                // 모바일 로그인 계정 추가
+                member = memberRepository.save(
+                        Member.builder()
+                                .did(visitDto.getDid())
+                                .build()
+                );
+            }
+            if (customer == null) {
+                // 고객 정보 남길 customer 추가 (생성된 memberId 남김)
+                customer = customerRepository.save(
+                        Customer.builder()
+                                .did(visitDto.getDid())
+                                .memberId(member.getId())
+                                .build()
+                );
+            }
         }
 
         VisitLog visitLog = VisitLog.builder()

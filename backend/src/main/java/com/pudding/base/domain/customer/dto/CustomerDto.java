@@ -17,13 +17,15 @@ import java.time.LocalDateTime;
 public class CustomerDto {
     private Integer id;
     private String did;
+    private Integer memberId;
     private IsActive isActive;
     private LocalDateTime createdAt;
 
     @Builder
-    public CustomerDto(Integer id, String did, IsActive isActive, LocalDateTime createdAt){
+    public CustomerDto(Integer id, String did, Integer memberId, IsActive isActive, LocalDateTime createdAt){
         this.id = id;
         this.did = did;
+        this.memberId = memberId;
         this.isActive = isActive;
         this.createdAt = createdAt;
     }
@@ -32,6 +34,7 @@ public class CustomerDto {
         return CustomerDto.builder()
                 .id(customer.getId())
                 .did(customer.getDid())
+                .memberId(customer.getMemberId())
                 .isActive(customer.getIsActive())
                 .createdAt(customer.getCreatedAt())
                 .build();

@@ -1,6 +1,7 @@
 package com.pudding.base.domain.member.repository;
 
 import com.pudding.base.domain.common.enums.IsActive;
+import com.pudding.base.domain.customer.entity.Customer;
 import com.pudding.base.domain.member.entity.Member;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -9,6 +10,8 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
+
+import java.util.Optional;
 
 public interface MemberRepository extends JpaRepository<Member, Integer> {
 
@@ -28,4 +31,6 @@ public interface MemberRepository extends JpaRepository<Member, Integer> {
             @Param("name") String name,
             @Param("loginId") String loginId
     );
+
+    Optional<Member> findByDid(String did);
 }

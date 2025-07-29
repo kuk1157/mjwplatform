@@ -34,6 +34,9 @@ public class Member extends BaseTimeEntity {
     @Column(name = "password")
     private String password; // 비밀번호
 
+    @Column(name = "did")
+    private String did; // did
+
     @Column(name = "name")
     private String name; // 이름
 
@@ -82,10 +85,11 @@ public class Member extends BaseTimeEntity {
     }
 
     @Builder(toBuilder = true)
-    public Member(String loginId, String password, String name, Gender gender,
+    public Member(String loginId, String password, String did, String name, Gender gender,
                   LocalDate birthday, Role role, String email, String phoneNumber, IsActive isActive) {
         this.loginId = loginId;
         this.password = password;
+        this.did = did;
         this.name = name;
         this.gender = gender;
         this.birthday = birthday;

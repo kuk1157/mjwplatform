@@ -45,9 +45,10 @@ public class Customer {
 
 
     @Builder
-    public Customer(Integer id, String did, IsActive isActive, LocalDateTime createdAt){
+    public Customer(Integer id, String did, Integer memberId, IsActive isActive, LocalDateTime createdAt){
         this.id = id;
         this.did = did;
+        this.memberId = memberId;
         this.isActive = isActive;
         this.createdAt = createdAt;
     }

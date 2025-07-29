@@ -22,6 +22,7 @@ public class MemberDto {
 
     private Integer id;
     private String loginId;
+    private String did;
     private String name;
     private Gender gender;
     private LocalDate birthday;
@@ -72,6 +73,7 @@ public class MemberDto {
     public Member toEntity() {
         return Member.builder()
                 .loginId(this.loginId)
+                .did(this.did)
                 .name(this.name)
                 .gender(this.gender)
                 .birthday(this.birthday)

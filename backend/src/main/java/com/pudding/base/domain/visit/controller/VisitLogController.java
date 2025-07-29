@@ -19,8 +19,8 @@ public class VisitLogController {
 
     @Operation(summary = "방문 기록 등록", description = "현재는 임시로 did 직접 입력하는 형태로 진행 추후엔 아마 다대구연동")
     @PostMapping
-    public ResponseEntity<VisitLogDto> createQrVisitLog(@RequestBody VisitLogDto.Request qrVisitLogDto, @PathVariable Integer storeNum, @PathVariable Integer tableNumber){
-        VisitLogDto createVisitLogs = qrvisitLogService.createQrVisitLog(qrVisitLogDto,storeNum,tableNumber);
+    public ResponseEntity<VisitLogDto> createQrVisitLog(@RequestBody VisitLogDto.Request visitLogDto, @PathVariable Integer storeNum, @PathVariable Integer tableNumber){
+        VisitLogDto createVisitLogs = qrvisitLogService.createQrVisitLog(visitLogDto,storeNum,tableNumber);
         return ResponseEntity.ok(createVisitLogs);
     }
 
