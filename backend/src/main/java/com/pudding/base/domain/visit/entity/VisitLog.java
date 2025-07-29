@@ -15,7 +15,7 @@ import java.time.LocalDateTime;
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Table(name="qr_visit_log")
-public class QrVisitLog {
+public class VisitLog {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
@@ -47,7 +47,7 @@ public class QrVisitLog {
     private LocalDateTime createdAt;
 
     @Builder
-    public QrVisitLog(Integer id, Integer ownerId, Integer storeId, Integer storeTableId, Integer customerId, String storeName, LocalDateTime createdAt){
+    public VisitLog(Integer id, Integer ownerId, Integer storeId, Integer storeTableId, Integer customerId, String storeName, LocalDateTime createdAt){
         this.id = id;
         this.ownerId = ownerId;
         this.storeId = storeId;

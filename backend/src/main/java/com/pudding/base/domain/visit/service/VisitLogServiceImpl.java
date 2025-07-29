@@ -4,23 +4,23 @@ import com.pudding.base.domain.customer.entity.Customer;
 import com.pudding.base.domain.customer.repository.CustomerRepository;
 import com.pudding.base.domain.store.entity.Store;
 import com.pudding.base.domain.store.repository.StoreRepository;
-import com.pudding.base.domain.visit.dto.QrVisitLogDto;
-import com.pudding.base.domain.visit.entity.QrVisitLog;
-import com.pudding.base.domain.visit.repository.QrVisitLogRepository;
+import com.pudding.base.domain.visit.dto.VisitLogDto;
+import com.pudding.base.domain.visit.entity.VisitLog;
+import com.pudding.base.domain.visit.repository.VisitLogRepository;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 @Service
 @RequiredArgsConstructor
-public class QrVisitLogServiceImpl implements QrVisitLogService {
+public class VisitLogServiceImpl implements VisitLogService {
 
-    private final QrVisitLogRepository qrVisitLogRepository;
+    private final VisitLogRepository visitLogRepository;
     private final CustomerRepository customerRepository;
     private final StoreRepository storeRepository;
 
 
-    public QrVisitLogDto createQrVisitLog(QrVisitLogDto.Request qrVisitLogDto, Integer storeNum, Integer tableNumber){
+    public VisitLogDto createQrVisitLog(VisitLogDto.Request qrVisitLogDto, Integer storeNum, Integer tableNumber){
         Customer customer = customerRepository.findByDid(qrVisitLogDto.getDid())
                 .orElse(null);
 
@@ -36,15 +36,15 @@ public class QrVisitLogServiceImpl implements QrVisitLogService {
             customer = customerRepository.save(newCustomer);
         }
 
-        QrVisitLog qrVisitLog = QrVisitLog.builder()
+        VisitLog visitLog = VisitLog.builder()
                 .customerId(customer.getId())
                 .ownerId(store.getOwnerId())
                 .storeId(storeNum)
                 .storeTableId(tableNumber)
                 .storeName(store.getName())
                 .build();
-        QrVisitLog savedQrVisit = qrVisitLogRepository.save(qrVisitLog);
-        return QrVisitLogDto.fromEntity(savedQrVisit);
+        VisitLog savedQrVisit = visitLogRepository.save(visitLog);
+        return VisitLogDto.fromEntity(savedQrVisit);
 
     }
 }

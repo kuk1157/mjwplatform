@@ -1,6 +1,6 @@
 package com.pudding.base.domain.visit.dto;
 
-import com.pudding.base.domain.visit.entity.QrVisitLog;
+import com.pudding.base.domain.visit.entity.VisitLog;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -10,7 +10,7 @@ import java.time.LocalDateTime;
 
 @Getter
 @RequiredArgsConstructor
-public class QrVisitLogDto {
+public class VisitLogDto {
     private Integer id;
     private Integer ownerId;
     private Integer storeId;
@@ -21,7 +21,7 @@ public class QrVisitLogDto {
 
 
     @Builder
-    public QrVisitLogDto(Integer id, Integer ownerId, Integer storeId, Integer storeTableId, Integer customerId, String storeName, LocalDateTime createdAt){
+    public VisitLogDto(Integer id, Integer ownerId, Integer storeId, Integer storeTableId, Integer customerId, String storeName, LocalDateTime createdAt){
         this.id = id;
         this.ownerId = ownerId;
         this.storeId = storeId;
@@ -31,15 +31,15 @@ public class QrVisitLogDto {
         this.createdAt = createdAt;
     }
 
-    public static QrVisitLogDto fromEntity(QrVisitLog qrVisitLog){
-        return QrVisitLogDto.builder()
-                .id(qrVisitLog.getId())
-                .ownerId(qrVisitLog.getOwnerId())
-                .storeId(qrVisitLog.getStoreId())
-                .storeTableId(qrVisitLog.getStoreTableId())
-                .customerId(qrVisitLog.getCustomerId())
-                .storeName(qrVisitLog.getStoreName())
-                .createdAt(qrVisitLog.getCreatedAt())
+    public static VisitLogDto fromEntity(VisitLog visitLog){
+        return VisitLogDto.builder()
+                .id(visitLog.getId())
+                .ownerId(visitLog.getOwnerId())
+                .storeId(visitLog.getStoreId())
+                .storeTableId(visitLog.getStoreTableId())
+                .customerId(visitLog.getCustomerId())
+                .storeName(visitLog.getStoreName())
+                .createdAt(visitLog.getCreatedAt())
                 .build();
     }
 
