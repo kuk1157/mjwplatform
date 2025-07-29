@@ -1,5 +1,6 @@
 package com.pudding.base.domain.customer.entity;
 
+import com.pudding.base.domain.common.enums.IsActive;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
@@ -28,9 +29,15 @@ public class Customer {
     @Schema(description = "did")
     private String did;
 
-    @Column(name = "name")
-    @Schema(description = "이름")
-    private String name;
+    @Column(name = "member_id")
+    @Schema(description = "로그인 계정 고유번호")
+    private Integer memberId;
+
+    @Column(name = "is_active")
+    @Enumerated(EnumType.STRING)
+    @Schema(description = "활성화 여부")
+    private IsActive isActive;
+
 
     @Column(name = "created_at", insertable = false, updatable = false)
     @Schema(description = "생성일")
@@ -38,10 +45,10 @@ public class Customer {
 
 
     @Builder
-    public Customer(Integer id, String did, String name, LocalDateTime createdAt){
+    public Customer(Integer id, String did, IsActive isActive, LocalDateTime createdAt){
         this.id = id;
         this.did = did;
-        this.name = name;
+        this.isActive = isActive;
         this.createdAt = createdAt;
     }
 

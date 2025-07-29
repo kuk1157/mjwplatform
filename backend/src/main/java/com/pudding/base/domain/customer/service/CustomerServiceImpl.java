@@ -17,11 +17,9 @@ public class CustomerServiceImpl implements CustomerService{
     @Transactional
     public CustomerDto createCustomer(CustomerDto.Request customerDto){
 
-
         // 임시로 postman 진행
         Customer customer = Customer.builder()
                 .did(customerDto.getDid())
-                .name(customerDto.getName())
                 .build();
 
         Customer savedCustomer = customerRepository.save(customer);
