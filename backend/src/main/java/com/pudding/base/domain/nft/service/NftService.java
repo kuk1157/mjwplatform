@@ -12,4 +12,7 @@ public interface NftService {
 
     // nft 고객별 전체 조회
     List<NftDto> getAllNft(Integer customerId);
+
+    // nft 고객 매장 기준 조회  - nft 중복 발급 예외 api
+    boolean nftExists(Integer storeId, Integer customerId);
 }

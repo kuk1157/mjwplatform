@@ -9,4 +9,5 @@ import java.util.List;
 @Repository
 public interface NftRepository extends JpaRepository<Nft, Integer> {
     List<Nft> findByCustomerId(Integer customerId);
+    boolean existsByStoreIdAndCustomerId(Integer storeId, Integer customerId);
 }

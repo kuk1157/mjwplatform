@@ -34,5 +34,12 @@ public class NftController {
 
     }
 
+    @Operation(summary ="NFT 고객,매장 기준으로 조회", description = "NFR 중복발급 예외 처리를 위한 API")
+    @GetMapping("/customers/{customerId}/stores/{storeId}/nfts/check")
+    public ResponseEntity<Boolean> checkNftExists(@PathVariable Integer storeId, @PathVariable Integer customerId){
+        boolean exists = nftService.nftExists(storeId, customerId);
+        return ResponseEntity.ok(exists);
+    }
+
 
 }

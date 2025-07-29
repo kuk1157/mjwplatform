@@ -14,14 +14,17 @@ public class NftDto {
     private String tokenId;
     private Integer storeId;
     private Integer customerId;
+    private String storeName; // 서브쿼리로 매장명 담을 필드
     private LocalDateTime createdAt;
 
+
     @Builder
-    public NftDto(Integer id, String tokenId, Integer storeId, Integer customerId, LocalDateTime createdAt) {
+    public NftDto(Integer id, String tokenId, Integer storeId, Integer customerId, String storeName, LocalDateTime createdAt) {
         this.id = id;
         this.tokenId = tokenId;
         this.storeId = storeId;
         this.customerId = customerId;
+        this.storeName = storeName;
         this.createdAt = createdAt;
     }
 
