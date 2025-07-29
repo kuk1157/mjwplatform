@@ -8,7 +8,7 @@ interface Table {
     createdAt: string;
 }
 
-function QrVisit() {
+function TestVisit() {
     const [tables, setTables] = useState<Table[]>([]);
     const [orderAmounts, setOrderAmounts] = useState<{ [key: number]: string }>(
         {}
@@ -48,7 +48,7 @@ function QrVisit() {
         // }
 
         try {
-            const url = `/api/v1/qrVisitLogs/${storeNum}/${tableNumber}`;
+            const url = `/api/v1/TestVisitLogs/${storeNum}/${tableNumber}`;
             const orderData = {
                 tableNumber,
                 did,
@@ -106,4 +106,4 @@ function QrVisit() {
     );
 }
 
-export default QrVisit;
+export default TestVisit;
