@@ -231,7 +231,7 @@ function MainPage() {
                     type="button"
                     onClick={QrVisit}
                 >
-                    금액 입력하러 가기
+                    QR 인증하러 가기
                 </button>
             </div>
             {/* 임시주석 */}

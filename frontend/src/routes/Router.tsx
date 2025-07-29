@@ -311,7 +311,7 @@ const Router = createBrowserRouter([
     },
     // 모바일 로그인(다대구 로그인 버튼)
     {
-        path: "/mobile/login",
+        path: "/mobile/login/:storeNum/:tableNumber",
         element: <MobileLogin />,
     },
 
