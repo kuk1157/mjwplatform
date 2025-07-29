@@ -1,13 +1,25 @@
+import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import { useParams } from "react-router-dom";
 
 export function MobileLogin() {
     const navigate = useNavigate();
-    const LoginSubmit = () => {
-        alert(
-            "고객 QR인증 후 버튼 클릭시 did인증, NFT발급 \n매장&매장테이블 정보 물려서 가져가기 \n현재는 바로 마이페이지로 이동"
-        );
+    const { storeNum, tableNumber } = useParams();
 
-        navigate("/mobile/myPage");
+    const LoginSubmit = async () => {
+        const did = "did:testdid3"; // 현재 임시로 입력해줘야함. 다대구 did 연동하게 되면 해결
+        try {
+            const url = `/api/v1/TestVisitLogs/${storeNum}/${tableNumber}`;
+            const orderData = {
+                tableNumber,
+                did,
+            };
+            const response = await axios.post(url, orderData);
+            console.log(response.data);
+            navigate("/mypage"); // 성공하면 마이페이지로 이동. 모든 프로세스 이동 후
+        } catch (error) {
+            console.error(`${tableNumber}번 테이블 QR 인증 실패:`, error);
+        }
     };
     return (
         <div className="w-screen h-screen flex items-center justify-cente">
