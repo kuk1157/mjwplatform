@@ -7,7 +7,12 @@ const Main = Loadable({
     Component: lazy(() => import("../components/pages/main")),
 });
 
-// 임시 QR 기록 페이지
+// 임시 각 주문 금액 입력 페이지
+const StoreVisit = Loadable({
+    Component: lazy(() => import("../components/pages/storeVisit")),
+});
+
+// 임시 방문 기록 페이지
 const TestVisit = Loadable({
     Component: lazy(() => import("../components/pages/testVisit")),
 });
@@ -181,6 +186,11 @@ const Router = createBrowserRouter([
             {
                 path: "/testVisit",
                 element: <TestVisit />,
+            },
+
+            {
+                path: "/storeVisit",
+                element: <StoreVisit />,
             },
             {
                 element: <PageLayoutLoader />,

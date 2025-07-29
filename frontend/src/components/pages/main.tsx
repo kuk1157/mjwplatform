@@ -155,6 +155,10 @@ function MainPage() {
         navigate("/testVisit");
     };
 
+    const StoreVisit = () => {
+        navigate("/storeVisit");
+    };
+
     return (
         <MainContainer className="py-[230px] bg-[#F6F6F6] lg:py-[150px] sm:py-[100px]">
             메인 페이지
@@ -232,6 +236,15 @@ function MainPage() {
                     onClick={QrVisit}
                 >
                     QR 인증하러 가기
+                </button>
+            </div>
+            <div className="bg-white p-4 my-7">
+                <button
+                    className="bg-slate-400 p-2"
+                    type="button"
+                    onClick={StoreVisit}
+                >
+                    금액 입력하러 가기
                 </button>
             </div>
             {/* 임시주석 */}

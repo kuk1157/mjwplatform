@@ -8,7 +8,7 @@ interface Table {
     createdAt: string;
 }
 
-function QrVisit() {
+function StoreVisit() {
     const [tables, setTables] = useState<Table[]>([]);
     const [orderAmounts, setOrderAmounts] = useState<{ [key: number]: string }>(
         {}
@@ -79,7 +79,7 @@ function QrVisit() {
                         className="w-40 h-40 bg-gray-100 rounded shadow flex flex-col items-center justify-center"
                     >
                         <p className="text-lg font-semibold">
-                            QR 인증 기록 : {table.tableNumber}
+                            방문 기록 : {table.tableNumber}
                         </p>
                         <input
                             type="number"
@@ -106,4 +106,4 @@ function QrVisit() {
     );
 }
 
-export default QrVisit;
+export default StoreVisit;
