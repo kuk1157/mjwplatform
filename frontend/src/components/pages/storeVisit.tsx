@@ -27,16 +27,16 @@ function StoreVisit() {
     };
 
     // 주문금액 입력 핸들러
-    const handleAmountChange = (tableNumber: number, value: string) => {
+    const handleAmountChange = (id: number, value: string) => {
         setVisitAmounts((prev) => ({
             ...prev,
-            [tableNumber]: value,
+            [id]: value,
         }));
     };
 
     // 주문하기 버튼 클릭 시 POST 요청
-    const handleOrder = async (tableNumber: number) => {
-        const price = visitAmounts[tableNumber];
+    const handleOrder = async (id: number) => {
+        const price = visitAmounts[id];
 
         if (!price) {
             alert("주문 금액을 입력해주세요.");
@@ -48,21 +48,22 @@ function StoreVisit() {
             return;
         }
 
+        const visitLogId = id;
         try {
-            const url = `/api/v1/qrVisitLogs/${storeNum}/${tableNumber}`;
+            const url = `/api/v1/pay/${visitLogId}`;
             const orderData = {
-                tableNumber,
+                visitLogId,
                 price: Number(price),
             };
 
             const response = await axios.post(url, orderData);
-            console.log(`${tableNumber}번 QR인증 성공:`, response.data);
+            console.log(`주문금액 입력 완료:`, response.data);
 
             // 주문 성공 후 처리 (예: input 값 초기화, 성공 메시지 등)
-            alert(`${tableNumber}번 테이블의 QR 인증이 완료되었습니다.`);
+            alert(`주문금액 입력이 완료되었습니다.`);
             window.location.reload();
         } catch (error) {
-            console.error(`${tableNumber}번 테이블 QR 인증 실패:`, error);
+            console.error(`${id}번 방문기록 관련 금액 입력 실패:`, error);
         }
     };
 
