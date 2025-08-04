@@ -1,5 +1,6 @@
 import axios from "axios";
 import { useState, useEffect } from "react"; // useState, useEffect 추가
+import { useNavigate } from "react-router-dom";
 
 interface VisitLog {
     id: number;
@@ -10,6 +11,7 @@ interface VisitLog {
 }
 
 function StoreVisit() {
+    const navigate = useNavigate();
     const [visitLogs, setvisits] = useState<VisitLog[]>([]);
     const [visitAmounts, setVisitAmounts] = useState<{ [key: number]: string }>(
         {}
@@ -49,16 +51,11 @@ function StoreVisit() {
         }
 
         const visitLogId = id;
-
-        // console.log("방문기록 고유번호 : " + id);
-
-        // return;
-
         try {
             const url = `/api/v1/pay/${visitLogId}`;
             const orderData = {
                 visitLogId,
-                price: Number(price),
+                amount: Number(price),
             };
 
             const response = await axios.post(url, orderData);
@@ -76,35 +73,58 @@ function StoreVisit() {
         VisitLogss(); // 컴포넌트 마운트 시 데이터 조회
     }, []);
 
+    const backBtn = () => {
+        navigate("/");
+    };
+
     return (
-        <div className="flex items-center justify-center min-h-screen bg-gray-100">
+        <div className="flex flex-col items-center justify-center min-h-screen bg-gray-100 space-y-4">
             <div className="grid grid-cols-4 gap-4 p-4">
                 {/* 테이블 목록 동적으로 렌더링 */}
-                {visitLogs.map((visitLog, index) => (
-                    <div
-                        key={index}
-                        className="w-40 h-40 bg-gray-100 rounded shadow flex flex-col items-center justify-center"
-                    >
-                        <p className="text-lg font-semibold">
-                            방문 기록 : {visitLog.id}
-                        </p>
-                        <input
-                            type="number"
-                            placeholder="금액 입력"
-                            className="mt-2 px-2 py-1 border rounded w-24 text-center"
-                            value={visitAmounts[visitLog.id] || ""}
-                            onChange={(e) =>
-                                handleAmountChange(visitLog.id, e.target.value)
-                            }
-                        />
-                        <button
-                            className="mt-2 px-4 py-1 bg-blue-500 text-white rounded hover:bg-blue-600"
-                            onClick={() => handleOrder(visitLog.id)}
-                        >
-                            금액 입력
-                        </button>
+
+                {visitLogs.length === 0 ? (
+                    <div className="col-span-4 text-center text-gray-500 text-lg">
+                        해당 가맹점의 방문(주문)기록이 없습니다.
                     </div>
-                ))}
+                ) : (
+                    visitLogs.map((visitLog, index) => (
+                        <div
+                            key={index}
+                            className="w-40 h-40 bg-gray-100 rounded shadow flex flex-col items-center justify-center"
+                        >
+                            <p className="text-lg font-semibold">
+                                방문 기록 : {visitLog.id}
+                            </p>
+                            <input
+                                type="number"
+                                placeholder="금액 입력"
+                                className="mt-2 px-2 py-1 border rounded w-24 text-center"
+                                value={visitAmounts[visitLog.id] || ""}
+                                onChange={(e) =>
+                                    handleAmountChange(
+                                        visitLog.id,
+                                        e.target.value
+                                    )
+                                }
+                            />
+                            <button
+                                className="mt-2 px-4 py-1 bg-blue-500 text-white rounded hover:bg-blue-600"
+                                onClick={() => handleOrder(visitLog.id)}
+                            >
+                                금액 입력
+                            </button>
+                        </div>
+                    ))
+                )}
+            </div>
+            <div className="col-span-4 flex justify-center mt-4">
+                <button
+                    className="px-6 py-2 bg-slate-500 text-white rounded hover:bg-slate-600"
+                    type="button"
+                    onClick={backBtn}
+                >
+                    메인 페이지로 이동
+                </button>
             </div>
         </div>
     );
