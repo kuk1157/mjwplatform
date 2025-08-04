@@ -16,7 +16,7 @@ function TestVisit() {
     //     {}
     // ); // 테이블번호별 금액
 
-    const storeNum = 1;
+    const storeNum = 4;
     const StoreTable = async () => {
         try {
             const url = `/api/v1/stores/${storeNum}/tables`;

@@ -43,7 +43,7 @@ export function MobileMyPage() {
             {/* 상단 DID 정보 */}
             <header className="bg-blue-900 text-white rounded-lg p-4 mb-5 font-semibold text-base truncate">
                 <p>[나의 DID 정보]</p>
-                <p>DID: {did}</p>
+                <p>DID : {did}</p>
             </header>
 
             {/* NFT 목록 */}
@@ -60,7 +60,7 @@ export function MobileMyPage() {
                         /> */}
                         <div className="flex-1">
                             <p className="text-xs font-semibold text-gray-900">
-                                NFT Id : {nft.tokenId}
+                                NFT ID : {nft.tokenId}
                             </p>
                             <p className="text-xs text-gray-600">
                                 NFT 가맹점 이름 : {nft.storeName}
