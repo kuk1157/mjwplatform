@@ -5,6 +5,7 @@ import com.pudding.base.domain.customer.repository.CustomerRepository;
 import com.pudding.base.domain.member.entity.Member;
 import com.pudding.base.domain.member.enums.Role;
 import com.pudding.base.domain.member.repository.MemberRepository;
+import com.pudding.base.domain.nft.service.NftService;
 import com.pudding.base.domain.store.entity.Store;
 import com.pudding.base.domain.store.repository.StoreRepository;
 import com.pudding.base.domain.storeTable.dto.StoreTableDto;
@@ -14,6 +15,7 @@ import com.pudding.base.domain.visit.repository.VisitLogRepository;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -28,8 +30,9 @@ public class VisitLogServiceImpl implements VisitLogService {
     private final CustomerRepository customerRepository;
     private final StoreRepository storeRepository;
     private final MemberRepository memberRepository;
+    private final NftService nftService;
 
-
+    @Transactional
     public VisitLogDto createVisitLog(VisitLogDto.Request visitDto, Integer storeNum, Integer tableNumber){
         Customer customer = customerRepository.findByDid(visitDto.getDid()).orElse(null);
 
@@ -72,6 +75,14 @@ public class VisitLogServiceImpl implements VisitLogService {
                 .storeName(store.getName())
                 .build();
         VisitLog savedQrVisit = visitLogRepository.save(visitLog);
+
+
+        // nft 발급 중복 체크
+        boolean nftExists = nftService.nftExists(storeNum, customer.getId());
+        if(!nftExists){
+            // nft 발급 진행
+            nftService.createNft(visitDto.getDid(), storeNum, customer.getId());
+        }
         return VisitLogDto.fromEntity(savedQrVisit);
 
     }
