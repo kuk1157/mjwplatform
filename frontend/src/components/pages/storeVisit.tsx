@@ -15,7 +15,7 @@ function StoreVisit() {
         {}
     ); // 테이블번호별 금액
 
-    const storeNum = 1;
+    const storeNum = 4;
     const VisitLogss = async () => {
         try {
             const url = `/api/v1/visits/${storeNum}`;
@@ -49,6 +49,11 @@ function StoreVisit() {
         }
 
         const visitLogId = id;
+
+        // console.log("방문기록 고유번호 : " + id);
+
+        // return;
+
         try {
             const url = `/api/v1/pay/${visitLogId}`;
             const orderData = {
