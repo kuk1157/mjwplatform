@@ -1,5 +1,6 @@
 package com.pudding.base.domain.visit.entity;
 
+import com.pudding.base.domain.common.enums.IsComplete;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
@@ -42,9 +43,27 @@ public class VisitLog {
     @Schema(description = "매장 이름")
     private String storeName;
 
+    @Column(name = "visit_status")
+    @Schema(description = "방문상태(점주금액 입력일시)")
+    private IsComplete visitStatus;
+
+    @Column(name = "amount_entered_at", insertable = false, updatable = false)
+    @Schema(description = "점주가 금액을 입력한 일시")
+    private LocalDateTime amountEnteredAt;
+
     @Column(name = "created_at", insertable = false, updatable = false)
     @Schema(description = "생성일")
     private LocalDateTime createdAt;
+
+    // 점주가 금액 입력시 - 방문 기록 상태 y로
+    public void updateVisitStatus(){
+        this.visitStatus = IsComplete.y;
+    }
+
+    // 점주가 금액 입력시 - 날짜 남도록
+    public void updateAmountEnteredAt(){
+        this.amountEnteredAt = LocalDateTime.now();
+    }
 
     @Builder
     public VisitLog(Integer id, Integer ownerId, Integer storeId, Integer storeTableId, Integer customerId, String storeName, LocalDateTime createdAt){
