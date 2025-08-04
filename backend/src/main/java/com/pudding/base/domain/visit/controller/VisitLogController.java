@@ -1,5 +1,6 @@
 package com.pudding.base.domain.visit.controller;
 
+import com.pudding.base.domain.common.enums.IsVisitStatus;
 import com.pudding.base.domain.visit.dto.VisitLogDto;
 import com.pudding.base.domain.visit.service.VisitLogService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -26,15 +27,18 @@ public class VisitLogController {
         return ResponseEntity.ok(createVisitLogs);
     }
 
-    @Operation(summary = "방문 기록 조회", description = "방문기록 알람에 활용될 api")
+//    @Operation(summary = "방문 기록 조회", description = "방문기록 알람에 활용될 api")
+//    @GetMapping("/{storeNum}")
+//    public ResponseEntity<List<VisitLogDto>> getAllVisitLog(@PathVariable Integer storeNum){
+//        List<VisitLogDto> visitLogs = visitLogService.getAllVisitLog(storeNum);
+//        return ResponseEntity.ok(visitLogs);
+//    }
+
+    @Operation(summary = "방문 기록 조회 n만", description = "점주용 금액 입력 용도 방문기록")
     @GetMapping("/{storeNum}")
-    public ResponseEntity<List<VisitLogDto>> getAllVisitLog(@PathVariable Integer storeNum){
-        List<VisitLogDto> visitLogs = visitLogService.getAllVisitLog(storeNum);
+    public ResponseEntity<List<VisitLogDto>> getStoreByAndVisitStatusByVisitLog(@PathVariable Integer storeNum, IsVisitStatus visitStatus){
+        List<VisitLogDto> visitLogs = visitLogService.getStoreByAndVisitStatusByVisitLog(storeNum, visitStatus);
         return ResponseEntity.ok(visitLogs);
     }
-
-
-
-
 
 }

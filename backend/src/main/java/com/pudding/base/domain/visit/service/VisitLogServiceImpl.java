@@ -1,5 +1,7 @@
 package com.pudding.base.domain.visit.service;
 
+import com.pudding.base.domain.common.enums.IsComplete;
+import com.pudding.base.domain.common.enums.IsVisitStatus;
 import com.pudding.base.domain.customer.entity.Customer;
 import com.pudding.base.domain.customer.repository.CustomerRepository;
 import com.pudding.base.domain.member.entity.Member;
@@ -102,4 +104,21 @@ public class VisitLogServiceImpl implements VisitLogService {
                         .build())
                 .collect(Collectors.toList());
     }
+
+    public List<VisitLogDto> getStoreByAndVisitStatusByVisitLog(Integer storeNum, IsVisitStatus visitStatus){
+        List<VisitLog> visitLogs = visitLogRepository.findByStoreIdAndVisitStatus(storeNum, IsVisitStatus.n);
+        // StoreTable 엔티티를 StoreTableDto로 변환
+        return visitLogs.stream()
+                .map(visitLog -> VisitLogDto.builder()
+                        .id(visitLog.getId())
+                        .ownerId(visitLog.getOwnerId())
+                        .storeId(visitLog.getStoreId())
+                        .storeTableId(visitLog.getStoreTableId())
+                        .customerId(visitLog.getCustomerId())
+                        .storeName(visitLog.getStoreName())
+                        .createdAt(visitLog.getCreatedAt())
+                        .build())
+                .collect(Collectors.toList());
+    }
+
 }
