@@ -6,10 +6,7 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @Tag(name = "고객 관련 API", description = "고객 전체 API")
 @RestController
@@ -24,6 +21,13 @@ public class CustomerController {
     public ResponseEntity<CustomerDto> createCustomer(@RequestBody CustomerDto.Request customerDto){
         CustomerDto savedCustomer = customerService.createCustomer(customerDto);
         return ResponseEntity.ok(savedCustomer);
+    }
+
+    @Operation(summary = "고객 상세 조회", description = "모바일 마이페이지에서 did 추출")
+    @GetMapping("/{customerId}")
+    public ResponseEntity<CustomerDto> getCustomerById(@PathVariable Integer customerId){
+        CustomerDto customer = customerService.getCustomerById(customerId);
+        return ResponseEntity.ok(customer);
     }
 
 }
