@@ -1,10 +1,8 @@
 package com.pudding.base.domain.pay.service;
 
-import com.pudding.base.domain.common.enums.IsOrderStatus;
 import com.pudding.base.domain.common.enums.IsVisitStatus;
 import com.pudding.base.domain.member.entity.Member;
 import com.pudding.base.domain.member.repository.MemberRepository;
-import com.pudding.base.domain.order.entity.Order;
 import com.pudding.base.domain.order.repository.OrderRepository;
 import com.pudding.base.domain.pay.dto.PayDto;
 import com.pudding.base.domain.pay.entity.Pay;
@@ -42,14 +40,11 @@ public class PayServiceImpl implements PayService {
     private final PlatformConfigRepository platformConfigRepository; // 플랫폼 설정 기본 jpa 리포지터리 가져오기
     private final VisitLogRepository visitLogRepository;
 
-
-
     // 결제 등록
     @Transactional
     public PayDto createPay(PayDto.Request payDto, Integer visitLogId){
 
-
-        // 주문과 결제는 1대1 매칭되어야 하기때문에 체크필요함.
+        // 방문(주문)과 결제는 1대1 매칭되어야 하기때문에 체크필요함.
         boolean exists = payRepository.existsByVisitLogId(visitLogId);
         if (exists) {
             throw new IllegalStateException("이미 결제가 등록된 방문(주문)입니다.");
@@ -94,26 +89,23 @@ public class PayServiceImpl implements PayService {
 //            throw new IllegalArgumentException("일일 포인트 적립 한도를 초과하여 결제를 진행할 수 없습니다.");
 //        }
 
-
-
-        // 주문상태, 주문완료일 업데이트
-        order.updateOrderStatus();
-        order.updateOrderedAt();
+        // 방문(주문)상태, 방문(주문)완료일 업데이트
+        visitLog.updateVisitStatus();
+        visitLog.updateAmountEnteredAt();
 
 
         Double discount = payDto.getAmount() * platformConfig.getPointRate(); // 3% platform_config 에서 가져오기
         Integer finalAmount = (int) (payDto.getAmount() - discount); // 최종금액(주문금액 - 할인금액)
         Pay pay = Pay.builder()
-                .orderId(order.getId()) // 주문번호 order 객체로 가져오기
-                .storeId(order.getStoreId()) // 매장번호 order 객체로 가져오기
-                .ownerId(order.getOwnerId()) // 점주번호 order 객체로 가져오기
-                .userId(order.getUserId()) // 고객번호 order 객체로 가져오기
+                .visitLogId(visitLog.getId()) // 주문번호 visitLog 객체로 가져오기
+                .storeId(visitLog.getStoreId()) // 매장번호 visitLog 객체로 가져오기
+                .ownerId(visitLog.getOwnerId()) // 점주번호 visitLog 객체로 가져오기
+                .customerId(visitLog.getCustomerId()) // 고객번호 visitLog 객체로 가져오기
                 .amount(payDto.getAmount())
                 .discountAmount(discount)
                 .finalAmount(finalAmount)
                 .build();
         Pay savedPay = payRepository.save(pay);
-
         // payLog 결제내역 insert
         // 결제 고유번호(savedPay - id 추출), 결제금액 finalAmount 2개 넣기
         PayLog payLog = PayLog.builder()
