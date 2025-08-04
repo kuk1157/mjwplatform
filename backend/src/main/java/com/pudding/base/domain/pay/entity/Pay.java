@@ -22,9 +22,9 @@ public class Pay {
     @Schema(description = "고유번호")
     private Integer id;
 
-    @Column(name = "order_id")
-    @Schema(description = "주문 고유번호")
-    private Integer orderId;
+    @Column(name = "visit_log_id")
+    @Schema(description = "방문(주문) 고유번호")
+    private Integer visitLogId;
 
     @Column(name = "store_id")
     @Schema(description = "매장 고유번호")
@@ -34,9 +34,9 @@ public class Pay {
     @Schema(description = "점주 고유번호")
     private Integer ownerId;
 
-    @Column(name = "user_id")
+    @Column(name = "customer_id")
     @Schema(description = "고객 고유번호")
-    private Integer userId;
+    private Integer customerId;
 
     @Column(name = "amount")
     @Schema(description = "결제금액")
@@ -64,11 +64,11 @@ public class Pay {
     }
 
     @Builder
-    public Pay(Integer orderId, Integer storeId, Integer ownerId, Integer userId, Integer amount, Double discountAmount, Integer finalAmount){
-        this.orderId = orderId;
+    public Pay(Integer visitLogId, Integer storeId, Integer ownerId, Integer customerId, Integer amount, Double discountAmount, Integer finalAmount){
+        this.visitLogId = visitLogId;
         this.storeId = storeId;
         this.ownerId = ownerId;
-        this.userId = userId;
+        this.customerId = customerId;
         this.amount = amount;
         this.discountAmount = discountAmount;
         this.finalAmount = finalAmount;

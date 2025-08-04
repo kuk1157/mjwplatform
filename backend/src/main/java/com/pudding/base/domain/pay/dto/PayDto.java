@@ -11,22 +11,22 @@ import java.time.LocalDateTime;
 public class PayDto {
 
     private Integer id;
-    private Integer orderId;
+    private Integer visitLogId;
     private Integer storeId;
     private Integer ownerId;
-    private Integer userId;
+    private Integer customerId;
     private Integer amount;
     private Double discountAmount;
     private Integer finalAmount;
     private LocalDateTime paidAt;
 
     @Builder
-    public PayDto(Integer id, Integer orderId, Integer storeId, Integer ownerId, Integer userId, Integer amount, Double discountAmount, Integer finalAmount){
+    public PayDto(Integer id, Integer visitLogId, Integer storeId, Integer ownerId, Integer customerId, Integer amount, Double discountAmount, Integer finalAmount){
         this.id = id;
-        this.orderId = orderId;
+        this.visitLogId = visitLogId;
         this.storeId = storeId;
         this.ownerId = ownerId;
-        this.userId = userId;
+        this.customerId = customerId;
         this.amount = amount;
         this.discountAmount = discountAmount;
         this.finalAmount = finalAmount;
@@ -35,10 +35,10 @@ public class PayDto {
     public static PayDto fromEntity(Pay pay) {
         return PayDto.builder()
                 .id(pay.getId())
-                .orderId(pay.getOrderId())
+                .visitLogId(pay.getVisitLogId())
                 .storeId(pay.getStoreId())
                 .ownerId(pay.getOwnerId())
-                .userId(pay.getUserId())
+                .customerId(pay.getCustomerId())
                 .amount(pay.getAmount())
                 .discountAmount(pay.getDiscountAmount())
                 .finalAmount(pay.getFinalAmount())
