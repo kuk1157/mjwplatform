@@ -18,4 +18,5 @@ public interface PayRepository extends JpaRepository<Pay, Integer>{
     @Query("SELECT COALESCE(SUM(p.amount), 0) FROM Pay p WHERE DATE(p.createdAt) = CURRENT_DATE")
     Integer getTodayTotalPoint();
 
+    boolean existsByVisitLogId(Integer visitLogId);
 }

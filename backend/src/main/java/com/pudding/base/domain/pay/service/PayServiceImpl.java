@@ -1,6 +1,7 @@
 package com.pudding.base.domain.pay.service;
 
 import com.pudding.base.domain.common.enums.IsOrderStatus;
+import com.pudding.base.domain.common.enums.IsVisitStatus;
 import com.pudding.base.domain.member.entity.Member;
 import com.pudding.base.domain.member.repository.MemberRepository;
 import com.pudding.base.domain.order.entity.Order;
@@ -14,6 +15,8 @@ import com.pudding.base.domain.platformConfig.entity.PlatformConfig;
 import com.pudding.base.domain.platformConfig.repository.PlatformConfigRepository;
 import com.pudding.base.domain.point.entity.Point;
 import com.pudding.base.domain.point.repository.PointRepository;
+import com.pudding.base.domain.visit.entity.VisitLog;
+import com.pudding.base.domain.visit.repository.VisitLogRepository;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 
@@ -37,40 +40,41 @@ public class PayServiceImpl implements PayService {
     private final OrderRepository orderRepository; // 주문 기본 jpa 리포지터리 가져오기
     private final MemberRepository memberRepository; // 회원 기본 jpa 리포지터리 가져오기
     private final PlatformConfigRepository platformConfigRepository; // 플랫폼 설정 기본 jpa 리포지터리 가져오기
+    private final VisitLogRepository visitLogRepository;
 
 
 
     // 결제 등록
     @Transactional
-    public PayDto createPay(PayDto.Request payDto, Integer orderId){
+    public PayDto createPay(PayDto.Request payDto, Integer visitLogId){
 
 
         // 주문과 결제는 1대1 매칭되어야 하기때문에 체크필요함.
-        boolean exists = payRepository.existsById(orderId);
+        boolean exists = payRepository.existsByVisitLogId(visitLogId);
         if (exists) {
-            throw new IllegalStateException("이미 결제가 등록된 주문입니다.");
+            throw new IllegalStateException("이미 결제가 등록된 방문(주문)입니다.");
         }
 
-        // 주문 정보 가져오기 (orderId로 주문테이블 조회)
-        Order order = orderRepository.findById(orderId).orElseThrow(() -> new EntityNotFoundException("존재하지 않는 주문입니다"));
+        // 방문(주문) 정보 가져오기 (visitLogId로 방문 테이블 조회)
+        VisitLog visitLog = visitLogRepository.findById(visitLogId).orElseThrow(() -> new EntityNotFoundException("존재하지 않는 방문 기록입니다."));
 
-        // 주문상태가 대기일 경우에만 결제처리 되도록 - 위에서 1대1 무조건 막히지만, 혹시 몰라서 2차로 방어
-        if (order.getStatus() == IsOrderStatus.COMPLETE) {
-            throw new IllegalArgumentException("이미 결제처리가 완료된 주문은 결제 처리를 할 수 없습니다..");
+        // 방문(주문)상태가 대기일 경우에만 결제처리 되도록 - 위에서 1대1 무조건 막히지만, 혹시 몰라서 2차로 방어
+        if (visitLog.getVisitStatus() == IsVisitStatus.y) {
+            throw new IllegalArgumentException("이미 결제처리가 완료된 방문(주문)은 결제 처리를 할 수 없습니다..");
         }
 
         // 1일 1회 이미 결제된 고객은 점주 금액입력 못하게(결제 데이터 안쌓이게)
         LocalDateTime start = LocalDate.now().atStartOfDay();
         LocalDateTime end = start.plusDays(1);
 
-        Integer count = payRepository.countTodayPayments(order.getUserId(), start, end);
+        Integer count = payRepository.countTodayPayments(visitLog.getCustomerId(), start, end);
 
         if (count != null && count > 0) {
             throw new IllegalArgumentException("오늘 이미 결제하셨습니다.");
         }
 
-        // 회원 정보 가져오기(order.getOwnerId로 member 테이블 조회)
-        Member member = memberRepository.findById(order.getOwnerId()).orElseThrow(() -> new EntityNotFoundException("존재하지 않는 점주입니다."));
+        // 회원 정보 가져오기(visitLog.getOwnerId로 member 테이블 조회)
+        Member member = memberRepository.findById(visitLog.getOwnerId()).orElseThrow(() -> new EntityNotFoundException("존재하지 않는 점주입니다."));
 
         // 플랫폼 설정 정보 가져오기
         PlatformConfig platformConfig = platformConfigRepository.findById(1).orElseThrow(() -> new EntityNotFoundException("플랫폼 설정이 존재하지 않습니다."));

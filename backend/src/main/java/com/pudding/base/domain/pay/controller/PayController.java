@@ -30,9 +30,9 @@ public class PayController {
                     content = {@Content(schema = @Schema(implementation = ResponseEntity.class))}),
             @ApiResponse(responseCode = "404", description = "실패"),
     })
-    @PostMapping("/{orderId}")
-    public ResponseEntity<PayDto> createPay(@RequestBody PayDto.Request payDto, @PathVariable Integer orderId){
-        PayDto savePay = payService.createPay(payDto,orderId);
+    @PostMapping("/{visitLogId}")
+    public ResponseEntity<PayDto> createPay(@RequestBody PayDto.Request payDto, @PathVariable Integer visitLogId){
+        PayDto savePay = payService.createPay(payDto,visitLogId);
         return ResponseEntity.ok(savePay);
     }
 
