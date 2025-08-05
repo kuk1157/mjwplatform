@@ -239,30 +239,111 @@ function MainPage() {
         <MainContainer className="py-[230px] bg-[#F6F6F6] lg:py-[150px] sm:py-[100px]">
             {user.role === "owner" ? (
                 <div>
-                    <div>
-                        <p>[ 매장 이름 : {name} ]</p>
-                        <p>[ 점주 이름 : {ownerName} ]</p>
-                        <p>[ 점주 보유 포인트 : {user.totalPoint}원 ]</p>
+                    {/* 가맹점 및 금액 정보 섹션 */}
+                    <div className="mb-12 px-10">
+                        <h2 className="text-2xl font-semibold text-gray-700 pb-1 mb-6 inline-block border-b-2 border-yellow-400 w-auto">
+                            🏢 가맹점 및 금액 정보
+                        </h2>
+                        <div className="flex justify-center gap-6">
+                            {/* 매장 이름 카드 */}
+                            <div className="bg-white rounded-xl py-3 px-6 shadow-md text-center w-56">
+                                <div className="text-xs text-gray-500 flex items-center justify-center gap-1">
+                                    🏪 <span>매장 이름</span>
+                                </div>
+                                <div className="text-xl font-bold text-gray-900 mt-1 truncate">
+                                    {name}
+                                </div>
+                            </div>
+
+                            {/* 점주 이름 카드 */}
+                            <div className="bg-white rounded-xl py-3 px-6 shadow-md text-center w-56">
+                                <div className="text-xs text-gray-500 flex items-center justify-center gap-1">
+                                    🙍‍♂️ <span>점주 이름</span>
+                                </div>
+                                <div className="text-xl font-bold text-gray-900 mt-1 truncate">
+                                    {ownerName}
+                                </div>
+                            </div>
+
+                            {/* 보유 포인트 카드 */}
+                            <div className="bg-yellow-100 rounded-xl py-3 px-6 shadow-md text-center w-56">
+                                <div className="text-xs text-yellow-700 flex items-center justify-center gap-1 font-semibold">
+                                    💰 <span>보유 포인트</span>
+                                </div>
+                                <div className="text-2xl font-extrabold text-yellow-700 mt-1 truncate">
+                                    {user.totalPoint} P
+                                </div>
+                            </div>
+                        </div>
                     </div>
-                    <div>
-                        <button
-                            className="p-3 mx-3 text-lg bg-[#21A089] text-white "
-                            onClick={OwnerPay}
-                        >
-                            결제조회
-                        </button>
-                        <button
-                            className="p-3 mx-3 text-lg bg-[#21A089] text-white "
-                            onClick={OwnerIdByPayLog}
-                        >
-                            결제내역조회
-                        </button>
-                        <button className="p-3 mx-3 text-lg bg-[#21A089] text-white ">
-                            포인트조회
-                        </button>
-                        <button className="p-3 mx-3 text-lg bg-[#21A089] text-white ">
-                            매장테이블 조회
-                        </button>
+
+                    {/* 버튼 섹션 */}
+                    <div className="mb-12 px-10">
+                        <h2 className="text-2xl font-semibold text-gray-700 pb-1 mb-6 inline-block border-b-2 border-yellow-400 w-auto">
+                            🛠️ 기능 선택
+                        </h2>
+                        <div className="grid grid-cols-4 gap-6 px-8">
+                            <button
+                                className="flex flex-col items-center justify-center bg-white rounded-xl shadow p-4 hover:bg-gray-50 transition"
+                                onClick={OwnerPay}
+                            >
+                                <div className="text-2xl mb-1">📥</div>
+                                <div className="text-sm font-medium text-gray-800">
+                                    결제조회
+                                </div>
+                            </button>
+
+                            <button
+                                className="flex flex-col items-center justify-center bg-white rounded-xl shadow p-4 hover:bg-gray-50 transition"
+                                onClick={OwnerIdByPayLog}
+                            >
+                                <div className="text-2xl mb-1">🧾</div>
+                                <div className="text-sm font-medium text-gray-800">
+                                    결제내역조회
+                                </div>
+                            </button>
+
+                            <button className="flex flex-col items-center justify-center bg-white rounded-xl shadow p-4 hover:bg-gray-50 transition">
+                                <div className="text-2xl mb-1">💳</div>
+                                <div className="text-sm font-medium text-gray-800">
+                                    포인트조회
+                                </div>
+                            </button>
+
+                            <button className="flex flex-col items-center justify-center bg-white rounded-xl shadow p-4 hover:bg-gray-50 transition">
+                                <div className="text-2xl mb-1">📋</div>
+                                <div className="text-sm font-medium text-gray-800">
+                                    매장테이블 조회
+                                </div>
+                            </button>
+                        </div>
+                    </div>
+
+                    {/* 방문 기록 섹션 */}
+                    <div className="mb-12 px-10">
+                        <h2 className="text-2xl font-semibold text-gray-700 pb-1 mb-6 inline-block border-b-2 border-yellow-400 w-auto">
+                            📅 방문 기록
+                        </h2>
+                        <div className="grid grid-cols-4 gap-6 px-8">
+                            {[1, 2, 3, 4, 5, 6, 7, 8].map((idx) => (
+                                <div
+                                    key={idx}
+                                    className="w-40 h-48 bg-white rounded-2xl shadow-md flex flex-col items-center justify-center p-5 hover:shadow-lg transition-shadow duration-300"
+                                >
+                                    <p className="text-lg font-semibold mb-3 text-gray-900 select-none">
+                                        방문 기록 {idx}
+                                    </p>
+                                    <input
+                                        type="number"
+                                        placeholder="금액 입력"
+                                        className="w-full text-center border border-gray-300 rounded-lg py-2 px-3 text-gray-700 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-yellow-400 focus:border-yellow-400 transition"
+                                    />
+                                    <button className="mt-4 w-full bg-yellow-400 hover:bg-yellow-500 text-white font-semibold rounded-lg py-2 shadow-md hover:shadow-lg transition duration-300">
+                                        금액 입력
+                                    </button>
+                                </div>
+                            ))}
+                        </div>
                     </div>
                 </div>
             ) : (
@@ -340,24 +421,28 @@ function MainPage() {
                     </div>
                 </div>
             )}
-            {/* // 임시 버튼 웹 플랫폼 api 호출 확인용 */}
-
-            <div className="bg-white p-4 my-7">
+            {/* 임시 버튼 웹 플랫폼 api 호출 확인용 */}
+            <div className="space-y-6 max-w-md mx-auto mt-12">
                 <button
-                    className="bg-slate-400 p-2"
-                    type="button"
                     onClick={QrVisit}
-                >
-                    QR 인증하러 가기
-                </button>
-            </div>
-            <div className="bg-white p-4 my-7">
-                <button
-                    className="bg-slate-400 p-2"
+                    className="flex items-center justify-center gap-3 bg-white rounded-xl shadow p-4 hover:bg-gray-50 transition w-full"
                     type="button"
-                    onClick={StoreVisit}
                 >
-                    금액 입력하러 가기
+                    <span className="text-2xl">📱</span>
+                    <span className="text-lg font-semibold text-gray-900">
+                        QR 인증하러 가기
+                    </span>
+                </button>
+
+                <button
+                    onClick={StoreVisit}
+                    className="flex items-center justify-center gap-3 bg-white rounded-xl shadow p-4 hover:bg-gray-50 transition w-full"
+                    type="button"
+                >
+                    <span className="text-2xl">💵</span>
+                    <span className="text-lg font-semibold text-gray-900">
+                        금액 입력하러 가기
+                    </span>
                 </button>
             </div>
             {/* 임시주석 */}
