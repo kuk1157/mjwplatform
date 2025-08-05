@@ -60,4 +60,11 @@ public class StoreController {
         StoreDto store = storeService.findStoreById(id);
         return ResponseEntity.ok(store);
     }
+
+    @Operation(summary = "매장(store) 상세보기", description = "매장 점주 고유번호 기준으로 상세 조회")
+    @GetMapping("/{ownerId}")
+    public ResponseEntity<StoreDto> getStoreByOwnerId(@PathVariable Integer ownerId){
+        StoreDto store = storeService.findStoreByOwnerId(ownerId);
+        return ResponseEntity.ok(store);
+    }
 }

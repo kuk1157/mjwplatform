@@ -18,5 +18,8 @@ public interface StoreService {
     // 매장(store) 상세 조회
     StoreDto findStoreById(Integer id);
 
+    // 매장(store) 상세 조회 (점주 고유번호 ownerId 기준으로)
+    StoreDto findStoreByOwnerId(Integer ownerId);
+
 
 }

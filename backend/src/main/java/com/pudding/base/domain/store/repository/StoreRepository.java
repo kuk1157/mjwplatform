@@ -41,5 +41,18 @@ public interface StoreRepository extends JpaRepository<Store, Integer> {
     StoreDto findByStoreIdSearch(@Param("id") Integer id);
 
 
+    // 점주명 불러오기 위한 join문 - 매장 상세조회(ownerId 기준으로)
+    // 메인 대시보드 용도
+    @Query("""
+        SELECT new com.pudding.base.domain.store.dto.StoreDto(
+            s.id, s.ownerId, s.name, s.address, m.name, s.createdAt
+        )
+        FROM Store s
+        JOIN Member m ON s.ownerId = m.id
+        WHERE s.ownerId = :ownerId
+    """)
+    StoreDto findByOwnerIdSearch(@Param("ownerId") Integer ownerId);
+
+
 
 }

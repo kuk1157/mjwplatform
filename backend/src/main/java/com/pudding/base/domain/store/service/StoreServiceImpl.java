@@ -50,5 +50,10 @@ public class StoreServiceImpl implements StoreService{
         return storeRepository.findByStoreIdSearch(id);
     }
 
+    // 매장 상세 조회 - 메인 대시보드 용도
+    public StoreDto findStoreByOwnerId(Integer ownerId){
+        return storeRepository.findByOwnerIdSearch(ownerId);
+    }
+
 
 }
