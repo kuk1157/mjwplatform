@@ -1,5 +1,7 @@
 package com.pudding.base.domain.pay.repository;
 import com.pudding.base.domain.pay.entity.Pay;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -19,4 +21,8 @@ public interface PayRepository extends JpaRepository<Pay, Integer>{
     Integer getTodayTotalPoint();
 
     boolean existsByVisitLogId(Integer visitLogId);
+
+
+    // 점주 기준 결제 조회
+    Page<Pay> findAllByOwnerId(Pageable pageable, Integer ownerId);
 }

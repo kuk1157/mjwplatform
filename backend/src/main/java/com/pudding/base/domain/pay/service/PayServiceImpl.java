@@ -146,4 +146,10 @@ public class PayServiceImpl implements PayService {
         return PayDto.fromEntity(pay);
     }
 
+    // 점주 기준 결제 조회
+    public Page<PayDto> findByOwnerId(Pageable pageable, Integer ownerId) {
+        Page<Pay> pays = payRepository.findAllByOwnerId(pageable, ownerId);
+        return pays.map(PayDto::fromEntity);
+    }
+
 }

@@ -14,4 +14,7 @@ public interface PayService {
     // 결제 단건 조회
     PayDto findByPayId(Integer id);
 
+    // 결제 ownerId 기준 점주기준 조회
+    Page<PayDto> findByOwnerId(Pageable pageable, Integer ownerId);
+
 }

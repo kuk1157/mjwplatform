@@ -50,4 +50,16 @@ public class PayController {
         return ResponseEntity.ok(payDto);
     }
 
+
+    @Operation(summary = "점주의 결제 조회", description = "ownerId 기준으로 조회")
+    @GetMapping("/owner/{ownerId}")
+    public ResponseEntity<Page<PayDto>> getOwnerIdByPays(Pageable pageable, @PathVariable Integer ownerId) {
+        Page<PayDto> payDto = payService.findByOwnerId(pageable, ownerId);
+        return ResponseEntity.ok(payDto);
+    }
+
+
+
+
+
 }
