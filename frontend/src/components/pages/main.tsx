@@ -180,16 +180,36 @@ function MainPage() {
     // };
 
     // 점주 기준 결제 조회
-    const OwnerIdByPay = async () => {
-        try {
-            const url = `/api/v1/pay/owner/${ownerId}`;
-            const response = await axios.get(url);
-            // Page 객체 기준: content 배열만 추출
-            console.log("점주 기준 결제 조회 결과:", response.data.content);
-        } catch (error) {
-            console.error("점주 기준 결제 조회 실패:", error);
-        }
+    // const OwnerIdByPay = async () => {
+    //     try {
+    //         const url = `/api/v1/pay/owner/${ownerId}`;
+    //         const response = await axios.get(url);
+    //         // Page 객체 기준: content 배열만 추출
+    //         console.log("점주 기준 결제 조회 결과:", response.data.content);
+    //     } catch (error) {
+    //         console.error("점주 기준 결제 조회 실패:", error);
+    //     }
+    // };
+
+    // 점주 기준 결제 조회 페이지로 이동
+    const OwnerPay = () => {
+        navigate("/ownerPayList");
     };
+
+    // // 점주 기준 결제 조회 페이지로 이동
+    // const OwnerPayLog = () => {
+    //     navigate("/ownerPayLogList");
+    // };
+
+    // // 점주 기준 결제 조회 페이지로 이동
+    // const OwnerPoint = () => {
+    //     navigate("/ownerPonintList");
+    // };
+
+    // // 점주 기준 결제 조회 페이지로 이동
+    // const OwnerStoreTable = () => {
+    //     navigate("/ownerStoreTableList");
+    // };
 
     const TestStoreTable = () => {
         navigate("/testStoreTable");
@@ -215,7 +235,7 @@ function MainPage() {
                     <div>
                         <button
                             className="p-3 mx-3 text-lg bg-[#21A089] text-white "
-                            onClick={OwnerIdByPay}
+                            onClick={OwnerPay}
                         >
                             결제조회
                         </button>
