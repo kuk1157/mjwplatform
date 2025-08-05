@@ -1,14 +1,14 @@
 import { MainContainer } from "../molecules/container";
 import axios from "axios";
 import { useState } from "react";
-// import { useRecoilValueLoadable } from "recoil";
-// import { userSelectorUpdated } from "src/recoil/userState";
+import { useRecoilValueLoadable } from "recoil";
+import { userSelectorUpdated } from "src/recoil/userState";
 import { useNavigate } from "react-router-dom";
 
 function MainPage() {
     const [orderPrice, setOrderPrice] = useState("");
     // const [requestPrice, setRequestPrice] = useState("");
-    // const { contents: user } = useRecoilValueLoadable(userSelectorUpdated);
+    const { contents: user } = useRecoilValueLoadable(userSelectorUpdated);
     const navigate = useNavigate();
 
     const TestGetPay = async () => {
@@ -161,7 +161,12 @@ function MainPage() {
 
     return (
         <MainContainer className="py-[230px] bg-[#F6F6F6] lg:py-[150px] sm:py-[100px]">
-            메인 페이지
+            메인 페이지 {user.role}
+            {user.role === "owner" ? (
+                <span>내가 오너임</span>
+            ) : (
+                <span>내가 오너아님</span>
+            )}
             {/* // 임시 버튼 웹 플랫폼 api 호출 확인용 */}
             <div className="bg-white p-4 my-7">
                 <button
