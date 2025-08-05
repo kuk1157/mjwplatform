@@ -191,6 +191,18 @@ function MainPage() {
     //     }
     // };
 
+    // 점주 기준 결제내역 조회
+    const OwnerIdByPayLog = async () => {
+        try {
+            const url = `/api/v1/payLog/owner/${ownerId}`;
+            const response = await axios.get(url);
+            // Page 객체 기준: content 배열만 추출
+            console.log("점주 기준 결제내역 조회 결과:", response.data.content);
+        } catch (error) {
+            console.error("점주 기준 결제내역 조회 실패:", error);
+        }
+    };
+
     // 점주 기준 결제 조회 페이지로 이동
     const OwnerPay = () => {
         navigate("/ownerPayList");
@@ -239,7 +251,10 @@ function MainPage() {
                         >
                             결제조회
                         </button>
-                        <button className="p-3 mx-3 text-lg bg-[#21A089] text-white ">
+                        <button
+                            className="p-3 mx-3 text-lg bg-[#21A089] text-white "
+                            onClick={OwnerIdByPayLog}
+                        >
                             결제내역조회
                         </button>
                         <button className="p-3 mx-3 text-lg bg-[#21A089] text-white ">
