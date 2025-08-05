@@ -159,6 +159,11 @@ const MobileMyPage = Loadable({
     Component: lazy(() => import("../components/pages/mobile/myPage")),
 });
 
+// 점주용 웹 플랫폼 메인 대시보드
+const OwnerDashBoard = Loadable({
+    Component: lazy(() => import("../components/pages/owner/dashBoard")),
+});
+
 const Router = createBrowserRouter([
     {
         path: "/",
@@ -191,6 +196,12 @@ const Router = createBrowserRouter([
             {
                 path: "/storeVisit",
                 element: <StoreVisit />,
+            },
+
+            // 점주용 웹 플랫폼 메인 대시보드
+            {
+                path: "/owner/dashBoard/:ownerId",
+                element: <OwnerDashBoard />,
             },
             {
                 element: <PageLayoutLoader />,
