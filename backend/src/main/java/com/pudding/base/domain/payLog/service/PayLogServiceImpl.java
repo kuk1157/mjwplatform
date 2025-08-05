@@ -21,4 +21,10 @@ public class PayLogServiceImpl implements PayLogService {
         Page<PayLog> payLogs = payLogRepository.findAll(pageable);
         return payLogs.map(PayLogDto::fromEntity);
     }
+
+    // 결제내역 전체 조회
+    public Page<PayLogDto> findByOwnerIdPayLogs(Pageable pageable, Integer ownerId){
+        Page<PayLog> payLogs = payLogRepository.findAllByOwnerId(pageable,ownerId);
+        return payLogs.map(PayLogDto::fromEntity);
+    }
 }

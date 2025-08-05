@@ -10,6 +10,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -28,5 +29,13 @@ public class PayLogController {
         Page<PayLogDto> payLogDto = payLogService.findAllPayLogs(pageable);
         return ResponseEntity.ok(payLogDto);
     }
+
+    @Operation(summary = "점주 결제내역 조회", description ="점주용 웹 플랫폼 메인 대시보드 용도")
+    @GetMapping("/owner/{ownerId}")
+    public ResponseEntity<Page<PayLogDto>> getOwnerIdByPayLogs(Pageable pageable, @PathVariable Integer ownerId){
+        Page<PayLogDto> payLogDto = payLogService.findByOwnerIdPayLogs(pageable, ownerId);
+        return ResponseEntity.ok(payLogDto);
+    }
+
 
 }
