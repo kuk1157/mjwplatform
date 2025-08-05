@@ -27,6 +27,10 @@ public class PayLog {
     @Schema(description = "결제 고유번호")
     private Integer payId;
 
+    @Column(name = "owner_id")
+    @Schema(description = "점주 고유번호")
+    private Integer ownerId;
+
     @Column(name = "pay_type")
     @Schema(description = "결제 타입")
     private String payType; // 추후 enum 으로 활용
@@ -49,8 +53,9 @@ public class PayLog {
 
 
     @Builder
-    public PayLog(Integer payId, String payType, Integer amount, Double discountAmount, Integer finalAmount, LocalDateTime createdAt) {
+    public PayLog(Integer payId, Integer ownerId, String payType, Integer amount, Double discountAmount, Integer finalAmount, LocalDateTime createdAt) {
         this.payId = payId;
+        this.ownerId = ownerId;
         this.payType = payType;
         this.amount = amount;
         this.discountAmount = discountAmount;

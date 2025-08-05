@@ -9,6 +9,7 @@ import java.time.LocalDateTime;
 public class PayLogDto {
     private Integer id;
     private Integer payId;
+    private Integer ownerId;
     private String payType;
     private Integer amount;
     private Double discountAmount;
@@ -16,9 +17,10 @@ public class PayLogDto {
     private LocalDateTime createdAt;
 
     @Builder
-    public PayLogDto(Integer id, Integer payId, String payType, Integer amount, Double discountAmount, Integer finalAmount, LocalDateTime createdAt){
+    public PayLogDto(Integer id, Integer payId, Integer ownerId, String payType, Integer amount, Double discountAmount, Integer finalAmount, LocalDateTime createdAt){
         this.id = id;
         this.payId = payId;
+        this.ownerId = ownerId;
         this.payType = payType;
         this.amount = amount;
         this.discountAmount = discountAmount;
@@ -30,6 +32,7 @@ public class PayLogDto {
         return PayLogDto.builder()
                 .id(payLog.getId())
                 .payId(payLog.getPayId())
+                .ownerId(payLog.getOwnerId())
                 .payType(payLog.getPayType())
                 .amount(payLog.getAmount())
                 .discountAmount(payLog.getDiscountAmount())
