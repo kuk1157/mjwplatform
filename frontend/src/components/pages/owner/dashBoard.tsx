@@ -5,11 +5,24 @@ import { useRecoilValueLoadable } from "recoil";
 import { userSelectorUpdated } from "src/recoil/userState";
 import { useNavigate, useParams } from "react-router-dom";
 
+interface VisitLog {
+    id: number;
+    storeId: number;
+    customerId: number;
+    storeName?: string;
+    createdAt: string;
+}
+
 function OwnerDashBoard() {
     const { contents: user } = useRecoilValueLoadable(userSelectorUpdated);
     const [name, setStoreName] = useState();
     const [ownerName, setOwnerName] = useState();
+    const [storeId, setStoreId] = useState();
     const { ownerId } = useParams();
+    const [visitLogs, setvisits] = useState<VisitLog[]>([]);
+    const [visitAmounts, setVisitAmounts] = useState<{ [key: number]: string }>(
+        {}
+    ); // 테이블번호별 금액
     const navigate = useNavigate();
 
     // 받아온 ownerId로 가맹점과 방문기록 바로 가져오기
@@ -25,12 +38,16 @@ function OwnerDashBoard() {
                 const storeId = storeRes.data.id;
                 console.log(storeId);
                 console.log(storeRes.data);
-                setStoreName(storeRes.data.name);
-                setOwnerName(storeRes.data.ownerName);
+
+                setStoreId(storeRes.data.id); // 매장 고유번호 저장
+                setStoreName(storeRes.data.name); // 매장 이름 저장
+                setOwnerName(storeRes.data.ownerName); // 점주 이름 저장
 
                 const visitLogRes = await axios.get(
                     `/api/v1/visits/${storeId}`
                 );
+
+                setvisits(visitLogRes.data); // 받아온 데이터를 상태에 저장
                 console.log(visitLogRes.data);
             } catch (error) {
                 console.error("데이터 조회 실패:", error);
@@ -39,6 +56,47 @@ function OwnerDashBoard() {
 
         fetchData();
     }, [ownerId]);
+
+    // 주문금액 입력 핸들러
+    const handleAmountChange = (id: number, value: string) => {
+        setVisitAmounts((prev) => ({
+            ...prev,
+            [id]: value,
+        }));
+    };
+
+    // 주문하기 버튼 클릭 시 POST 요청
+    const handleOrder = async (id: number) => {
+        const price = visitAmounts[id];
+
+        if (!price) {
+            alert("주문 금액을 입력해주세요.");
+            return;
+        }
+
+        if (Number(price) <= 0) {
+            alert("0원이나 (-) 금액은 입력할 수 없습니다.");
+            return;
+        }
+
+        const visitLogId = id;
+        try {
+            const url = `/api/v1/pay/${visitLogId}`;
+            const orderData = {
+                visitLogId,
+                amount: Number(price),
+            };
+
+            const response = await axios.post(url, orderData);
+            console.log(`금액 입력 완료:`, response.data);
+
+            // 주문 성공 후 처리 (예: input 값 초기화, 성공 메시지 등)
+            alert(`금액 입력이 완료되었습니다.`);
+            window.location.reload();
+        } catch (error) {
+            console.error(`${id}번 방문(주문) 금액 입력 실패:`, error);
+        }
+    };
 
     // const TestPostcash = async () => {
     //     try {
@@ -98,40 +156,40 @@ function OwnerDashBoard() {
     //     }
     // };
 
-    // 점주 기준 결제내역 조회
-    const OwnerIdByPayLog = async () => {
-        try {
-            const url = `/api/v1/payLog/owner/${ownerId}`;
-            const response = await axios.get(url);
-            // Page 객체 기준: content 배열만 추출
-            console.log("점주 기준 결제내역 조회 결과:", response.data.content);
-        } catch (error) {
-            console.error("점주 기준 결제내역 조회 실패:", error);
-        }
-    };
+    // 점주 결제내역 조회
+    // const OwnerIdByPayLog = async () => {
+    //     try {
+    //         const url = `/api/v1/payLog/owner/${ownerId}`;
+    //         const response = await axios.get(url);
+    //         // Page 객체 기준: content 배열만 추출
+    //         console.log("점주 기준 결제내역 조회 결과:", response.data.content);
+    //     } catch (error) {
+    //         console.error("점주 기준 결제내역 조회 실패:", error);
+    //     }
+    // };
 
     // 점주 결제 목록 조회 페이지로 이동
     const OwnerPay = () => {
-        navigate("/ownerPayList");
+        navigate(`/ownerPayList/${ownerId}`);
     };
 
-    // // 점주 결제내역 목록 조회 페이지로 이동
-    // const OwnerPayLog = () => {
-    //     navigate("/ownerPayLogList");
-    // };
+    // 점주 결제내역 목록 조회 페이지로 이동
+    const OwnerPayLog = () => {
+        navigate(`/ownerPayLogList/${ownerId}`);
+    };
 
-    // // 점주 포인트 목록 조회 페이지로 이동
-    // const OwnerPoint = () => {
-    //     navigate("/ownerPonintList");
-    // };
+    // 점주 포인트 목록 조회 페이지로 이동
+    const OwnerPoint = () => {
+        navigate(`/ownerPonintList/${ownerId}`);
+    };
 
-    // // 점주 매장 테이블 목록 조회 페이지로 이동
-    // const OwnerStoreTable = () => {
-    //     navigate("/ownerStoreTableList");
-    // };
+    // 점주 매장 테이블 목록 조회 페이지로 이동
+    const OwnerStoreTable = () => {
+        navigate(`/ownerStoreTableList/${storeId}`);
+    };
 
     const QrVisit = () => {
-        navigate("/testVisit");
+        navigate(`/testVisit/${storeId}`);
     };
 
     const StoreVisit = () => {
@@ -197,7 +255,7 @@ function OwnerDashBoard() {
 
                         <button
                             className="flex flex-col items-center justify-center bg-white rounded-xl shadow p-4 hover:bg-gray-50 transition"
-                            onClick={OwnerIdByPayLog}
+                            onClick={OwnerPayLog}
                         >
                             <div className="text-2xl mb-1">🧾</div>
                             <div className="text-sm font-medium text-gray-800">
@@ -205,14 +263,20 @@ function OwnerDashBoard() {
                             </div>
                         </button>
 
-                        <button className="flex flex-col items-center justify-center bg-white rounded-xl shadow p-4 hover:bg-gray-50 transition">
+                        <button
+                            className="flex flex-col items-center justify-center bg-white rounded-xl shadow p-4 hover:bg-gray-50 transition"
+                            onClick={OwnerPoint}
+                        >
                             <div className="text-2xl mb-1">💳</div>
                             <div className="text-sm font-medium text-gray-800">
                                 포인트조회
                             </div>
                         </button>
 
-                        <button className="flex flex-col items-center justify-center bg-white rounded-xl shadow p-4 hover:bg-gray-50 transition">
+                        <button
+                            className="flex flex-col items-center justify-center bg-white rounded-xl shadow p-4 hover:bg-gray-50 transition"
+                            onClick={OwnerStoreTable}
+                        >
                             <div className="text-2xl mb-1">📋</div>
                             <div className="text-sm font-medium text-gray-800">
                                 매장테이블 조회
@@ -220,32 +284,51 @@ function OwnerDashBoard() {
                         </button>
                     </div>
                 </div>
-
                 {/* 방문 기록 섹션 */}
                 <div className="mb-12 px-10">
                     <h2 className="text-2xl font-semibold text-gray-700 pb-1 mb-6 inline-block border-b-2 border-yellow-400 w-auto">
                         📅 방문 기록
                     </h2>
-                    <div className="grid grid-cols-4 gap-6 px-8">
-                        {[1, 2, 3, 4, 5, 6, 7, 8].map((idx) => (
-                            <div
-                                key={idx}
-                                className="w-40 h-48 bg-white rounded-2xl shadow-md flex flex-col items-center justify-center p-5 hover:shadow-lg transition-shadow duration-300"
-                            >
-                                <p className="text-lg font-semibold mb-3 text-gray-900 select-none">
-                                    방문 기록 {idx}
-                                </p>
-                                <input
-                                    type="number"
-                                    placeholder="금액 입력"
-                                    className="w-full text-center border border-gray-300 rounded-lg py-2 px-3 text-gray-700 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-yellow-400 focus:border-yellow-400 transition"
-                                />
-                                <button className="mt-4 w-full bg-yellow-400 hover:bg-yellow-500 text-white font-semibold rounded-lg py-2 shadow-md hover:shadow-lg transition duration-300">
-                                    금액 입력
-                                </button>
-                            </div>
-                        ))}
-                    </div>
+
+                    {visitLogs.length === 0 ? (
+                        <div className="flex flex-col items-center justify-center py-16 text-center text-gray-500">
+                            <div className="text-5xl mb-4">📭</div>
+                            <p className="text-lg font-medium">
+                                {name} 매장의 방문(주문)기록이 없습니다.
+                            </p>
+                        </div>
+                    ) : (
+                        <div className="grid grid-cols-4 gap-6 px-8">
+                            {visitLogs.map((visitLog) => (
+                                <div
+                                    key={visitLog.id}
+                                    className="w-40 h-48 bg-white rounded-2xl shadow-md flex flex-col items-center justify-center p-5 hover:shadow-lg transition-shadow duration-300"
+                                >
+                                    <p className="text-lg font-semibold mb-3 text-gray-900 select-none">
+                                        방문 기록 : {visitLog.id}
+                                    </p>
+                                    <input
+                                        type="number"
+                                        placeholder="금액 입력"
+                                        className="w-full text-center border border-gray-300 rounded-lg py-2 px-3 text-gray-700 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-yellow-400 focus:border-yellow-400 transition"
+                                        value={visitAmounts[visitLog.id] || ""}
+                                        onChange={(e) =>
+                                            handleAmountChange(
+                                                visitLog.id,
+                                                e.target.value
+                                            )
+                                        }
+                                    />
+                                    <button
+                                        className="mt-4 w-full bg-yellow-400 hover:bg-yellow-500 text-white font-semibold rounded-lg py-2 shadow-md hover:shadow-lg transition duration-300"
+                                        onClick={() => handleOrder(visitLog.id)}
+                                    >
+                                        금액 입력
+                                    </button>
+                                </div>
+                            ))}
+                        </div>
+                    )}
                 </div>
             </div>
 

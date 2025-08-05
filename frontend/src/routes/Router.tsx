@@ -189,7 +189,7 @@ const Router = createBrowserRouter([
             },
 
             {
-                path: "/testVisit",
+                path: "/testVisit/:storeId",
                 element: <TestVisit />,
             },
 

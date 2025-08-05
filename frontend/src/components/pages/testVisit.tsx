@@ -1,6 +1,6 @@
 import axios from "axios";
 import { useState, useEffect } from "react"; // useState, useEffect 추가
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 
 interface Table {
     id: number;
@@ -15,11 +15,10 @@ function TestVisit() {
     // const [orderAmounts, setOrderAmounts] = useState<{ [key: number]: string }>(
     //     {}
     // ); // 테이블번호별 금액
-
-    const storeNum = 4;
+    const { storeId } = useParams();
     const StoreTable = async () => {
         try {
-            const url = `/api/v1/stores/${storeNum}/tables`;
+            const url = `/api/v1/stores/${storeId}/tables`;
             const response = await axios.get(url);
             setTables(response.data); // 받아온 데이터를 상태에 저장
         } catch (error) {
@@ -35,8 +34,8 @@ function TestVisit() {
     //     }));
     // };
 
-    const MobileLogin = (storeNum: number, tableNumber: number) => {
-        navigate(`/mobile/login/${storeNum}/${tableNumber}`);
+    const MobileLogin = (tableNumber: number) => {
+        navigate(`/mobile/login/${storeId}/${tableNumber}`);
     };
 
     // // 주문하기 버튼 클릭 시 POST 요청
@@ -54,7 +53,7 @@ function TestVisit() {
     //     // }
 
     //     try {
-    //         const url = `/api/v1/TestVisitLogs/${storeNum}/${tableNumber}`;
+    //         const url = `/api/v1/TestVisitLogs/${storeId}/${tableNumber}`;
     //         const orderData = {
     //             tableNumber,
     //             did,
@@ -102,9 +101,7 @@ function TestVisit() {
                         <button
                             className="mt-2 px-4 py-1 bg-blue-500 text-white rounded hover:bg-blue-600"
                             // onClick={() => HandleOrder(table.tableNumber)} // qr인증 하기 버튼 클릭 시 호출
-                            onClick={() =>
-                                MobileLogin(storeNum, table.tableNumber)
-                            }
+                            onClick={() => MobileLogin(table.tableNumber)}
                         >
                             QR 인증
                         </button>
