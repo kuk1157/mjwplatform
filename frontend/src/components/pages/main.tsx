@@ -1,6 +1,6 @@
 import { MainContainer } from "../molecules/container";
 import axios from "axios";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useRecoilValueLoadable } from "recoil";
 import { userSelectorUpdated } from "src/recoil/userState";
 import { useNavigate } from "react-router-dom";
@@ -9,7 +9,38 @@ function MainPage() {
     const [orderPrice, setOrderPrice] = useState("");
     // const [requestPrice, setRequestPrice] = useState("");
     const { contents: user } = useRecoilValueLoadable(userSelectorUpdated);
+    const [name, setStoreName] = useState();
+    const [ownerName, setOwnerName] = useState();
     const navigate = useNavigate();
+    const ownerId = user.id;
+
+    useEffect(() => {
+        if (!ownerId) return;
+
+        console.log(ownerId);
+
+        const fetchData = async () => {
+            try {
+                const storeRes = await axios.get(
+                    `/api/v1/stores/ownerId/${ownerId}`
+                );
+                const storeId = storeRes.data.id;
+                console.log(storeId);
+                console.log(storeRes.data);
+                setStoreName(storeRes.data.name);
+                setOwnerName(storeRes.data.ownerName);
+
+                const visitLogRes = await axios.get(
+                    `/api/v1/visits/${storeId}`
+                );
+                console.log(visitLogRes.data);
+            } catch (error) {
+                console.error("데이터 조회 실패:", error);
+            }
+        };
+
+        fetchData();
+    }, [ownerId]);
 
     const TestGetPay = async () => {
         try {
@@ -161,79 +192,105 @@ function MainPage() {
 
     return (
         <MainContainer className="py-[230px] bg-[#F6F6F6] lg:py-[150px] sm:py-[100px]">
-            메인 페이지 {user.role}
             {user.role === "owner" ? (
-                <span>내가 오너임</span>
+                <div>
+                    <div>
+                        <p>[ 매장 이름 : {name} ]</p>
+                        <p>[ 점주 이름 : {ownerName} ]</p>
+                        <p>[ 점주 보유 포인트 : {user.totalPoint}원 ]</p>
+                    </div>
+                    <div>
+                        <button className="p-3 mx-3 text-lg bg-[#21A089] text-white ">
+                            결제조회
+                        </button>
+                        <button className="p-3 mx-3 text-lg bg-[#21A089] text-white ">
+                            결제내역조회
+                        </button>
+                        <button className="p-3 mx-3 text-lg bg-[#21A089] text-white ">
+                            포인트조회
+                        </button>
+                        <button className="p-3 mx-3 text-lg bg-[#21A089] text-white ">
+                            매장테이블 조회
+                        </button>
+                    </div>
+                </div>
             ) : (
-                <span>내가 오너아님</span>
+                <div>
+                    <div className="bg-white p-4 my-7">
+                        <button
+                            className="bg-slate-400 p-2"
+                            type="button"
+                            onClick={TestStoreTable}
+                        >
+                            매장 테이블로 이동
+                        </button>
+                    </div>
+                    <div className="bg-white p-4 my-7">
+                        <button
+                            className="bg-slate-400 p-2"
+                            type="button"
+                            onClick={TestGetPay}
+                        >
+                            결제 전체 조회(완료✅)
+                        </button>
+                    </div>
+                    <div className="bg-white p-4 my-7">
+                        <button
+                            className="bg-slate-400 p-2"
+                            type="button"
+                            onClick={TestGetPayId}
+                        >
+                            결제 상세 조회(완료✅)
+                        </button>
+                    </div>
+                    <div className="bg-white p-4 my-7">
+                        <button
+                            className="bg-slate-400 p-2"
+                            type="button"
+                            onClick={TestGetPayLog}
+                        >
+                            결제내역 전체 조회(완료✅)
+                        </button>
+                    </div>
+                    <div className="bg-white p-4 my-7">
+                        <button
+                            className="bg-slate-400 p-2"
+                            type="button"
+                            onClick={TestGetPoint}
+                        >
+                            포인트 전체 조회(완료✅)
+                        </button>
+                    </div>
+                    <div className="bg-white p-4 my-7">
+                        <form
+                            onSubmit={(e) => e.preventDefault()}
+                            method="post"
+                        >
+                            <p className="my-2">
+                                <input
+                                    type="number"
+                                    placeholder="주문 금액 입력"
+                                    value={orderPrice}
+                                    onChange={(e) =>
+                                        setOrderPrice(e.target.value)
+                                    }
+                                    className="border p-1 mr-2 payInput"
+                                />
+                                [ - {price} 입력해야함. ]
+                            </p>
+                            <button
+                                className="bg-slate-400 p-2"
+                                type="button"
+                                onClick={TestPostpay}
+                            >
+                                점주 포스기 입력(예전)
+                            </button>
+                        </form>
+                    </div>
+                </div>
             )}
             {/* // 임시 버튼 웹 플랫폼 api 호출 확인용 */}
-            <div className="bg-white p-4 my-7">
-                <button
-                    className="bg-slate-400 p-2"
-                    type="button"
-                    onClick={TestStoreTable}
-                >
-                    매장 테이블로 이동
-                </button>
-            </div>
-            <div className="bg-white p-4 my-7">
-                <button
-                    className="bg-slate-400 p-2"
-                    type="button"
-                    onClick={TestGetPay}
-                >
-                    결제 전체 조회(완료✅)
-                </button>
-            </div>
-            <div className="bg-white p-4 my-7">
-                <button
-                    className="bg-slate-400 p-2"
-                    type="button"
-                    onClick={TestGetPayId}
-                >
-                    결제 상세 조회(완료✅)
-                </button>
-            </div>
-            <div className="bg-white p-4 my-7">
-                <button
-                    className="bg-slate-400 p-2"
-                    type="button"
-                    onClick={TestGetPayLog}
-                >
-                    결제내역 전체 조회(완료✅)
-                </button>
-            </div>
-            <div className="bg-white p-4 my-7">
-                <button
-                    className="bg-slate-400 p-2"
-                    type="button"
-                    onClick={TestGetPoint}
-                >
-                    포인트 전체 조회(완료✅)
-                </button>
-            </div>
-            <div className="bg-white p-4 my-7">
-                <form onSubmit={(e) => e.preventDefault()} method="post">
-                    <p className="my-2">
-                        <input
-                            type="number"
-                            placeholder="주문 금액 입력"
-                            value={orderPrice}
-                            onChange={(e) => setOrderPrice(e.target.value)}
-                            className="border p-1 mr-2 payInput"
-                        />
-                        [ - {price} 입력해야함. ]
-                    </p>
-                    <button
-                        className="bg-slate-400 p-2"
-                        type="button"
-                        onClick={TestPostpay}
-                    >
-                        점주 포스기 입력(예전)
-                    </button>
-                </form>
-            </div>
+
             <div className="bg-white p-4 my-7">
                 <button
                     className="bg-slate-400 p-2"
