@@ -12,8 +12,7 @@ function OwnerDashBoard() {
     const { ownerId } = useParams();
     const navigate = useNavigate();
 
-    // 점주(owner) 권한일 경우에 바로 dashBoard 페이지로 이동
-    // ownerId 물려주기
+    // 받아온 ownerId로 가맹점과 방문기록 바로 가져오기
     useEffect(() => {
         if (!ownerId) return;
         console.log(ownerId);
@@ -111,22 +110,22 @@ function OwnerDashBoard() {
         }
     };
 
-    // 점주 기준 결제 조회 페이지로 이동
+    // 점주 결제 목록 조회 페이지로 이동
     const OwnerPay = () => {
         navigate("/ownerPayList");
     };
 
-    // // 점주 기준 결제 조회 페이지로 이동
+    // // 점주 결제내역 목록 조회 페이지로 이동
     // const OwnerPayLog = () => {
     //     navigate("/ownerPayLogList");
     // };
 
-    // // 점주 기준 결제 조회 페이지로 이동
+    // // 점주 포인트 목록 조회 페이지로 이동
     // const OwnerPoint = () => {
     //     navigate("/ownerPonintList");
     // };
 
-    // // 점주 기준 결제 조회 페이지로 이동
+    // // 점주 매장 테이블 목록 조회 페이지로 이동
     // const OwnerStoreTable = () => {
     //     navigate("/ownerStoreTableList");
     // };
