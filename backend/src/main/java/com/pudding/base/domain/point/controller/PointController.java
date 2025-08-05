@@ -8,6 +8,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -27,5 +28,13 @@ public class PointController {
         Page<PointDto> pointDto = pointService.findAllPoint(pageable);
         return ResponseEntity.ok(pointDto);
     }
+
+    @Operation(summary = "점주 포인트 조회", description = "점주 웹 플랫폼 대시보드 용도")
+    @GetMapping("/owner/{ownerId}")
+    public ResponseEntity<Page<PointDto>> getOwnerIdByPoint(Pageable pageable, @PathVariable Integer ownerId){
+        Page<PointDto> pointDto = pointService.findByOwnerIdPoint(pageable, ownerId);
+        return ResponseEntity.ok(pointDto);
+    }
+
 
 }

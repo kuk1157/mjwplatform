@@ -8,4 +8,7 @@ public interface PointService {
 
     // 포인트 전체 조회
     Page<PointDto> findAllPoint(Pageable pageable);
+
+    // 점주 포인트 조회
+    Page<PointDto> findByOwnerIdPoint(Pageable pageable, Integer ownerID);
 }

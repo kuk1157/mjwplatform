@@ -21,5 +21,11 @@ public class PointServiceImpl implements PointService {
         return point.map(PointDto::fromEntity);
     }
 
+    // 포인트 전체 조회
+    public Page<PointDto> findByOwnerIdPoint(Pageable pageable, Integer ownerId){
+        Page<Point> point = pointRepository.findByOwnerId(pageable, ownerId);
+        return point.map(PointDto::fromEntity);
+    }
+
 
 }
