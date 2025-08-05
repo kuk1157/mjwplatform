@@ -53,6 +53,18 @@ function MainPage() {
         }
     };
 
+    // 점주 기준 결제 조회
+    const TestGetPayId = async () => {
+        try {
+            const url = `/api/v1/pay/1`;
+            const response = await axios.get(url);
+            // Page 객체 기준: content 배열만 추출
+            console.log("결제 상세 조회 결과:", response.data);
+        } catch (error) {
+            console.error("결제 상세 조회 실패:", error);
+        }
+    };
+
     const TestGetPayLog = async () => {
         try {
             const url = "/api/v1/payLog";
@@ -72,17 +84,6 @@ function MainPage() {
             console.log("포인트 조회 결과:", response.data.content);
         } catch (error) {
             console.error("포인트 조회 실패:", error);
-        }
-    };
-
-    const TestGetPayId = async () => {
-        try {
-            const url = `/api/v1/pay/1`;
-            const response = await axios.get(url);
-            // Page 객체 기준: content 배열만 추출
-            console.log("결제 상세 조회 결과:", response.data);
-        } catch (error) {
-            console.error("결제 상세 조회 실패:", error);
         }
     };
 
@@ -178,6 +179,18 @@ function MainPage() {
     //     }
     // };
 
+    // 점주 기준 결제 조회
+    const OwnerIdByPay = async () => {
+        try {
+            const url = `/api/v1/pay/owner/${ownerId}`;
+            const response = await axios.get(url);
+            // Page 객체 기준: content 배열만 추출
+            console.log("점주 기준 결제 조회 결과:", response.data.content);
+        } catch (error) {
+            console.error("점주 기준 결제 조회 실패:", error);
+        }
+    };
+
     const TestStoreTable = () => {
         navigate("/testStoreTable");
     };
@@ -200,7 +213,10 @@ function MainPage() {
                         <p>[ 점주 보유 포인트 : {user.totalPoint}원 ]</p>
                     </div>
                     <div>
-                        <button className="p-3 mx-3 text-lg bg-[#21A089] text-white ">
+                        <button
+                            className="p-3 mx-3 text-lg bg-[#21A089] text-white "
+                            onClick={OwnerIdByPay}
+                        >
                             결제조회
                         </button>
                         <button className="p-3 mx-3 text-lg bg-[#21A089] text-white ">
