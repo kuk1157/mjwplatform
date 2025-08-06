@@ -42,6 +42,7 @@ function MainPage() {
     return (
         <MainContainer className="py-[230px] bg-[#F6F6F6] lg:py-[150px] sm:py-[100px]">
             <div>메인페이지</div>
+            <div>고객이 어느 매장 갈지 선택</div>
             <div className="grid grid-cols-4 gap-4 p-4">
                 {stores.length === 0 ? (
                     <div className="col-span-4 text-center text-gray-500 text-lg">
