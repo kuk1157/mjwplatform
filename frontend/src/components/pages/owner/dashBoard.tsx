@@ -188,13 +188,13 @@ function OwnerDashBoard() {
         navigate(`/ownerStoreTableList/${storeId}`);
     };
 
-    const QrVisit = () => {
-        navigate(`/testVisit/${storeId}`);
-    };
+    // const QrVisit = () => {
+    //     navigate(`/testVisit/${storeId}`);
+    // };
 
-    const StoreVisit = () => {
-        navigate("/storeVisit");
-    };
+    // const StoreVisit = () => {
+    //     navigate("/storeVisit");
+    // };
 
     return (
         <MainContainer className="py-[230px] bg-[#F6F6F6] lg:py-[150px] sm:py-[100px]">
@@ -333,7 +333,7 @@ function OwnerDashBoard() {
             </div>
 
             {/* 임시 버튼 웹 플랫폼 api 호출 확인용 */}
-            <div className="space-y-6 max-w-md mx-auto mt-12">
+            {/* <div className="space-y-6 max-w-md mx-auto mt-12">
                 <button
                     onClick={QrVisit}
                     className="flex items-center justify-center gap-3 bg-white rounded-xl shadow p-4 hover:bg-gray-50 transition w-full"
@@ -355,7 +355,7 @@ function OwnerDashBoard() {
                         금액 입력하러 가기
                     </span>
                 </button>
-            </div>
+            </div> */}
             {/* 임시주석 */}
             {/* <div className="bg-white p-4">
                 <p>[ 점주 보유 포인트 : {user.totalPoint} ]</p>
