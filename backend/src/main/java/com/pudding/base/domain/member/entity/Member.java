@@ -57,16 +57,11 @@ public class Member extends BaseTimeEntity {
     @Column(name = "phone_number")
     private String phoneNumber;
 
-    @Column(name = "total_point", insertable = false, updatable = false)
     @Schema(description = "점주 합계 포인트")
     private Integer totalPoint; // point 테이블 INSERT 시 (+) , point_cash_out_request 테이블 insert 시 (-)
 
-    @Column(name = "total_cash", insertable = false, updatable = false)
     @Schema(description = "점주 합계 현금")
     private Integer totalCash; // point_cash_out_request 테이블 insert 시 (+)
-
-
-
 
     @OneToOne(mappedBy = "member", cascade = CascadeType.REMOVE)
     private Auth auth;
@@ -108,7 +103,10 @@ public class Member extends BaseTimeEntity {
     public void updatePassword(String password) { this.password = password; }
 
     // point 테이블 INSERT 시 total_point 컬럼(+)
-    public void addTotalPoint(double point){
+    public void addTotalPoint(double point) {
+        if(this.totalPoint == null) {
+            this.totalPoint = 0;
+        }
         this.totalPoint += (int) point;
     }
 
