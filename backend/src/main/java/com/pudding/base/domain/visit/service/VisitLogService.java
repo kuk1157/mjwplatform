@@ -7,7 +7,7 @@ import java.util.List;
 
 public interface VisitLogService {
 
-    VisitLogDto createVisitLog(VisitLogDto.Request visitLogDto, Integer storeNum, Integer tableNumber);
+    VisitLogDto createVisitLog(String did, Integer storeNum, Integer tableNumber);
 
     List<VisitLogDto> getAllVisitLog(Integer storeNum);
 

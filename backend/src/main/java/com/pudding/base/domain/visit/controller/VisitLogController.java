@@ -22,8 +22,8 @@ public class VisitLogController {
 
     @Operation(summary = "방문 기록 등록", description = "현재는 임시로 did 직접 입력하는 형태로 진행 추후엔 아마 다대구연동")
     @PostMapping("/{storeNum}/{tableNumber}")
-    public ResponseEntity<VisitLogDto> createVisitLog(@RequestBody VisitLogDto.Request visitLogDto, @PathVariable Integer storeNum, @PathVariable Integer tableNumber){
-        VisitLogDto createVisitLogs = visitLogService.createVisitLog(visitLogDto,storeNum,tableNumber);
+    public ResponseEntity<VisitLogDto> createVisitLog(String did, @PathVariable Integer storeNum, @PathVariable Integer tableNumber){
+        VisitLogDto createVisitLogs = visitLogService.createVisitLog(did,storeNum,tableNumber);
         return ResponseEntity.ok(createVisitLogs);
     }
 

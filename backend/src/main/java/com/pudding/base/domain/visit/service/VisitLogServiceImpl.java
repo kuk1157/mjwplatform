@@ -35,10 +35,10 @@ public class VisitLogServiceImpl implements VisitLogService {
     private final NftService nftService;
 
     @Transactional
-    public VisitLogDto createVisitLog(VisitLogDto.Request visitDto, Integer storeNum, Integer tableNumber){
-        Customer customer = customerRepository.findByDid(visitDto.getDid()).orElse(null);
+    public VisitLogDto createVisitLog(String did, Integer storeNum, Integer tableNumber){
+        Customer customer = customerRepository.findByDid(did).orElse(null);
 
-        Member member = memberRepository.findByDid(visitDto.getDid()).orElse(null);
+        Member member = memberRepository.findByDid(did).orElse(null);
 
         Store store = storeRepository.findById(storeNum).orElseThrow(() -> new EntityNotFoundException("존재하지 않는 매장입니다."));
 
@@ -49,8 +49,8 @@ public class VisitLogServiceImpl implements VisitLogService {
                 // 모바일 로그인 계정 추가
                 member = memberRepository.save(
                         Member.builder()
-                                .did(visitDto.getDid())
-                                .loginId(visitDto.getDid()) // 아이디 임의로 did로 주기(점주용 웹에서 로그인안됨 어차피)
+                                .did(did)
+                                .loginId(did) // 아이디 임의로 did로 주기(점주용 웹에서 로그인안됨 어차피)
                                 .password("1234") // 임시로 1234
                                 .name("임시이름") // 임시로 "임시이름"
                                 .birthday(LocalDate.from(LocalDateTime.now()))
@@ -62,7 +62,7 @@ public class VisitLogServiceImpl implements VisitLogService {
                 // 고객 정보 남길 customer 추가 (생성된 memberId 남김)
                 customer = customerRepository.save(
                         Customer.builder()
-                                .did(visitDto.getDid())
+                                .did(did)
                                 .memberId(member.getId())
                                 .build()
                 );
@@ -83,7 +83,7 @@ public class VisitLogServiceImpl implements VisitLogService {
         boolean nftExists = nftService.nftExists(storeNum, customer.getId());
         if(!nftExists){
             // nft 발급 진행
-            nftService.createNft(visitDto.getDid(), storeNum, customer.getId());
+            nftService.createNft(customer.getDid(), storeNum, customer.getId());
         }
         return VisitLogDto.fromEntity(savedQrVisit);
 
