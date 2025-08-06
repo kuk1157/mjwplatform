@@ -3,6 +3,7 @@ import styled from "styled-components";
 import { useEffect, useState } from "react";
 import { login } from "../../utils/authLogin";
 import { useCookies } from "react-cookie";
+import DidLoginButton from "../atoms/didLoginButton";
 
 const CustomCheckbox = styled.label`
     display: inline-flex;
@@ -164,6 +165,7 @@ const LoginPage = ({ ...props }) => {
                 >
                     아이디/비밀번호 찾기
                 </Link>
+                <DidLoginButton />
             </div>
         </section>
     );
