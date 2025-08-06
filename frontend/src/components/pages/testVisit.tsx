@@ -72,7 +72,7 @@ function TestVisit() {
 
     useEffect(() => {
         StoreTable(); // 컴포넌트 마운트 시 데이터 조회
-    }, []);
+    }, [StoreTable]);
 
     return (
         <div className="flex items-center justify-center min-h-screen bg-gray-100">
