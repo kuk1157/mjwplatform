@@ -13,7 +13,12 @@ declare global {
     }
 }
 
-const DidLoginButton = () => {
+interface DidLoginButtonProps {
+    storeNum?: number;
+    tableNumber?: number;
+}
+
+const DidLoginButton = ({ storeNum, tableNumber }: DidLoginButtonProps) => {
     useEffect(() => {
         // 다대구 로그인 콜백 등록
         window.handleDidLogin = async (
@@ -21,14 +26,17 @@ const DidLoginButton = () => {
         ) => {
             console.log("returnData", returnData);
             try {
-                const response = await axios.post("/api/v1/auth/did", {
-                    returnData:
-                        // returnData가 문자열인 경우 그대로 사용
-                        // backend에서 JSON으로 변환 RequestBody를 처리할 수 있도록
-                        typeof returnData === "string"
-                            ? returnData
-                            : JSON.stringify(returnData),
-                });
+                const response = await axios.post(
+                    `/api/v1/auth/did/${storeNum}/${tableNumber}`,
+                    {
+                        returnData:
+                            // returnData가 문자열인 경우 그대로 사용
+                            // backend에서 JSON으로 변환 RequestBody를 처리할 수 있도록
+                            typeof returnData === "string"
+                                ? returnData
+                                : JSON.stringify(returnData),
+                    }
+                );
 
                 console.log("response", response.data);
 
@@ -39,7 +47,9 @@ const DidLoginButton = () => {
                     "refreshToken",
                     response.data.refreshToken
                 );
-                window.location.replace("/");
+
+                const customerId = response.data.customerId; // customerId 변수 추가
+                window.location.replace(`/mobile/myPage/${customerId}`); // 여기에 customerId 넣기
             } catch (err) {
                 console.error("다대구 로그인 실패", err);
                 alert("다대구 로그인에 실패했습니다. 다시 시도해 주세요.");
@@ -72,7 +82,7 @@ const DidLoginButton = () => {
                 }
             }
         }, 300);
-    }, []);
+    }, [storeNum, tableNumber]);
 
     return (
         <>
