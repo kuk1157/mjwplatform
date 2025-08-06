@@ -1,5 +1,5 @@
 import axios from "axios";
-import { useState, useEffect } from "react"; // useState, useEffect 추가
+import { useState, useEffect, useCallback } from "react"; // useState, useEffect 추가
 import { useNavigate, useParams } from "react-router-dom";
 
 interface Table {
@@ -16,7 +16,7 @@ function TestVisit() {
     //     {}
     // ); // 테이블번호별 금액
     const { storeId } = useParams();
-    const StoreTable = async () => {
+    const StoreTable = useCallback(async () => {
         try {
             const url = `/api/v1/stores/${storeId}/tables`;
             const response = await axios.get(url);
@@ -24,7 +24,7 @@ function TestVisit() {
         } catch (error) {
             console.error("매장 테이블 데이터 조회 실패:", error);
         }
-    };
+    }, [storeId]);
 
     // 주문금액 입력 핸들러
     // const handleAmountChange = (tableNumber: number, value: string) => {
