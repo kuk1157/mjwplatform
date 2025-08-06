@@ -2,6 +2,7 @@ package com.pudding.base.domain.auth.controller;
 
 import com.pudding.base.domain.auth.dto.AuthRequestDto;
 import com.pudding.base.domain.auth.dto.AuthResponseDto;
+import com.pudding.base.domain.auth.dto.DidLoginResponseDto;
 import com.pudding.base.domain.auth.service.AuthService;
 import com.rootlab.did.ClaimInfo;
 import com.rootlab.did.DidLogin;
@@ -63,8 +64,8 @@ public class AuthController {
                     content = {@Content(schema = @Schema(implementation = AuthResponseDto.class))}),
             @ApiResponse(responseCode = "500", description = "복호화 실패")
     })
-    @PostMapping("/did")
-    public ResponseEntity<?> daeguIdLogin(@RequestBody Map<String, String> request) {
+    @PostMapping("/did/{storeId}/{tableNumber}")
+    public ResponseEntity<?> daeguIdLogin(@RequestBody Map<String, String> request, @PathVariable Integer storeId, @PathVariable Integer tableNumber) {
         try {
             String returnData = request.get("returnData");
             String privateKey = loadPrivateKey(); // 복호화 키
@@ -76,16 +77,21 @@ public class AuthController {
             // 다대구 로그인 정보 DID, CI, 이름 등
             ClaimInfo claimInfo = DidLogin.decryptData(returnData, cleanKey );
 
-            // did 로그인 후 access 토큰 발급
-            AuthResponseDto token = authService.didLogin(claimInfo);
+            // 여기서 DidLoginResponseDto 전체를 받음 (토큰 + customerId)
+            DidLoginResponseDto response = authService.didLogin(claimInfo, storeId, tableNumber);
 
-            return ResponseEntity.ok(token);
+//            // did 로그인 후 access 토큰 발급
+//            AuthResponseDto token = authService.didLogin(claimInfo, storeId, tableNumber).getAuth();
+
+            return ResponseEntity.ok(response);
         } catch (Exception e) {
             e.printStackTrace();
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
                     .body("다대구 로그인 실패");
         }
     }
+
+
 
     // 복호화 key load
     private String loadPrivateKey() throws IOException {

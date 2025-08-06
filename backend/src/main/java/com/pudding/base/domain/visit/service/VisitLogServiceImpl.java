@@ -37,11 +37,8 @@ public class VisitLogServiceImpl implements VisitLogService {
     @Transactional
     public VisitLogDto createVisitLog(String did, Integer storeNum, Integer tableNumber){
         Customer customer = customerRepository.findByDid(did).orElse(null);
-
         Member member = memberRepository.findByDid(did).orElse(null);
-
         Store store = storeRepository.findById(storeNum).orElseThrow(() -> new EntityNotFoundException("존재하지 않는 매장입니다."));
-
 
         // member, customer 둘다 없을 경우
         if (customer == null || member == null) {

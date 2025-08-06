@@ -2,12 +2,17 @@ package com.pudding.base.domain.auth.service;
 
 import com.pudding.base.domain.auth.dto.AuthRequestDto;
 import com.pudding.base.domain.auth.dto.AuthResponseDto;
+import com.pudding.base.domain.auth.dto.DidLoginResponseDto;
 import com.pudding.base.domain.auth.entity.Auth;
 import com.pudding.base.domain.auth.repository.AuthRepository;
 import com.pudding.base.domain.common.enums.IsActive;
+import com.pudding.base.domain.customer.entity.Customer;
+import com.pudding.base.domain.customer.repository.CustomerRepository;
 import com.pudding.base.domain.member.entity.Member;
 import com.pudding.base.domain.member.enums.Role;
 import com.pudding.base.domain.member.repository.MemberRepository;
+import com.pudding.base.domain.visit.dto.VisitLogDto;
+import com.pudding.base.domain.visit.service.VisitLogService;
 import com.pudding.base.security.CustomUserInfoDto;
 import com.pudding.base.security.JwtUtil;
 import com.rootlab.did.ClaimInfo;
@@ -34,6 +39,10 @@ public class AuthServiceImpl implements AuthService {
     private final PasswordEncoder encoder;
     private final ModelMapper modelMapper;
 
+    private final CustomerRepository customerRepository;
+    private final VisitLogService visitLogService;
+
+
     @Override
     @Transactional
     public AuthResponseDto login(AuthRequestDto dto) {
@@ -42,27 +51,17 @@ public class AuthServiceImpl implements AuthService {
 
     @Override
     @Transactional
-    public AuthResponseDto didLogin(ClaimInfo info) {
+    public DidLoginResponseDto didLogin(ClaimInfo info, Integer storeId, Integer tableNumber) {
         Optional<Member> optional = memberRepository.findByDid(info.getDid());
-
-        Member member = optional.orElseGet(() -> {
-            Member newMember = Member.builder()
-                    .did(info.getDid())
-                    .name(info.getName())
-                    //.phoneNumber(info.getPhoneNumber())
-                    //.gender(info.getGender())
-                    //.ci(info.getCi())
-                    .role(Role.valueOf("user"))
-                    .build();
-            return memberRepository.save(newMember);
-        });
-
-
+        Member member = optional.orElseThrow(() -> new RuntimeException("Member not found."));
         // 로그인 로그 기록
 //        memberLogRepository.save(MemberLog.builder()
 //                .memberId(member.getId())
 //                .actType(ActType.login)
 //                .build());
+
+        // 방문기록 생성 (did, storeId, tableNumber 직접 전달)
+        VisitLogDto visitLogDto = visitLogService.createVisitLog(info.getDid(), storeId, tableNumber);
 
         // 토큰 생성
         CustomUserInfoDto userInfo = modelMapper.map(member, CustomUserInfoDto.class);
@@ -83,7 +82,9 @@ public class AuthServiceImpl implements AuthService {
                     .build());
         }
 
-        return new AuthResponseDto(auth);
+        AuthResponseDto authResponseDto = new AuthResponseDto(auth);
+
+        return new DidLoginResponseDto(authResponseDto, visitLogDto.getCustomerId());
     }
 
     @Transactional
