@@ -10,6 +10,7 @@ import com.pudding.base.domain.member.enums.Role;
 import com.pudding.base.domain.member.repository.MemberRepository;
 import com.pudding.base.security.CustomUserInfoDto;
 import com.pudding.base.security.JwtUtil;
+import com.rootlab.did.ClaimInfo;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.security.access.AccessDeniedException;
@@ -18,6 +19,8 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.Optional;
 
 
 @Service
@@ -35,6 +38,52 @@ public class AuthServiceImpl implements AuthService {
     @Transactional
     public AuthResponseDto login(AuthRequestDto dto) {
         return authenticate(dto, false);
+    }
+
+    @Override
+    @Transactional
+    public AuthResponseDto didLogin(ClaimInfo info) {
+        Optional<Member> optional = memberRepository.findByDid(info.getDid());
+
+        Member member = optional.orElseGet(() -> {
+            Member newMember = Member.builder()
+                    .did(info.getDid())
+                    .name(info.getName())
+                    //.phoneNumber(info.getPhoneNumber())
+                    //.gender(info.getGender())
+                    //.ci(info.getCi())
+                    .role(Role.valueOf("user"))
+                    .build();
+            return memberRepository.save(newMember);
+        });
+
+
+        // 로그인 로그 기록
+//        memberLogRepository.save(MemberLog.builder()
+//                .memberId(member.getId())
+//                .actType(ActType.login)
+//                .build());
+
+        // 토큰 생성
+        CustomUserInfoDto userInfo = modelMapper.map(member, CustomUserInfoDto.class);
+        String accessToken = jwtUtil.createAccessToken(userInfo);
+        String refreshToken = jwtUtil.createRefreshToken(userInfo);
+
+        Auth auth;
+        if (authRepository.existsByMember(member)) {
+            auth = member.getAuth();
+            auth.updateAccessToken(accessToken);
+            auth.updateRefreshToken(refreshToken);
+        } else {
+            auth = authRepository.save(Auth.builder()
+                    .member(member)
+                    .tokenType("Bearer")
+                    .accessToken(accessToken)
+                    .refreshToken(refreshToken)
+                    .build());
+        }
+
+        return new AuthResponseDto(auth);
     }
 
     @Transactional

@@ -21,9 +21,19 @@ configurations {
 
 repositories {
     mavenCentral()
+    flatDir {
+        dirs 'src/main/resources/libs'
+    }
 }
 
 dependencies {
+    // 다대구 모듈
+    implementation name: 'didclient-1.0.5'
+
+    // javax 기반 JAXB 다대구 모듈이 참조하는 부분
+    implementation 'org.glassfish.jaxb:jaxb-runtime:2.3.1'
+
+    // 기존 의존성
     implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
     implementation 'org.springframework.boot:spring-boot-starter-security'
     implementation 'org.springframework.boot:spring-boot-starter-web'
@@ -53,7 +63,8 @@ def frontendDir = "$projectDir/../frontend"
 
 sourceSets {
     main {
-        resources { srcDirs = ["$projectDir/src/main/resources"]
+        resources {
+            srcDirs = ["$projectDir/src/main/resources"]
         }
     }
 }

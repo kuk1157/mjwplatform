@@ -35,10 +35,11 @@ public class MemberDto {
     private IsActive isActive;
 
     @Builder
-    public MemberDto(Integer id, String loginId, String name, Gender gender, LocalDate birthday, Role role, String email, String phoneNumber,
+    public MemberDto(Integer id, String loginId, String did, String name, Gender gender, LocalDate birthday, Role role, String email, String phoneNumber,
                      Integer totalPoint, Integer totalCash, LocalDateTime createdAt, IsActive isActive) {
         this.id = id;
         this.loginId = loginId;
+        this.did = did;
         this.name = name;
         this.gender = gender;
         this.birthday = birthday;

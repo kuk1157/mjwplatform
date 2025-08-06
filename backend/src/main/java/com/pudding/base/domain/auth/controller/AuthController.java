@@ -3,15 +3,23 @@ package com.pudding.base.domain.auth.controller;
 import com.pudding.base.domain.auth.dto.AuthRequestDto;
 import com.pudding.base.domain.auth.dto.AuthResponseDto;
 import com.pudding.base.domain.auth.service.AuthService;
+import com.rootlab.did.ClaimInfo;
+import com.rootlab.did.DidLogin;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import lombok.RequiredArgsConstructor;
+import org.springframework.core.io.ClassPathResource;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.io.IOException;
+import java.io.InputStream;
+import java.nio.charset.StandardCharsets;
+import java.util.Map;
 
 @RestController
 @RequiredArgsConstructor
@@ -48,10 +56,40 @@ public class AuthController {
         String newAccessToken = this.authService.refreshToken(refreshToken);
         return ResponseEntity.status(HttpStatus.OK).body(newAccessToken);
     }
-//    public ResponseEntity<String> getMemberProfile(
-//            @Valid @RequestBody AuthRequestDto request
-//    ) {
-//        String token = this.authService.login(request);
-//        return ResponseEntity.status(HttpStatus.OK).body(token);
-//    }
+
+    @Operation(summary = "다대구 ID 로그인", description = "QR 로그인 후 사용자 정보 복호화 및 토큰 반환")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "로그인 성공",
+                    content = {@Content(schema = @Schema(implementation = AuthResponseDto.class))}),
+            @ApiResponse(responseCode = "500", description = "복호화 실패")
+    })
+    @PostMapping("/did")
+    public ResponseEntity<?> daeguIdLogin(@RequestBody Map<String, String> request) {
+        try {
+            String returnData = request.get("returnData");
+            String privateKey = loadPrivateKey(); // 복호화 키
+            String cleanKey  = privateKey
+                                .replace("-----BEGIN RSA PRIVATE KEY-----", "")
+                                .replace("-----END RSA PRIVATE KEY-----", "")
+                                .replaceAll("\\s", ""); // 줄바꿈, 공백 제거
+
+            // 다대구 로그인 정보 DID, CI, 이름 등
+            ClaimInfo claimInfo = DidLogin.decryptData(returnData, cleanKey );
+
+            // did 로그인 후 access 토큰 발급
+            AuthResponseDto token = authService.didLogin(claimInfo);
+
+            return ResponseEntity.ok(token);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body("다대구 로그인 실패");
+        }
+    }
+
+    // 복호화 key load
+    private String loadPrivateKey() throws IOException {
+        InputStream inputStream = new ClassPathResource("keys/private.pem").getInputStream();
+        return new String(inputStream.readAllBytes(), StandardCharsets.UTF_8);
+    }
 }

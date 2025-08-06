@@ -62,6 +62,9 @@ gradle-app.setting
 # Java heap dump
 *.hprof
 
+## keyfile ###
+src/main/resources/keys/
 
+## frontend ###
 frontend/public
 frontend/.eslintcache
