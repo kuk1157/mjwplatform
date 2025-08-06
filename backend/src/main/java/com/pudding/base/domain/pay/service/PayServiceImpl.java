@@ -62,7 +62,7 @@ public class PayServiceImpl implements PayService {
         LocalDateTime start = LocalDate.now().atStartOfDay();
         LocalDateTime end = start.plusDays(1);
 
-        Integer count = payRepository.countTodayPayments(visitLog.getCustomerId(), start, end);
+        Integer count = payRepository.countTodayPayments(visitLog.getCustomerId(), visitLog.getStoreId(),  start, end);
 
         if (count != null && count > 0) {
             throw new IllegalArgumentException("오늘 이미 결제하셨습니다.");
@@ -127,8 +127,15 @@ public class PayServiceImpl implements PayService {
                 .build();
         pointRepository.save(point); // 곧바로 저장
 
+        System.out.println(111111);
         // 점주의 포인트 (+) 하기
+        System.out.println("member totalPoint 1 = " + member.getTotalPoint());
         member.addTotalPoint(discount);
+        System.out.println("member totalPoint 2 = " + member.getTotalPoint());
+
+        System.out.println(22222);
+        System.out.println("금액이 안들어오는겨?"+discount);
+
 
         return PayDto.fromEntity(savedPay);
     }
