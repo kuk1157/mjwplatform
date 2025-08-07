@@ -5,6 +5,9 @@ import { useRecoilValueLoadable } from "recoil";
 import { userSelectorUpdated } from "src/recoil/userState";
 import { useNavigate, useParams } from "react-router-dom";
 
+import { io } from "socket.io-client";
+import { useRef } from "react";
+
 interface VisitLog {
     id: number;
     storeId: number;
@@ -24,11 +27,11 @@ function OwnerDashBoard() {
         {}
     ); // 테이블번호별 금액
     const navigate = useNavigate();
+    const socketRef = useRef<any>(null);
 
     // 받아온 ownerId로 가맹점과 방문기록 바로 가져오기
     useEffect(() => {
         if (!ownerId) return;
-        console.log(ownerId);
 
         const fetchData = async () => {
             try {
@@ -36,25 +39,50 @@ function OwnerDashBoard() {
                     `/api/v1/stores/ownerId/${ownerId}`
                 );
                 const storeId = storeRes.data.id;
-                console.log(storeId);
-                console.log(storeRes.data);
 
-                setStoreId(storeRes.data.id); // 매장 고유번호 저장
-                setStoreName(storeRes.data.name); // 매장 이름 저장
-                setOwnerName(storeRes.data.ownerName); // 점주 이름 저장
+                setStoreId(storeId);
+                setStoreName(storeRes.data.name);
+                setOwnerName(storeRes.data.ownerName);
 
                 const visitLogRes = await axios.get(
                     `/api/v1/visits/${storeId}`
                 );
+                setvisits(visitLogRes.data);
 
-                setvisits(visitLogRes.data); // 받아온 데이터를 상태에 저장
-                console.log(visitLogRes.data);
+                // 소켓 연결 및 방 참가
+                if (!socketRef.current) {
+                    socketRef.current = io("http://localhost:4000");
+                }
+
+                socketRef.current.emit("joinStore", storeId);
+
+                socketRef.current.on(
+                    "storeMessage",
+                    (newVisitLog: VisitLog) => {
+                        console.log("실시간 방문기록 수신:", newVisitLog);
+                        setvisits((prev) => {
+                            const exists = prev.some(
+                                (visit) => visit.id === newVisitLog.id
+                            );
+                            if (exists) return prev; // 이미 있으면 무시
+                            return [...prev, newVisitLog];
+                        });
+                    }
+                );
             } catch (error) {
                 console.error("데이터 조회 실패:", error);
             }
         };
 
         fetchData();
+
+        // 🔌 컴포넌트 언마운트 시 소켓 종료
+        return () => {
+            if (socketRef.current) {
+                socketRef.current.disconnect();
+                socketRef.current = null;
+            }
+        };
     }, [ownerId]);
 
     // 주문금액 입력 핸들러

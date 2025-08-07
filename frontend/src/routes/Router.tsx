@@ -7,6 +7,11 @@ const Main = Loadable({
     Component: lazy(() => import("../components/pages/main")),
 });
 
+// 임시 socket 테스트 페이지
+const SocketTest = Loadable({
+    Component: lazy(() => import("../components/pages/socketTest")),
+});
+
 // 임시 각 주문 금액 입력 페이지
 const StoreVisit = Loadable({
     Component: lazy(() => import("../components/pages/storeVisit")),
@@ -196,6 +201,12 @@ const Router = createBrowserRouter([
             {
                 path: "/storeVisit",
                 element: <StoreVisit />,
+            },
+
+            // socket 테스트 페이지
+            {
+                path: "/socketTest",
+                element: <SocketTest />,
             },
 
             // 점주용 웹 플랫폼 메인 대시보드
