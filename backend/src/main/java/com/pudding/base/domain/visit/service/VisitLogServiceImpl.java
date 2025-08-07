@@ -16,14 +16,22 @@ import com.pudding.base.domain.visit.entity.VisitLog;
 import com.pudding.base.domain.visit.repository.VisitLogRepository;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.client.RestTemplate;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class VisitLogServiceImpl implements VisitLogService {
@@ -75,6 +83,9 @@ public class VisitLogServiceImpl implements VisitLogService {
                 .build();
         VisitLog savedQrVisit = visitLogRepository.save(visitLog);
 
+        // Socket 서버로 전송
+        sendToSocketServer(savedQrVisit);
+
 
         // nft 발급 중복 체크
         boolean nftExists = nftService.nftExists(storeNum, customer.getId());
@@ -82,9 +93,31 @@ public class VisitLogServiceImpl implements VisitLogService {
             // nft 발급 진행
             nftService.createNft(customer.getDid(), storeNum, customer.getId());
         }
+
         return VisitLogDto.fromEntity(savedQrVisit);
 
     }
+
+    private void sendToSocketServer(VisitLog visitLog) {
+        String socketServerUrl = "http://localhost:4000/api/socket/store-new-visit";
+        try {
+            RestTemplate restTemplate = new RestTemplate();
+            HttpHeaders headers = new HttpHeaders();
+            headers.setContentType(MediaType.APPLICATION_JSON);
+
+            Map<String, Object> payload = new HashMap<>();
+            payload.put("visitLog", visitLog);
+            payload.put("storeId", visitLog.getStoreId());
+
+            HttpEntity<Map<String, Object>> request = new HttpEntity<>(payload, headers);
+            restTemplate.postForEntity(socketServerUrl, request, String.class);
+        } catch (Exception e) {
+            log.error("소켓 서버 통신 실패", e);
+        }
+    }
+
+
+
 
     public List<VisitLogDto> getAllVisitLog(Integer storeNum){
         List<VisitLog> visitLogs = visitLogRepository.findByStoreId(storeNum);
