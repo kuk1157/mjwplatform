@@ -44,14 +44,11 @@ const CustomCheckbox = styled.label`
         transform: translate(-50%, -50%) scale(1);
     }
 `;
-const LoginPage = ({ ...props }) => {
-    const { rememberMe } = props;
-
-    const userId = localStorage.getItem("userId");
+const LoginPage = () => {
     const [cookies, setCookie, removeCookie] = useCookies(["rememberUserId"]);
     const [isRemember, setIsRemember] = useState(false);
-    const [loginId, setLoginId] = useState<string | null>();
-    const [password, setPassword] = useState<string | null>();
+    const [loginId, setLoginId] = useState<string>("");
+    const [password, setPassword] = useState<string>("");
     const handleOnChange = (e: any) => {
         setIsRemember(e.target.checked);
         if (e.target.checked) {
@@ -73,10 +70,16 @@ const LoginPage = ({ ...props }) => {
                 localStorage.setItem("tokenType", response.tokenType);
                 localStorage.setItem("accessToken", response.accessToken);
                 localStorage.setItem("refreshToken", response.refreshToken);
-                if (rememberMe) {
-                    localStorage.setItem("userId", loginId!); // 아이디 저장
+
+                // 로그인시 아이디 저장 기능 변경
+                if (isRemember) {
+                    setCookie("rememberUserId", loginId, {
+                        path: "/",
+                        maxAge: 60 * 60 * 24 * 30,
+                    }); // 30일
+                } else {
+                    removeCookie("rememberUserId");
                 }
-                window.location.replace("/");
             })
             .catch((error) => {
                 alert(
@@ -88,19 +91,12 @@ const LoginPage = ({ ...props }) => {
     };
 
     useEffect(() => {
-        if (userId) {
-            setLoginId(userId);
-        }
-        if (cookies.rememberUserId !== undefined) {
-            setLoginId(
-                cookies.rememberUserId === "undefined"
-                    ? ""
-                    : cookies.rememberUserId
-            );
-
+        const savedLoginId = cookies.rememberUserId;
+        if (savedLoginId && savedLoginId !== "undefined") {
+            setLoginId(savedLoginId);
             setIsRemember(true);
         }
-    }, [userId, cookies, setLoginId, setIsRemember]);
+    }, [cookies]);
 
     return (
         <section className="w-full min-h-screen bg-[#F2FAF8] flex justify-center items-center">
@@ -113,7 +109,7 @@ const LoginPage = ({ ...props }) => {
                         type="text"
                         className="w-full bg-[#F7F7F7] outline-none rounded-[5px] placeholder:text-[#999999] placeholder:text-[15px] py-[15px] px-[20px] xs:placeholder:text-[13px] xs:py-[10px]"
                         placeholder="아이디를 입력해주세요"
-                        value={loginId!}
+                        value={loginId}
                         onChange={(e) => setLoginId(e.target.value)}
                     />
                     <input
