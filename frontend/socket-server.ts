@@ -50,7 +50,7 @@ io.on("connection", (socket) => {
 });
 
 // 방문기록 API - Spring VisitLogServiceImpl에서 방문기록 생성시 호출
-app.post("/api/socket/store-new-visit", (req, res) => {
+app.post("/api/socket/store-visitLogs", (req, res) => {
     const { storeId, visitLog } = req.body;
 
     if (!storeId || !visitLog) {
@@ -61,9 +61,9 @@ app.post("/api/socket/store-new-visit", (req, res) => {
 
     const roomName = `store-${storeId}`;
     io.to(roomName).emit("storeMessage", visitLog);
-    console.log(`store-${storeId} 룸에 방문기록 전송됨`);
+    console.log(`${roomName} 룸에 방문기록 전송됨`);
 
-    res.status(200).json({ message: "전송 성공" });
+    return res.status(200).json({ message: "전송 성공" });
 });
 
 const PORT = 4000;

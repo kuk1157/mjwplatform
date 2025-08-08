@@ -23,6 +23,7 @@ function OwnerDashBoard() {
     const [storeId, setStoreId] = useState();
     const { ownerId } = useParams();
     const [visitLogs, setvisits] = useState<VisitLog[]>([]);
+    const [newVisitLogs, setNewVisits] = useState<VisitLog[]>([]);
     const [visitAmounts, setVisitAmounts] = useState<{ [key: number]: string }>(
         {}
     ); // 테이블번호별 금액
@@ -44,6 +45,13 @@ function OwnerDashBoard() {
                 setStoreName(storeRes.data.name);
                 setOwnerName(storeRes.data.ownerName);
 
+                // 신규 방문(주문) 기록
+                const newVisitLogRes = await axios.get(
+                    `/api/v1/visits/new/${storeId}`
+                );
+                setNewVisits(newVisitLogRes.data);
+
+                // 전체 방문 기록(아래)
                 const visitLogRes = await axios.get(
                     `/api/v1/visits/${storeId}`
                 );
@@ -56,19 +64,18 @@ function OwnerDashBoard() {
 
                 socketRef.current.emit("joinStore", storeId);
 
-                socketRef.current.on(
-                    "storeMessage",
-                    (newVisitLog: VisitLog) => {
-                        console.log("실시간 방문기록 수신:", newVisitLog);
-                        setvisits((prev) => {
-                            const exists = prev.some(
-                                (visit) => visit.id === newVisitLog.id
-                            );
-                            if (exists) return prev; // 이미 있으면 무시
-                            return [...prev, newVisitLog];
-                        });
-                    }
-                );
+                socketRef.current.on("storeMessage", (visitLog: VisitLog) => {
+                    // 신규 방문기록을 newVisitLogs에 추가
+                    setNewVisits((prev) => {
+                        if (prev.some((v) => v.id === visitLog.id)) return prev;
+                        return [...prev, visitLog];
+                    });
+                    // 전체 방문기록에도 추가
+                    setvisits((prev) => {
+                        if (prev.some((v) => v.id === visitLog.id)) return prev;
+                        return [...prev, visitLog];
+                    });
+                });
             } catch (error) {
                 console.error("데이터 조회 실패:", error);
             }
@@ -312,10 +319,61 @@ function OwnerDashBoard() {
                         </button>
                     </div>
                 </div>
-                {/* 방문 기록 섹션 */}
+                {/* 신규 방문(주문) 기록 섹션 */}
                 <div className="mb-12 px-10">
                     <h2 className="text-2xl font-semibold text-gray-700 pb-1 mb-6 inline-block border-b-2 border-yellow-400 w-auto">
-                        📅 방문 기록
+                        📅 신규 방문(주문) 기록
+                    </h2>
+
+                    {newVisitLogs.length === 0 ? (
+                        <div className="flex flex-col items-center justify-center py-16 text-center text-gray-500">
+                            <div className="text-5xl mb-4">📭</div>
+                            <p className="text-lg font-medium">
+                                {name} 매장의 신규 방문(주문)기록이 없습니다.
+                            </p>
+                        </div>
+                    ) : (
+                        <div className="grid grid-cols-4 gap-6 px-8">
+                            {newVisitLogs.map((newVisitLog) => (
+                                <div
+                                    key={newVisitLog.id}
+                                    className="w-40 h-48 bg-white rounded-2xl shadow-md flex flex-col items-center justify-center p-5 hover:shadow-lg transition-shadow duration-300"
+                                >
+                                    <p className="text-lg font-semibold mb-3 text-gray-900 select-none">
+                                        방문 기록 : {newVisitLog.id}
+                                    </p>
+                                    <input
+                                        type="number"
+                                        placeholder="금액 입력"
+                                        className="w-full text-center border border-gray-300 rounded-lg py-2 px-3 text-gray-700 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-yellow-400 focus:border-yellow-400 transition"
+                                        value={
+                                            visitAmounts[newVisitLog.id] || ""
+                                        }
+                                        onChange={(e) =>
+                                            handleAmountChange(
+                                                newVisitLog.id,
+                                                e.target.value
+                                            )
+                                        }
+                                    />
+                                    <button
+                                        className="mt-4 w-full bg-yellow-400 hover:bg-yellow-500 text-white font-semibold rounded-lg py-2 shadow-md hover:shadow-lg transition duration-300"
+                                        onClick={() =>
+                                            handleOrder(newVisitLog.id)
+                                        }
+                                    >
+                                        금액 입력
+                                    </button>
+                                </div>
+                            ))}
+                        </div>
+                    )}
+                </div>
+
+                {/* 전체 방문 기록 섹션 */}
+                <div className="mb-12 px-10">
+                    <h2 className="text-2xl font-semibold text-gray-700 pb-1 mb-6 inline-block border-b-2 border-yellow-400 w-auto">
+                        📅 전체 방문 기록
                     </h2>
 
                     {visitLogs.length === 0 ? (
