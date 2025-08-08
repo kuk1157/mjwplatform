@@ -108,6 +108,10 @@ public class AuthServiceImpl implements AuthService {
             throw new AccessDeniedException("권한이 없습니다.");
         }
 
+        if(member.getRole() == Role.admin){
+            throw new IllegalArgumentException("관리자는 로그인 할 수 없습니다.");
+        }
+
         CustomUserInfoDto info = modelMapper.map(member, CustomUserInfoDto.class);
         String accessToken = jwtUtil.createAccessToken(info);
         String refreshToken = jwtUtil.createRefreshToken(info);
