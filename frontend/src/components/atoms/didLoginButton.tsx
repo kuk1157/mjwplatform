@@ -38,7 +38,11 @@ const DidLoginButton = ({ storeNum, tableNumber }: DidLoginButtonProps) => {
                     }
                 );
 
-                console.log("response", response.data);
+                const userRole = response.data.auth.role;
+                if (userRole != "user") {
+                    alert("고객만 연동 로그인이 가능합니다.");
+                    return;
+                }
 
                 localStorage.clear();
                 localStorage.setItem("tokenType", response.data.tokenType);
