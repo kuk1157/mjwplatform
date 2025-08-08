@@ -13,6 +13,7 @@ public class AuthResponseDto {
     private String accessToken;
     private String refreshToken;
     private Role role;
+    private Integer userId;
 
     @Builder
     public AuthResponseDto(Auth entity) {
@@ -20,5 +21,6 @@ public class AuthResponseDto {
         this.accessToken = entity.getAccessToken();
         this.refreshToken = entity.getRefreshToken();
         this.role = entity.getMember().getRole();
+        this.userId = entity.getMember().getId();
     }
 }
