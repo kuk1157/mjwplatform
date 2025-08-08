@@ -1,6 +1,7 @@
 import { Link } from "react-router-dom";
 import styled from "styled-components";
 import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { login } from "../../utils/authLogin";
 import { useCookies } from "react-cookie";
 import DidLoginButton from "../atoms/didLoginButton";
@@ -45,6 +46,8 @@ const CustomCheckbox = styled.label`
     }
 `;
 const LoginPage = () => {
+    const navigate = useNavigate();
+
     const [cookies, setCookie, removeCookie] = useCookies(["rememberUserId"]);
     const [isRemember, setIsRemember] = useState(false);
     const [loginId, setLoginId] = useState<string>("");
@@ -71,6 +74,19 @@ const LoginPage = () => {
                 localStorage.setItem("accessToken", response.accessToken);
                 localStorage.setItem("refreshToken", response.refreshToken);
 
+                // id,role 값 세팅
+                const userRole = response.role;
+                const userId = response.userId;
+
+                // // 관리자일 경우 관리자 로그인 페이지로 이동
+                // if (userRole == "admin") {
+                //     alert(
+                //         "관리자는 해당 페이지에서 로그인 할 수 없습니다. \n관리자 로그인 페이지로 이동합니다."
+                //     );
+                //     navigate(`/admin`);
+                //     return;
+                // }
+
                 // 로그인시 아이디 저장 기능 변경
                 if (isRemember) {
                     setCookie("rememberUserId", loginId, {
@@ -79,6 +95,14 @@ const LoginPage = () => {
                     }); // 30일
                 } else {
                     removeCookie("rememberUserId");
+                }
+
+                // owner(점주)일 경우 점주 메인대시보드로 이동
+                if (userRole === "owner") {
+                    navigate(`/owner/dashboard/${userId}`);
+                } else {
+                    // 고객은 그냥 메인
+                    navigate("/");
                 }
             })
             .catch((error) => {
