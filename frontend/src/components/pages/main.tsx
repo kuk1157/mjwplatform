@@ -1,28 +1,13 @@
 import { MainContainer } from "../molecules/container";
 import { useEffect, useState } from "react";
-import { useRecoilValueLoadable } from "recoil";
-import { userSelectorUpdated } from "src/recoil/userState";
 import { useNavigate } from "react-router-dom";
 import { StoreType } from "src/types";
 import axios from "axios";
 
 function MainPage() {
-    const { contents: user } = useRecoilValueLoadable(userSelectorUpdated);
     const navigate = useNavigate();
     const [stores, setStores] = useState<StoreType[]>([]);
 
-    const ownerId = user.id;
-    const userRole = user.role;
-    // 점주(owner) 권한일 경우에 바로 dashBoard 페이지로 이동
-    // ownerId 물려주기
-    useEffect(() => {
-        if (userRole === "owner") {
-            navigate(`/owner/dashBoard/${ownerId}`);
-            return;
-        }
-    }, [userRole, ownerId, navigate]);
-
-    // 받아온 ownerId로 가맹점과 방문기록 바로 가져오기
     useEffect(() => {
         const fetchData = async () => {
             try {
