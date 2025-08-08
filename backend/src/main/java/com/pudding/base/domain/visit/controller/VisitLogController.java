@@ -1,5 +1,6 @@
 package com.pudding.base.domain.visit.controller;
 
+import com.pudding.base.domain.common.enums.IsPaymentStatus;
 import com.pudding.base.domain.common.enums.IsVisitStatus;
 import com.pudding.base.domain.visit.dto.VisitLogDto;
 import com.pudding.base.domain.visit.service.VisitLogService;
@@ -36,8 +37,8 @@ public class VisitLogController {
 
     @Operation(summary = "신규 방문(주문) 기록 조회 ", description = "visit_status = n, payment_status = n 결제금액 입력가능 데이터만")
     @GetMapping("/new/{storeNum}")
-    public ResponseEntity<List<VisitLogDto>> getStoreByAndVisitStatusByVisitLog(@PathVariable Integer storeNum, IsVisitStatus visitStatus){
-        List<VisitLogDto> visitLogs = visitLogService.getStoreByAndVisitStatusByVisitLog(storeNum, visitStatus);
+    public ResponseEntity<List<VisitLogDto>> getStoreByAndVisitStatusAndPaymentStatusByVisitLog(@PathVariable Integer storeNum, IsPaymentStatus paymentStatus, IsVisitStatus visitStatus){
+        List<VisitLogDto> visitLogs = visitLogService.getStoreByAndVisitStatusAndPaymentStatusByVisitLog(storeNum, paymentStatus, visitStatus);
         return ResponseEntity.ok(visitLogs);
     }
 

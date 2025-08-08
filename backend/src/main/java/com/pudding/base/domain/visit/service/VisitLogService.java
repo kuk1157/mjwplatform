@@ -1,5 +1,6 @@
 package com.pudding.base.domain.visit.service;
 
+import com.pudding.base.domain.common.enums.IsPaymentStatus;
 import com.pudding.base.domain.common.enums.IsVisitStatus;
 import com.pudding.base.domain.visit.dto.VisitLogDto;
 
@@ -11,5 +12,5 @@ public interface VisitLogService {
 
     List<VisitLogDto> getAllVisitLog(Integer storeNum);
 
-    List<VisitLogDto> getStoreByAndVisitStatusByVisitLog(Integer storeNum, IsVisitStatus visitStatus);
+    List<VisitLogDto> getStoreByAndVisitStatusAndPaymentStatusByVisitLog(Integer storeNum, IsPaymentStatus paymentStatus, IsVisitStatus visitStatus);
 }
