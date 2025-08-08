@@ -1,6 +1,7 @@
 package com.pudding.base.domain.pay.service;
 
 import com.pudding.base.domain.common.enums.IsVisitStatus;
+import com.pudding.base.domain.common.exception.CustomException;
 import com.pudding.base.domain.member.entity.Member;
 import com.pudding.base.domain.member.repository.MemberRepository;
 import com.pudding.base.domain.order.repository.OrderRepository;
@@ -47,15 +48,15 @@ public class PayServiceImpl implements PayService {
         // 방문(주문)과 결제는 1대1 매칭되어야 하기때문에 체크필요함.
         boolean exists = payRepository.existsByVisitLogId(visitLogId);
         if (exists) {
-            throw new IllegalStateException("이미 결제가 등록된 방문(주문)입니다.");
+            throw new CustomException("이미 결제가 등록된 방문(주문)입니다.");
         }
 
         // 방문(주문) 정보 가져오기 (visitLogId로 방문 테이블 조회)
-        VisitLog visitLog = visitLogRepository.findById(visitLogId).orElseThrow(() -> new EntityNotFoundException("존재하지 않는 방문 기록입니다."));
+        VisitLog visitLog = visitLogRepository.findById(visitLogId).orElseThrow(() -> new CustomException("존재하지 않는 방문 기록입니다."));
 
         // 방문(주문)상태가 대기일 경우에만 결제처리 되도록 - 위에서 1대1 무조건 막히지만, 혹시 몰라서 2차로 방어
         if (visitLog.getVisitStatus() == IsVisitStatus.y) {
-            throw new IllegalArgumentException("이미 결제처리가 완료된 방문(주문)은 결제 처리를 할 수 없습니다..");
+            throw new CustomException("이미 결제처리가 완료된 방문(주문)은 결제 처리를 할 수 없습니다..");
         }
 
         // 1일 1회 이미 결제된 고객은 점주 금액입력 못하게(결제 데이터 안쌓이게)
@@ -65,14 +66,14 @@ public class PayServiceImpl implements PayService {
         Integer count = payRepository.countTodayPayments(visitLog.getCustomerId(), visitLog.getStoreId(),  start, end);
 
         if (count != null && count > 0) {
-            throw new IllegalArgumentException("오늘 이미 결제하셨습니다.");
+            throw new CustomException("오늘 이미 결제하셨습니다.");
         }
 
         // 회원 정보 가져오기(visitLog.getOwnerId로 member 테이블 조회)
-        Member member = memberRepository.findById(visitLog.getOwnerId()).orElseThrow(() -> new EntityNotFoundException("존재하지 않는 점주입니다."));
+        Member member = memberRepository.findById(visitLog.getOwnerId()).orElseThrow(() -> new CustomException("존재하지 않는 점주입니다."));
 
         // 플랫폼 설정 정보 가져오기
-        PlatformConfig platformConfig = platformConfigRepository.findById(1).orElseThrow(() -> new EntityNotFoundException("플랫폼 설정이 존재하지 않습니다."));
+        PlatformConfig platformConfig = platformConfigRepository.findById(1).orElseThrow(() -> new CustomException("플랫폼 설정이 존재하지 않습니다."));
 
 
 //        // 최대 금액 100만원
@@ -127,15 +128,8 @@ public class PayServiceImpl implements PayService {
                 .build();
         pointRepository.save(point); // 곧바로 저장
 
-        System.out.println(111111);
         // 점주의 포인트 (+) 하기
-        System.out.println("member totalPoint 1 = " + member.getTotalPoint());
         member.addTotalPoint(discount);
-        System.out.println("member totalPoint 2 = " + member.getTotalPoint());
-
-        System.out.println(22222);
-        System.out.println("금액이 안들어오는겨?"+discount);
-
 
         return PayDto.fromEntity(savedPay);
     }
@@ -149,7 +143,7 @@ public class PayServiceImpl implements PayService {
 
     // 결제 상세 조회
     public PayDto findByPayId(Integer id){
-        Pay pay = payRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("존재하지 않는 결제입니다"));
+        Pay pay = payRepository.findById(id).orElseThrow(() -> new CustomException("존재하지 않는 결제입니다"));
         return PayDto.fromEntity(pay);
     }
 
