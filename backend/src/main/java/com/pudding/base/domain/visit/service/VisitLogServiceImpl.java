@@ -99,7 +99,7 @@ public class VisitLogServiceImpl implements VisitLogService {
     }
 
     private void sendToSocketServer(VisitLog visitLog) {
-        String socketServerUrl = "http://localhost:4000/api/socket/store-new-visit";
+        String socketServerUrl = "http://localhost:4000/api/socket/store-visitLogs";
         try {
             RestTemplate restTemplate = new RestTemplate();
             HttpHeaders headers = new HttpHeaders();

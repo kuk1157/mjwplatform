@@ -27,15 +27,15 @@ public class VisitLogController {
         return ResponseEntity.ok(createVisitLogs);
     }
 
-//    @Operation(summary = "방문 기록 조회", description = "방문기록 알람에 활용될 api")
-//    @GetMapping("/{storeNum}")
-//    public ResponseEntity<List<VisitLogDto>> getAllVisitLog(@PathVariable Integer storeNum){
-//        List<VisitLogDto> visitLogs = visitLogService.getAllVisitLog(storeNum);
-//        return ResponseEntity.ok(visitLogs);
-//    }
-
-    @Operation(summary = "방문 기록 조회 n만", description = "점주용 금액 입력 용도 방문기록")
+    @Operation(summary = "방문 기록 조회", description = "방문기록 알람에 활용될 api")
     @GetMapping("/{storeNum}")
+    public ResponseEntity<List<VisitLogDto>> getAllVisitLog(@PathVariable Integer storeNum){
+        List<VisitLogDto> visitLogs = visitLogService.getAllVisitLog(storeNum);
+        return ResponseEntity.ok(visitLogs);
+    }
+
+    @Operation(summary = "신규 방문(주문) 기록 조회 ", description = "visit_status = n, payment_status = n 결제금액 입력가능 데이터만")
+    @GetMapping("/new/{storeNum}")
     public ResponseEntity<List<VisitLogDto>> getStoreByAndVisitStatusByVisitLog(@PathVariable Integer storeNum, IsVisitStatus visitStatus){
         List<VisitLogDto> visitLogs = visitLogService.getStoreByAndVisitStatusByVisitLog(storeNum, visitStatus);
         return ResponseEntity.ok(visitLogs);
