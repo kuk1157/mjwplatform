@@ -1,5 +1,5 @@
 import { MainContainer } from "../../molecules/container";
-import axios from "axios";
+import axios, { AxiosError } from "axios";
 import { useEffect, useState } from "react";
 import { useRecoilValueLoadable } from "recoil";
 import { userSelectorUpdated } from "src/recoil/userState";
@@ -129,7 +129,13 @@ function OwnerDashBoard() {
             alert(`금액 입력이 완료되었습니다.`);
             window.location.reload();
         } catch (error) {
-            console.error(`${id}번 방문(주문) 금액 입력 실패:`, error);
+            const axiosError = error as AxiosError<{ message: string }>;
+            const message = axiosError.response?.data?.message; // message를 변수로
+            if (message) {
+                alert(message);
+            } else {
+                alert("알 수 없는 오류가 발생했습니다.");
+            }
         }
     };
 
@@ -393,24 +399,6 @@ function OwnerDashBoard() {
                                     <p className="text-lg font-semibold mb-3 text-gray-900 select-none">
                                         방문 기록 : {visitLog.id}
                                     </p>
-                                    <input
-                                        type="number"
-                                        placeholder="금액 입력"
-                                        className="w-full text-center border border-gray-300 rounded-lg py-2 px-3 text-gray-700 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-yellow-400 focus:border-yellow-400 transition"
-                                        value={visitAmounts[visitLog.id] || ""}
-                                        onChange={(e) =>
-                                            handleAmountChange(
-                                                visitLog.id,
-                                                e.target.value
-                                            )
-                                        }
-                                    />
-                                    <button
-                                        className="mt-4 w-full bg-yellow-400 hover:bg-yellow-500 text-white font-semibold rounded-lg py-2 shadow-md hover:shadow-lg transition duration-300"
-                                        onClick={() => handleOrder(visitLog.id)}
-                                    >
-                                        금액 입력
-                                    </button>
                                 </div>
                             ))}
                         </div>
