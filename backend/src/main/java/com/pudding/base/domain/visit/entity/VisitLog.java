@@ -1,4 +1,5 @@
 package com.pudding.base.domain.visit.entity;
+import com.pudding.base.domain.common.enums.IsPaymentStatus;
 import com.pudding.base.domain.common.enums.IsVisitStatus;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.persistence.*;
@@ -47,6 +48,11 @@ public class VisitLog {
     @Schema(description = "방문상태(점주금액 입력일시)")
     private IsVisitStatus visitStatus;
 
+    @Enumerated(EnumType.STRING)
+    @Column(name = "payment_status")
+    @Schema(description = "하루 결제 상태(1일 결제 체크 같은고객이 하루 결제 된 기록이 있을 경우 그 날 일괄 데이터 y로 변경)")
+    private IsPaymentStatus paymentStatus;
+
     @Column(name = "amount_entered_at", insertable = false, updatable = false)
     @Schema(description = "점주가 금액을 입력한 일시")
     private LocalDateTime amountEnteredAt;
@@ -59,6 +65,11 @@ public class VisitLog {
     public void updateVisitStatus(){
         this.visitStatus = IsVisitStatus.y;
     }
+//
+//    // 점주가 금액 입력시 - 하루 결제 상태 y로
+//    public void updatePaymentStatus(){
+//        this.paymentStatus = IsPaymentStatus.y;
+//    }
 
     // 점주가 금액 입력시 - 날짜 남도록
     public void updateAmountEnteredAt(){
