@@ -54,6 +54,11 @@ public class AuthServiceImpl implements AuthService {
     public DidLoginResponseDto didLogin(ClaimInfo info, Integer storeId, Integer tableNumber) {
         Optional<Member> optional = memberRepository.findByDid(info.getDid());
         Member member = optional.orElseThrow(() -> new RuntimeException("Member not found."));
+
+        if(member.getRole() != Role.user){
+            throw new IllegalArgumentException("고객만 연동 로그인이 가능합니다.");
+        }
+
         // 로그인 로그 기록
 //        memberLogRepository.save(MemberLog.builder()
 //                .memberId(member.getId())
