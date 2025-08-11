@@ -7,16 +7,14 @@ import com.pudding.base.domain.member.enums.Gender;
 import com.pudding.base.domain.member.enums.Role;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.persistence.*;
-import lombok.AccessLevel;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import org.hibernate.annotations.DynamicInsert;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 @Getter
+@Setter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Entity
 @DynamicInsert
@@ -36,6 +34,9 @@ public class Member extends BaseTimeEntity {
 
     @Column(name = "did")
     private String did; // did
+
+    @Column(name = "wallet_address")
+    private String walletAddress; // 대구체인 지갑(계정) 주소
 
     @Column(name = "name")
     private String name; // 이름
@@ -80,10 +81,11 @@ public class Member extends BaseTimeEntity {
     }
 
     @Builder(toBuilder = true)
-    public Member(String loginId, String password, String did, String name, Gender gender,
+    public Member(String loginId, String password, String did, String walletAddress, String name, Gender gender,
                   LocalDate birthday, Role role, String email, String phoneNumber, IsActive isActive) {
         this.loginId = loginId;
         this.password = password;
+        this.walletAddress = walletAddress;
         this.did = did;
         this.name = name;
         this.gender = gender;

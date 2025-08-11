@@ -1,5 +1,6 @@
 package com.pudding.base.domain.auth.service;
 
+import com.pudding.base.dchain.DaeguChainClient;
 import com.pudding.base.domain.auth.dto.AuthRequestDto;
 import com.pudding.base.domain.auth.dto.AuthResponseDto;
 import com.pudding.base.domain.auth.dto.DidLoginResponseDto;
@@ -34,6 +35,7 @@ import java.util.Optional;
 public class AuthServiceImpl implements AuthService {
 
     private final JwtUtil jwtUtil;
+    private final DaeguChainClient daeguChainClient;
     private final MemberRepository memberRepository;
     private final AuthRepository authRepository;
     private final PasswordEncoder encoder;
@@ -64,6 +66,19 @@ public class AuthServiceImpl implements AuthService {
 //                .memberId(member.getId())
 //                .actType(ActType.login)
 //                .build());
+
+
+        // 지갑여부 확인
+        if (member.getWalletAddress() == null || member.getWalletAddress().isBlank()) {
+            // 지갑 생성
+            String address = daeguChainClient.createAccountAddress();
+
+            // 동시성 안전을 위해 다시 한 번 확인 후 저장
+            if (member.getWalletAddress() == null || member.getWalletAddress().isBlank()) {
+                member.setWalletAddress(address);
+                memberRepository.save(member);
+            }
+        }
 
         // 방문기록 생성 (did, storeId, tableNumber 직접 전달)
         VisitLogDto visitLogDto = visitLogService.createVisitLog(info.getDid(), storeId, tableNumber);

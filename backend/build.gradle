@@ -46,6 +46,8 @@ dependencies {
     implementation 'org.modelmapper:modelmapper:2.4.4'
     implementation 'org.springframework.boot:spring-boot-starter-mail'
     implementation 'org.apache.opennlp:opennlp-tools:1.9.4'
+    implementation "org.springframework.boot:spring-boot-starter-webflux"
+    implementation "io.projectreactor.netty:reactor-netty"
     compileOnly 'org.projectlombok:lombok'
     developmentOnly 'org.springframework.boot:spring-boot-devtools'
     runtimeOnly 'com.mysql:mysql-connector-j'
