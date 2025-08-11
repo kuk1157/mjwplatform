@@ -55,11 +55,32 @@ public class AuthServiceImpl implements AuthService {
     @Transactional
     public DidLoginResponseDto didLogin(ClaimInfo info, Integer storeId, Integer tableNumber) {
         Optional<Member> optional = memberRepository.findByDid(info.getDid());
-        Member member = optional.orElseThrow(() -> new RuntimeException("Member not found."));
+
+        Member member = optional.orElseGet(() -> {
+            Member newMember = Member.builder()
+                    .did(info.getDid())
+                    .name(info.getName())
+                    //.phoneNumber(info.getPhoneNumber())
+                    //.gender(info.getGender())
+                    //.ci(info.getCi())
+                    .role(Role.valueOf("user"))
+                    .build();
+            return memberRepository.save(newMember);
+        });
 
         if(member.getRole() != Role.user){
             throw new IllegalArgumentException("고객만 연동 로그인이 가능합니다.");
         }
+
+        Customer customer = customerRepository.findByDid(info.getDid())
+                .orElseGet(() -> {
+                    return customerRepository.save(
+                            Customer.builder()
+                                    .did(info.getDid())
+                                    .memberId(member.getId())
+                                    .build()
+                    );
+                });
 
         // 로그인 로그 기록
 //        memberLogRepository.save(MemberLog.builder()
