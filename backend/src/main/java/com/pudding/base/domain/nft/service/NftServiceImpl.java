@@ -8,6 +8,9 @@ import com.pudding.base.domain.store.entity.Store;
 import com.pudding.base.domain.store.repository.StoreRepository;
 import com.pudding.base.domain.storeTable.entity.StoreTable;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -38,9 +41,49 @@ public class NftServiceImpl implements NftService {
     }
 
 
-    public List<NftDto> getAllNft(Integer customerId){
-        List<Nft> nfts = nftRepository.findByCustomerId(customerId);
+//    // 고객 NFT 전체 조회
+//    public List<NftDto> getAllNftSorted(Integer customerId, String sort){
+//        List<Nft> nfts = nftRepository.findByCustomerId(customerId);
+//
+//        List<Integer> storeIds = nfts.stream()
+//                .map(Nft::getStoreId)
+//                .distinct()
+//                .collect(Collectors.toList());
+//
+//        Map<Integer, String> storeIdNameMap = storeRepository.findAllById(storeIds).stream()
+//                .collect(Collectors.toMap(Store::getId, Store::getName));
+//
+//
+//        return nfts.stream().map(nft -> NftDto.builder()
+//                .id(nft.getId())
+//                .tokenId(nft.getTokenId())
+//                .storeId(nft.getStoreId())
+//                .customerId(nft.getCustomerId())
+//                .storeName(storeIdNameMap.get(nft.getStoreId()))
+//                .createdAt(nft.getCreatedAt())
+//                .build()).collect(Collectors.toList());
+//    }
 
+    @Override
+    public List<NftDto> getAllNftSorted(Integer customerId, String sort) {
+        // limit 없이 전체 조회하려면 limit = null로 getLimitedNftSorted 호출
+        return getLimitedNftSorted(customerId, sort, null);
+    }
+
+    // 고객 NFT 전체 조회
+    public List<NftDto> getLimitedNftSorted(Integer customerId, String sort, Integer limit){
+
+        // 정렬 direction 세팅
+        Sort.Direction direction = "asc".equalsIgnoreCase(sort) ? Sort.Direction.ASC : Sort.Direction.DESC;
+        Sort sortObj = Sort.by(direction, "createdAt");
+
+        List<Nft> nfts;
+        if (limit != null) {
+            Pageable pageable = PageRequest.of(0, limit, sortObj);
+            nfts = nftRepository.findByCustomerId(customerId, pageable).getContent();
+        } else {
+            nfts = nftRepository.findByCustomerId(customerId, sortObj);
+        }
         List<Integer> storeIds = nfts.stream()
                 .map(Nft::getStoreId)
                 .distinct()
@@ -49,15 +92,15 @@ public class NftServiceImpl implements NftService {
         Map<Integer, String> storeIdNameMap = storeRepository.findAllById(storeIds).stream()
                 .collect(Collectors.toMap(Store::getId, Store::getName));
 
-
         return nfts.stream().map(nft -> NftDto.builder()
-                .id(nft.getId())
-                .tokenId(nft.getTokenId())
-                .storeId(nft.getStoreId())
-                .customerId(nft.getCustomerId())
-                .storeName(storeIdNameMap.get(nft.getStoreId()))
-                .createdAt(nft.getCreatedAt())
-                .build()).collect(Collectors.toList());
+                        .id(nft.getId())
+                        .tokenId(nft.getTokenId())
+                        .storeId(nft.getStoreId())
+                        .customerId(nft.getCustomerId())
+                        .storeName(storeIdNameMap.get(nft.getStoreId()))
+                        .createdAt(nft.getCreatedAt())
+                        .build())
+                .collect(Collectors.toList());
     }
 
     public boolean nftExists(Integer storeId, Integer customerId){
@@ -65,3 +108,4 @@ public class NftServiceImpl implements NftService {
     }
 
 }
+

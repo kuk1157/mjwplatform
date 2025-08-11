@@ -28,10 +28,16 @@ public class NftController {
 
     @Operation(summary = "NFT 전체 조회 API", description = "NFT 목록")
     @GetMapping("/customers/{customerId}/nfts")
-    public ResponseEntity<List<NftDto>> getAllNft(@PathVariable Integer customerId){
-        List<NftDto> nfts = nftService.getAllNft(customerId);
+    public ResponseEntity<List<NftDto>> getAllNft(@PathVariable Integer customerId,
+                                                  @RequestParam(defaultValue = "desc") String sort,
+                                                  @RequestParam(required = false) Integer limit){
+        List<NftDto> nfts;
+        if (limit == null) {
+            nfts = nftService.getAllNftSorted(customerId, sort);
+        } else {
+            nfts = nftService.getLimitedNftSorted(customerId, sort, limit); // 최근 2개만 조회
+        }
         return ResponseEntity.ok(nfts);
-
     }
 
     @Operation(summary ="NFT 고객,매장 기준으로 조회", description = "NFR 중복발급 예외 처리를 위한 API")

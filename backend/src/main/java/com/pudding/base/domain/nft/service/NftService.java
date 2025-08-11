@@ -10,8 +10,11 @@ public interface NftService {
     // nft 등록
     NftDto createNft(String did, Integer storeId, Integer customerId);
 
-    // nft 고객별 전체 조회
-    List<NftDto> getAllNft(Integer customerId);
+    // 고객 NFT 전체 조회
+    List<NftDto> getAllNftSorted(Integer customerId, String sort);
+
+    // 고객 NFT 최근 2개 조회
+    List<NftDto> getLimitedNftSorted(Integer customerId, String sort, Integer limit);
 
     // nft 고객 매장 기준 조회  - nft 중복 발급 예외 api
     boolean nftExists(Integer storeId, Integer customerId);
