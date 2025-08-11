@@ -1,6 +1,7 @@
 import axios from "axios";
 import { useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
+import { FaRegWindowRestore } from "react-icons/fa";
 
 interface Nft {
     id: number;
@@ -78,7 +79,9 @@ export function MobileMyPage() {
             <nav className="fixed bottom-0 left-0 right-0 bg-white border-t border-gray-300 shadow-md">
                 <ul className="flex justify-around items-center h-16">
                     <li className="flex flex-col items-center justify-center text-sm text-gray-700 cursor-pointer hover:text-blue-600 transition-colors select-none">
-                        <span className="text-xl">🏠</span>
+                        <span className="text-xl">
+                            <FaRegWindowRestore />
+                        </span>
                         <span className="mt-1">홈</span>
                     </li>
 
