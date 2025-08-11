@@ -1,7 +1,7 @@
 import axios from "axios";
 import { useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
-// import { BiStore } from "react-icons/bi"; // 소상공인 상생플랫폼 제목 아이콘
+import { BiStore } from "react-icons/bi"; // 소상공인 상생플랫폼 제목 아이콘
 import { IoHomeOutline } from "react-icons/io5"; // 홈 아이콘
 import { GrGallery } from "react-icons/gr"; // NFT 갤러리 아이콘
 import { BsBell } from "react-icons/bs"; // 방문 기록 아이콘
@@ -17,11 +17,20 @@ interface Nft {
     createdAt: string;
 }
 
+interface VisitLog {
+    id: number;
+    storeId: number;
+    customerId: number;
+    storeName?: string;
+    createdAt: string;
+}
+
 export function MobileMyPage() {
     const { customerId } = useParams();
     const [did, setDid] = useState();
     // const [memberId, setMemberId] = useState(); // 멤버에서 did 땡겨오는 느낌 진행
     const [nftLogs, setNfts] = useState<Nft[]>([]);
+    const [visitLogs, setVisitLogs] = useState<VisitLog[]>([]);
 
     useEffect(() => {
         if (!customerId) return;
@@ -33,13 +42,15 @@ export function MobileMyPage() {
                     axios.get(
                         `/api/v1/customers/${customerId}/nfts?sort=desc&limit=2`
                     ),
-                    axios.get(`/api/v1/visits/${customerId}?sort=desc&limit=2`),
+                    axios.get(
+                        `/api/v1/customers/${customerId}/visits?sort=desc&limit=2`
+                    ),
                 ]);
 
                 setDid(customerRes.data.did);
                 // setMemberId(customerRes.data.memberId);
                 setNfts(nftRes.data);
-                setNfts(visits.data);
+                setVisitLogs(visits.data);
             } catch (error) {
                 console.error("데이터 조회 실패:", error);
             }
@@ -124,6 +135,31 @@ export function MobileMyPage() {
                 </div>
                 <div className="h-[2px] bg-gradient-to-r from-blue-600 via-blue-500 to-purple-500 rounded-full shadow-[0_2px_6px_rgba(0,0,0,0.15)]"></div>
             </div>
+
+            {/* 방문 목록 */}
+            <section>
+                {visitLogs.map((visitLog, idx) => (
+                    <div
+                        key={idx}
+                        className="bg-white rounded-xl shadow-sm border border-gray-100 p-4 mb-3 flex items-center"
+                    >
+                        {/* 아이콘 or 색 포인트 */}
+                        <div className="w-10 h-10 flex items-center justify-center rounded-full bg-blue-100 text-blue-600 mr-4">
+                            <BiStore />
+                        </div>
+
+                        {/* 기존 데이터는 그대로 */}
+                        <div className="flex-1">
+                            <p className="text-xs font-semibold text-gray-900">
+                                가맹점 이름 : {visitLog.storeName}
+                            </p>
+                            <p className="text-xs text-gray-600">
+                                방문 시간 : {visitLog.createdAt}
+                            </p>
+                        </div>
+                    </div>
+                ))}
+            </section>
 
             {/* 하단 네비게이션 */}
             <nav className="fixed bottom-0 left-0 right-0 bg-white border-t border-gray-300 shadow-md">
