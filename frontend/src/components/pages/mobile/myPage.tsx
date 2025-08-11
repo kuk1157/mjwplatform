@@ -1,7 +1,12 @@
 import axios from "axios";
 import { useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
-import { FaRegWindowRestore } from "react-icons/fa";
+// import { BiStore } from "react-icons/bi"; // 소상공인 상생플랫폼 제목 아이콘
+import { IoHomeOutline } from "react-icons/io5"; // 홈 아이콘
+import { GrGallery } from "react-icons/gr"; // NFT 갤러리 아이콘
+import { BsBell } from "react-icons/bs"; // 방문 기록 아이콘
+import { FaRegUserCircle } from "react-icons/fa"; // 나의 정보 아이콘
+import { RiNftLine } from "react-icons/ri"; // 최근 nft 아이콘
 
 interface Nft {
     id: number;
@@ -39,28 +44,62 @@ export function MobileMyPage() {
         fetchData();
     }, [customerId]);
 
+    console.log(did);
     return (
         <div className="min-h-screen bg-white p-4">
-            <h1 className="font-semibold">🏪 소상공인 상생 플랫폼</h1>
+            <div className="mb-3">
+                <div className="flex items-center gap-2 mb-2">
+                    <h2 className="text-lg font-bold text-gray-800 tracking-tight">
+                        소상공인 상생 플랫폼
+                    </h2>
+                </div>
+            </div>
+
+            <section
+                className="
+    bg-gradient-to-r from-blue-700 via-blue-800 to-blue-900
+    text-white
+    rounded-xl
+    py-6
+    mb-6
+    select-none
+    text-center
+    font-semibold
+    text-lg
+  "
+            >
+                나의 정보
+            </section>
+
             {/* 상단 DID 정보 */}
-            <header className="bg-blue-900 text-white rounded-lg p-4 mb-5 font-semibold text-base truncate">
+            {/* <header className="bg-blue-900 text-white rounded-lg p-4 mb-5 font-semibold text-base truncate">
                 <p>[나의 DID 정보]</p>
                 <p>DID : {did}</p>
-            </header>
+            </header> */}
 
-            <h1 className="font-semibold">🏪 최근 NFT 목록</h1>
+            <div className="mt-6 mb-3">
+                <div className="flex items-center gap-2 mb-2">
+                    <GrGallery className="w-[22px] h-[22px] text-blue-600" />
+                    <h2 className="text-lg font-bold text-gray-800 tracking-tight">
+                        최근 NFT 목록
+                    </h2>
+                </div>
+                <div className="h-[2px] bg-gradient-to-r from-blue-600 via-blue-500 to-purple-500 rounded-full shadow-[0_2px_6px_rgba(0,0,0,0.15)]"></div>
+            </div>
+
             {/* NFT 목록 */}
             <section>
                 {nftLogs.map((nft, idx) => (
                     <div
                         key={idx}
-                        className="bg-white rounded-lg shadow-md flex items-center p-3 mb-3"
+                        className="bg-white rounded-xl shadow-sm border border-gray-100 p-4 mb-3 flex items-center"
                     >
-                        {/* <img
-                            src={nft.imageUrl}
-                            alt={nft.name}
-                            className="w-16 h-16 rounded-md object-cover mr-4"
-                        /> */}
+                        {/* 아이콘 or 색 포인트 */}
+                        <div className="w-10 h-10 flex items-center justify-center rounded-full bg-blue-100 text-blue-600 mr-4">
+                            <RiNftLine />
+                        </div>
+
+                        {/* 기존 데이터는 그대로 */}
                         <div className="flex-1">
                             <p className="text-xs font-semibold text-gray-900">
                                 NFT ID : {nft.tokenId}
@@ -72,31 +111,44 @@ export function MobileMyPage() {
                     </div>
                 ))}
             </section>
-
-            <h1 className="font-semibold">🏪 최근 방문기록</h1>
+            <div className="mt-6 mb-3">
+                <div className="flex items-center gap-2 mb-2">
+                    <BsBell className="w-[22px] h-[22px] text-blue-600" />
+                    <h2 className="text-lg font-bold text-gray-800 tracking-tight">
+                        최근 방문기록
+                    </h2>
+                </div>
+                <div className="h-[2px] bg-gradient-to-r from-blue-600 via-blue-500 to-purple-500 rounded-full shadow-[0_2px_6px_rgba(0,0,0,0.15)]"></div>
+            </div>
 
             {/* 하단 네비게이션 */}
             <nav className="fixed bottom-0 left-0 right-0 bg-white border-t border-gray-300 shadow-md">
                 <ul className="flex justify-around items-center h-16">
-                    <li className="flex flex-col items-center justify-center text-sm text-gray-700 cursor-pointer hover:text-blue-600 transition-colors select-none">
+                    <li className="flex flex-col items-center justify-center text-sm text-black cursor-pointer hover:text-blue-600 transition-colors select-none">
                         <span className="text-xl">
-                            <FaRegWindowRestore />
+                            <IoHomeOutline />
                         </span>
                         <span className="mt-1">홈</span>
                     </li>
 
-                    <li className="flex flex-col items-center justify-center text-sm text-gray-700 cursor-pointer hover:text-blue-600 transition-colors select-none">
-                        <span className="text-xl">🖼️</span>
+                    <li className="flex flex-col items-center justify-center text-sm text-black cursor-pointer hover:text-blue-600 transition-colors select-none">
+                        <span className="text-xl">
+                            <GrGallery />
+                        </span>
                         <span className="mt-1">NFT 갤러리</span>
                     </li>
 
-                    <li className="flex flex-col items-center justify-center text-sm text-gray-700 cursor-pointer hover:text-blue-600 transition-colors select-none">
-                        <span className="text-xl">📅</span>
+                    <li className="flex flex-col items-center justify-center text-sm text-black cursor-pointer hover:text-blue-600 transition-colors select-none">
+                        <span className="text-xl">
+                            <BsBell />
+                        </span>
                         <span className="mt-1">방문기록</span>
                     </li>
 
-                    <li className="flex flex-col items-center justify-center text-sm text-gray-700 cursor-pointer hover:text-blue-600 transition-colors select-none">
-                        <span className="text-xl">👤</span>
+                    <li className="flex flex-col items-center justify-center text-sm text-black cursor-pointer hover:text-blue-600 transition-colors select-none">
+                        <span className="text-xl">
+                            <FaRegUserCircle />
+                        </span>
                         <span className="mt-1">나의 정보</span>
                     </li>
                 </ul>
