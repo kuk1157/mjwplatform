@@ -237,6 +237,23 @@ function OwnerDashBoard() {
     //     navigate("/storeVisit");
     // };
 
+    // const dummyData: VisitLog[] = Array.from({ length: 57 }, (_, i) => ({
+    //     id: i + 1,
+    //     storeId: 100 + ((i % 5) + 1),
+    //     customerId: 2000 + i,
+    //     storeName: `매장 ${100 + ((i % 5) + 1)}`,
+    //     createdAt: new Date(Date.now() - i * 1000 * 60 * 60 * 24).toISOString(),
+    // }));
+
+    const [page, setPage] = useState(1);
+    const pageSize = 10;
+
+    const total = visitLogs.length;
+    const totalPages = Math.ceil(total / pageSize);
+
+    // 현재 페이지 데이터만 자르기
+    // const currentData = visitLogs.slice((page - 1) * pageSize, page * pageSize);
+
     return (
         <MainContainer className="py-[230px] bg-[#F6F6F6] lg:py-[150px] sm:py-[100px]">
             <div>
@@ -376,8 +393,7 @@ function OwnerDashBoard() {
                     )}
                 </div>
 
-                {/* 전체 방문 기록 섹션 */}
-                <div className="mb-12 px-10">
+                {/* <div className="mb-12 px-10">
                     <h2 className="text-2xl font-semibold text-gray-700 pb-1 mb-6 inline-block border-b-2 border-yellow-400 w-auto">
                         📅 전체 방문 기록
                     </h2>
@@ -403,6 +419,106 @@ function OwnerDashBoard() {
                             ))}
                         </div>
                     )}
+                </div> */}
+
+                {/* 전체 방문 기록 섹션 */}
+                <div className="mb-12 px-10">
+                    <h2 className="text-2xl font-semibold text-gray-700 pb-1 mb-6 inline-block border-b-2 border-yellow-400 w-auto">
+                        📅 전체 방문 기록
+                    </h2>
+                    <div className="overflow-x-auto p-6 bg-white rounded-xl shadow-lg ml-8">
+                        {visitLogs.length === 0 ? (
+                            <div className="py-12 text-center text-gray-400 text-lg font-medium">
+                                {name} 매장의 방문(주문)기록이 없습니다.
+                            </div>
+                        ) : (
+                            <>
+                                <table className="min-w-full border-collapse text-gray-800">
+                                    <thead>
+                                        <tr className="bg-[#21a089] text-white uppercase text-sm tracking-wide select-none">
+                                            <th className="py-4 px-6 text-center border-b border-gray-700 border-r">
+                                                번호
+                                            </th>
+                                            <th className="py-4 px-6 text-center border-b border-gray-700 border-r">
+                                                매장 ID
+                                            </th>
+                                            <th className="py-4 px-6 text-center border-b border-gray-700 border-r">
+                                                매장명
+                                            </th>
+                                            <th className="py-4 px-6 text-center border-b border-gray-700 border-r">
+                                                고객 ID
+                                            </th>
+                                            <th className="py-4 px-6 text-center border-b border-gray-700">
+                                                방문일시
+                                            </th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {visitLogs.map((visitLog, index) => (
+                                            <tr
+                                                key={visitLog.id}
+                                                className="hover:bg-gray-100 transition-colors duration-200 cursor-default"
+                                            >
+                                                <td className="py-4 px-6 text-center whitespace-nowrap font-semibold border-r border-gray-300">
+                                                    {(page - 1) * pageSize +
+                                                        index +
+                                                        1}
+                                                </td>
+                                                <td className="py-4 px-6 text-center whitespace-nowrap border-r border-gray-300">
+                                                    {visitLog.storeId}
+                                                </td>
+                                                <td className="py-4 px-6 text-center whitespace-nowrap border-r border-gray-300">
+                                                    {visitLog.storeName ?? "-"}
+                                                </td>
+                                                <td className="py-4 px-6 text-center whitespace-nowrap border-r border-gray-300">
+                                                    {visitLog.customerId}
+                                                </td>
+                                                <td className="py-4 px-6 text-center whitespace-nowrap">
+                                                    {new Date(
+                                                        visitLog.createdAt
+                                                    ).toLocaleString()}
+                                                </td>
+                                            </tr>
+                                        ))}
+                                    </tbody>
+                                </table>
+
+                                {/* Pagination */}
+                                <div className="flex justify-center items-center gap-3 mt-6 select-none">
+                                    <button
+                                        disabled={page === 1}
+                                        onClick={() => setPage((p) => p - 1)}
+                                        className="px-4 py-2 border border-gray-400 rounded-md bg-white text-gray-700 hover:bg-gray-200 disabled:opacity-40 disabled:cursor-not-allowed transition"
+                                    >
+                                        이전
+                                    </button>
+                                    {Array.from(
+                                        { length: totalPages },
+                                        (_, i) => (
+                                            <button
+                                                key={i + 1}
+                                                onClick={() => setPage(i + 1)}
+                                                className={`px-4 py-2 border border-gray-400 rounded-md transition ${
+                                                    page === i + 1
+                                                        ? "bg-blue-600 text-white border-blue-600"
+                                                        : "bg-white text-gray-700 hover:bg-gray-200"
+                                                }`}
+                                            >
+                                                {i + 1}
+                                            </button>
+                                        )
+                                    )}
+                                    <button
+                                        disabled={page === totalPages}
+                                        onClick={() => setPage((p) => p + 1)}
+                                        className="px-4 py-2 border border-gray-400 rounded-md bg-white text-gray-700 hover:bg-gray-200 disabled:opacity-40 disabled:cursor-not-allowed transition"
+                                    >
+                                        다음
+                                    </button>
+                                </div>
+                            </>
+                        )}
+                    </div>
                 </div>
             </div>
 
