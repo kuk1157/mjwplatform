@@ -28,14 +28,18 @@ export function MobileMyPage() {
 
         const fetchData = async () => {
             try {
-                const [customerRes, nftRes] = await Promise.all([
+                const [customerRes, nftRes, visits] = await Promise.all([
                     axios.get(`/api/v1/customers/${customerId}`),
-                    axios.get(`/api/v1/customers/${customerId}/nfts`),
+                    axios.get(
+                        `/api/v1/customers/${customerId}/nfts?sort=desc&limit=2`
+                    ),
+                    axios.get(`/api/v1/visits/${customerId}?sort=desc&limit=2`),
                 ]);
 
                 setDid(customerRes.data.did);
                 // setMemberId(customerRes.data.memberId);
                 setNfts(nftRes.data);
+                setNfts(visits.data);
             } catch (error) {
                 console.error("데이터 조회 실패:", error);
             }
