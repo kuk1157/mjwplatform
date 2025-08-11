@@ -12,5 +12,11 @@ public interface VisitLogService {
 
     List<VisitLogDto> getAllVisitLog(Integer storeNum);
 
+    // 고객 NFT 전체 조회
+    List<VisitLogDto> getAllVisitLogSorted(Integer customerId, String sort);
+
+    // 고객 NFT 최근 2개 조회
+    List<VisitLogDto> getLimitedVisitLogSorted(Integer customerId, String sort, Integer limit);
+
     List<VisitLogDto> getStoreByAndVisitStatusAndPaymentStatusByVisitLog(Integer storeNum, IsPaymentStatus paymentStatus, IsVisitStatus visitStatus);
 }

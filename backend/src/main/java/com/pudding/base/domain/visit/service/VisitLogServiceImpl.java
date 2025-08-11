@@ -18,6 +18,9 @@ import com.pudding.base.domain.visit.repository.VisitLogRepository;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
@@ -117,6 +120,44 @@ public class VisitLogServiceImpl implements VisitLogService {
         }
     }
 
+    public List<VisitLogDto> getAllVisitLogSorted(Integer customerId, String sort) {
+        Sort.Direction direction = "asc".equalsIgnoreCase(sort) ? Sort.Direction.ASC : Sort.Direction.DESC;
+        Sort sortObj = Sort.by(direction, "createdAt");
+
+        List<VisitLog> visitLogs = visitLogRepository.findByCustomerId(customerId, sortObj);
+
+        return visitLogs.stream()
+                .map(visitLog -> VisitLogDto.builder()
+                        .id(visitLog.getId())
+                        .ownerId(visitLog.getOwnerId())
+                        .storeId(visitLog.getStoreId())
+                        .storeTableId(visitLog.getStoreTableId())
+                        .customerId(visitLog.getCustomerId())
+                        .storeName(visitLog.getStoreName())
+                        .createdAt(visitLog.getCreatedAt())
+                        .build())
+                .collect(Collectors.toList());
+    }
+
+    public List<VisitLogDto> getLimitedVisitLogSorted(Integer customerId, String sort, Integer limit) {
+        Sort.Direction direction = "asc".equalsIgnoreCase(sort) ? Sort.Direction.ASC : Sort.Direction.DESC;
+        Sort sortObj = Sort.by(direction, "createdAt");
+
+        Pageable pageable = PageRequest.of(0, limit, sortObj);
+        List<VisitLog> visitLogs = visitLogRepository.findByCustomerId(customerId, pageable).getContent();
+
+        return visitLogs.stream()
+                .map(visitLog -> VisitLogDto.builder()
+                        .id(visitLog.getId())
+                        .ownerId(visitLog.getOwnerId())
+                        .storeId(visitLog.getStoreId())
+                        .storeTableId(visitLog.getStoreTableId())
+                        .customerId(visitLog.getCustomerId())
+                        .storeName(visitLog.getStoreName())
+                        .createdAt(visitLog.getCreatedAt())
+                        .build())
+                .collect(Collectors.toList());
+    }
 
 
 
