@@ -1,11 +1,11 @@
 import { lazy } from "react";
 import Loadable from "../utils/Loadable";
-import { createBrowserRouter } from "react-router-dom";
+import { createBrowserRouter, Navigate } from "react-router-dom";
 
 // /* ****Pages***** */
-const Main = Loadable({
-    Component: lazy(() => import("../components/pages/main")),
-});
+// const Main = Loadable({
+//     Component: lazy(() => import("../components/pages/main")),
+// });
 
 // 임시 socket 테스트 페이지
 const SocketTest = Loadable({
@@ -174,12 +174,18 @@ const OwnerDashBoard = Loadable({
     Component: lazy(() => import("../components/pages/owner/dashBoard")),
 });
 
+// 점주용 웹 플랫폼 메인 대시보드
+const TestQr = Loadable({
+    Component: lazy(() => import("../components/pages/testQr")),
+});
+
 const Router = createBrowserRouter([
     {
         path: "/",
         element: <MainLayoutLoader />,
         children: [
-            { index: true, element: <Main /> },
+            { index: true, element: <Navigate to={"/admin"} /> }, // 임시로 무조건 admin으로 가도록
+            // { index: true, element: <Main /> },
             { path: "/login", element: <Login /> },
             { path: "/login/find/findLoginId", element: <FindLoginId /> },
             { path: "/login/find/findPassword", element: <FindPassword /> },
@@ -201,6 +207,11 @@ const Router = createBrowserRouter([
             {
                 path: "/testVisit/:storeId",
                 element: <TestVisit />,
+            },
+
+            {
+                path: "/testQr",
+                element: <TestQr />,
             },
 
             {
