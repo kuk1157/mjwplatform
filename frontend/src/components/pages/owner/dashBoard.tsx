@@ -258,8 +258,8 @@ function OwnerDashBoard() {
         <MainContainer className="py-[230px] bg-[#F6F6F6] lg:py-[150px] sm:py-[100px]">
             <div>
                 {/* 가맹점 및 금액 정보 섹션 */}
-                <div className="mb-12 px-10">
-                    <h2 className="text-2xl font-semibold text-gray-700 pb-1 mb-6 inline-block border-b-2 border-yellow-400 w-auto">
+                <div className="mb-20 px-10">
+                    <h2 className="text-2xl font-semibold text-gray-700 pb-1 mb-6 inline-block border-b-2 border-yellow-400 w-full">
                         🏢 가맹점 및 금액 정보
                     </h2>
                     <div className="flex justify-center gap-6">
@@ -296,8 +296,8 @@ function OwnerDashBoard() {
                 </div>
 
                 {/* 버튼 섹션 */}
-                <div className="mb-12 px-10">
-                    <h2 className="text-2xl font-semibold text-gray-700 pb-1 mb-6 inline-block border-b-2 border-yellow-400 w-auto">
+                <div className="mb-20 px-10">
+                    <h2 className="text-2xl font-semibold text-gray-700 pb-1 mb-6 inline-block border-b-2 border-yellow-400 w-full">
                         🛠️ 기능 선택
                     </h2>
                     <div className="grid grid-cols-4 gap-6 px-8">
@@ -343,8 +343,8 @@ function OwnerDashBoard() {
                     </div>
                 </div>
                 {/* 신규 방문(주문) 기록 섹션 */}
-                <div className="mb-12 px-10">
-                    <h2 className="text-2xl font-semibold text-gray-700 pb-1 mb-6 inline-block border-b-2 border-yellow-400 w-auto">
+                <div className="mb-20 px-10">
+                    <h2 className="text-2xl font-semibold text-gray-700 pb-1 mb-6 inline-block border-b-2 border-yellow-400 w-full">
                         📅 신규 방문(주문) 기록
                     </h2>
 
@@ -393,8 +393,8 @@ function OwnerDashBoard() {
                     )}
                 </div>
 
-                {/* <div className="mb-12 px-10">
-                    <h2 className="text-2xl font-semibold text-gray-700 pb-1 mb-6 inline-block border-b-2 border-yellow-400 w-auto">
+                {/* <div className="mb-20 px-10">
+                    <h2 className="text-2xl font-semibold text-gray-700 pb-1 mb-6 inline-block border-b-2 border-yellow-400 w-full">
                         📅 전체 방문 기록
                     </h2>
 
@@ -422,8 +422,8 @@ function OwnerDashBoard() {
                 </div> */}
 
                 {/* 전체 방문 기록 섹션 */}
-                <div className="mb-12 px-10">
-                    <h2 className="text-2xl font-semibold text-gray-700 pb-1 mb-6 inline-block border-b-2 border-yellow-400 w-auto">
+                <div className="mb-20 px-10">
+                    <h2 className="text-2xl font-semibold text-gray-700 pb-1 mb-6 inline-block border-b-2 border-yellow-400 w-full">
                         📅 전체 방문 기록
                     </h2>
                     <div className="overflow-x-auto p-6 bg-white rounded-xl shadow-lg ml-8">
