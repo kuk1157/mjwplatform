@@ -59,7 +59,7 @@ function OwnerDashBoard() {
 
                 // 소켓 연결 및 방 참가
                 if (!socketRef.current) {
-                    socketRef.current = io("http://localhost:4000");
+                    socketRef.current = io("https://coex.everymeta.kr:7951");
                 }
 
                 socketRef.current.emit("joinStore", storeId);

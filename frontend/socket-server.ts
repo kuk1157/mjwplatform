@@ -66,7 +66,7 @@ app.post("/api/socket/store-visitLogs", (req, res) => {
     return res.status(200).json({ message: "전송 성공" });
 });
 
-const PORT = 4000;
+const PORT = 7951;
 httpServer.listen(PORT, () => {
     console.log(`소켓 서버 실행중 : http://localhost:${PORT}`);
 });

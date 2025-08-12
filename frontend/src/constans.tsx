@@ -1,7 +1,7 @@
 // eslint-disable-next-line react-refresh/only-export-components
 export const siteUrl =
     process.env.NODE_ENV === "production"
-        ? "https://www.vpudding.com"!
+        ? "https://coex.everymeta.kr"!
         : "http://localhost:5173";
 
 export const cdn = "https://kr.object.ncloudstorage.com/pudding";
