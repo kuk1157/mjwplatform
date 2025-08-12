@@ -1,4 +1,5 @@
 package com.pudding.base.domain.visit.entity;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.pudding.base.domain.common.enums.IsPaymentStatus;
 import com.pudding.base.domain.common.enums.IsVisitStatus;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -57,6 +58,7 @@ public class VisitLog {
     @Schema(description = "점주가 금액을 입력한 일시")
     private LocalDateTime amountEnteredAt;
 
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss")
     @Column(name = "created_at", insertable = false, updatable = false)
     @Schema(description = "생성일")
     private LocalDateTime createdAt;

@@ -15,7 +15,9 @@ import com.pudding.base.domain.storeTable.dto.StoreTableDto;
 import com.pudding.base.domain.visit.dto.VisitLogDto;
 import com.pudding.base.domain.visit.entity.VisitLog;
 import com.pudding.base.domain.visit.repository.VisitLogRepository;
+import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityNotFoundException;
+import jakarta.persistence.PersistenceContext;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.PageRequest;
@@ -46,6 +48,9 @@ public class VisitLogServiceImpl implements VisitLogService {
     private final MemberRepository memberRepository;
     private final NftService nftService;
 
+    @PersistenceContext
+    private EntityManager entityManager;
+
     @Transactional
     public VisitLogDto createVisitLog(String did, Integer storeNum, Integer tableNumber){
         Customer customer = customerRepository.findByDid(did).orElseThrow(() -> new EntityNotFoundException("존재하지 않는 고객입니다."));
@@ -66,6 +71,7 @@ public class VisitLogServiceImpl implements VisitLogService {
         savedQrVisit = visitLogRepository.findById(savedQrVisit.getId())
                 .orElseThrow(() -> new EntityNotFoundException("저장된 방문기록을 찾을 수 없습니다."));
 
+        entityManager.refresh(savedQrVisit); // DB 최신 값 다시 채움
 
         // Socket 서버로 전송
         sendToSocketServer(savedQrVisit);
