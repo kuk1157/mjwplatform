@@ -164,6 +164,11 @@ const MobileMyPage = Loadable({
     Component: lazy(() => import("../components/pages/mobile/myPage")),
 });
 
+// 모바일 고객 나의 정보
+const MobileMyInfo = Loadable({
+    Component: lazy(() => import("../components/pages/mobile/myInfo")),
+});
+
 // 점주용 웹 플랫폼 메인 대시보드
 const OwnerDashBoard = Loadable({
     Component: lazy(() => import("../components/pages/owner/dashBoard")),
@@ -351,6 +356,12 @@ const Router = createBrowserRouter([
     {
         path: "/mobile/myPage/:customerId",
         element: <MobileMyPage />,
+    },
+
+    // 모바일 고객 나의 정보
+    {
+        path: "/mobile/myInfo/:customerId",
+        element: <MobileMyInfo />,
     },
 ]);
 
