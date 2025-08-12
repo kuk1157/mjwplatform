@@ -87,7 +87,7 @@ public class VisitLogServiceImpl implements VisitLogService {
     }
 
     private void sendToSocketServer(VisitLog visitLog) {
-        String socketServerUrl = "http://localhost:4000/api/socket/store-visitLogs";
+        String socketServerUrl = "https://coex.everymeta.kr:7951/api/socket/store-visitLogs";
         try {
             RestTemplate restTemplate = new RestTemplate();
             HttpHeaders headers = new HttpHeaders();
@@ -143,8 +143,7 @@ public class VisitLogServiceImpl implements VisitLogService {
                 .collect(Collectors.toList());
     }
 
-
-
+    // 가맹점 별 전체 방문기록
     public List<VisitLogDto> getAllVisitLog(Integer storeNum){
         List<VisitLog> visitLogs = visitLogRepository.findByStoreId(storeNum);
         // StoreTable 엔티티를 StoreTableDto로 변환
@@ -161,6 +160,7 @@ public class VisitLogServiceImpl implements VisitLogService {
                 .collect(Collectors.toList());
     }
 
+    // 가맹점 별 신규 방문 기록
     public List<VisitLogDto> getStoreByAndVisitStatusAndPaymentStatusByVisitLog(Integer storeNum, IsPaymentStatus paymentStatus, IsVisitStatus visitStatus){
         List<VisitLog> visitLogs = visitLogRepository.findByStoreIdAndPaymentStatusAndVisitStatus(storeNum, IsPaymentStatus.n, IsVisitStatus.n);
         // StoreTable 엔티티를 StoreTableDto로 변환
