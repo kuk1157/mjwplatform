@@ -440,13 +440,10 @@ function OwnerDashBoard() {
                                                 번호
                                             </th>
                                             <th className="py-4 px-6 text-center border-b border-gray-700 border-r">
-                                                매장 ID
+                                                고객 이름
                                             </th>
                                             <th className="py-4 px-6 text-center border-b border-gray-700 border-r">
-                                                매장명
-                                            </th>
-                                            <th className="py-4 px-6 text-center border-b border-gray-700 border-r">
-                                                고객 ID
+                                                테이블 번호
                                             </th>
                                             <th className="py-4 px-6 text-center border-b border-gray-700">
                                                 방문일시
@@ -468,10 +465,7 @@ function OwnerDashBoard() {
                                                     {visitLog.storeId}
                                                 </td>
                                                 <td className="py-4 px-6 text-center whitespace-nowrap border-r border-gray-300">
-                                                    {visitLog.storeName ?? "-"}
-                                                </td>
-                                                <td className="py-4 px-6 text-center whitespace-nowrap border-r border-gray-300">
-                                                    {visitLog.customerId}
+                                                    {visitLog.customerId}번
                                                 </td>
                                                 <td className="py-4 px-6 text-center whitespace-nowrap">
                                                     {new Date(
