@@ -60,6 +60,13 @@ public class VisitLogServiceImpl implements VisitLogService {
                 .build();
         VisitLog savedQrVisit = visitLogRepository.save(visitLog);
 
+
+        // 생성된 방문기록을 예외 처리
+        // 날짜 제대로 못받는 이슈가 있기에 정확하게 DB에 저장된 후에 socket 으로 전송
+        savedQrVisit = visitLogRepository.findById(savedQrVisit.getId())
+                .orElseThrow(() -> new EntityNotFoundException("저장된 방문기록을 찾을 수 없습니다."));
+
+
         // Socket 서버로 전송
         sendToSocketServer(savedQrVisit);
 
