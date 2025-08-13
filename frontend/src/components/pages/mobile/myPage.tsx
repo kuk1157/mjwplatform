@@ -2,6 +2,7 @@ import axios from "axios";
 import { useParams, useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { BiStore } from "react-icons/bi"; // 소상공인 상생플랫폼 제목 아이콘
+import { FaRegUserCircle } from "react-icons/fa"; // 나의 정보 아이콘
 import { GrGallery } from "react-icons/gr"; // NFT 갤러리 아이콘
 import { BsBell } from "react-icons/bs"; // 방문 기록 아이콘
 import { RiNftLine } from "react-icons/ri"; // 최근 nft 아이콘
@@ -73,6 +74,16 @@ export function MobileMyPage() {
                         소상공인 상생 플랫폼
                     </h2>
                 </div>
+            </div>
+
+            <div className="mt-6 mb-3">
+                <div className="flex items-center gap-2 mb-2">
+                    <FaRegUserCircle className="w-[22px] h-[22px] text-blue-600" />
+                    <h2 className="text-lg font-bold text-gray-800 tracking-tight">
+                        나의 정보
+                    </h2>
+                </div>
+                <div className="h-[2px] bg-gradient-to-r from-blue-600 via-blue-500 to-purple-500 rounded-full shadow-[0_2px_6px_rgba(0,0,0,0.15)]"></div>
             </div>
 
             <button
