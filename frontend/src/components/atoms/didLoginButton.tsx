@@ -20,12 +20,6 @@ interface DidLoginButtonProps {
 }
 
 const DidLoginButton = ({ storeNum, tableNumber }: DidLoginButtonProps) => {
-    // UA 감지 함수
-    const isIos = () => {
-        const ua = navigator.userAgent.toLowerCase();
-        return /iphone|ipad|ipod/.test(ua);
-    };
-
     useEffect(() => {
         // 다대구 로그인 콜백 등록
         window.handleDidLogin = async (
@@ -72,6 +66,9 @@ const DidLoginButton = ({ storeNum, tableNumber }: DidLoginButtonProps) => {
         const interval = setInterval(() => {
             if (window.didLogin) {
                 clearInterval(interval);
+                console.log(
+                    "didLogin.js 로딩 완료, daeguIdLogin 함수 등록 중..."
+                );
 
                 window.daeguIdLogin = () => {
                     const data = {
@@ -82,18 +79,7 @@ const DidLoginButton = ({ storeNum, tableNumber }: DidLoginButtonProps) => {
                         //returnUrl: "/api/v1/auth/did",
                         callbackFunc: "handleDidLogin",
                     };
-
-                    if (isIos()) {
-                        console.log("iOS 환경 → goReturnUrl 호출");
-                        window.goReturnUrl(
-                            data,
-                            `/api/v1/auth/did/${storeNum}/${tableNumber}`,
-                            "handleDidLogin"
-                        );
-                    } else {
-                        console.log("PC/안드로이드 → popup 호출");
-                        window.didLogin.loginPopup(data);
-                    }
+                    window.didLogin.loginPopup(data);
                 };
             } else {
                 retries--;

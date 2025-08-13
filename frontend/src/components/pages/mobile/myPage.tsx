@@ -141,7 +141,7 @@ export function MobileMyPage() {
                             <ImNotification className="w-8 h-8" />
                         </div>
                         <p className="text-black text-sm font-semibold">
-                            최근 NFR 발급 기록이 없습니다.
+                            최근 NFT 발급 기록이 없습니다.
                         </p>
                         <p className="text-gray-500 text-xs mt-1">
                             새로운 NFT가 발급되면 이곳에 표시됩니다.
