@@ -1,16 +1,14 @@
-import axios from "axios";
 import { useEffect } from "react";
-import { Helmet } from "react-helmet";
+import axios from "axios";
 
-// (window as any) 캐스팅 우회
+// 타입 확장
 declare global {
     interface Window {
         daeguIdLogin: () => void;
-        didLogin: {
+        didLogin?: {
             loginPopup: (data: any) => void;
         };
         handleDidLogin: (returnData: string) => void;
-        goReturnUrl: (data: any, url: string, callbackFunc?: string) => void;
     }
 }
 
@@ -21,7 +19,7 @@ interface DidLoginButtonProps {
 
 const DidLoginButton = ({ storeNum, tableNumber }: DidLoginButtonProps) => {
     useEffect(() => {
-        // 다대구 로그인 콜백 등록
+        // 로그인 처리 콜백 등록
         window.handleDidLogin = async (
             returnData: string | { returnData?: string }
         ) => {
@@ -31,8 +29,6 @@ const DidLoginButton = ({ storeNum, tableNumber }: DidLoginButtonProps) => {
                     `/api/v1/auth/did/${storeNum}/${tableNumber}`,
                     {
                         returnData:
-                            // returnData가 문자열인 경우 그대로 사용
-                            // backend에서 JSON으로 변환 RequestBody를 처리할 수 있도록
                             typeof returnData === "string"
                                 ? returnData
                                 : JSON.stringify(returnData),
@@ -61,51 +57,56 @@ const DidLoginButton = ({ storeNum, tableNumber }: DidLoginButtonProps) => {
             }
         };
 
-        // didLogin.js 로딩 대기
-        let retries = 10;
-        const interval = setInterval(() => {
-            if (window.didLogin) {
-                clearInterval(interval);
-                console.log(
-                    "didLogin.js 로딩 완료, daeguIdLogin 함수 등록 중..."
-                );
+        // 스크립트 로드 유틸 함수
+        const loadScript = (src: string) =>
+            new Promise<void>((resolve, reject) => {
+                const script = document.createElement("script");
+                script.src = src;
+                script.async = true;
+                script.onload = () => resolve();
+                script.onerror = () => reject(`Failed to load ${src}`);
+                document.body.appendChild(script);
+            });
 
-                window.daeguIdLogin = () => {
-                    const data = {
-                        siteId: "AuyVJfyBUnUGcFzqSih27NT",
-                        //requiredVC: "DaeguMasterVC", // 전체
-                        requiredVC: "Name", // DID와 CI는 기본 포함
-                        subVC: "",
-                        //returnUrl: "/api/v1/auth/did",
-                        callbackFunc: "handleDidLogin",
+        // jQuery → didLogin.js 순서대로 로드
+        (async () => {
+            try {
+                await loadScript("https://code.jquery.com/jquery-3.6.0.min.js");
+                console.log("jQuery loaded");
+
+                await loadScript("/js/didLogin.js");
+                console.log("didLogin.js loaded");
+
+                if (window.didLogin) {
+                    window.daeguIdLogin = () => {
+                        const data = {
+                            siteId: "AuyVJfyBUnUGcFzqSih27NT",
+                            requiredVC: "Name", // DID와 CI는 기본 포함
+                            subVC: "",
+                            callbackFunc: "handleDidLogin",
+                        };
+                        window.didLogin?.loginPopup(data);
                     };
-                    window.didLogin.loginPopup(data);
-                };
-            } else {
-                retries--;
-                if (retries <= 0) {
-                    clearInterval(interval);
-                    console.error("didLogin.js is not loaded!");
+                } else {
+                    console.error("window.didLogin is still undefined!");
                 }
+            } catch (err) {
+                console.error(err);
             }
-        }, 300);
+        })();
     }, [storeNum, tableNumber]);
 
     return (
-        <>
-            <Helmet>
-                <script src="https://code.jquery.com/jquery-3.6.0.min.js" />
-                <script src="/js/didLogin.js" />
-            </Helmet>
-
-            <button onClick={() => window.daeguIdLogin()}>
-                <img
-                    src="/assets/image/did/icon_5.png"
-                    alt="Daegu ID Logo"
-                    className="object-contain"
-                />
-            </button>
-        </>
+        <button
+            onClick={() => window.daeguIdLogin?.()}
+            className="cursor-pointer"
+        >
+            <img
+                src="/assets/image/did/icon_5.png"
+                alt="Daegu ID Logo"
+                className="object-contain"
+            />
+        </button>
     );
 };
 
