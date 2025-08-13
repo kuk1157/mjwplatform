@@ -171,7 +171,10 @@ export function MobileMyPage() {
                                     가맹점 이름 : {visitLog.storeName}
                                 </p>
                                 <p className="text-xs text-gray-600">
-                                    방문 시간 : {visitLog.createdAt}
+                                    방문 시간 :{" "}
+                                    {new Date(
+                                        visitLog.createdAt
+                                    ).toLocaleString()}
                                 </p>
                             </div>
                         </div>
