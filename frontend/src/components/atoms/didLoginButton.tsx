@@ -10,6 +10,7 @@ declare global {
             loginPopup: (data: any) => void;
         };
         handleDidLogin: (returnData: string) => void;
+        goReturnUrl: (data: any, url: string, callbackFunc?: string) => void;
     }
 }
 
@@ -19,6 +20,12 @@ interface DidLoginButtonProps {
 }
 
 const DidLoginButton = ({ storeNum, tableNumber }: DidLoginButtonProps) => {
+    // UA 감지 함수
+    const isIos = () => {
+        const ua = navigator.userAgent.toLowerCase();
+        return /iphone|ipad|ipod/.test(ua);
+    };
+
     useEffect(() => {
         // 다대구 로그인 콜백 등록
         window.handleDidLogin = async (
@@ -76,7 +83,17 @@ const DidLoginButton = ({ storeNum, tableNumber }: DidLoginButtonProps) => {
                         callbackFunc: "handleDidLogin",
                     };
 
-                    window.didLogin.loginPopup(data);
+                    if (isIos()) {
+                        console.log("iOS 환경 → goReturnUrl 호출");
+                        window.goReturnUrl(
+                            data,
+                            `/api/v1/auth/did/${storeNum}/${tableNumber}`,
+                            "handleDidLogin"
+                        );
+                    } else {
+                        console.log("PC/안드로이드 → popup 호출");
+                        window.didLogin.loginPopup(data);
+                    }
                 };
             } else {
                 retries--;
