@@ -1,5 +1,5 @@
 import axios from "axios";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { IoHomeOutline } from "react-icons/io5"; // 홈 아이콘
 import { GrGallery } from "react-icons/gr"; // NFT 갤러리 아이콘
@@ -21,6 +21,7 @@ interface Nft {
 export function MobileMyNftList() {
     const { customerId } = useParams();
     const [nftLogs, setNfts] = useState<Nft[]>([]);
+    const navigate = useNavigate();
 
     useEffect(() => {
         if (!customerId) return;
@@ -39,6 +40,10 @@ export function MobileMyNftList() {
 
         fetchData();
     }, [customerId]);
+
+    const handleBack = () => {
+        navigate(-1); // 뒤로 가기
+    };
 
     return (
         <div className="min-h-screen bg-white p-4">
@@ -98,6 +103,15 @@ export function MobileMyNftList() {
                     </div>
                 )}
             </section>
+
+            <div className="text-center my-6">
+                <button
+                    className="border-2 border-blue-600 text-blue-600 px-12 py-3 rounded-md font-semibold"
+                    onClick={handleBack}
+                >
+                    이전
+                </button>
+            </div>
 
             {/* 하단 네비게이션 */}
             <nav className="fixed bottom-0 left-0 right-0 bg-white border-t border-gray-300 shadow-md">
