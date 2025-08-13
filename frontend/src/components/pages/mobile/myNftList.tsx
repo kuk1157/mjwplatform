@@ -1,13 +1,11 @@
 import axios from "axios";
 import { useParams, useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
-import { IoHomeOutline } from "react-icons/io5"; // 홈 아이콘
 import { GrGallery } from "react-icons/gr"; // NFT 갤러리 아이콘
-import { BsBell } from "react-icons/bs"; // 방문 기록 아이콘
-import { FaRegUserCircle } from "react-icons/fa"; // 나의 정보 아이콘
 import { RiNftLine } from "react-icons/ri"; // 최근 nft 아이콘
+import { ImNotification } from "react-icons/im"; // 데이터가 없습니다 아이콘
 
-import { ImNotification } from "react-icons/im"; // 방문기록이 없습니다 아이콘
+import { MobileFooter } from "src/components/organisms/mobileFooter"; // 하단 모바일 footer 공통 컴포넌트
 
 interface Nft {
     id: number;
@@ -112,39 +110,8 @@ export function MobileMyNftList() {
                     이전
                 </button>
             </div>
-
             {/* 하단 네비게이션 */}
-            <nav className="fixed bottom-0 left-0 right-0 bg-white border-t border-gray-300 shadow-md">
-                <ul className="flex justify-around items-center h-16">
-                    <li className="flex flex-col items-center justify-center text-sm text-black cursor-pointer hover:text-blue-600 transition-colors select-none">
-                        <span className="text-xl">
-                            <IoHomeOutline />
-                        </span>
-                        <span className="mt-1">홈</span>
-                    </li>
-
-                    <li className="flex flex-col items-center justify-center text-sm text-black cursor-pointer hover:text-blue-600 transition-colors select-none">
-                        <span className="text-xl">
-                            <GrGallery />
-                        </span>
-                        <span className="mt-1">NFT 갤러리</span>
-                    </li>
-
-                    <li className="flex flex-col items-center justify-center text-sm text-black cursor-pointer hover:text-blue-600 transition-colors select-none">
-                        <span className="text-xl">
-                            <BsBell />
-                        </span>
-                        <span className="mt-1">방문기록</span>
-                    </li>
-
-                    <li className="flex flex-col items-center justify-center text-sm text-black cursor-pointer hover:text-blue-600 transition-colors select-none">
-                        <span className="text-xl">
-                            <FaRegUserCircle />
-                        </span>
-                        <span className="mt-1">나의 정보</span>
-                    </li>
-                </ul>
-            </nav>
+            {customerId && <MobileFooter param={Number(customerId)} />}
         </div>
     );
 }
