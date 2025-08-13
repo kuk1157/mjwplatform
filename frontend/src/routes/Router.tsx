@@ -7,26 +7,6 @@ import { createBrowserRouter, Navigate } from "react-router-dom";
 //     Component: lazy(() => import("../components/pages/main")),
 // });
 
-// 임시 socket 테스트 페이지
-const SocketTest = Loadable({
-    Component: lazy(() => import("../components/pages/socketTest")),
-});
-
-// 임시 각 주문 금액 입력 페이지
-const StoreVisit = Loadable({
-    Component: lazy(() => import("../components/pages/storeVisit")),
-});
-
-// 임시 방문 기록 페이지
-const TestVisit = Loadable({
-    Component: lazy(() => import("../components/pages/testVisit")),
-});
-
-// 임시 매장 테이블 페이지
-const TestStoreTable = Loadable({
-    Component: lazy(() => import("../components/pages/testStoreTable")),
-});
-
 const MainLayoutLoader = Loadable({
     Component: lazy(() => import("../components/organisms/mainLayout")),
 });
@@ -154,6 +134,42 @@ const AdminStoreTableDetail = Loadable({
     Component: lazy(() => import("../components/pages/admin/storeTableDetail")),
 });
 
+// [ 메인에서 곧바로 진행되는 페이지들 ] - 곧 정리할 예정
+
+// 고객 QR인증 페이지
+const TestQr = Loadable({
+    Component: lazy(() => import("../components/pages/testQr")),
+});
+
+// 임시 socket 테스트 페이지
+const SocketTest = Loadable({
+    Component: lazy(() => import("../components/pages/socketTest")),
+});
+
+// 임시 각 주문 금액 입력 페이지
+const StoreVisit = Loadable({
+    Component: lazy(() => import("../components/pages/storeVisit")),
+});
+
+// 임시 방문 기록 페이지
+const TestVisit = Loadable({
+    Component: lazy(() => import("../components/pages/testVisit")),
+});
+
+// 임시 매장 테이블 페이지
+const TestStoreTable = Loadable({
+    Component: lazy(() => import("../components/pages/testStoreTable")),
+});
+
+// [점주용]
+
+// 점주용 웹 플랫폼 메인 대시보드
+const OwnerDashBoard = Loadable({
+    Component: lazy(() => import("../components/pages/owner/dashBoard")),
+});
+
+// [모바일]
+
 // 모바일 로그인 페이지
 const MobileLogin = Loadable({
     Component: lazy(() => import("../components/pages/mobile/login")),
@@ -169,14 +185,14 @@ const MobileMyInfo = Loadable({
     Component: lazy(() => import("../components/pages/mobile/myInfo")),
 });
 
-// 점주용 웹 플랫폼 메인 대시보드
-const OwnerDashBoard = Loadable({
-    Component: lazy(() => import("../components/pages/owner/dashBoard")),
+// 모바일 고객 나의 NFT 목록
+const MobileMyNftList = Loadable({
+    Component: lazy(() => import("../components/pages/mobile/myNftList")),
 });
 
-// 점주용 웹 플랫폼 메인 대시보드
-const TestQr = Loadable({
-    Component: lazy(() => import("../components/pages/testQr")),
+// 모바일 고객 나의 방문 기록 목록
+const MobileMyVisitLogList = Loadable({
+    Component: lazy(() => import("../components/pages/mobile/myVisitLogList")),
 });
 
 const Router = createBrowserRouter([
@@ -209,6 +225,7 @@ const Router = createBrowserRouter([
                 element: <TestVisit />,
             },
 
+            // 고객 QR인증 페이지
             {
                 path: "/testQr",
                 element: <TestQr />,
@@ -373,6 +390,18 @@ const Router = createBrowserRouter([
     {
         path: "/mobile/myInfo/:customerId",
         element: <MobileMyInfo />,
+    },
+
+    // 모바일 고객 나의 NFT 목록
+    {
+        path: "/mobile/myNftList/:customerId",
+        element: <MobileMyNftList />,
+    },
+
+    // 모바일 고객 나의 방문 기록 목록
+    {
+        path: "/mobile/myVisitLogList/:customerId",
+        element: <MobileMyVisitLogList />,
     },
 ]);
 
