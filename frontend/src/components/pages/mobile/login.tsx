@@ -8,7 +8,7 @@ export function MobileLogin() {
         ? Number(params.tableNumber)
         : undefined;
     return (
-        <div className="w-screen h-screen flex items-center justify-cente">
+        <div className="w-screen h-screen flex items-center justify-center">
             <div className="w-[360px] bg-white text-center p-6 rounded-xl">
                 {/* 로고 */}
                 <div className="mb-6">
