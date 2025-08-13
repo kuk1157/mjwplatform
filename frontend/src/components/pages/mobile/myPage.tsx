@@ -1,5 +1,5 @@
 import axios from "axios";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { BiStore } from "react-icons/bi"; // 소상공인 상생플랫폼 제목 아이콘
 import { IoHomeOutline } from "react-icons/io5"; // 홈 아이콘
@@ -28,6 +28,7 @@ interface VisitLog {
 }
 
 export function MobileMyPage() {
+    const navigate = useNavigate();
     const { customerId } = useParams();
     const [did, setDid] = useState();
     // const [memberId, setMemberId] = useState(); // 멤버에서 did 땡겨오는 느낌 진행
@@ -62,6 +63,10 @@ export function MobileMyPage() {
     }, [customerId]);
 
     console.log(did);
+
+    const myInfoButton = () => {
+        navigate(`/mobile/myInfo/${customerId}`); // 뒤로 가기
+    };
     return (
         <div className="min-h-screen bg-white p-4">
             <div className="mb-3">
@@ -72,21 +77,23 @@ export function MobileMyPage() {
                 </div>
             </div>
 
-            <section
+            <button
                 className="
     bg-gradient-to-r from-blue-700 via-blue-800 to-blue-900
     text-white
     rounded-xl
     py-6
     mb-6
+    w-full
     select-none
     text-center
     font-semibold
     text-lg
   "
+                onClick={myInfoButton}
             >
                 나의 정보
-            </section>
+            </button>
 
             {/* 상단 DID 정보 */}
             {/* <header className="bg-blue-900 text-white rounded-lg p-4 mb-5 font-semibold text-base truncate">
