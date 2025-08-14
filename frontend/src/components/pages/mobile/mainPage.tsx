@@ -29,18 +29,24 @@ interface VisitLog {
 export function MobileMainPage() {
     const navigate = useNavigate();
     const { customerId } = useParams();
-    const [memberId, setMemberId] = useState(); // member_id 세팅 (customer 테이블)
-    const [did, setDid] = useState(); // did 세팅 (member 테이블)
     const [nftLogs, setNfts] = useState<Nft[]>([]);
     const [visitLogs, setVisitLogs] = useState<VisitLog[]>([]);
 
     useEffect(() => {
-        if (!customerId) return;
+        const accessToken = localStorage.getItem("accessToken"); // 다대구 연동 로그인시 생성된 토큰 가져오기
+        if (!customerId) {
+            alert("고객정보가 존재하지 않습니다.");
+            navigate(-1);
+        }
+
+        if (!accessToken) {
+            alert("로그인이 정상적으로 완료되지 않았습니다.");
+            navigate(-1);
+        }
 
         const fetchData = async () => {
             try {
-                const [customerRes, nftRes, visits] = await Promise.all([
-                    axios.get(`/api/v1/customers/${customerId}`),
+                const [nftRes, visits] = await Promise.all([
                     axios.get(
                         `/api/v1/customers/${customerId}/nfts?sort=desc&limit=2`
                     ),
@@ -48,30 +54,15 @@ export function MobileMainPage() {
                         `/api/v1/customers/${customerId}/visits?sort=desc&limit=2`
                     ),
                 ]);
-
-                setMemberId(customerRes.data.memberId); // customer에서 member_id 추출
-                if (!memberId) {
-                    alert("고객 로그인이 정상적으로 진행되지 않았습니다.");
-                    navigate(-1);
-                }
-                // 모바일 다대구 로그인 후에만 정보 접근하게끔 진행
-                const [memberRes] = await Promise.all([
-                    axios.get(`/api/v1/admin/member/${memberId}`),
-                ]);
-
-                setDid(memberRes.data.did); // member에서 did 추출
-
-                setNfts(nftRes.data);
-                setVisitLogs(visits.data);
+                setNfts(nftRes.data); // 해당 고객의 NFT데이터 추출(최근 2개)
+                setVisitLogs(visits.data); // 해당 고객의 방문기록 데이터 추출(최근 2개)
             } catch (error) {
                 console.error("데이터 조회 실패:", error);
             }
         };
 
         fetchData();
-    }, [customerId, memberId, navigate]);
-
-    console.log(did);
+    }, [customerId, navigate]);
 
     const myInfoButton = () => {
         navigate(`/mobile/myPage/${customerId}`); // 뒤로 가기
