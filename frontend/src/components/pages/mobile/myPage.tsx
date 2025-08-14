@@ -1,12 +1,35 @@
+import axios from "axios";
 import { useNavigate, useParams } from "react-router-dom";
+import { useEffect, useState } from "react";
+
+import { MobileFooter } from "src/components/organisms/mobileFooter"; // 하단 모바일 footer 공통 컴포넌트
 import { IoWalletOutline } from "react-icons/io5"; // 지갑 아이콘
 import { FaRegUserCircle } from "react-icons/fa"; // 나의 정보 아이콘
 
-import { MobileFooter } from "src/components/organisms/mobileFooter"; // 하단 모바일 footer 공통 컴포넌트
-
 export function MobileMyPage() {
     const { customerId } = useParams();
+    const [did, setDid] = useState(); // did 세팅 (customer 테이블)
+    const [memberName, setMemberName] = useState(); // memberName 세팅 (customer 테이블)
     const navigate = useNavigate();
+
+    useEffect(() => {
+        if (!customerId) return;
+
+        const fetchData = async () => {
+            try {
+                const [customerRes] = await Promise.all([
+                    axios.get(`/api/v1/customers/${customerId}`),
+                ]);
+
+                setDid(customerRes.data.did);
+                setMemberName(customerRes.data.memberName);
+            } catch (error) {
+                console.error("데이터 조회 실패:", error);
+            }
+        };
+
+        fetchData();
+    }, [customerId]);
 
     const handleBack = () => {
         navigate(-1); // 뒤로 가기
@@ -34,8 +57,8 @@ export function MobileMyPage() {
 
             <div className="mx-4 mb-6 px-4 py-5 bg-gradient-to-r from-blue-600 via-blue-700 to-blue-800 text-white text-center rounded-xl ">
                 <p>DID</p>
-                <p className="mb-3">askdjqwkandqwkdjdqa;lidkoadhijasd</p>
-                <p>이름 : 문정원</p>
+                <span className="mb-3 block break-words">{did}</span>
+                <p>이름 : {memberName}</p>
             </div>
 
             <div className="mx-4 px-4 py-5 bg-gradient-to-r from-sky-200 via-sky-400 to-sky-600 text-white text-center rounded-xl ">
