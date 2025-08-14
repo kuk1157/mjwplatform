@@ -11,8 +11,10 @@ import { useRef } from "react";
 interface VisitLog {
     id: number;
     storeId: number;
+    storeTableId: number;
     customerId: number;
     storeName?: string;
+    memberName?: string;
     createdAt: string;
 }
 
@@ -29,6 +31,8 @@ function OwnerDashBoard() {
     ); // 테이블번호별 금액
     const navigate = useNavigate();
     const socketRef = useRef<any>(null);
+
+    console.log(user);
 
     // 받아온 ownerId로 가맹점과 방문기록 바로 가져오기
     useEffect(() => {
@@ -91,7 +95,6 @@ function OwnerDashBoard() {
             }
         };
     }, [ownerId]);
-
     // 주문금액 입력 핸들러
     const handleAmountChange = (id: number, value: string) => {
         setVisitAmounts((prev) => ({
@@ -363,7 +366,10 @@ function OwnerDashBoard() {
                                     className="w-40 h-48 bg-white rounded-2xl shadow-md flex flex-col items-center justify-center p-5 hover:shadow-lg transition-shadow duration-300"
                                 >
                                     <p className="text-lg font-semibold mb-3 text-gray-900 select-none">
-                                        방문 기록 : {newVisitLog.id}
+                                        방문 기록 ID : {newVisitLog.id}
+                                    </p>
+                                    <p className="text-lg font-semibold mb-3 text-gray-900 select-none">
+                                        테이블 번호 : {newVisitLog.storeTableId}
                                     </p>
                                     <input
                                         type="number"
@@ -462,10 +468,10 @@ function OwnerDashBoard() {
                                                         1}
                                                 </td>
                                                 <td className="py-4 px-6 text-center whitespace-nowrap border-r border-gray-300">
-                                                    {visitLog.storeId}
+                                                    {visitLog.memberName}
                                                 </td>
                                                 <td className="py-4 px-6 text-center whitespace-nowrap border-r border-gray-300">
-                                                    {visitLog.customerId}번
+                                                    {visitLog.storeTableId}번
                                                 </td>
                                                 <td className="py-4 px-6 text-center whitespace-nowrap">
                                                     {new Date(
