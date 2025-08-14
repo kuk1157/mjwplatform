@@ -17,17 +17,19 @@ public class VisitLogDto {
     private Integer storeTableId;
     private Integer customerId;
     private String storeName;
+    private String memberName; // 고객 이름(member테이블에서 가져오기)
     private LocalDateTime createdAt;
 
 
     @Builder
-    public VisitLogDto(Integer id, Integer ownerId, Integer storeId, Integer storeTableId, Integer customerId, String storeName, LocalDateTime createdAt){
+    public VisitLogDto(Integer id, Integer ownerId, Integer storeId, Integer storeTableId, Integer customerId, String storeName, String memberName, LocalDateTime createdAt){
         this.id = id;
         this.ownerId = ownerId;
         this.storeId = storeId;
         this.storeTableId = storeTableId;
         this.customerId = customerId;
         this.storeName = storeName;
+        this.memberName = memberName;
         this.createdAt = createdAt;
     }
 

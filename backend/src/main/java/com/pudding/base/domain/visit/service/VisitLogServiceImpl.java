@@ -145,19 +145,7 @@ public class VisitLogServiceImpl implements VisitLogService {
 
     // 가맹점 별 전체 방문기록
     public List<VisitLogDto> getAllVisitLog(Integer storeNum){
-        List<VisitLog> visitLogs = visitLogRepository.findByStoreId(storeNum);
-        // StoreTable 엔티티를 StoreTableDto로 변환
-        return visitLogs.stream()
-                .map(visitLog -> VisitLogDto.builder()
-                        .id(visitLog.getId())
-                        .ownerId(visitLog.getOwnerId())
-                        .storeId(visitLog.getStoreId())
-                        .storeTableId(visitLog.getStoreTableId())
-                        .customerId(visitLog.getCustomerId())
-                        .storeName(visitLog.getStoreName())
-                        .createdAt(visitLog.getCreatedAt())
-                        .build())
-                .collect(Collectors.toList());
+        return visitLogRepository.findByAllVisitLog(storeNum);
     }
 
     // 가맹점 별 신규 방문 기록
