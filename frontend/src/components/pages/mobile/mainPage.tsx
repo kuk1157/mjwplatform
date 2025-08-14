@@ -29,8 +29,8 @@ interface VisitLog {
 export function MobileMainPage() {
     const navigate = useNavigate();
     const { customerId } = useParams();
-    const [did, setDid] = useState();
-    // const [memberId, setMemberId] = useState(); // 멤버에서 did 땡겨오는 느낌 진행
+    const [memberId, setMemberId] = useState(); // member_id 세팅 (customer 테이블)
+    const [did, setDid] = useState(); // did 세팅 (member 테이블)
     const [nftLogs, setNfts] = useState<Nft[]>([]);
     const [visitLogs, setVisitLogs] = useState<VisitLog[]>([]);
 
@@ -49,8 +49,18 @@ export function MobileMainPage() {
                     ),
                 ]);
 
-                setDid(customerRes.data.did);
-                // setMemberId(customerRes.data.memberId);
+                setMemberId(customerRes.data.memberId); // customer에서 member_id 추출
+                if (!memberId) {
+                    alert("고객 로그인이 정상적으로 진행되지 않았습니다.");
+                    navigate(-1);
+                }
+                // 모바일 다대구 로그인 후에만 정보 접근하게끔 진행
+                const [memberRes] = await Promise.all([
+                    axios.get(`/api/v1/admin/member/${memberId}`),
+                ]);
+
+                setDid(memberRes.data.did); // member에서 did 추출
+
                 setNfts(nftRes.data);
                 setVisitLogs(visits.data);
             } catch (error) {
@@ -59,7 +69,7 @@ export function MobileMainPage() {
         };
 
         fetchData();
-    }, [customerId]);
+    }, [customerId, memberId, navigate]);
 
     console.log(did);
 

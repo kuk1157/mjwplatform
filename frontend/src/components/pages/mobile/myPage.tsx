@@ -8,8 +8,9 @@ import { FaRegUserCircle } from "react-icons/fa"; // 나의 정보 아이콘
 
 export function MobileMyPage() {
     const { customerId } = useParams();
-    const [did, setDid] = useState(); // did 세팅 (customer 테이블)
-    const [memberName, setMemberName] = useState(); // memberName 세팅 (customer 테이블)
+    const [memberId, setMemberId] = useState(); // member_id 세팅 (customer 테이블)
+    const [did, setDid] = useState(); // did 세팅 (member 테이블)
+    const [memberName, setMemberName] = useState(); // name 세팅 (member 테이블)
     const navigate = useNavigate();
 
     useEffect(() => {
@@ -21,15 +22,22 @@ export function MobileMyPage() {
                     axios.get(`/api/v1/customers/${customerId}`),
                 ]);
 
-                setDid(customerRes.data.did);
-                setMemberName(customerRes.data.memberName);
+                setMemberId(customerRes.data.memberId); // customer에서 member_id 추출
+
+                // 모바일 다대구 로그인 후에만 정보 접근하게끔 진행
+                const [memberRes] = await Promise.all([
+                    axios.get(`/api/v1/admin/member/${memberId}`),
+                ]);
+
+                setDid(memberRes.data.did); // member에서 did 추출
+                setMemberName(memberRes.data.name); // member에서 name 추출
             } catch (error) {
                 console.error("데이터 조회 실패:", error);
             }
         };
 
         fetchData();
-    }, [customerId]);
+    }, [customerId, memberId]);
 
     const handleBack = () => {
         navigate(-1); // 뒤로 가기
