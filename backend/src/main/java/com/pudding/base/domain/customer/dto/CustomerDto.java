@@ -20,16 +20,14 @@ public class CustomerDto {
     private Integer memberId;
     private IsActive isActive;
     private LocalDateTime createdAt;
-    private String memberName; // 고객 이름 (member 서브 쿼리용)
 
     @Builder
-    public CustomerDto(Integer id, String did, Integer memberId, IsActive isActive, LocalDateTime createdAt, String memberName){
+    public CustomerDto(Integer id, String did, Integer memberId, IsActive isActive, LocalDateTime createdAt){
         this.id = id;
         this.did = did;
         this.memberId = memberId;
         this.isActive = isActive;
         this.createdAt = createdAt;
-        this.memberName = memberName;
     }
 
     public static CustomerDto fromEntity(Customer customer){
