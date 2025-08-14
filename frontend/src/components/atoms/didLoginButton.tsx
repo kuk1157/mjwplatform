@@ -34,7 +34,6 @@ const DidLoginButton = ({ storeNum, tableNumber }: DidLoginButtonProps) => {
                                 : JSON.stringify(returnData),
                     }
                 );
-
                 const userRole = response.data.auth.role;
                 if (userRole != "user") {
                     alert("고객만 연동 로그인이 가능합니다.");
@@ -42,15 +41,17 @@ const DidLoginButton = ({ storeNum, tableNumber }: DidLoginButtonProps) => {
                 }
 
                 localStorage.clear();
-                localStorage.setItem("tokenType", response.data.tokenType);
-                localStorage.setItem("accessToken", response.data.accessToken);
+                localStorage.setItem("tokenType", response.data.auth.tokenType);
+                localStorage.setItem(
+                    "accessToken",
+                    response.data.auth.accessToken
+                );
                 localStorage.setItem(
                     "refreshToken",
-                    response.data.refreshToken
+                    response.data.auth.refreshToken
                 );
-
                 const customerId = response.data.customerId; // customerId 변수 추가
-                window.location.replace(`/mobile/myPage/${customerId}`); // 여기에 customerId 넣기
+                window.location.replace(`/mobile/mainPage/${customerId}`); // 여기에 customerId 넣기
             } catch (err) {
                 console.error("다대구 로그인 실패", err);
                 alert("다대구 로그인에 실패했습니다. 다시 시도해 주세요.");
