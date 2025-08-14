@@ -23,6 +23,7 @@ public class MemberDto {
     private Integer id;
     private String loginId;
     private String did;
+    private String walletAddress; // 대구체인 지갑(계정) 주소
     private String name;
     private Gender gender;
     private LocalDate birthday;
@@ -35,11 +36,12 @@ public class MemberDto {
     private IsActive isActive;
 
     @Builder
-    public MemberDto(Integer id, String loginId, String did, String name, Gender gender, LocalDate birthday, Role role, String email, String phoneNumber,
+    public MemberDto(Integer id, String loginId, String did, String walletAddress,  String name, Gender gender, LocalDate birthday, Role role, String email, String phoneNumber,
                      Integer totalPoint, Integer totalCash, LocalDateTime createdAt, IsActive isActive) {
         this.id = id;
         this.loginId = loginId;
         this.did = did;
+        this.walletAddress = walletAddress;
         this.name = name;
         this.gender = gender;
         this.birthday = birthday;
@@ -58,6 +60,8 @@ public class MemberDto {
                 .id(member.getId())
                 .loginId(member.getLoginId())
                 .name(member.getName())
+                .did(member.getDid())
+                .walletAddress(member.getWalletAddress())
                 .gender(member.getGender())
                 .birthday(member.getBirthday())
                 .role(member.getRole())
