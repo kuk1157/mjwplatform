@@ -27,8 +27,8 @@ public class CustomerServiceImpl implements CustomerService{
 
     // 고객 상세 조회
     public CustomerDto getCustomerById(Integer customerId){
-        Customer customer = customerRepository.findById(customerId).orElseThrow(() -> new EntityNotFoundException("존재하지 않는 고객입니다."));
-        return CustomerDto.fromEntity(customer);
+        return customerRepository.findCustomerWithMemberNameById(customerId)
+                .orElseThrow(() -> new EntityNotFoundException("존재하지 않는 고객입니다."));
     }
 
 
