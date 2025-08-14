@@ -175,14 +175,14 @@ const MobileLogin = Loadable({
     Component: lazy(() => import("../components/pages/mobile/login")),
 });
 
-// 모바일 고객 마이페이지
-const MobileMyPage = Loadable({
-    Component: lazy(() => import("../components/pages/mobile/myPage")),
+// 모바일 고객 메인페이지
+const MobileMainPage = Loadable({
+    Component: lazy(() => import("../components/pages/mobile/mainPage")),
 });
 
-// 모바일 고객 나의 정보
-const MobileMyInfo = Loadable({
-    Component: lazy(() => import("../components/pages/mobile/myInfo")),
+// 모바일 고객 마이페이지(나의정보)
+const MobileMyPage = Loadable({
+    Component: lazy(() => import("../components/pages/mobile/myPage")),
 });
 
 // 모바일 고객 나의 NFT 목록
@@ -380,16 +380,16 @@ const Router = createBrowserRouter([
         element: <MobileLogin />,
     },
 
-    // 모바일 고객 마이페이지
+    // 모바일 고객 메인페이지
+    {
+        path: "/mobile/mainPage/:customerId",
+        element: <MobileMainPage />,
+    },
+
+    // 모바일 고객 마이페이지(나의정보)
     {
         path: "/mobile/myPage/:customerId",
         element: <MobileMyPage />,
-    },
-
-    // 모바일 고객 나의 정보
-    {
-        path: "/mobile/myInfo/:customerId",
-        element: <MobileMyInfo />,
     },
 
     // 모바일 고객 나의 NFT 목록

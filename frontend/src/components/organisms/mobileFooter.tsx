@@ -16,7 +16,7 @@ const MobileFooter = ({ param }: MobileFooterProps) => {
             <div className="flex justify-around items-center h-16">
                 <button
                     className="flex flex-col items-center justify-center text-sm text-black cursor-pointer hover:text-blue-600 transition-colors select-none"
-                    onClick={() => navigate(`/mobile/myPage/${param}`)}
+                    onClick={() => navigate(`/mobile/mainPage/${param}`)}
                 >
                     <span className="text-xl">
                         <IoHomeOutline />
@@ -46,7 +46,7 @@ const MobileFooter = ({ param }: MobileFooterProps) => {
 
                 <button
                     className="flex flex-col items-center justify-center text-sm text-black cursor-pointer hover:text-blue-600 transition-colors select-none"
-                    onClick={() => navigate(`/mobile/myInfo/${param}`)}
+                    onClick={() => navigate(`/mobile/myPage/${param}`)}
                 >
                     <span className="text-xl">
                         <FaRegUserCircle />
