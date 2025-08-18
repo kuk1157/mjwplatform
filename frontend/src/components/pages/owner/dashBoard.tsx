@@ -363,7 +363,7 @@ function OwnerDashBoard() {
                             {newVisitLogs.map((newVisitLog) => (
                                 <div
                                     key={newVisitLog.id}
-                                    className="w-40 h-48 bg-white rounded-2xl shadow-md flex flex-col items-center justify-center p-5 hover:shadow-lg transition-shadow duration-300"
+                                    className="w-40 h-48 bg-white rounded-2xl shadow-md flex flex-col items-center justify-center p-3 hover:shadow-lg transition-shadow duration-300"
                                 >
                                     <p className="text-lg font-semibold mb-3 text-gray-900 select-none">
                                         방문 기록 ID : {newVisitLog.id}
