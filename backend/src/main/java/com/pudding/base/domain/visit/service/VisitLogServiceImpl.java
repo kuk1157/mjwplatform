@@ -56,6 +56,9 @@ public class VisitLogServiceImpl implements VisitLogService {
         Customer customer = customerRepository.findByDid(did).orElseThrow(() -> new EntityNotFoundException("존재하지 않는 고객입니다."));
         Store store = storeRepository.findById(storeNum).orElseThrow(() -> new EntityNotFoundException("존재하지 않는 매장입니다."));
 
+
+        Member member = memberRepository.findById(customer.getMemberId()).orElseThrow(() -> new EntityNotFoundException("존재하지 않는 계정입니다."));
+
         VisitLog visitLog = VisitLog.builder()
                 .customerId(customer.getId())
                 .ownerId(store.getOwnerId())
@@ -73,8 +76,12 @@ public class VisitLogServiceImpl implements VisitLogService {
 
         entityManager.refresh(savedQrVisit); // DB 최신 값 다시 채움
 
+        String memberName = member.getName(); // 고객 이름
+        // DTO 변환
+        VisitLogDto dto = VisitLogDto.fromEntity(savedQrVisit, memberName);
+
         // Socket 서버로 전송
-        sendToSocketServer(savedQrVisit);
+        sendToSocketServer(dto);
 
         // nft 발급 중복 체크
         boolean nftExists = nftService.nftExists(storeNum, customer.getId());
@@ -83,10 +90,10 @@ public class VisitLogServiceImpl implements VisitLogService {
             nftService.createNft(customer.getDid(), storeNum, customer.getId());
         }
 
-        return VisitLogDto.fromEntity(savedQrVisit);
+        return VisitLogDto.fromEntity(savedQrVisit, memberName);
     }
 
-    private void sendToSocketServer(VisitLog visitLog) {
+    private void sendToSocketServer(VisitLogDto visitLog ) {
         String socketServerUrl = "https://coex.everymeta.kr:7951/api/socket/store-visitLogs";
         try {
             RestTemplate restTemplate = new RestTemplate();

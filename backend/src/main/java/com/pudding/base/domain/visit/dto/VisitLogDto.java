@@ -1,5 +1,6 @@
 package com.pudding.base.domain.visit.dto;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.pudding.base.domain.visit.entity.VisitLog;
 import lombok.Builder;
 import lombok.Getter;
@@ -7,6 +8,7 @@ import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
 
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 @Getter
 @RequiredArgsConstructor
@@ -17,12 +19,13 @@ public class VisitLogDto {
     private Integer storeTableId;
     private Integer customerId;
     private String storeName;
-    private String memberName; // 고객 이름(member테이블에서 가져오기)
+    private String memberName; // 고객 이름(member 테이블에서 가져오기)
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss")
     private LocalDateTime createdAt;
 
-
     @Builder
-    public VisitLogDto(Integer id, Integer ownerId, Integer storeId, Integer storeTableId, Integer customerId, String storeName, String memberName, LocalDateTime createdAt){
+    public VisitLogDto(Integer id, Integer ownerId, Integer storeId, Integer storeTableId,
+                       Integer customerId, String storeName, String memberName, LocalDateTime createdAt) {
         this.id = id;
         this.ownerId = ownerId;
         this.storeId = storeId;
@@ -33,7 +36,7 @@ public class VisitLogDto {
         this.createdAt = createdAt;
     }
 
-    public static VisitLogDto fromEntity(VisitLog visitLog){
+    public static VisitLogDto fromEntity(VisitLog visitLog, String memberName){
         return VisitLogDto.builder()
                 .id(visitLog.getId())
                 .ownerId(visitLog.getOwnerId())
@@ -41,10 +44,10 @@ public class VisitLogDto {
                 .storeTableId(visitLog.getStoreTableId())
                 .customerId(visitLog.getCustomerId())
                 .storeName(visitLog.getStoreName())
+                .memberName(memberName)
                 .createdAt(visitLog.getCreatedAt())
                 .build();
     }
-
 
     @Getter
     @NoArgsConstructor
