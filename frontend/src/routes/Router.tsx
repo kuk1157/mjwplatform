@@ -1,11 +1,11 @@
 import { lazy } from "react";
 import Loadable from "../utils/Loadable";
-import { createBrowserRouter, Navigate } from "react-router-dom";
+import { createBrowserRouter } from "react-router-dom";
 
 // /* ****Pages***** */
-// const Main = Loadable({
-//     Component: lazy(() => import("../components/pages/main")),
-// });
+const Main = Loadable({
+    Component: lazy(() => import("../components/pages/main")),
+});
 
 const MainLayoutLoader = Loadable({
     Component: lazy(() => import("../components/organisms/mainLayout")),
@@ -200,8 +200,8 @@ const Router = createBrowserRouter([
         path: "/",
         element: <MainLayoutLoader />,
         children: [
-            { index: true, element: <Navigate to={"/admin"} /> }, // 임시로 무조건 admin으로 가도록
-            // { index: true, element: <Main /> },
+            // { index: true, element: <Navigate to={"/admin"} /> }, // 임시로 무조건 admin으로 가도록
+            { index: true, element: <Main /> },
             { path: "/login", element: <Login /> },
             { path: "/login/find/findLoginId", element: <FindLoginId /> },
             { path: "/login/find/findPassword", element: <FindPassword /> },
