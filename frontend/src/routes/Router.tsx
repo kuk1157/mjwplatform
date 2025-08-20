@@ -136,9 +136,14 @@ const AdminStoreTableDetail = Loadable({
 
 // [ 메인에서 곧바로 진행되는 페이지들 ] - 곧 정리할 예정
 
-// 고객 QR인증 페이지
-const TestQr = Loadable({
-    Component: lazy(() => import("../components/pages/testQr")),
+// PC - 고객 매장선택 페이지
+const UserVisitStore = Loadable({
+    Component: lazy(() => import("../components/pages/user/userVisitStore")),
+});
+
+// PC - 고객 매장테이블 QR인증 페이지
+const UserVisitStoreQR = Loadable({
+    Component: lazy(() => import("../components/pages/user/userVisitStoreQR")),
 });
 
 // 임시 socket 테스트 페이지
@@ -149,11 +154,6 @@ const SocketTest = Loadable({
 // 임시 각 주문 금액 입력 페이지
 const StoreVisit = Loadable({
     Component: lazy(() => import("../components/pages/storeVisit")),
-});
-
-// 임시 방문 기록 페이지
-const TestVisit = Loadable({
-    Component: lazy(() => import("../components/pages/testVisit")),
 });
 
 // 임시 매장 테이블 페이지
@@ -221,17 +221,6 @@ const Router = createBrowserRouter([
             },
 
             {
-                path: "/testVisit/:storeId",
-                element: <TestVisit />,
-            },
-
-            // 고객 QR인증 페이지
-            {
-                path: "/testQr",
-                element: <TestQr />,
-            },
-
-            {
                 path: "/storeVisit",
                 element: <StoreVisit />,
             },
@@ -247,6 +236,18 @@ const Router = createBrowserRouter([
                 path: "/owner/dashBoard/:ownerId",
                 element: <OwnerDashBoard />,
             },
+
+            // 고객 매장 방문 및 QR인증
+            {
+                path: "/user/userVisitStore",
+                element: <UserVisitStore />,
+            },
+
+            {
+                path: "/user/userVisitStoreQR/:storeId",
+                element: <UserVisitStoreQR />,
+            },
+
             {
                 element: <PageLayoutLoader />,
                 children: [

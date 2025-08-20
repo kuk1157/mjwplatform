@@ -1,10 +1,10 @@
-import { MainContainer } from "../molecules/container";
+import { MainContainer } from "../../molecules/container";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { StoreType } from "src/types";
 import axios from "axios";
 
-function TestQr() {
+function UserVisitStore() {
     const navigate = useNavigate();
     const [stores, setStores] = useState<StoreType[]>([]);
 
@@ -40,7 +40,9 @@ function TestQr() {
                             className="w-40 h-40 rounded shadow flex flex-col items-center justify-center
                    border-2 border-[#21A089] bg-[#F6F6F6] text-[#21A089]
                    hover:bg-[#21A089] hover:text-white transition-colors duration-300"
-                            onClick={() => navigate(`/testVisit/${store.id}`)}
+                            onClick={() =>
+                                navigate(`/user/userVisitStoreQR/${store.id}`)
+                            }
                         >
                             <p className="text-lg font-normal">[매장 이름]</p>
                             <p className="text-lg font-normal">{store.name}</p>
@@ -52,4 +54,4 @@ function TestQr() {
     );
 }
 
-export default TestQr;
+export default UserVisitStore;

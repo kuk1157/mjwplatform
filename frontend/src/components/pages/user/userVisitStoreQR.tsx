@@ -9,7 +9,7 @@ interface Table {
     createdAt: string;
 }
 
-function TestVisit() {
+function UserVisitStoreQR() {
     const navigate = useNavigate();
     const [tables, setTables] = useState<Table[]>([]);
     // const [orderAmounts, setOrderAmounts] = useState<{ [key: number]: string }>(
@@ -112,4 +112,4 @@ function TestVisit() {
     );
 }
 
-export default TestVisit;
+export default UserVisitStoreQR;

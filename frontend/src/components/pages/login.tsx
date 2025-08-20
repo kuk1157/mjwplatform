@@ -4,7 +4,6 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { login } from "../../utils/authLogin";
 import { useCookies } from "react-cookie";
-import DidLoginButton from "../atoms/didLoginButton";
 
 const CustomCheckbox = styled.label`
     display: inline-flex;
@@ -185,7 +184,6 @@ const LoginPage = () => {
                 >
                     아이디/비밀번호 찾기
                 </Link>
-                <DidLoginButton />
             </div>
         </section>
     );
