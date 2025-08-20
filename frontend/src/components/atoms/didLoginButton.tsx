@@ -50,7 +50,10 @@ const DidLoginButton = ({ storeNum, tableNumber }: DidLoginButtonProps) => {
                     "refreshToken",
                     response.data.auth.refreshToken
                 );
+
                 const customerId = response.data.customerId; // customerId 변수 추가
+                localStorage.setItem("customerId", customerId); // 권한별 분기처리를 위한 고객 고유번호 저장
+
                 window.location.replace(`/mobile/mainPage/${customerId}`); // 여기에 customerId 넣기
             } catch (err) {
                 console.error("다대구 로그인 실패", err);

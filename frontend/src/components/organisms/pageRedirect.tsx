@@ -14,11 +14,13 @@ export const PageRedirect = () => {
 
         let targetPath = "/";
 
+        const customerId = localStorage.getItem("customerId"); // 로그인한 고객 고유번호 추출
+
         if (user.role === "admin") targetPath = "/admin/user";
         else if (user.role === "owner")
             targetPath = `/owner/dashBoard/${user.id}`;
         else if (user.role === "user")
-            targetPath = `/mobile/mainPage/${user.id}`;
+            targetPath = `/mobile/mainPage/${customerId}`;
 
         if (location.pathname !== targetPath) {
             navigate(targetPath, { replace: true });
