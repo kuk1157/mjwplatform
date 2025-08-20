@@ -4,6 +4,7 @@ import { Link } from "react-router-dom";
 import { PrimaryContainer } from "../molecules/container";
 import { useMediaQuery } from "../../utils/useMediaQuery";
 import { MenuList } from "../../constants/index";
+import PageRedirect from "./pageRedirect";
 
 const Header = () => {
     const [openHamburger, setOpenHamburger] = useState<boolean>(false);
@@ -31,6 +32,7 @@ const Header = () => {
 
     return (
         <header className="fixed z-20 top-0 w-full">
+            <PageRedirect />
             <div
                 className={`w-full h-[100px] xs:h-[70px] backdrop-blur-[10px] bg-[rgba(255,255,255,0.9)] shadow-[0px_0px_10px_#43475233] flex justify-center z-[1000] top-0 ${openHamburger ? "fixed" : "relative"}`}
             >

@@ -4,7 +4,7 @@ import { PageTitle } from "../atoms/title";
 import { SectionWrapper } from "../atoms/wrapper";
 import { PaginatedDataTable } from "../molecules/paginatedDataTable";
 import { SelectBoardSearch } from "../molecules/boardSearch";
-
+import PageRedirect from "./pageRedirect";
 function GenericDataTable({
     sectionTitle,
     type,
@@ -47,6 +47,7 @@ function GenericDataTable({
     return (
         <>
             <SectionCard className="text-[15px] leading-[18px] h-full">
+                <PageRedirect />
                 <PageTitle className="pb-[50px]">{sectionTitle}</PageTitle>
                 <div className={`flex pl-[30px] justify-end`}>
                     <SelectBoardSearch
