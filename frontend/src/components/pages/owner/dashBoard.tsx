@@ -24,6 +24,7 @@ function OwnerDashBoard() {
     const [ownerName, setOwnerName] = useState();
     const [storeId, setStoreId] = useState();
     const { ownerId } = useParams();
+    const [totalPoint, setTotalPoint] = useState();
     const [visitLogs, setvisits] = useState<VisitLog[]>([]);
     const [newVisitLogs, setNewVisits] = useState<VisitLog[]>([]);
     const [visitAmounts, setVisitAmounts] = useState<{ [key: number]: string }>(
@@ -37,28 +38,30 @@ function OwnerDashBoard() {
     // 받아온 ownerId로 가맹점과 방문기록 바로 가져오기
     useEffect(() => {
         if (!ownerId) return;
+        const accessToken = localStorage.getItem("accessToken"); // 토큰 세팅
 
         const fetchData = async () => {
             try {
-                const storeRes = await axios.get(
-                    `/api/v1/stores/ownerId/${ownerId}`
-                );
-                const storeId = storeRes.data.id;
+                // 매장 상세보기(점주고유번호 기준), 점주 보유포인트 구하기(member에서)
+                const [storeRes, userRes] = await Promise.all([
+                    axios.get(`/api/v1/stores/ownerId/${ownerId}`),
+                    axios.get("/api/v1/member", {
+                        headers: { Authorization: `Bearer ${accessToken}` },
+                    }),
+                ]);
+                setTotalPoint(userRes.data.totalPoint); // 점주 보유포인트 세팅
 
-                setStoreId(storeId);
-                setStoreName(storeRes.data.name);
-                setOwnerName(storeRes.data.ownerName);
+                const storeId = storeRes.data.id; // 가맹점 고유번호 추출
+                setStoreId(storeId); // 가맹점 고유번호 저장
+                setStoreName(storeRes.data.name); // 가맹점 이름
+                setOwnerName(storeRes.data.ownerName); // 점주 이름
 
-                // 신규 방문(주문) 기록
-                const newVisitLogRes = await axios.get(
-                    `/api/v1/visits/new/${storeId}`
-                );
+                // 신규 방문(주문) 기록, 전체 방문 기록(아래)
+                const [newVisitLogRes, visitLogRes] = await Promise.all([
+                    axios.get(`/api/v1/visits/new/${storeId}`),
+                    axios.get(`/api/v1/visits/${storeId}`),
+                ]);
                 setNewVisits(newVisitLogRes.data);
-
-                // 전체 방문 기록(아래)
-                const visitLogRes = await axios.get(
-                    `/api/v1/visits/${storeId}`
-                );
                 setvisits(visitLogRes.data);
 
                 // 소켓 연결 및 방 참가
@@ -292,7 +295,7 @@ function OwnerDashBoard() {
                                 💰 <span>보유 포인트</span>
                             </div>
                             <div className="text-2xl font-extrabold text-yellow-700 mt-1 truncate">
-                                {user.totalPoint} P
+                                {totalPoint} P
                             </div>
                         </div>
                     </div>
