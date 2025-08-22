@@ -22,7 +22,7 @@ export const PageRedirect = () => {
         else if (user.role === "user")
             targetPath = `/mobile/mainPage/${customerId}`;
 
-        if (location.pathname !== targetPath) {
+        if (location.pathname === "/") {
             navigate(targetPath, { replace: true });
         }
     }, [user, location.pathname, navigate]);

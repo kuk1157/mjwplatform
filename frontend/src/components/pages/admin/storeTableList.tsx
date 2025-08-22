@@ -58,7 +58,7 @@ export function StoreTableList() {
     };
 
     return (
-        <div className="flex flex-col  items-center justify-center min-h-screen bg-gray-100">
+        <div className="flex flex-col  items-center justify-center min-h-screen">
             <div>
                 <h2 className="font-[TmoneyRoundWind] font-extrabold text-[35px]  text-[#333] md:text-[30px] ">
                     [{storeName}] - 매장 테이블 관리
