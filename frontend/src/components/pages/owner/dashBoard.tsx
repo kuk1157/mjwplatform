@@ -252,13 +252,13 @@ function OwnerDashBoard() {
     // }));
 
     const [page, setPage] = useState(1);
-    const pageSize = 10;
+    const pageSize = 5;
 
     const total = visitLogs.length;
     const totalPages = Math.ceil(total / pageSize);
 
     // 현재 페이지 데이터만 자르기
-    // const currentData = visitLogs.slice((page - 1) * pageSize, page * pageSize);
+    const currentData = visitLogs.slice((page - 1) * pageSize, page * pageSize);
 
     return (
         <MainContainer className="py-[230px] bg-[#F6F6F6] lg:py-[150px] sm:py-[100px]">
@@ -460,7 +460,7 @@ function OwnerDashBoard() {
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        {visitLogs.map((visitLog, index) => (
+                                        {currentData.map((visitLog, index) => (
                                             <tr
                                                 key={visitLog.id}
                                                 className="hover:bg-gray-100 transition-colors duration-200 cursor-default"
