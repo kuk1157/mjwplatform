@@ -1,8 +1,6 @@
 import { MainContainer } from "../../molecules/container";
 import axios, { AxiosError } from "axios";
 import { useEffect, useState } from "react";
-import { useRecoilValueLoadable } from "recoil";
-import { userSelectorUpdated } from "src/recoil/userState";
 import { useNavigate, useParams } from "react-router-dom";
 
 import { io } from "socket.io-client";
@@ -19,7 +17,6 @@ interface VisitLog {
 }
 
 function OwnerDashBoard() {
-    const { contents: user } = useRecoilValueLoadable(userSelectorUpdated);
     const [name, setStoreName] = useState();
     const [ownerName, setOwnerName] = useState();
     const [storeId, setStoreId] = useState();
@@ -32,8 +29,6 @@ function OwnerDashBoard() {
     ); // 테이블번호별 금액
     const navigate = useNavigate();
     const socketRef = useRef<any>(null);
-
-    console.log(user);
 
     // 받아온 ownerId로 가맹점과 방문기록 바로 가져오기
     useEffect(() => {
