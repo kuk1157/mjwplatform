@@ -185,6 +185,11 @@ const MobileMyPage = Loadable({
     Component: lazy(() => import("../components/pages/mobile/myPage")),
 });
 
+// 모바일 고객 지갑 정보
+const MobileMyWallet = Loadable({
+    Component: lazy(() => import("../components/pages/mobile/myWallet")),
+});
+
 // 모바일 고객 나의 NFT 목록
 const MobileMyNftList = Loadable({
     Component: lazy(() => import("../components/pages/mobile/myNftList")),
@@ -391,6 +396,12 @@ const Router = createBrowserRouter([
     {
         path: "/mobile/myPage/:customerId",
         element: <MobileMyPage />,
+    },
+
+    // 모바일 고객 마이페이지(나의정보)
+    {
+        path: "/mobile/myWallet/:customerId",
+        element: <MobileMyWallet />,
     },
 
     // 모바일 고객 나의 NFT 목록
