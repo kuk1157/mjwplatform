@@ -1,17 +1,21 @@
 package com.pudding.base.domain.auth.service;
 
 import com.pudding.base.dchain.DaeguChainClient;
+import com.pudding.base.dchain.dto.DaeguChainNftMetadataDto;
 import com.pudding.base.domain.auth.dto.AuthRequestDto;
 import com.pudding.base.domain.auth.dto.AuthResponseDto;
 import com.pudding.base.domain.auth.dto.DidLoginResponseDto;
 import com.pudding.base.domain.auth.entity.Auth;
 import com.pudding.base.domain.auth.repository.AuthRepository;
 import com.pudding.base.domain.common.enums.IsActive;
+import com.pudding.base.domain.common.exception.CustomException;
 import com.pudding.base.domain.customer.entity.Customer;
 import com.pudding.base.domain.customer.repository.CustomerRepository;
 import com.pudding.base.domain.member.entity.Member;
 import com.pudding.base.domain.member.enums.Role;
 import com.pudding.base.domain.member.repository.MemberRepository;
+import com.pudding.base.domain.store.entity.Store;
+import com.pudding.base.domain.store.repository.StoreRepository;
 import com.pudding.base.domain.visit.dto.VisitLogDto;
 import com.pudding.base.domain.visit.service.VisitLogService;
 import com.pudding.base.security.CustomUserInfoDto;
@@ -26,6 +30,8 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Map;
+import java.util.Objects;
 import java.util.Optional;
 
 
@@ -40,10 +46,9 @@ public class AuthServiceImpl implements AuthService {
     private final AuthRepository authRepository;
     private final PasswordEncoder encoder;
     private final ModelMapper modelMapper;
-
     private final CustomerRepository customerRepository;
     private final VisitLogService visitLogService;
-
+    private final StoreRepository storeRepository;
 
     @Override
     @Transactional
@@ -89,6 +94,9 @@ public class AuthServiceImpl implements AuthService {
 //                .build());
 
 
+        // 고객 지갑 주소를 위한 Member 객체 초기화
+        Member savedCustomer = member;
+
         // 지갑여부 확인
         if (member.getWalletAddress() == null || member.getWalletAddress().isBlank()) {
             // 지갑 생성
@@ -97,12 +105,87 @@ public class AuthServiceImpl implements AuthService {
             // 동시성 안전을 위해 다시 한 번 확인 후 저장
             if (member.getWalletAddress() == null || member.getWalletAddress().isBlank()) {
                 member.setWalletAddress(address);
-                memberRepository.save(member);
+                savedCustomer = memberRepository.save(member);
             }
         }
 
         // 방문기록 생성 (did, storeId, tableNumber 직접 전달)
         VisitLogDto visitLogDto = visitLogService.createVisitLog(info.getDid(), storeId, tableNumber);
+
+        // 점주의 고유번호 추출을 위한 객체 호출
+        Store store = storeRepository.findById(storeId).orElseThrow(() -> new CustomException("존재하지 않는 매장입니다."));
+
+        // 점주 지갑 주소를 위한 객체 호출
+        Member ownerInfo = memberRepository.findById(store.getOwnerId()).orElseThrow(() -> new CustomException("존재하지 않는 점주입니다."));
+
+        // json 메타데이터 세팅
+        String json = null;
+        String schemaId = "sv.v1";
+        String type = "store_visit";
+        String name = "Store Visit Badge";
+        String metadataFileName = "대구통닭 체크인 증명";
+        String store_id = String.valueOf(storeId); // 매장번호 형변환 (issuer)
+        // 아래에 NFT Mint 에도 동시사용
+        String customerWallet = Objects.requireNonNull(savedCustomer).getWalletAddress(); // 고객의 지갑 주소(holder)
+        String table_id = String.valueOf(tableNumber); // 테이블번호 형변환(visit)
+        String checkInTime = String.valueOf(visitLogDto.getCreatedAt()); // 방문시간 형변환(visit)
+        // T만 제거
+        String formattedTime = checkInTime.replace("T", " ");
+        try {
+
+            DaeguChainNftMetadataDto dto = new DaeguChainNftMetadataDto(
+                    schemaId,
+                    type,
+                    name,
+                    metadataFileName,
+                    new DaeguChainNftMetadataDto.Issuer(store_id),
+                    new DaeguChainNftMetadataDto.Holder(customerWallet),
+                    new DaeguChainNftMetadataDto.Visit(table_id, formattedTime),
+                    new DaeguChainNftMetadataDto.Image("", "")
+            );
+
+            json = daeguChainClient.createMetadataJson(dto);
+            System.out.println(json);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+
+        // 방문시간 가공
+        String fileVisitTime = checkInTime.replaceAll("\\D", ""); // \D = 숫자가 아닌 모든 문자
+        String fileName ="coex_meta_"+storeId+"_"+tableNumber+"_"+fileVisitTime+ ".json";
+        String url = null;
+        String fileHash = null;
+        // 파일업로드 API 실행
+        if (json != null) {
+            String description = "test fileUpload";
+            Map<String, String> result = daeguChainClient.uploadNftJson(Objects.requireNonNull(json),description,fileName);
+            url = result.get("uri");
+            fileHash = result.get("fileHash");
+            System.out.println("업로드 NFT 파일 URI: " + url);
+            System.out.println("업로드 NFT 파일 Hash: " + fileHash);
+        } else {
+            throw new RuntimeException("JSON 생성 실패로 NFT 업로드를 진행할 수 없습니다.");
+        }
+
+
+        String contractAddress = store.getNftContract(); // 매장 nft 계약주소
+        String nftFileUri = url; // nft 파일업로드 url
+        String creator = ownerInfo.getWalletAddress(); // 점주 지갑주소
+        String hash = fileHash; // nft 파일 hash
+
+        // nft 계약주소, 고객지갑주소, 점주지갑주소, nft file uri, fileHash 사용하기
+        // nftFileUri, fileHash (2가지는 NFT 파일업로드에서 땡겨온 정보)
+        // NFT Mint 진행하기
+        Map<String, Object> mintResult = daeguChainClient.NftMint(
+                contractAddress,
+                customerWallet,
+                nftFileUri,
+                creator,
+                hash
+        );
+        System.out.println("=== NFT Mint 결과 ===");
+        System.out.println(mintResult);
 
         // 토큰 생성
         CustomUserInfoDto userInfo = modelMapper.map(member, CustomUserInfoDto.class);
@@ -124,7 +207,6 @@ public class AuthServiceImpl implements AuthService {
         }
 
         AuthResponseDto authResponseDto = new AuthResponseDto(auth);
-
         return new DidLoginResponseDto(authResponseDto, visitLogDto.getCustomerId());
     }
 
