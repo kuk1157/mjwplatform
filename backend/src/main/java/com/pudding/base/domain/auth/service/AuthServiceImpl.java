@@ -1,5 +1,7 @@
 package com.pudding.base.domain.auth.service;
 
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.pudding.base.dchain.DaeguChainClient;
 import com.pudding.base.dchain.dto.DaeguChainNftMetadataDto;
 import com.pudding.base.domain.auth.dto.AuthRequestDto;
@@ -49,6 +51,7 @@ public class AuthServiceImpl implements AuthService {
     private final CustomerRepository customerRepository;
     private final VisitLogService visitLogService;
     private final StoreRepository storeRepository;
+    private final ObjectMapper objectMapper;
 
     @Override
     @Transactional
@@ -186,6 +189,11 @@ public class AuthServiceImpl implements AuthService {
         );
         System.out.println("=== NFT Mint 결과 ===");
         System.out.println(mintResult);
+
+        // NFT ID API 호출을 위한 Mint 결과값에서 factHash 추출
+        JsonNode root = objectMapper.valueToTree(mintResult);
+        String factHash = root.path("data").path("tx").path("fact_hash").asText();
+        System.out.println("드디어 너를 추출한건가 맞음? "+factHash);
 
         // 토큰 생성
         CustomUserInfoDto userInfo = modelMapper.map(member, CustomUserInfoDto.class);
