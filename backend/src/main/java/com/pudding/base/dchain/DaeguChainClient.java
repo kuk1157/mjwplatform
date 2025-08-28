@@ -1,19 +1,29 @@
 package com.pudding.base.dchain;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.pudding.base.dchain.dto.DaeguChainNftMetadataDto;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
+import org.apache.hc.client5.http.classic.methods.HttpPost;
+import org.apache.hc.client5.http.entity.mime.MultipartEntityBuilder;
+import org.apache.hc.client5.http.impl.classic.CloseableHttpClient;
+import org.apache.hc.client5.http.impl.classic.HttpClients;
+import org.apache.hc.core5.http.ContentType;
+import org.apache.hc.core5.http.HttpEntity;
+import org.apache.hc.core5.http.io.entity.EntityUtils;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Component;
 import org.springframework.web.reactive.function.client.WebClient;
 import reactor.util.retry.Retry;
-
+import java.io.File;
+import java.io.FileOutputStream;
 import java.io.InputStream;
 import java.net.URL;
-import java.nio.file.Files;
-import java.nio.file.Path;
+import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 import java.time.Duration;
 import java.util.Map;
@@ -32,12 +42,17 @@ import java.util.Map;
 public class DaeguChainClient {
 
     private final WebClient daeguWebClient;
+    private final ObjectMapper objectMapper;
 
     @Value("${daeguchain.token}")
     private String appToken;
 
     @Value("${daeguchain.chain-id:dchain}")
     private String chainId;
+
+    @Value("${daeguchain.privateKey}")
+    private String ownerPrivateKey;
+
 
     // ===== 계정(지갑) 생성 =====
     public String createAccountAddress() {
@@ -67,65 +82,6 @@ public class DaeguChainClient {
         // privatekey/publickey는 사용하지 않음
         return address;
     }
-
-    public Map<String, Object> mintNftForTest(
-            String contractAddress,
-            String receiver,
-            String nftFileUri,
-            String creator,
-            OwnerKeyProvider keyProvider
-    ) {
-        try {
-            String ownerPkey = keyProvider.getOwnerPrivateKeyFor(contractAddress);
-            String hash = computeFileHashFromUrl(nftFileUri);
-
-            Map<String, Object> payload = Map.of(
-                    "token", appToken,
-                    "chain", chainId,
-                    "cont_addr", contractAddress,
-                    "owner_addr", creator,   // Controller에서 전달한 ownerAddr 사용
-                    "owner_pkey", ownerPkey,
-                    "receiver", receiver,
-                    "uri", nftFileUri,
-                    "hash", hash,
-                    "creator", creator
-            );
-
-            return daeguWebClient.post()
-                    .uri("/v2/mitum/nft/mint")
-                    .contentType(MediaType.APPLICATION_JSON)
-                    .accept(MediaType.APPLICATION_JSON)
-                    .bodyValue(payload)
-                    .retrieve()
-                    .bodyToMono(Map.class)
-                    .block();
-
-        } catch (Exception e) {
-            throw new RuntimeException("NFT minting failed: " + e.getMessage(), e);
-        }
-    }
-
-    // URL에서 파일 읽어서 SHA256 해시 계산
-    public String computeFileHashFromUrl(String fileUrl) throws Exception {
-        try (InputStream in = new URL(fileUrl).openStream()) {
-            MessageDigest digest = MessageDigest.getInstance("SHA-256");
-            byte[] buffer = new byte[8192];
-            int read;
-            while ((read = in.read(buffer)) != -1) {
-                digest.update(buffer, 0, read);
-            }
-            byte[] hashBytes = digest.digest();
-            StringBuilder sb = new StringBuilder();
-            for (byte b : hashBytes) {
-                sb.append(String.format("%02x", b));
-            }
-            return sb.toString();
-        }
-    }
-
-
-
-
     // ===== DTOs =====
     @Data
     static class AccCreateResponse { private AccCreateData data; }
@@ -143,6 +99,103 @@ public class DaeguChainClient {
     @AllArgsConstructor
     public static class DaeguChainException extends RuntimeException {
         public DaeguChainException(String message) { super(message); }
+    }
+
+
+    // NFT 파일업로드를 위한 Metadata json 세팅 메서드
+    public String createMetadataJson(DaeguChainNftMetadataDto dto) throws Exception {
+        return objectMapper.writerWithDefaultPrettyPrinter()
+                .writeValueAsString(dto);
+    }
+
+    // NFT 파일 업로드 API
+    public Map<String, String> uploadNftJson(String jsonContent, String description, String filename) {
+        File tempFile;
+        try {
+            tempFile = File.createTempFile("metadata_", ".json");
+            try (FileOutputStream fos = new FileOutputStream(tempFile)) {
+                fos.write(jsonContent.getBytes(StandardCharsets.UTF_8));
+            }
+            System.out.println("임시파일 생성: " + tempFile.getAbsolutePath());
+        } catch (Exception e) {
+            throw new RuntimeException("임시 JSON 파일 생성 실패", e);
+        }
+
+        try (CloseableHttpClient httpClient = HttpClients.createDefault()) {
+            HttpPost uploadPost = new HttpPost("https://www.daegu.go.kr/daeguchain/v2/mitum/upload/upload_nft");
+
+            // MultipartEntity 생성
+            HttpEntity multipart = MultipartEntityBuilder.create()
+                    .addTextBody("token", appToken)
+                    .addBinaryBody("nft_file", tempFile, ContentType.APPLICATION_JSON, filename)
+                    .addTextBody("description", description)
+                    .build();
+
+            uploadPost.setEntity(multipart);
+
+//            ByteArrayOutputStream baos = new ByteArrayOutputStream();
+//            multipart.writeTo(baos);
+//            System.out.println("=== 실제 전송 바디 ===\n" + baos.toString(StandardCharsets.UTF_8));
+
+            // 요청 실행
+            return httpClient.execute(uploadPost, response -> {
+                int status = response.getCode();
+                String body = EntityUtils.toString(response.getEntity(), StandardCharsets.UTF_8);
+                if (status >= 200 && status < 300) {
+                    JsonNode root = objectMapper.readTree(body);
+                    String uri = root.path("data").path("uri").asText();
+                    String fileHash = root.path("data").path("file_hash").asText();
+                    return Map.of(
+                            "uri", uri,
+                            "fileHash", fileHash
+                    );
+                } else {
+                    throw new RuntimeException(" Status: " + status + ", body: " + body);
+                }
+            });
+
+        } catch (Exception e) {
+            throw new RuntimeException("NFT file upload 실패", e);
+        } finally {
+            // 임시 파일 삭제
+            tempFile.delete();
+        }
+    }
+
+    // NFT Mint API 메타데이터, 파일 URL 등 많은 정보를 다대구 로그인 시 받아서 진행
+    public Map<String, Object> NftMint(
+            String contractAddress,
+            String receiver,
+            String nftFileUri,
+            String creator,
+            String hash
+    ) {
+        try {
+
+            Map<String, Object> payload = Map.of(
+                    "token", appToken,
+                    "chain", chainId,
+                    "cont_addr", contractAddress,
+                    "owner_addr", creator,   // Controller에서 전달한 ownerAddr 사용
+                    "owner_pkey", ownerPrivateKey,
+                    "receiver", receiver,
+                    "uri", nftFileUri,
+                    "hash", hash,
+                    "creator", creator
+            );
+
+            return daeguWebClient.post()
+                    .uri("/v2/mitum/nft/mint")
+                    .contentType(MediaType.APPLICATION_JSON)
+                    .accept(MediaType.APPLICATION_JSON)
+                    .bodyValue(payload)
+                    .retrieve()
+                    .bodyToMono(Map.class)
+                    .block();
+
+        } catch (Exception e) {
+            throw new RuntimeException("NFT Mint 실패: " + e.getMessage(), e);
+        }
     }
 
     /**
