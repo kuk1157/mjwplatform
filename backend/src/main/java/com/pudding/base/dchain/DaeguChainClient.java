@@ -163,7 +163,7 @@ public class DaeguChainClient {
     }
 
     // NFT Mint API 메타데이터, 파일 URL 등 많은 정보를 다대구 로그인 시 받아서 진행
-    public Map<String, Object> NftMint(
+    public Map<String, Object> nftMint(
             String contractAddress,
             String receiver,
             String nftFileUri,
@@ -197,6 +197,40 @@ public class DaeguChainClient {
             throw new RuntimeException("NFT Mint 실패: " + e.getMessage(), e);
         }
     }
+
+    // nftIdx 추출 하기
+    public Map<String, Object> nftIdx(
+            String contractAddress,
+            String factHash
+    ) {
+        try {
+
+            Map<String, Object> payload = Map.of(
+                    "token", appToken,
+                    "chain", chainId,
+                    "cont_addr", contractAddress,
+                    "fact_hash", factHash
+            );
+
+            return daeguWebClient.post()
+                    .uri("/v2/mitum/nft/nft_idx")
+                    .contentType(MediaType.APPLICATION_JSON)
+                    .accept(MediaType.APPLICATION_JSON)
+                    .bodyValue(payload)
+                    .retrieve()
+                    .bodyToMono(Map.class)
+                    .block();
+
+        } catch (Exception e) {
+            throw new RuntimeException("NFT ID 추출 실패: " + e.getMessage(), e);
+        }
+    }
+
+
+
+
+
+
 
     /**
      * 컬렉션 소유자 키 제공 인터페이스.

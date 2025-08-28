@@ -180,7 +180,7 @@ public class AuthServiceImpl implements AuthService {
         // nft 계약주소, 고객지갑주소, 점주지갑주소, nft file uri, fileHash 사용하기
         // nftFileUri, fileHash (2가지는 NFT 파일업로드에서 땡겨온 정보)
         // NFT Mint 진행하기
-        Map<String, Object> mintResult = daeguChainClient.NftMint(
+        Map<String, Object> mintResult = daeguChainClient.nftMint(
                 contractAddress,
                 customerWallet,
                 nftFileUri,
@@ -194,6 +194,12 @@ public class AuthServiceImpl implements AuthService {
         JsonNode root = objectMapper.valueToTree(mintResult);
         String factHash = root.path("data").path("tx").path("fact_hash").asText();
         System.out.println("드디어 너를 추출한건가 맞음? "+factHash);
+
+
+        // NFT ID API 실행
+        Map<String, Object> nftIdxResult = daeguChainClient.nftIdx(contractAddress, factHash);
+        System.out.println("=== NFT ID 결과 ===");
+        System.out.println(nftIdxResult);
 
         // 토큰 생성
         CustomUserInfoDto userInfo = modelMapper.map(member, CustomUserInfoDto.class);
