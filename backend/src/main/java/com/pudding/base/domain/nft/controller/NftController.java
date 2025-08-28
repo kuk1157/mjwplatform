@@ -1,7 +1,5 @@
 package com.pudding.base.domain.nft.controller;
 
-import com.pudding.base.dchain.DaeguChainClient;
-import com.pudding.base.dchain.MyOwnerKeyProvider;
 import com.pudding.base.domain.nft.dto.NftDto;
 import com.pudding.base.domain.nft.service.NftService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -11,7 +9,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Map;
 
 @Tag(name = "NFT 관련 API", description = "NFT 전체 API")
 @RestController
@@ -19,32 +16,6 @@ import java.util.Map;
 @RequestMapping("/api/v1")
 public class NftController {
     private final NftService nftService;
-    private final DaeguChainClient daeguChainClient;
-    private final MyOwnerKeyProvider ownerKeyProvider;
-
-    @PostMapping("/nft/mint-test")
-    public Map<String, Object> mintTest(@RequestBody Map<String, Object> req) throws Exception {
-        // null-safe 처리
-        String receiver = req.get("receiver") != null ? req.get("receiver").toString() : "";
-        String nftFileUri = req.get("fileUri") != null ? req.get("fileUri").toString() : "";
-
-        // receiver나 fileUri 비어있으면 예외 처리
-        if (receiver.isEmpty() || nftFileUri.isEmpty()) {
-            throw new IllegalArgumentException("receiver와 fileUri는 필수값입니다.");
-        }
-
-        // 테스트용 owner 주소 (백엔드에서 안전하게 고정)
-        String ownerAddr = "0x68aD51947E2E4668B9Ee8efFe7f30de48510Eb32fca";
-
-        return daeguChainClient.mintNftForTest(
-                "0xD479753380a6de407a78c576CFb1D1B5278893e0fca", // 컨트랙트 주소
-                receiver,
-                nftFileUri, // hash 계산용 파일 경로
-                ownerAddr,   // creator는 백엔드에서 결정
-                ownerKeyProvider
-        );
-    }
-
 
     @Operation(summary = "NFT 등록 API", description = "NFT 발급 API")
     @PostMapping("/stores/{storeId}/customers/{customerId}/nfts")
