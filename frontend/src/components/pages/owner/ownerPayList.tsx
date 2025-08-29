@@ -1,10 +1,11 @@
 import { MainContainer } from "../../molecules/container";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import axios from "axios";
 import { useState, useEffect } from "react";
 
 function OwnerPayList() {
     const { ownerId } = useParams();
+    const navigate = useNavigate();
 
     interface OwnerPay {
         id: number;
@@ -46,14 +47,27 @@ function OwnerPayList() {
         (currentPage - 1) * itemsPerPage,
         currentPage * itemsPerPage
     );
+
+    // 점주 대시보드로 이동
+    const OwnerDashBoard = () => {
+        navigate(`/owner/dashboard/${ownerId}`);
+    };
+
     return (
         <MainContainer className="py-[230px] bg-[#F6F6F6] lg:py-[150px] sm:py-[100px]">
             <div className="min-h-screen bg-gray-50 p-8">
                 <div className="w-full min-w-[1200px] mx-auto">
+                    <div className="mb-6 flex justify-start">
+                        <button
+                            onClick={OwnerDashBoard}
+                            className="px-5 py-2 bg-yellow-400 text-white font-semibold rounded-lg shadow hover:bg-yellow-500 transition-colors"
+                        >
+                            🏠 대시보드로 이동
+                        </button>
+                    </div>
                     <h1 className="text-3xl font-bold text-gray-800 mb-8">
-                        📊 결제 조회
+                        📊 결제 조회{" "}
                     </h1>
-
                     <div className="overflow-x-auto border rounded-lg shadow-lg bg-white">
                         <table className="min-w-full divide-y divide-gray-200 table-fixed">
                             <thead className="bg-gradient-to-r from-yellow-200 to-yellow-100 sticky top-0 z-10 shadow-md">
