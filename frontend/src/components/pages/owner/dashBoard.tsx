@@ -92,7 +92,7 @@ function OwnerDashBoard() {
                 socketRef.current = null;
             }
         };
-    }, [ownerId]);
+    }, [ownerId, storeId]);
     // 주문금액 입력 핸들러
     const handleAmountChange = (id: number, value: string) => {
         setVisitAmounts((prev) => ({
@@ -227,7 +227,7 @@ function OwnerDashBoard() {
 
     // 점주 매장 테이블 목록 조회 페이지로 이동
     const OwnerStoreTable = () => {
-        navigate(`/owner/ownerStoreTableList/${storeId}`);
+        navigate(`/owner/ownerStoreTableList/${ownerId}`);
     };
 
     // const QrVisit = () => {
