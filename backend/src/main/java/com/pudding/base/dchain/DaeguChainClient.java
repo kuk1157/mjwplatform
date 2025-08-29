@@ -102,13 +102,12 @@ public class DaeguChainClient {
     }
 
 
-    // NFT 파일업로드를 위한 Metadata json 세팅 메서드
+    // [Metadata json Method]
     public String createMetadataJson(DaeguChainNftMetadataDto dto) throws Exception {
         return objectMapper.writerWithDefaultPrettyPrinter()
                 .writeValueAsString(dto);
     }
-
-    // NFT 파일 업로드 API
+    // [NFT 파일 업로드 API]
     public Map<String, String> uploadNftJson(String jsonContent, String description, String filename) {
         File tempFile;
         try {
@@ -162,7 +161,7 @@ public class DaeguChainClient {
         }
     }
 
-    // NFT Mint API 메타데이터, 파일 URL 등 많은 정보를 다대구 로그인 시 받아서 진행
+    // [NFT Mint API]
     public Map<String, Object> nftMint(
             String contractAddress,
             String receiver,
@@ -198,7 +197,7 @@ public class DaeguChainClient {
         }
     }
 
-    // nftIdx 추출 하기
+    // [NFT ID API]
     public Map<String, Object> nftIdx(
             String contractAddress,
             String factHash
@@ -226,11 +225,33 @@ public class DaeguChainClient {
         }
     }
 
+    // [NFT Token Info API]
+    public Map<String, Object> nftTokenInfo(
+            String contractAddress,
+            Integer nftIdx
+    ) {
+        try {
 
+            Map<String, Object> payload = Map.of(
+                    "token", appToken,
+                    "chain", chainId,
+                    "cont_addr", contractAddress,
+                    "nft_idx", nftIdx
+            );
 
+            return daeguWebClient.post()
+                    .uri("/v2/mitum/nft/token_info")
+                    .contentType(MediaType.APPLICATION_JSON)
+                    .accept(MediaType.APPLICATION_JSON)
+                    .bodyValue(payload)
+                    .retrieve()
+                    .bodyToMono(Map.class)
+                    .block();
 
-
-
+        } catch (Exception e) {
+            throw new RuntimeException("NFT Token Info 추출 실패: " + e.getMessage(), e);
+        }
+    }
 
     /**
      * 컬렉션 소유자 키 제공 인터페이스.

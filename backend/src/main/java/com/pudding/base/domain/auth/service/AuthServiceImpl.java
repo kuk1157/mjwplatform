@@ -16,6 +16,8 @@ import com.pudding.base.domain.customer.repository.CustomerRepository;
 import com.pudding.base.domain.member.entity.Member;
 import com.pudding.base.domain.member.enums.Role;
 import com.pudding.base.domain.member.repository.MemberRepository;
+import com.pudding.base.domain.nft.entity.Nft;
+import com.pudding.base.domain.nft.service.NftService;
 import com.pudding.base.domain.store.entity.Store;
 import com.pudding.base.domain.store.repository.StoreRepository;
 import com.pudding.base.domain.visit.dto.VisitLogDto;
@@ -52,6 +54,7 @@ public class AuthServiceImpl implements AuthService {
     private final VisitLogService visitLogService;
     private final StoreRepository storeRepository;
     private final ObjectMapper objectMapper;
+    private final NftService nftService;
 
     @Override
     @Transactional
@@ -121,7 +124,7 @@ public class AuthServiceImpl implements AuthService {
         // 점주 지갑 주소를 위한 객체 호출
         Member ownerInfo = memberRepository.findById(store.getOwnerId()).orElseThrow(() -> new CustomException("존재하지 않는 점주입니다."));
 
-        // json 메타데이터 세팅
+        // [json 메타데이터 세팅]
         String json = null;
         String schemaId = "sv.v1";
         String type = "store_visit";
@@ -153,20 +156,17 @@ public class AuthServiceImpl implements AuthService {
             e.printStackTrace();
         }
 
+        // [파일업로드 API 실행]
+        String fileVisitTime = checkInTime.replaceAll("\\D", ""); // 방문시간 가공
+        String fileName ="coex_meta_"+storeId+"_"+tableNumber+"_"+fileVisitTime+ ".json";  // Json 파일명
+        String url = null; // url 초기화
+        String fileHash = null; // fileHash 초기화
 
-        // 방문시간 가공
-        String fileVisitTime = checkInTime.replaceAll("\\D", ""); // \D = 숫자가 아닌 모든 문자
-        String fileName ="coex_meta_"+storeId+"_"+tableNumber+"_"+fileVisitTime+ ".json";
-        String url = null;
-        String fileHash = null;
-        // 파일업로드 API 실행
         if (json != null) {
             String description = "test fileUpload";
             Map<String, String> result = daeguChainClient.uploadNftJson(Objects.requireNonNull(json),description,fileName);
             url = result.get("uri");
             fileHash = result.get("fileHash");
-            System.out.println("업로드 NFT 파일 URI: " + url);
-            System.out.println("업로드 NFT 파일 Hash: " + fileHash);
         } else {
             throw new RuntimeException("JSON 생성 실패로 NFT 업로드를 진행할 수 없습니다.");
         }
@@ -177,29 +177,56 @@ public class AuthServiceImpl implements AuthService {
         String creator = ownerInfo.getWalletAddress(); // 점주 지갑주소
         String hash = fileHash; // nft 파일 hash
 
-        // nft 계약주소, 고객지갑주소, 점주지갑주소, nft file uri, fileHash 사용하기
-        // nftFileUri, fileHash (2가지는 NFT 파일업로드에서 땡겨온 정보)
-        // NFT Mint 진행하기
-        Map<String, Object> mintResult = daeguChainClient.nftMint(
-                contractAddress,
-                customerWallet,
-                nftFileUri,
-                creator,
-                hash
-        );
-        System.out.println("=== NFT Mint 결과 ===");
-        System.out.println(mintResult);
+        // [NFT Mint 진행하기]
+        Map<String, Object> mintResult = null; // 예외 처리를 위한 NFT Mint 객체 초기화
+        String factHash = null; // factHash 초기화(NFT ID 추출을 위해 필요한 값)
+        if(nftFileUri != null){
+            mintResult = daeguChainClient.nftMint(
+                    contractAddress,
+                    customerWallet,
+                    nftFileUri,
+                    creator,
+                    hash
+            );
+            JsonNode root = objectMapper.valueToTree(mintResult);
+            factHash = root.path("data").path("tx").path("fact_hash").asText();
+        }else{
+            throw new RuntimeException("NFT Mint 및 factHash 추출을 실패하였습니다.");
+        }
 
-        // NFT ID API 호출을 위한 Mint 결과값에서 factHash 추출
-        JsonNode root = objectMapper.valueToTree(mintResult);
-        String factHash = root.path("data").path("tx").path("fact_hash").asText();
-        System.out.println("드디어 너를 추출한건가 맞음? "+factHash);
+        // [NFT ID API 실행]
+        Map<String, Object> nftIdxResult = null; // 예외 처리를 위한 NFT ID 객체 초기화
+        Integer nftIdx = null; // nftIdx 초기화(Token Info로 nft 이미지를 가져오기 위한 초기화)
+        if(mintResult != null){
+            nftIdxResult = daeguChainClient.nftIdx(contractAddress, factHash);
+            JsonNode root = objectMapper.valueToTree(nftIdxResult);
+            JsonNode nftIdxArray = root.path("data").path("nft_idx");
+            // 배열이라면 첫 번째 값 가져오기
+            if (nftIdxArray.isArray() && !nftIdxArray.isEmpty()) {
+                nftIdx = nftIdxArray.get(0).asInt();
+            } else {
+                throw new RuntimeException("nft_idx 값이 비어있습니다.");
+            }
 
+        }else{
+            throw new RuntimeException("NFT ID 추출을 실패하였습니다.");
+        }
 
-        // NFT ID API 실행
-        Map<String, Object> nftIdxResult = daeguChainClient.nftIdx(contractAddress, factHash);
-        System.out.println("=== NFT ID 결과 ===");
-        System.out.println(nftIdxResult);
+        // [NFT Token Info API 실행]
+        Map<String, Object> nftTokenInfoResult = null; // 예외 처리를 위한 Token Info 객체 초기화
+        String nftTokenImageUrl = null; // nft 이미지 값 초기화(최종 nft DB에 저장용도)
+        String tokenHash = null; // nft 진위여부 검증 값 초기화 (최종 nft DB에 저장용도)
+        if(nftIdx > 0){
+            nftTokenInfoResult = daeguChainClient.nftTokenInfo(contractAddress, nftIdx);
+            JsonNode root = objectMapper.valueToTree(nftTokenInfoResult);
+            nftTokenImageUrl = root.path("data").path("info").path("uri").asText();
+            tokenHash = root.path("data").path("info").path("hash").asText();
+        }else{
+            throw new RuntimeException("Token Info 실행을 실패하였습니다.");
+        }
+
+        // [NFT DB에 저장]
+        nftService.createNft(savedCustomer.getDid(), tokenHash, tableNumber, nftIdx, nftTokenImageUrl, storeId, visitLogDto.getCustomerId());
 
         // 토큰 생성
         CustomUserInfoDto userInfo = modelMapper.map(member, CustomUserInfoDto.class);
