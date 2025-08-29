@@ -83,12 +83,12 @@ public class VisitLogServiceImpl implements VisitLogService {
         // Socket 서버로 전송
         sendToSocketServer(dto);
 
-        // nft 발급 중복 체크
-        boolean nftExists = nftService.nftExists(storeNum, customer.getId());
-        if(!nftExists){
-            // nft 발급 진행
-            nftService.createNft(customer.getDid(), storeNum, customer.getId());
-        }
+//        // nft 발급 중복 체크
+//        boolean nftExists = nftService.nftExists(storeNum, customer.getId());
+//        if(!nftExists){
+//            // nft 발급 진행
+//            nftService.createNft(customer.getDid(), storeNum, customer.getId());
+//        }
 
         return VisitLogDto.fromEntity(savedQrVisit, memberName);
     }
