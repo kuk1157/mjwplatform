@@ -111,6 +111,7 @@ public class PayServiceImpl implements PayService {
         // 결제 고유번호(savedPay - id 추출), 결제금액 finalAmount 2개 넣기
         PayLog payLog = PayLog.builder()
                 .payId(savedPay.getId())
+                .ownerId(savedPay.getOwnerId()) // 결제에서 점주 고유번호
                 .amount(payDto.getAmount())
                 .discountAmount(discount)
                 .finalAmount(finalAmount)

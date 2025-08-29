@@ -64,7 +64,7 @@ public class Pay {
     }
 
     @Builder
-    public Pay(Integer visitLogId, Integer storeId, Integer ownerId, Integer customerId, Integer amount, Double discountAmount, Integer finalAmount){
+    public Pay(Integer visitLogId, Integer storeId, Integer ownerId, Integer customerId, Integer amount, Double discountAmount, Integer finalAmount, LocalDateTime createdAt){
         this.visitLogId = visitLogId;
         this.storeId = storeId;
         this.ownerId = ownerId;
@@ -72,6 +72,7 @@ public class Pay {
         this.amount = amount;
         this.discountAmount = discountAmount;
         this.finalAmount = finalAmount;
+        this.createdAt = createdAt;
     }
 
 

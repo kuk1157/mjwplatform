@@ -19,9 +19,10 @@ public class PayDto {
     private Double discountAmount;
     private Integer finalAmount;
     private LocalDateTime paidAt;
+    private LocalDateTime createdAt;
 
     @Builder
-    public PayDto(Integer id, Integer visitLogId, Integer storeId, Integer ownerId, Integer customerId, Integer amount, Double discountAmount, Integer finalAmount){
+    public PayDto(Integer id, Integer visitLogId, Integer storeId, Integer ownerId, Integer customerId, Integer amount, Double discountAmount, Integer finalAmount, LocalDateTime createdAt){
         this.id = id;
         this.visitLogId = visitLogId;
         this.storeId = storeId;
@@ -30,6 +31,7 @@ public class PayDto {
         this.amount = amount;
         this.discountAmount = discountAmount;
         this.finalAmount = finalAmount;
+        this.createdAt = createdAt;
     }
 
     public static PayDto fromEntity(Pay pay) {
@@ -42,6 +44,7 @@ public class PayDto {
                 .amount(pay.getAmount())
                 .discountAmount(pay.getDiscountAmount())
                 .finalAmount(pay.getFinalAmount())
+                .createdAt(pay.getCreatedAt())
                 .build();
     }
 
