@@ -6,7 +6,6 @@ import com.pudding.base.domain.nft.entity.Nft;
 import com.pudding.base.domain.nft.repository.NftRepository;
 import com.pudding.base.domain.store.entity.Store;
 import com.pudding.base.domain.store.repository.StoreRepository;
-import com.pudding.base.domain.storeTable.entity.StoreTable;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -26,13 +25,17 @@ public class NftServiceImpl implements NftService {
     private final StoreRepository storeRepository;
 
 
-    public NftDto createNft(String did, Integer storeId, Integer customerId){
+    public NftDto createNft(String did, String tokenHash, Integer storeTableId, Integer nftIdx, String nftUrl, Integer storeId, Integer customerId){
         String finalToken = UUID.randomUUID().toString();
 
         Nft nft = Nft.builder()
                 .tokenId(finalToken)
+                .tokenHash(tokenHash)
                 .storeId(storeId)
                 .customerId(customerId)
+                .storeTableId(storeTableId)
+                .nftIdx(nftIdx)
+                .nftUrl(nftUrl)
                 .build();
 
         Nft savedNft = nftRepository.save(nft);

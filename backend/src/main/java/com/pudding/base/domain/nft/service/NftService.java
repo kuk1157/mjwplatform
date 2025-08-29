@@ -8,7 +8,7 @@ import java.util.List;
 public interface NftService {
 
     // nft 등록
-    NftDto createNft(String did, Integer storeId, Integer customerId);
+    NftDto createNft(String did, String tokenHash, Integer storeTableId, Integer nftIdx, String nftUrl, Integer storeId, Integer customerId);
 
     // 고객 NFT 전체 조회
     List<NftDto> getAllNftSorted(Integer customerId, String sort);
