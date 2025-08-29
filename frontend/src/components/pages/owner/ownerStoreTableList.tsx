@@ -45,11 +45,11 @@ function OwnerStoreTableList() {
                             onClick={OwnerDashBoard}
                             className="px-5 py-2 bg-yellow-400 text-white font-semibold rounded-lg shadow hover:bg-yellow-500 transition-colors"
                         >
-                            🏠 대시보드로 이동
+                            📑 대시보드로 이동
                         </button>
                     </div>
                     <h1 className="text-3xl font-bold text-gray-800 mb-8">
-                        📊 매장 테이블 조회
+                        🍽️ 매장 테이블 조회
                     </h1>
                     <div className="grid grid-cols-4 gap-4 p-4">
                         {tables.length === 0 ? (

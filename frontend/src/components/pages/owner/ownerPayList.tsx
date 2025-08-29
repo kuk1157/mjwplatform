@@ -62,11 +62,11 @@ function OwnerPayList() {
                             onClick={OwnerDashBoard}
                             className="px-5 py-2 bg-yellow-400 text-white font-semibold rounded-lg shadow hover:bg-yellow-500 transition-colors"
                         >
-                            🏠 대시보드로 이동
+                            📑 대시보드로 이동
                         </button>
                     </div>
                     <h1 className="text-3xl font-bold text-gray-800 mb-8">
-                        📊 결제 조회{" "}
+                        💸 결제 조회{" "}
                     </h1>
                     <div className="overflow-x-auto border rounded-lg shadow-lg bg-white">
                         <table className="min-w-full divide-y divide-gray-200 table-fixed">

@@ -60,11 +60,11 @@ function OwnerPointList() {
                             onClick={OwnerDashBoard}
                             className="px-5 py-2 bg-yellow-400 text-white font-semibold rounded-lg shadow hover:bg-yellow-500 transition-colors"
                         >
-                            🏠 대시보드로 이동
+                            📑 대시보드로 이동
                         </button>
                     </div>
                     <h1 className="text-3xl font-bold text-gray-800 mb-8">
-                        📊 포인트 조회 - (점주가 입력한 금액)
+                        🪙 포인트 조회 - (점주가 입력한 금액)
                     </h1>
                     <div className="overflow-x-auto border rounded-lg shadow-lg bg-white">
                         <table className="min-w-full divide-y divide-gray-200 table-fixed">

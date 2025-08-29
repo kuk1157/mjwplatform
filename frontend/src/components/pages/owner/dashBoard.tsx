@@ -261,7 +261,7 @@ function OwnerDashBoard() {
                 {/* 가맹점 및 금액 정보 섹션 */}
                 <div className="mb-20 px-10">
                     <h2 className="text-2xl font-semibold text-gray-700 pb-1 mb-6 inline-block border-b-2 border-yellow-400 w-full">
-                        🏢 가맹점 및 금액 정보
+                        🏪 가맹점 및 금액 정보
                     </h2>
                     <div className="flex justify-center gap-6">
                         {/* 매장 이름 카드 */}
@@ -306,7 +306,7 @@ function OwnerDashBoard() {
                             className="flex flex-col items-center justify-center bg-white rounded-xl shadow p-4 hover:bg-gray-50 transition"
                             onClick={OwnerPay}
                         >
-                            <div className="text-2xl mb-1">📥</div>
+                            <div className="text-2xl mb-1">💸</div>
                             <div className="text-sm font-medium text-gray-800">
                                 결제조회
                             </div>
@@ -326,7 +326,7 @@ function OwnerDashBoard() {
                             className="flex flex-col items-center justify-center bg-white rounded-xl shadow p-4 hover:bg-gray-50 transition"
                             onClick={OwnerPoint}
                         >
-                            <div className="text-2xl mb-1">💳</div>
+                            <div className="text-2xl mb-1">🪙</div>
                             <div className="text-sm font-medium text-gray-800">
                                 포인트조회
                             </div>
@@ -346,7 +346,7 @@ function OwnerDashBoard() {
                 {/* 신규 방문(주문) 기록 섹션 */}
                 <div className="mb-20 px-10">
                     <h2 className="text-2xl font-semibold text-gray-700 pb-1 mb-6 inline-block border-b-2 border-yellow-400 w-full">
-                        📅 신규 방문(주문) 기록
+                        ✨ 신규 방문(주문) 기록
                     </h2>
 
                     {newVisitLogs.length === 0 ? (
@@ -428,7 +428,7 @@ function OwnerDashBoard() {
                 {/* 전체 방문 기록 섹션 */}
                 <div className="mb-20 px-10">
                     <h2 className="text-2xl font-semibold text-gray-700 pb-1 mb-6 inline-block border-b-2 border-yellow-400 w-full">
-                        📅 전체 방문 기록
+                        📝 전체 방문 기록
                     </h2>
                     <div className="overflow-x-auto p-6 bg-white rounded-xl shadow-lg ml-8">
                         {visitLogs.length === 0 ? (
