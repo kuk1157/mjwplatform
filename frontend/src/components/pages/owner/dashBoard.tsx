@@ -212,22 +212,22 @@ function OwnerDashBoard() {
 
     // 점주 결제 목록 조회 페이지로 이동
     const OwnerPay = () => {
-        navigate(`/ownerPayList/${ownerId}`);
+        navigate(`/owner/ownerPayList/${ownerId}`);
     };
 
     // 점주 결제내역 목록 조회 페이지로 이동
     const OwnerPayLog = () => {
-        navigate(`/ownerPayLogList/${ownerId}`);
+        navigate(`/owner/ownerPayLogList/${ownerId}`);
     };
 
     // 점주 포인트 목록 조회 페이지로 이동
     const OwnerPoint = () => {
-        navigate(`/ownerPonintList/${ownerId}`);
+        navigate(`/owner/ownerPointList/${ownerId}`);
     };
 
     // 점주 매장 테이블 목록 조회 페이지로 이동
     const OwnerStoreTable = () => {
-        navigate(`/ownerStoreTableList/${storeId}`);
+        navigate(`/owner/ownerStoreTableList/${storeId}`);
     };
 
     // const QrVisit = () => {
