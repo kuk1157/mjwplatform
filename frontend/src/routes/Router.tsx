@@ -168,6 +168,28 @@ const OwnerDashBoard = Loadable({
     Component: lazy(() => import("../components/pages/owner/dashBoard")),
 });
 
+// 점주용 매장 결제 조회 페이지
+const OwnerPayList = Loadable({
+    Component: lazy(() => import("../components/pages/owner/ownerPayList")),
+});
+
+// 점주용 매장 결제 내역 조회 페이지
+const OwnerPayLogList = Loadable({
+    Component: lazy(() => import("../components/pages/owner/ownerPayLogList")),
+});
+
+// 점주용 매장 포인트 조회 페이지
+const OwnerPointList = Loadable({
+    Component: lazy(() => import("../components/pages/owner/ownerPointList")),
+});
+
+// 점주용 매장 테이블 조회 페이지
+const OwnerStoreTableList = Loadable({
+    Component: lazy(
+        () => import("../components/pages/owner/ownerStoreTableList")
+    ),
+});
+
 // [모바일]
 
 // 모바일 로그인 페이지
@@ -236,12 +258,38 @@ const Router = createBrowserRouter([
                 element: <SocketTest />,
             },
 
+            // [ owner - 점주 ]
             // 점주용 웹 플랫폼 메인 대시보드
             {
                 path: "/owner/dashBoard/:ownerId",
                 element: <OwnerDashBoard />,
             },
 
+            // 점주용 매장 결제 조회
+            {
+                path: "/owner/ownerPayList/:ownerId",
+                element: <OwnerPayList />,
+            },
+
+            // 점주용 매장 결제 로그 조회
+            {
+                path: "/owner/ownerPayLogList/:ownerId",
+                element: <OwnerPayLogList />,
+            },
+
+            // 점주용 매장 포인트 조회
+            {
+                path: "/owner/ownerPointList/:ownerId",
+                element: <OwnerPointList />,
+            },
+
+            // 점주용 매장 테이블 조회
+            {
+                path: "/owner/ownerStoreTableList/:ownerId",
+                element: <OwnerStoreTableList />,
+            },
+
+            // [ user - 고객 ]
             // 고객 매장 방문 및 QR인증
             {
                 path: "/user/userVisitStore",
