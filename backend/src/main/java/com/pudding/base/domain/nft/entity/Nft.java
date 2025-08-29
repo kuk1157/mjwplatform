@@ -25,6 +25,10 @@ public class Nft {
     @Schema(description = "토큰 고유번호")
     private String tokenId;
 
+    @Column(name = "token_hash")
+    @Schema(description = "token 진위여부 검증값")
+    private String tokenHash;
+
     @Column(name = "store_id")
     @Schema(description = "매장 고유번호")
     private Integer storeId;
@@ -33,17 +37,32 @@ public class Nft {
     @Schema(description = "고객 고유번호")
     private Integer customerId;
 
+    @Column(name = "store_table_id")
+    @Schema(description = "매장 테이블 고유번호")
+    private Integer storeTableId;
+
+    @Column(name = "nft_idx")
+    @Schema(description = "nft 고유번호")
+    private Integer nftIdx;
+
+    @Column(name = "nft_url")
+    @Schema(description = "nft 토큰 이미지 uri")
+    private String nftUrl;
+
     @Column(name = "created_at", insertable = false, updatable = false)
     @Schema(description = "생성일")
     private LocalDateTime createdAt;
 
-
     @Builder
-    public Nft(Integer id, String tokenId, Integer storeId, Integer customerId, LocalDateTime createdAt) {
+    public Nft(Integer id, String tokenId, String tokenHash, Integer storeId, Integer customerId, Integer storeTableId, Integer nftIdx, String nftUrl, LocalDateTime createdAt) {
         this.id = id;
         this.tokenId = tokenId;
+        this.tokenHash = tokenHash;
         this.storeId = storeId;
         this.customerId = customerId;
+        this.storeTableId = storeTableId;
+        this.nftIdx = nftIdx;
+        this.nftUrl = nftUrl;
         this.createdAt = createdAt;
     }
 }
