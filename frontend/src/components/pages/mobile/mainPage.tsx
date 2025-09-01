@@ -7,6 +7,8 @@ import { GrGallery } from "react-icons/gr"; // NFT 갤러리 아이콘
 import { BsBell } from "react-icons/bs"; // 방문 기록 아이콘
 import { RiNftLine } from "react-icons/ri"; // 최근 nft 아이콘
 import { ImNotification } from "react-icons/im"; // 데이터가 없습니다 아이콘
+
+import { MobileMain } from "src/components/organisms/mobileMain"; // 모바일 상단 타이틀
 import { MobileFooter } from "src/components/organisms/mobileFooter"; // 하단 모바일 footer 공통 컴포넌트
 
 interface Nft {
@@ -69,13 +71,8 @@ export function MobileMainPage() {
     };
     return (
         <div className="min-h-screen bg-white p-4">
-            <div className="mb-3">
-                <div className="flex items-center gap-2 mb-2">
-                    <h2 className="text-lg font-bold text-gray-800 tracking-tight">
-                        소상공인 상생 플랫폼
-                    </h2>
-                </div>
-            </div>
+            {/* 모바일 타이틀 */}
+            {<MobileMain />}
 
             <div className="mt-6 mb-3">
                 <div className="flex items-center gap-2 mb-2">

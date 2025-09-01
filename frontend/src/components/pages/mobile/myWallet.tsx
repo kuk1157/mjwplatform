@@ -1,7 +1,7 @@
 import axios from "axios";
 import { useNavigate, useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
-
+import { MobileMain } from "src/components/organisms/mobileMain"; // 모바일 상단 타이틀
 import { MobileFooter } from "src/components/organisms/mobileFooter"; // 하단 모바일 footer 공통 컴포넌트
 import { IoWalletOutline } from "react-icons/io5"; // 지갑 아이콘
 import { FaRegUserCircle } from "react-icons/fa"; // 나의 정보 아이콘
@@ -41,13 +41,8 @@ export function MobileMyWallet() {
 
     return (
         <div className="min-h-screen bg-white p-4">
-            <div className="mb-3">
-                <div className="flex items-center gap-2 mb-2">
-                    <h2 className="text-lg font-bold text-gray-800 tracking-tight">
-                        소상공인 상생 플랫폼
-                    </h2>
-                </div>
-            </div>
+            {/* 모바일 타이틀 */}
+            {<MobileMain />}
 
             <div className="mt-6 mb-3">
                 <div className="flex items-center gap-2 mb-2">
