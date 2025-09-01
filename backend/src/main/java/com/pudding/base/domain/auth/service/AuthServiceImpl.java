@@ -124,6 +124,24 @@ public class AuthServiceImpl implements AuthService {
         // 점주 지갑 주소를 위한 객체 호출
         Member ownerInfo = memberRepository.findById(store.getOwnerId()).orElseThrow(() -> new CustomException("존재하지 않는 점주입니다."));
 
+
+
+        String contractAddress = store.getNftContract(); // 매장 nft 계약주소
+
+
+        // [ NFT collection_info API 실행]
+        Map<String, Object> collectionResult = null; // 예외 처리를 위한 collection_info 객체 초기화
+        String imgUri = null;
+        if(contractAddress != null){
+            collectionResult = daeguChainClient.nftCollectionInfo(contractAddress);
+            JsonNode root = objectMapper.valueToTree(collectionResult);
+            imgUri = root.path("data").path("info").path("policy").path("uri").asText();
+        }else{
+            throw new RuntimeException("NFT 이미지 추출을 실패하였습니다.");
+        }
+        System.out.println("NFT image uri"+imgUri);
+
+
         // [json 메타데이터 세팅]
         String json = null;
         String schemaId = "sv.v1";
@@ -171,11 +189,11 @@ public class AuthServiceImpl implements AuthService {
             throw new RuntimeException("JSON 생성 실패로 NFT 업로드를 진행할 수 없습니다.");
         }
 
-
-        String contractAddress = store.getNftContract(); // 매장 nft 계약주소
         String nftFileUri = url; // nft 파일업로드 url
         String creator = ownerInfo.getWalletAddress(); // 점주 지갑주소
         String hash = fileHash; // nft 파일 hash
+
+
 
         // [NFT Mint 진행하기]
         Map<String, Object> mintResult = null; // 예외 처리를 위한 NFT Mint 객체 초기화

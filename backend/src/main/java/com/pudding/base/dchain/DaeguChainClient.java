@@ -102,6 +102,36 @@ public class DaeguChainClient {
     }
 
 
+
+
+    // [NFT Collection Info API - NFT image]
+    public Map<String, Object> nftCollectionInfo(
+            String contractAddress
+    ) {
+        try {
+
+            Map<String, Object> payload = Map.of(
+                    "token", appToken,
+                    "chain", chainId,
+                    "cont_addr", contractAddress
+            );
+
+            return daeguWebClient.post()
+                    .uri("/v2/mitum/nft/collec_info")
+                    .contentType(MediaType.APPLICATION_JSON)
+                    .accept(MediaType.APPLICATION_JSON)
+                    .bodyValue(payload)
+                    .retrieve()
+                    .bodyToMono(Map.class)
+                    .block();
+
+        } catch (Exception e) {
+            throw new RuntimeException("NFT Mint 실패: " + e.getMessage(), e);
+        }
+    }
+
+
+
     // [Metadata json Method]
     public String createMetadataJson(DaeguChainNftMetadataDto dto) throws Exception {
         return objectMapper.writerWithDefaultPrettyPrinter()
