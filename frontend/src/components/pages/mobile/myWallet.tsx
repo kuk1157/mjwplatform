@@ -3,13 +3,12 @@ import { useNavigate, useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { MobileMain } from "src/components/organisms/mobileMain"; // 모바일 상단 타이틀
 import { MobileFooter } from "src/components/organisms/mobileFooter"; // 하단 모바일 footer 공통 컴포넌트
-import { IoWalletOutline } from "react-icons/io5"; // 지갑 아이콘
-import { FaRegUserCircle } from "react-icons/fa"; // 나의 정보 아이콘
+
+import { MdArrowBackIosNew } from "react-icons/md"; // 이전 페이지이동 좌측 화살표 아이콘
 
 export function MobileMyWallet() {
     const { customerId } = useParams();
     const [Wallet, setWallet] = useState(); // 지갑 세팅 (member 테이블)
-    const [memberName, setMemberName] = useState(); // name 세팅 (member 테이블)
     const navigate = useNavigate();
     const accessToken = localStorage.getItem("accessToken"); // 토큰 세팅
 
@@ -24,8 +23,6 @@ export function MobileMyWallet() {
                 });
 
                 setWallet(memberRes.data.walletAddress); // member에서 지갑 추출
-                setMemberName(memberRes.data.name); // member에서 name 추출
-
                 console.log(memberRes.data);
             } catch (error) {
                 console.error("데이터 조회 실패:", error);
@@ -44,36 +41,36 @@ export function MobileMyWallet() {
             {/* 모바일 타이틀 */}
             {<MobileMain />}
 
-            <div className="mt-6 mb-3">
+            <div className="mt-8 mb-3">
                 <div className="flex items-center gap-2 mb-2">
-                    <FaRegUserCircle className="w-[22px] h-[22px] text-blue-600" />
-                    <h2 className="text-lg font-bold text-gray-800 tracking-tight">
-                        나의 정보
-                    </h2>
+                    <button
+                        className="w-full flex items-center justify-between"
+                        onClick={handleBack}
+                    >
+                        <h2 className="text-2xl font-semibold font-Pretendard flex items-center">
+                            <span className="mr-2">
+                                <MdArrowBackIosNew />
+                            </span>
+                            <span>나의 정보</span>
+                        </h2>
+                    </button>
                 </div>
-                <div className="h-[2px] bg-gradient-to-r from-blue-600 via-blue-500 to-purple-500 rounded-full shadow-[0_2px_6px_rgba(0,0,0,0.15)]"></div>
             </div>
 
-            <div className="mx-4 mb-6 px-4 py-5 bg-gradient-to-r from-blue-600 via-blue-700 to-blue-800 text-white text-center rounded-xl ">
-                <p>DID</p>
-                <span className="mb-3 block break-words">{Wallet}</span>
-                <p>이름 : {memberName}</p>
+            <div className="bg-white rounded-xl shadow-sm shadow-[#5C7BB91A] border border-gray-100 px-3 py-28 mb-3 flex items-center">
+                <div className="w-full flex justify-center items-center font-Pretendard min-w-0 text-[#999ca2] text-base font-normal">
+                    지갑 이미지
+                </div>
             </div>
 
-            <div className="mx-4 px-4 py-5 bg-gradient-to-r from-sky-200 via-sky-400 to-sky-600 text-white text-center rounded-xl ">
-                <p>
-                    <IoWalletOutline className="inline-block text-4xl"></IoWalletOutline>
-                </p>
-                <p className="mt-3">나의 지갑 정보</p>
-            </div>
-
-            <div className="text-center my-6">
-                <button
-                    className="border-2 border-[#21a089] text-[#21a089] px-12 py-3 rounded-md"
-                    onClick={handleBack}
-                >
-                    이전
-                </button>
+            <div className="bg-white rounded-xl shadow-sm shadow-[#5C7BB91A] border border-gray-100 px-3 py-4 mb-3 flex items-center">
+                <div className="flex flex-col ml-3 font-Pretendard min-w-0">
+                    <p className="text-xs text-[#999ca2] flex">
+                        <span className="font-normal truncate w-full">
+                            {Wallet}
+                        </span>
+                    </p>
+                </div>
             </div>
 
             {/* 하단 네비게이션 */}

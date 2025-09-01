@@ -65,7 +65,7 @@ export function MobileMyVisitLogList() {
 
             {/* 방문 목록 */}
             <section>
-                {visitLogs.length < 0 ? (
+                {visitLogs.length > 0 ? (
                     visitLogs.map((visitLog, idx) => (
                         <div
                             key={idx}

@@ -8,6 +8,7 @@ type MenuItem = {
     label: string;
     path: string; // 해당 메뉴 링크
     iconName: string; // 이미지 파일 이름 (확장자 포함)
+    matchPaths?: string[]; // 추가: 포함 체크할 경로 배열
 };
 
 // 메뉴 데이터
@@ -23,7 +24,12 @@ const menuList: MenuItem[] = [
         path: `/mobile/myVisitLogList/`,
         iconName: "visit.svg",
     },
-    { label: "나의 정보", path: `/mobile/myPage/`, iconName: "myInfo.svg" },
+    {
+        label: "나의 정보",
+        path: `/mobile/myPage/`,
+        iconName: "myInfo.svg",
+        matchPaths: ["/mobile/myPage/", "/mobile/myWallet/"],
+    },
 ];
 
 const MobileFooter = ({ param }: MobileFooterProps) => {
@@ -35,7 +41,11 @@ const MobileFooter = ({ param }: MobileFooterProps) => {
             <div className="flex justify-around items-center h-16">
                 {menuList.map((menu) => {
                     const fullPath = `${menu.path}${param}`; // param 붙인 실제 URL
-                    const isActive = location.pathname === fullPath;
+                    const isActive = menu.matchPaths
+                        ? menu.matchPaths.some((p) =>
+                              location.pathname.startsWith(p)
+                          )
+                        : location.pathname === fullPath;
 
                     const imgSrc = isActive
                         ? `/assets/image/mobile/active/${menu.iconName}`
