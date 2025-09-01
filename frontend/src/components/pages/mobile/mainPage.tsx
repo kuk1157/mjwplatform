@@ -61,8 +61,9 @@ export function MobileMainPage() {
         fetchData();
     }, [customerId, navigate]);
 
+    // 나의 정보 페이지로 이동
     const myInfoButton = () => {
-        navigate(`/mobile/myPage/${customerId}`); // 뒤로 가기
+        navigate(`/mobile/myPage/${customerId}`);
     };
     return (
         <div className="min-h-screen bg-[#fbfbfc] p-4">
@@ -148,7 +149,7 @@ export function MobileMainPage() {
 
             {/* 방문 목록 */}
             <section>
-                {visitLogs.length > 0 ? (
+                {visitLogs.length < 0 ? (
                     visitLogs.map((visitLog, idx) => (
                         <div
                             key={idx}
@@ -179,12 +180,15 @@ export function MobileMainPage() {
                         </div>
                     ))
                 ) : (
-                    <div className="bg-white rounded-xl shadow-sm border border-gray-100 p-6 flex flex-col items-center justify-center">
-                        <div className="w-12 h-12 flex items-center justify-center text-black mb-3"></div>
-                        <p className="text-black text-sm font-semibold">
-                            최근 방문 기록이 없습니다.
+                    <div className="bg-white rounded-xl shadow-sm border border-gray-100 p-6 flex flex-col items-center justify-center font-Pretendard text-[#999ca2]">
+                        <img
+                            src="/assets/image/mobile/noVisitIcon.svg"
+                            alt="방문기록이 없습니다 아이콘"
+                        />
+                        <p className="text-lg font-semibold mt-2">
+                            방문 기록이 없습니다.
                         </p>
-                        <p className="text-gray-500 text-xs mt-1">
+                        <p className="text-sm font-light mt-1">
                             새로운 방문이 등록되면 이곳에 표시됩니다.
                         </p>
                     </div>
