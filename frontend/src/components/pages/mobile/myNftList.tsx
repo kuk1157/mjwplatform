@@ -1,9 +1,8 @@
 import axios from "axios";
 import { useParams, useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
-import { GrGallery } from "react-icons/gr"; // NFT 갤러리 아이콘
-import { RiNftLine } from "react-icons/ri"; // 최근 nft 아이콘
-import { ImNotification } from "react-icons/im"; // 데이터가 없습니다 아이콘
+
+import { MdArrowBackIosNew } from "react-icons/md"; // 이전 페이지이동 좌측 화살표 아이콘
 
 import { MobileMain } from "src/components/organisms/mobileMain"; // 모바일 상단 타이틀
 import { MobileFooter } from "src/components/organisms/mobileFooter"; // 하단 모바일 footer 공통 컴포넌트
@@ -48,15 +47,20 @@ export function MobileMyNftList() {
         <div className="min-h-screen bg-white p-4">
             {/* 모바일 타이틀 */}
             {<MobileMain />}
-
-            <div className="mt-6 mb-3">
+            <div className="mt-8 mb-3">
                 <div className="flex items-center gap-2 mb-2">
-                    <GrGallery className="w-[22px] h-[22px] text-blue-600" />
-                    <h2 className="text-lg font-bold text-gray-800 tracking-tight">
-                        나의 NFT 갤러리
-                    </h2>
+                    <button
+                        className="w-full flex items-center justify-between"
+                        onClick={handleBack}
+                    >
+                        <h2 className="text-2xl font-semibold font-Pretendard flex items-center">
+                            <span className="mr-2">
+                                <MdArrowBackIosNew />
+                            </span>
+                            <span>나의 NFT 갤러리</span>
+                        </h2>
+                    </button>
                 </div>
-                <div className="h-[2px] bg-gradient-to-r from-blue-600 via-blue-500 to-purple-500 rounded-full shadow-[0_2px_6px_rgba(0,0,0,0.15)]"></div>
             </div>
 
             {/* NFT 목록 */}
@@ -65,29 +69,32 @@ export function MobileMyNftList() {
                     nftLogs.map((nft, idx) => (
                         <div
                             key={idx}
-                            className="bg-white rounded-xl shadow-sm border border-gray-100 p-4 mb-3 flex items-center"
+                            className="bg-white rounded-xl shadow-sm border border-gray-100 p-5 mb-3 flex items-center"
                         >
-                            {/* 아이콘 or 색 포인트 */}
-                            <div className="w-10 h-10 flex items-center justify-center rounded-full bg-blue-100 text-blue-600 mr-4">
-                                <RiNftLine />
-                            </div>
-
                             {/* 기존 데이터는 그대로 */}
-                            <div className="flex-1">
-                                <p className="text-xs font-semibold text-gray-900">
-                                    NFT ID : {nft.tokenId}
-                                </p>
-                                <p className="text-xs text-gray-600">
-                                    NFT 가맹점 이름 : {nft.storeName}
-                                </p>
+                            <div className="flex items-center">
+                                <img
+                                    src="/assets/image/mobile/nftIcon.svg"
+                                    alt="nft 리스트 아이콘"
+                                />
+                                <div className="flex flex-col ml-3 font-Pretendard">
+                                    <p className="text-xl font-semibold mb-1 ">
+                                        {nft.storeName}
+                                    </p>
+                                    <p className="text-xs text-[#999ca2]">
+                                        <span className="font-bold mr-2">
+                                            NFT ID
+                                        </span>
+                                        <span className="font-normal ">
+                                            {nft.tokenId}
+                                        </span>
+                                    </p>
+                                </div>
                             </div>
                         </div>
                     ))
                 ) : (
                     <div className="bg-white rounded-xl shadow-sm border border-gray-100 p-6 flex flex-col items-center justify-center">
-                        <div className="w-12 h-12 flex items-center justify-center text-black mb-3">
-                            <ImNotification className="w-8 h-8" />
-                        </div>
                         <p className="text-black text-sm font-semibold">
                             NFT 발급 기록이 없습니다.
                         </p>
@@ -97,15 +104,6 @@ export function MobileMyNftList() {
                     </div>
                 )}
             </section>
-
-            <div className="text-center my-6">
-                <button
-                    className="border-2 border-blue-600 text-blue-600 px-12 py-3 rounded-md font-semibold"
-                    onClick={handleBack}
-                >
-                    이전
-                </button>
-            </div>
             {/* 하단 네비게이션 */}
             {customerId && <MobileFooter param={Number(customerId)} />}
         </div>
