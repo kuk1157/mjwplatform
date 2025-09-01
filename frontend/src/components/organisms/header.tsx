@@ -44,7 +44,7 @@ const Header = () => {
                     >
                         <img
                             // 임시 이미지
-                            src="/assets/image/logo.svg"
+                            src="/assets/image/mobile/mobileMain.svg"
                             alt="logo"
                             className="cursor-pointer w-[264px] lg:min-w-[204px] md:min-w-[174px]"
                         />
