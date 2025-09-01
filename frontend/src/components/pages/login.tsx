@@ -5,6 +5,8 @@ import { useNavigate } from "react-router-dom";
 import { login } from "../../utils/authLogin";
 import { useCookies } from "react-cookie";
 
+// import DidLoginButton from "../atoms/didLoginButton";
+
 const CustomCheckbox = styled.label`
     display: inline-flex;
     align-items: center;
@@ -31,12 +33,29 @@ const CustomCheckbox = styled.label`
         transition: all 0.2s ease;
     }
 
+    // 기존 pudding 전산 전용
+    // span::after {
+    //     content: url("/assets/icon/checked_checkbox2.svg");
+    //     position: absolute;
+    //     top: 70%;
+    //     left: 55%;
+    //     transform: translate(-50%, -50%) scale(0);
+    //     transition: transform 0.2s ease;
+    // }
+
+    // 다대구 빨강색 svg 전용
     span::after {
-        content: url("/assets/icon/checked_checkbox.svg");
+        content: "";
         position: absolute;
-        top: 70%;
-        left: 55%;
+        top: 50%;
+        left: 50%;
         transform: translate(-50%, -50%) scale(0);
+        width: 15px;
+        height: 15px;
+        background-image: url("/assets/icon/checked_checkbox2.svg");
+        background-size: contain;
+        background-repeat: no-repeat;
+        background-position: center;
         transition: transform 0.2s ease;
     }
 
@@ -122,22 +141,22 @@ const LoginPage = () => {
     }, [cookies]);
 
     return (
-        <section className="w-full min-h-screen bg-[#F2FAF8] flex justify-center items-center">
-            <div className="w-full max-w-[500px] h-fit bg-white rounded-[20px] flex flex-col items-center p-[50px] shadow-[0px_3px_10px_#e8e8e8] mt-[80px] mb-[32px] xs:p-[30px] xs:mt-[50px]">
+        <section className="w-full min-h-screen bg-[##ffffff] flex justify-center items-center">
+            <div className="w-full max-w-[500px] h-fit border border-[#C7CBD24D] bg-white rounded-[25px] flex flex-col items-center p-[50px] mt-[80px] mb-[32px] xs:p-[30px] xs:mt-[50px]">
                 <h2 className="font-extrabold text-[25px] leading-[33px] tracking-[-1.25px] text-[#333] xs:text-[22px] mb-[50px] xs:mb-[30px]">
                     로그인
                 </h2>
                 <div className="flex flex-col w-full gap-[15px]">
                     <input
                         type="text"
-                        className="w-full bg-[#F7F7F7] outline-none rounded-[5px] placeholder:text-[#999999] placeholder:text-[15px] py-[15px] px-[20px] xs:placeholder:text-[13px] xs:py-[10px]"
+                        className="w-full bg-[#FBFBFC] outline-none rounded-[5px] placeholder:text-[#C7CBD2] placeholder:text-[18px] py-[15px] px-[20px] xs:placeholder:text-[13px] xs:py-[10px]"
                         placeholder="아이디를 입력해주세요"
                         value={loginId}
                         onChange={(e) => setLoginId(e.target.value)}
                     />
                     <input
                         type="password"
-                        className="w-full bg-[#F7F7F7] outline-none rounded-[5px] placeholder:text-[#999999] placeholder:text-[15px] py-[15px] px-[20px] xs:placeholder:text-[13px] xs:py-[10px]"
+                        className="w-full bg-[#FBFBFC] outline-none rounded-[5px] placeholder:text-[#C7CBD2] placeholder:text-[18px] py-[15px] px-[20px] xs:placeholder:text-[13px] xs:py-[10px]"
                         placeholder="비밀번호를 입력해주세요"
                         value={password!}
                         onChange={(e) => setPassword(e.target.value)}
@@ -150,40 +169,52 @@ const LoginPage = () => {
                         }}
                     />
                 </div>
-                <CustomCheckbox className="flex items-center self-start w-full mt-[20px] mb-[15px]">
-                    <input
-                        type="checkbox"
-                        id="remember_id"
-                        checked={isRemember}
-                        onChange={handleOnChange}
-                    />
-                    <span />
-                    <label
-                        htmlFor="remember_id"
-                        className="cursor-pointer text-[13px] text-[#999] leading-[15px] ml-[5px]"
+                <div className="flex justify-between items-center my-5 w-full ">
+                    {/* 좌측: 아이디 저장 */}
+                    <CustomCheckbox className="flex items-center">
+                        <input
+                            type="checkbox"
+                            id="remember_id"
+                            checked={isRemember}
+                            onChange={handleOnChange}
+                        />
+                        <span />
+                        <label
+                            htmlFor="remember_id"
+                            className="cursor-pointer text-[13px] text-[#999] leading-[15px] ml-[5px]"
+                        >
+                            아이디 저장
+                        </label>
+                    </CustomCheckbox>
+
+                    {/* 우측: 아이디/비밀번호 찾기 */}
+                    <Link
+                        to="/login/find/findLoginId"
+                        className="text-[13px] leading-[15px] underline text-[#999]"
                     >
-                        아이디 저장
-                    </label>
-                </CustomCheckbox>
+                        아이디/비밀번호 찾기
+                    </Link>
+                </div>
                 <div className="flex flex-col w-full gap-[15px] xs:mt-[20px]">
                     <button
-                        className="flex items-center justify-center rounded-[10px] w-full text-[17px] leading-[20px] xs:text-[15px] bg-[#21A089] text-white py-[15px] xs:py-[10px]"
+                        className="flex items-center justify-center rounded-[10px] w-full text-[17px] leading-[30px] xs:text-[15px] bg-[#E61F2C] text-white py-[15px] xs:py-[10px]"
                         onClick={handleLogin}
                     >
                         로그인
                     </button>
+
+                    {/* <div>
+                        <DidLoginButton />
+                    </div> */}
+
+                    <div className="w-full border-b border-[#C7CBD2] h-[1px] mt-1"></div>
+
                     <Link to="/sign-up" className="w-full">
-                        <button className="flex items-center justify-center rounded-[10px] w-full text-[17px] leading-[20px] xs:text-[15px] border border-[#21A089] text-[#21A089] bg-white py-[15px] xs:py-[10px]">
+                        <button className="flex items-center justify-center rounded-[10px] w-full text-[17px] leading-[20px] xs:text-[15px] text-[#999CA2] bg-white py-[15px] xs:py-[10px]">
                             회원가입
                         </button>
                     </Link>
                 </div>
-                <Link
-                    to="/login/find/findLoginId"
-                    className="text-[13px] leading-[15px] underline mt-[30px] text-[#999]"
-                >
-                    아이디/비밀번호 찾기
-                </Link>
             </div>
         </section>
     );
