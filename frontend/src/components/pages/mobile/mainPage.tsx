@@ -1,13 +1,8 @@
 import axios from "axios";
 import { useParams, useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
-import { BiStore } from "react-icons/bi"; // 소상공인 상생플랫폼 제목 아이콘
-import { FaRegUserCircle } from "react-icons/fa"; // 나의 정보 아이콘
-import { GrGallery } from "react-icons/gr"; // NFT 갤러리 아이콘
-import { BsBell } from "react-icons/bs"; // 방문 기록 아이콘
-import { RiNftLine } from "react-icons/ri"; // 최근 nft 아이콘
-import { ImNotification } from "react-icons/im"; // 데이터가 없습니다 아이콘
 
+import { MdArrowForwardIos } from "react-icons/md";
 import { MobileMain } from "src/components/organisms/mobileMain"; // 모바일 상단 타이틀
 import { MobileFooter } from "src/components/organisms/mobileFooter"; // 하단 모바일 footer 공통 컴포넌트
 
@@ -70,37 +65,23 @@ export function MobileMainPage() {
         navigate(`/mobile/myPage/${customerId}`); // 뒤로 가기
     };
     return (
-        <div className="min-h-screen bg-white p-4">
+        <div className="min-h-screen bg-[#fbfbfc] p-4">
             {/* 모바일 타이틀 */}
             {<MobileMain />}
 
-            <div className="mt-6 mb-3">
-                <div className="flex items-center gap-2 mb-2">
-                    <FaRegUserCircle className="w-[22px] h-[22px] text-blue-600" />
-                    <h2 className="text-lg font-bold text-gray-800 tracking-tight">
+            <section className="bg-[#fff] border-collapse rounded-2xl shadow-sm border-gray-100">
+                <button
+                    className="w-full px-4 py-5 flex items-center justify-between"
+                    onClick={myInfoButton}
+                >
+                    <span className="text-left font-Pretendard font-bold">
                         나의 정보
-                    </h2>
-                </div>
-                <div className="h-[2px] bg-gradient-to-r from-blue-600 via-blue-500 to-purple-500 rounded-full shadow-[0_2px_6px_rgba(0,0,0,0.15)]"></div>
-            </div>
-
-            <button
-                className="
-    bg-gradient-to-r from-blue-700 via-blue-800 to-blue-900
-    text-white
-    rounded-xl
-    py-6
-    mb-6
-    w-full
-    select-none
-    text-center
-    font-semibold
-    text-lg
-  "
-                onClick={myInfoButton}
-            >
-                나의 정보
-            </button>
+                    </span>
+                    <span className="float-right">
+                        <MdArrowForwardIos />
+                    </span>
+                </button>
+            </section>
 
             {/* 상단 DID 정보 */}
             {/* <header className="bg-blue-900 text-white rounded-lg p-4 mb-5 font-semibold text-base truncate">
@@ -108,14 +89,12 @@ export function MobileMainPage() {
                 <p>DID : {did}</p>
             </header> */}
 
-            <div className="mt-6 mb-3">
+            <div className="mt-8 mb-3">
                 <div className="flex items-center gap-2 mb-2">
-                    <GrGallery className="w-[22px] h-[22px] text-blue-600" />
-                    <h2 className="text-lg font-bold text-gray-800 tracking-tight">
+                    <h2 className="text-2xl font-semibold font-Pretendard">
                         최근 NFT 목록
                     </h2>
                 </div>
-                <div className="h-[2px] bg-gradient-to-r from-blue-600 via-blue-500 to-purple-500 rounded-full shadow-[0_2px_6px_rgba(0,0,0,0.15)]"></div>
             </div>
 
             {/* NFT 목록 */}
@@ -124,29 +103,32 @@ export function MobileMainPage() {
                     nftLogs.map((nft, idx) => (
                         <div
                             key={idx}
-                            className="bg-white rounded-xl shadow-sm border border-gray-100 p-4 mb-3 flex items-center"
+                            className="bg-white rounded-xl shadow-sm border border-gray-100 p-5 mb-3 flex items-center"
                         >
-                            {/* 아이콘 or 색 포인트 */}
-                            <div className="w-10 h-10 flex items-center justify-center rounded-full bg-blue-100 text-blue-600 mr-4">
-                                <RiNftLine />
-                            </div>
-
                             {/* 기존 데이터는 그대로 */}
-                            <div className="flex-1">
-                                <p className="text-xs font-semibold text-gray-900">
-                                    NFT ID : {nft.tokenId}
-                                </p>
-                                <p className="text-xs text-gray-600">
-                                    NFT 가맹점 이름 : {nft.storeName}
-                                </p>
+                            <div className="flex items-center">
+                                <img
+                                    src="/assets/image/mobile/nftIcon.svg"
+                                    alt="nft 리스트 아이콘"
+                                />
+                                <div className="flex flex-col ml-3 font-Pretendard">
+                                    <p className="text-xl font-semibold mb-1 ">
+                                        {nft.storeName}
+                                    </p>
+                                    <p className="text-xs text-[#999ca2]">
+                                        <span className="font-bold mr-2">
+                                            NFT ID
+                                        </span>
+                                        <span className="font-normal ">
+                                            {nft.tokenId}
+                                        </span>
+                                    </p>
+                                </div>
                             </div>
                         </div>
                     ))
                 ) : (
                     <div className="bg-white rounded-xl shadow-sm border border-gray-100 p-6 flex flex-col items-center justify-center">
-                        <div className="w-12 h-12 flex items-center justify-center text-black mb-3">
-                            <ImNotification className="w-8 h-8" />
-                        </div>
                         <p className="text-black text-sm font-semibold">
                             최근 NFT 발급 기록이 없습니다.
                         </p>
@@ -156,14 +138,12 @@ export function MobileMainPage() {
                     </div>
                 )}
             </section>
-            <div className="mt-6 mb-3">
+            <div className="mt-8 mb-3">
                 <div className="flex items-center gap-2 mb-2">
-                    <BsBell className="w-[22px] h-[22px] text-blue-600" />
-                    <h2 className="text-lg font-bold text-gray-800 tracking-tight">
+                    <h2 className="text-2xl font-semibold font-Pretendard">
                         최근 방문기록
                     </h2>
                 </div>
-                <div className="h-[2px] bg-gradient-to-r from-blue-600 via-blue-500 to-purple-500 rounded-full shadow-[0_2px_6px_rgba(0,0,0,0.15)]"></div>
             </div>
 
             {/* 방문 목록 */}
@@ -172,32 +152,35 @@ export function MobileMainPage() {
                     visitLogs.map((visitLog, idx) => (
                         <div
                             key={idx}
-                            className="bg-white rounded-xl shadow-sm border border-gray-100 p-4 mb-3 flex items-center"
+                            className="bg-white rounded-xl shadow-sm border border-gray-100 p-5 mb-3 flex items-center"
                         >
-                            {/* 아이콘 or 색 포인트 */}
-                            <div className="w-10 h-10 flex items-center justify-center rounded-full bg-blue-100 text-blue-600 mr-4">
-                                <BiStore />
-                            </div>
-
-                            {/* 기존 데이터는 그대로 */}
-                            <div className="flex-1">
-                                <p className="text-xs font-semibold text-gray-900">
-                                    가맹점 이름 : {visitLog.storeName}
-                                </p>
-                                <p className="text-xs text-gray-600">
-                                    방문 시간 :{" "}
-                                    {new Date(
-                                        visitLog.createdAt
-                                    ).toLocaleString()}
-                                </p>
+                            <div className="flex items-center">
+                                <img
+                                    src="/assets/image/mobile/visitIcon.svg"
+                                    alt="방문기록 리스트 아이콘"
+                                />
+                                <div className="flex flex-col ml-3 font-Pretendard">
+                                    <p className="text-xl font-semibold mb-1 ">
+                                        {visitLog.storeName}
+                                    </p>
+                                    <p className="text-xs text-[#999ca2]">
+                                        <span className="font-bold mr-2">
+                                            방문 시간
+                                        </span>
+                                        <span className="font-normal">
+                                            {visitLog.createdAt.replace(
+                                                "T",
+                                                " "
+                                            )}
+                                        </span>
+                                    </p>
+                                </div>
                             </div>
                         </div>
                     ))
                 ) : (
                     <div className="bg-white rounded-xl shadow-sm border border-gray-100 p-6 flex flex-col items-center justify-center">
-                        <div className="w-12 h-12 flex items-center justify-center text-black mb-3">
-                            <ImNotification className="w-8 h-8" />
-                        </div>
+                        <div className="w-12 h-12 flex items-center justify-center text-black mb-3"></div>
                         <p className="text-black text-sm font-semibold">
                             최근 방문 기록이 없습니다.
                         </p>
