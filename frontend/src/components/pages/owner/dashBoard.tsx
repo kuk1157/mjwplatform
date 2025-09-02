@@ -363,12 +363,12 @@ function OwnerDashBoard() {
                                                 </span>
                                             </p>
                                         </div>
-                                        <div className="flex">
-                                            <div className="flex items-center">
+                                        <div className="flex w-full">
+                                            <div className="flex items-center w-full">
                                                 <input
                                                     type="number"
                                                     placeholder="금액 입력"
-                                                    className="rounded-[25px] bg-[#FBFBFC] placeholder:text-[#C7CBD2] py-3 pl-3 flex-[7]"
+                                                    className="flex-1 min-w-0 rounded-[25px] bg-[#FBFBFC] placeholder:text-[#C7CBD2] py-3 pl-3 pr-20"
                                                     value={
                                                         visitAmounts[
                                                             newVisitLog.id
@@ -382,7 +382,7 @@ function OwnerDashBoard() {
                                                     }
                                                 />
                                                 <button
-                                                    className="rounded-[25px] -ml-16 z-10 bg-[#E61F2C] text-[#fff] w-16 h-12"
+                                                    className="ml-[-4rem] md:ml-[-4rem] flex-shrink-0 z-10 bg-[#E61F2C] text-[#fff] rounded-[25px] px-4 py-3"
                                                     onClick={() =>
                                                         handleOrder(
                                                             newVisitLog.id
