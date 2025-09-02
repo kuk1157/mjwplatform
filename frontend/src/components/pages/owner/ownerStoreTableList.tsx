@@ -48,7 +48,7 @@ function OwnerStoreTableList() {
                             대시보드로 이동
                         </button>
                     </div>
-                    <div className="text-3xl font-bold text-gray-800 mb-8">
+                    <div className="text-3xl font-bold text-gray-800 mb-8 flex items-center">
                         <img
                             className="inline-block w-[45px] mr-1"
                             src="/assets/image/dashboard/storeTable.svg"

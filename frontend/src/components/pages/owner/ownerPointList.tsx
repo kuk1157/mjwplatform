@@ -54,18 +54,23 @@ function OwnerPointList() {
     return (
         <MainContainer className="py-[230px] bg-[#F6F6F6] lg:py-[150px] sm:py-[100px]">
             <div className="min-h-screen bg-gray-50 p-8">
-                <div className="w-full min-w-[1200px] mx-auto">
+                <div className="w-full min-w-[1000px] mx-auto">
                     <div className="mb-6 flex justify-start">
                         <button
                             onClick={OwnerDashBoard}
-                            className="px-5 py-2 bg-yellow-400 text-white font-semibold rounded-lg shadow hover:bg-yellow-500 transition-colors"
+                            className="px-5 py-2 bg-[#E61F2C] text-white font-semibold rounded-lg"
                         >
-                            📑 대시보드로 이동
+                            대시보드로 이동
                         </button>
                     </div>
-                    <h1 className="text-3xl font-bold text-gray-800 mb-8">
-                        🪙 포인트 조회 - (점주가 입력한 금액)
-                    </h1>
+                    <div className="text-3xl font-bold text-gray-800 mb-8 flex items-center">
+                        <img
+                            className="inline-block w-[45px] mr-1"
+                            src="/assets/image/dashboard/point.svg"
+                            alt="포인트 조회"
+                        />
+                        <span className="leading-5">포인트 조회</span>
+                    </div>
                     <div className="overflow-x-auto border rounded-lg shadow-lg bg-white">
                         <table className="min-w-full divide-y divide-gray-200 table-fixed">
                             <thead className="bg-gradient-to-r from-yellow-200 to-yellow-100 sticky top-0 z-10 shadow-md">
