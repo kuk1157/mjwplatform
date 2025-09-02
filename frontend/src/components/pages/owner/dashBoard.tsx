@@ -3,6 +3,9 @@ import axios, { AxiosError } from "axios";
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 
+import { MdArrowBackIosNew } from "react-icons/md"; // 페이징 이전 아이콘
+import { MdArrowForwardIos } from "react-icons/md"; // 페이징 다음 아이콘
+
 import { io } from "socket.io-client";
 import { useRef } from "react";
 
@@ -185,31 +188,6 @@ function OwnerDashBoard() {
     //         console.error("현금 신청 실패:", error);
     //     }
     // };
-
-    // 점주 기준 결제 조회
-    // const OwnerIdByPay = async () => {
-    //     try {
-    //         const url = `/api/v1/pay/owner/${ownerId}`;
-    //         const response = await axios.get(url);
-    //         // Page 객체 기준: content 배열만 추출
-    //         console.log("점주 기준 결제 조회 결과:", response.data.content);
-    //     } catch (error) {
-    //         console.error("점주 기준 결제 조회 실패:", error);
-    //     }
-    // };
-
-    // 점주 결제내역 조회
-    // const OwnerIdByPayLog = async () => {
-    //     try {
-    //         const url = `/api/v1/payLog/owner/${ownerId}`;
-    //         const response = await axios.get(url);
-    //         // Page 객체 기준: content 배열만 추출
-    //         console.log("점주 기준 결제내역 조회 결과:", response.data.content);
-    //     } catch (error) {
-    //         console.error("점주 기준 결제내역 조회 실패:", error);
-    //     }
-    // };
-
     // 점주 결제 목록 조회 페이지로 이동
     const OwnerPay = () => {
         navigate(`/owner/ownerPayList/${ownerId}`);
@@ -256,145 +234,170 @@ function OwnerDashBoard() {
     const currentData = visitLogs.slice((page - 1) * pageSize, page * pageSize);
 
     return (
-        <MainContainer className="py-[230px] bg-[#F6F6F6] lg:py-[150px] sm:py-[100px]">
-            <div>
+        <MainContainer className="py-[230px] bg-[#FFF] lg:py-[150px] sm:py-[100px]">
+            <div className="w-full">
                 {/* 가맹점 및 금액 정보 섹션 */}
-                <div className="mb-20 px-10">
-                    <h2 className="text-2xl font-semibold text-gray-700 pb-1 mb-6 inline-block border-b-2 border-yellow-400 w-full">
-                        🏪 가맹점 및 금액 정보
-                    </h2>
-                    <div className="flex justify-center gap-6">
-                        {/* 매장 이름 카드 */}
-                        <div className="bg-white rounded-xl py-3 px-6 shadow-md text-center w-56">
-                            <div className="text-xs text-gray-500 flex items-center justify-center gap-1">
-                                🏪 <span>매장 이름</span>
-                            </div>
-                            <div className="text-xl font-bold text-gray-900 mt-1 truncate">
-                                {name}
-                            </div>
-                        </div>
-
-                        {/* 점주 이름 카드 */}
-                        <div className="bg-white rounded-xl py-3 px-6 shadow-md text-center w-56">
-                            <div className="text-xs text-gray-500 flex items-center justify-center gap-1">
-                                🙍‍♂️ <span>점주 이름</span>
-                            </div>
-                            <div className="text-xl font-bold text-gray-900 mt-1 truncate">
-                                {ownerName}
-                            </div>
-                        </div>
-
-                        {/* 보유 포인트 카드 */}
-                        <div className="bg-yellow-100 rounded-xl py-3 px-6 shadow-md text-center w-56">
-                            <div className="text-xs text-yellow-700 flex items-center justify-center gap-1 font-semibold">
-                                💰 <span>보유 포인트</span>
-                            </div>
-                            <div className="text-2xl font-extrabold text-yellow-700 mt-1 truncate">
-                                {totalPoint} P
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                {/* 버튼 섹션 */}
-                <div className="mb-20 px-10">
-                    <h2 className="text-2xl font-semibold text-gray-700 pb-1 mb-6 inline-block border-b-2 border-yellow-400 w-full">
-                        🛠️ 기능 선택
-                    </h2>
-                    <div className="grid grid-cols-4 gap-6 px-8">
-                        <button
-                            className="flex flex-col items-center justify-center bg-white rounded-xl shadow p-4 hover:bg-gray-50 transition"
-                            onClick={OwnerPay}
-                        >
-                            <div className="text-2xl mb-1">💸</div>
-                            <div className="text-sm font-medium text-gray-800">
-                                결제조회
-                            </div>
-                        </button>
-
-                        <button
-                            className="flex flex-col items-center justify-center bg-white rounded-xl shadow p-4 hover:bg-gray-50 transition"
-                            onClick={OwnerPayLog}
-                        >
-                            <div className="text-2xl mb-1">🧾</div>
-                            <div className="text-sm font-medium text-gray-800">
-                                결제내역조회
-                            </div>
-                        </button>
-
-                        <button
-                            className="flex flex-col items-center justify-center bg-white rounded-xl shadow p-4 hover:bg-gray-50 transition"
-                            onClick={OwnerPoint}
-                        >
-                            <div className="text-2xl mb-1">🪙</div>
-                            <div className="text-sm font-medium text-gray-800">
-                                포인트조회
-                            </div>
-                        </button>
-
-                        <button
-                            className="flex flex-col items-center justify-center bg-white rounded-xl shadow p-4 hover:bg-gray-50 transition"
-                            onClick={OwnerStoreTable}
-                        >
-                            <div className="text-2xl mb-1">📋</div>
-                            <div className="text-sm font-medium text-gray-800">
-                                매장테이블 조회
-                            </div>
-                        </button>
-                    </div>
-                </div>
-                {/* 신규 방문(주문) 기록 섹션 */}
-                <div className="mb-20 px-10">
-                    <h2 className="text-2xl font-semibold text-gray-700 pb-1 mb-6 inline-block border-b-2 border-yellow-400 w-full">
-                        ✨ 신규 방문(주문) 기록
-                    </h2>
-
-                    {newVisitLogs.length === 0 ? (
-                        <div className="flex flex-col items-center justify-center py-16 text-center text-gray-500">
-                            <div className="text-5xl mb-4">📭</div>
-                            <p className="text-lg font-medium">
-                                {name} 매장의 신규 방문(주문)기록이 없습니다.
-                            </p>
-                        </div>
-                    ) : (
-                        <div className="grid grid-cols-4 gap-6 px-8">
-                            {newVisitLogs.map((newVisitLog) => (
-                                <div
-                                    key={newVisitLog.id}
-                                    className="w-40 h-48 bg-white rounded-2xl shadow-md flex flex-col items-center justify-center p-3 hover:shadow-lg transition-shadow duration-300"
-                                >
-                                    <p className="text-lg font-semibold mb-3 text-gray-900 select-none">
-                                        방문 기록 ID : {newVisitLog.id}
+                <div className="w-full bg-[#FFF]">
+                    <div className="w-full max-w-[880px] mx-auto px-4">
+                        <div className="rounded-[75px] bg-[#FBFBFC] pl-12 flex items-center mb-10">
+                            <div className="flex-[7] flex">
+                                <div className="flex-[3]">
+                                    <p className="text-[#999CA2] text-sm mb-1">
+                                        매장 이름
                                     </p>
-                                    <p className="text-lg font-semibold mb-3 text-gray-900 select-none">
-                                        테이블 번호 : {newVisitLog.storeTableId}
+                                    <p className="text-[#000] text-2xl font-semibold">
+                                        {name}
                                     </p>
-                                    <input
-                                        type="number"
-                                        placeholder="금액 입력"
-                                        className="w-full text-center border border-gray-300 rounded-lg py-2 px-3 text-gray-700 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-yellow-400 focus:border-yellow-400 transition"
-                                        value={
-                                            visitAmounts[newVisitLog.id] || ""
-                                        }
-                                        onChange={(e) =>
-                                            handleAmountChange(
-                                                newVisitLog.id,
-                                                e.target.value
-                                            )
-                                        }
-                                    />
-                                    <button
-                                        className="mt-4 w-full bg-yellow-400 hover:bg-yellow-500 text-white font-semibold rounded-lg py-2 shadow-md hover:shadow-lg transition duration-300"
-                                        onClick={() =>
-                                            handleOrder(newVisitLog.id)
-                                        }
-                                    >
-                                        금액 입력
-                                    </button>
                                 </div>
-                            ))}
+                                <div className="border-l-[2px] border-[##999CA2] flex-[1]"></div>
+                                <div className="flex-[4]">
+                                    <p className="text-[#999CA2] text-sm mb-1">
+                                        점주 이름
+                                    </p>
+                                    <p className="text-[#000] text-2xl font-semibold">
+                                        {ownerName}
+                                    </p>
+                                </div>
+                            </div>
+                            <div className="flex-[3] text-[#fff] font-semibold bg-gradient-to-r from-[#FF4854] to-[#E61F2C] text-center py-10 rounded-[75px]">
+                                <p className="text-sm font-light">
+                                    보유 포인트
+                                </p>
+                                <p className="text-3xl">{totalPoint}P</p>
+                            </div>
                         </div>
-                    )}
+
+                        <div className="flex items-center">
+                            <div className="flex-[2.5] border border-[rgba(199, 203, 210, 0.3)] text-center rounded-[35px] mr-4">
+                                <button
+                                    className="w-full h-full py-5 px-15 hover:text-[#E61F2C]"
+                                    onClick={OwnerPay}
+                                >
+                                    <img
+                                        className="mb-2 inline-block"
+                                        src="/assets/image/dashboard/pay.svg"
+                                        alt="결제 조회"
+                                    />
+                                    <p className="font-semibold ">결제 조회</p>
+                                </button>
+                            </div>
+                            <div className="flex-[2.5] border border-[rgba(199, 203, 210, 0.3)] text-center rounded-[35px] mr-4">
+                                <button
+                                    className="w-full h-full py-5 px-15 hover:text-[#E61F2C]"
+                                    onClick={OwnerPayLog}
+                                >
+                                    <img
+                                        className="mb-2 inline-block"
+                                        src="/assets/image/dashboard/payLog.svg"
+                                        alt="결제 내역 조회"
+                                    />
+                                    <p className="font-semibold ">
+                                        결제 내역 조회
+                                    </p>
+                                </button>
+                            </div>
+                            <div className="flex-[2.5] border border-[rgba(199, 203, 210, 0.3)] text-center rounded-[35px] mr-4">
+                                <button
+                                    className="w-full h-full py-5 px-15 hover:text-[#E61F2C]"
+                                    onClick={OwnerPoint}
+                                >
+                                    <img
+                                        className="mb-2 inline-block"
+                                        src="/assets/image/dashboard/point.svg"
+                                        alt="포인트 조회"
+                                    />
+                                    <p className="font-semibold ">
+                                        포인트 조회
+                                    </p>
+                                </button>
+                            </div>
+                            <div className="flex-[2.5] border border-[rgba(199, 203, 210, 0.3)] text-center rounded-[35px]">
+                                <button
+                                    className="w-full h-full py-5 px-15 hover:text-[#E61F2C]"
+                                    onClick={OwnerStoreTable}
+                                >
+                                    <img
+                                        className="mb-2 inline-block"
+                                        src="/assets/image/dashboard/storeTable.svg"
+                                        alt="매장 테이블 조회"
+                                    />
+                                    <p className="font-semibold ">
+                                        매장 테이블 조회
+                                    </p>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                {/* 신규 방문 기록 섹션 */}
+                <div className="w-full bg-[#FBFBFC] py-24 my-24">
+                    <div className="w-full max-w-[880px] mx-auto px-4">
+                        <div className="text-center mb-10">
+                            <span className="font-semibold text-2xl">
+                                신규 방문(주문) 기록
+                            </span>
+                        </div>
+                        <div className="flex items-center">
+                            <div className="grid grid-cols-3 gap-2 px-2">
+                                {newVisitLogs.map((newVisitLog) => (
+                                    <div
+                                        key={newVisitLog.id}
+                                        className="rounded-[50px] bg-[#fff] px-7 py-8 hover:text-[#E61F2C] shadow-md"
+                                    >
+                                        <div className="text-base mb-8">
+                                            <p className="mb-3 flex">
+                                                <span className="flex-[8]">
+                                                    방문기록 번호
+                                                </span>
+                                                <span className="font-semibold text-[#E61F2C]">
+                                                    {newVisitLog.id}
+                                                </span>
+                                            </p>
+                                            <p className="flex">
+                                                <span className="flex-[8]">
+                                                    테이블번호
+                                                </span>
+                                                <span className="font-semibold text-[#E61F2C]">
+                                                    {newVisitLog.storeTableId}
+                                                </span>
+                                            </p>
+                                        </div>
+                                        <div className="flex">
+                                            <div className="flex items-center">
+                                                <input
+                                                    type="number"
+                                                    placeholder="금액 입력"
+                                                    className="rounded-[25px] bg-[#FBFBFC] placeholder:text-[#C7CBD2] py-3 pl-3 flex-[7]"
+                                                    value={
+                                                        visitAmounts[
+                                                            newVisitLog.id
+                                                        ] || ""
+                                                    }
+                                                    onChange={(e) =>
+                                                        handleAmountChange(
+                                                            newVisitLog.id,
+                                                            e.target.value
+                                                        )
+                                                    }
+                                                />
+                                                <button
+                                                    className="rounded-[25px] -ml-16 z-10 bg-[#E61F2C] text-[#fff] w-16 h-12"
+                                                    onClick={() =>
+                                                        handleOrder(
+                                                            newVisitLog.id
+                                                        )
+                                                    }
+                                                >
+                                                    등록
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                ))}
+                            </div>
+                        </div>
+                    </div>
                 </div>
 
                 {/* <div className="mb-20 px-10">
@@ -426,96 +429,93 @@ function OwnerDashBoard() {
                 </div> */}
 
                 {/* 전체 방문 기록 섹션 */}
-                <div className="mb-20 px-10">
-                    <h2 className="text-2xl font-semibold text-gray-700 pb-1 mb-6 inline-block border-b-2 border-yellow-400 w-full">
-                        📝 전체 방문 기록
-                    </h2>
-                    <div className="overflow-x-auto p-6 bg-white rounded-xl shadow-lg ml-8">
-                        {visitLogs.length === 0 ? (
-                            <div className="py-12 text-center text-gray-400 text-lg font-medium">
-                                {name} 매장의 방문(주문)기록이 없습니다.
-                            </div>
-                        ) : (
-                            <>
-                                <table className="min-w-full border-collapse text-gray-800">
-                                    <thead>
-                                        <tr className="bg-[#21a089] text-white uppercase text-sm tracking-wide select-none">
-                                            <th className="py-4 px-6 text-center border-b border-gray-700 border-r">
-                                                번호
-                                            </th>
-                                            <th className="py-4 px-6 text-center border-b border-gray-700 border-r">
-                                                고객 이름
-                                            </th>
-                                            <th className="py-4 px-6 text-center border-b border-gray-700 border-r">
-                                                테이블 번호
-                                            </th>
-                                            <th className="py-4 px-6 text-center border-b border-gray-700">
-                                                방문일시
-                                            </th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        {currentData.map((visitLog, index) => (
-                                            <tr
-                                                key={visitLog.id}
-                                                className="hover:bg-gray-100 transition-colors duration-200 cursor-default"
-                                            >
-                                                <td className="py-4 px-6 text-center whitespace-nowrap font-semibold border-r border-gray-300">
-                                                    {(page - 1) * pageSize +
-                                                        index +
-                                                        1}
-                                                </td>
-                                                <td className="py-4 px-6 text-center whitespace-nowrap border-r border-gray-300">
-                                                    {visitLog.memberName}
-                                                </td>
-                                                <td className="py-4 px-6 text-center whitespace-nowrap border-r border-gray-300">
-                                                    {visitLog.storeTableId}번
-                                                </td>
-                                                <td className="py-4 px-6 text-center whitespace-nowrap">
-                                                    {new Date(
-                                                        visitLog.createdAt
-                                                    ).toLocaleString()}
-                                                </td>
-                                            </tr>
-                                        ))}
-                                    </tbody>
-                                </table>
+                <div className="w-full bg-[#FFF]">
+                    <div className="w-full max-w-[880px] mx-auto px-4">
+                        <div className="text-center mb-10">
+                            <span className="font-semibold text-2xl">
+                                전체 방문(주문) 기록
+                            </span>
+                        </div>
 
-                                {/* Pagination */}
-                                <div className="flex justify-center items-center gap-3 mt-6 select-none">
-                                    <button
-                                        disabled={page === 1}
-                                        onClick={() => setPage((p) => p - 1)}
-                                        className="px-4 py-2 border border-gray-400 rounded-md bg-white text-gray-700 hover:bg-gray-200 disabled:opacity-40 disabled:cursor-not-allowed transition"
-                                    >
-                                        이전
-                                    </button>
-                                    {Array.from(
-                                        { length: totalPages },
-                                        (_, i) => (
-                                            <button
-                                                key={i + 1}
-                                                onClick={() => setPage(i + 1)}
-                                                className={`px-4 py-2 border border-gray-400 rounded-md transition ${
-                                                    page === i + 1
-                                                        ? "bg-blue-600 text-white border-blue-600"
-                                                        : "bg-white text-gray-700 hover:bg-gray-200"
-                                                }`}
-                                            >
-                                                {i + 1}
-                                            </button>
-                                        )
-                                    )}
-                                    <button
-                                        disabled={page === totalPages}
-                                        onClick={() => setPage((p) => p + 1)}
-                                        className="px-4 py-2 border border-gray-400 rounded-md bg-white text-gray-700 hover:bg-gray-200 disabled:opacity-40 disabled:cursor-not-allowed transition"
-                                    >
-                                        다음
-                                    </button>
-                                </div>
-                            </>
-                        )}
+                        {/* 테이블 content 영역 */}
+                        <div className="overflow-x-auto bg-white rounded-[25px] border ml-8 mb-8">
+                            <table className="min-w-full border-collapse text-[#000]">
+                                <thead>
+                                    <tr className="bg-[#FBFBFC] uppercase text-base tracking-wide select-none">
+                                        <th className="py-4 px-6 text-center">
+                                            번호
+                                        </th>
+                                        <th className="py-4 px-6 text-center">
+                                            고객 이름
+                                        </th>
+                                        <th className="py-4 px-6 text-center">
+                                            테이블 번호
+                                        </th>
+                                        <th className="py-4 px-6 text-center">
+                                            방문일시
+                                        </th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {currentData.map((visitLog, index) => (
+                                        <tr
+                                            key={visitLog.id}
+                                            className="transition-colors duration-200 cursor-default"
+                                        >
+                                            <td className="py-4 px-6 text-center whitespace-nowrap font-semibold">
+                                                {(page - 1) * pageSize +
+                                                    index +
+                                                    1}
+                                            </td>
+                                            <td className="py-4 px-6 text-center whitespace-nowrap">
+                                                {visitLog.memberName}
+                                            </td>
+                                            <td className="py-4 px-6 text-center whitespace-nowrap">
+                                                {visitLog.storeTableId}
+                                            </td>
+                                            <td className="py-4 px-6 text-center whitespace-nowrap">
+                                                {new Date(
+                                                    visitLog.createdAt
+                                                ).toLocaleString()}
+                                            </td>
+                                        </tr>
+                                    ))}
+                                </tbody>
+                            </table>
+                        </div>
+
+                        {/* 페이징 영역 */}
+                        <div className="flex items-center justify-center gap-2">
+                            <button
+                                disabled={page === 1}
+                                onClick={() => setPage((p) => p - 1)}
+                                className="px-4 py-2 text-[#C7CBD2] disabled:opacity-40 disabled:cursor-not-allowed flex items-center justify-center"
+                            >
+                                <MdArrowBackIosNew />
+                            </button>
+
+                            {Array.from({ length: totalPages }, (_, i) => (
+                                <button
+                                    key={i + 1}
+                                    onClick={() => setPage(i + 1)}
+                                    className={`px-4 py-2 flex items-center justify-center ${
+                                        page === i + 1
+                                            ? "bg-[#E61F2C] text-[#fff] rounded-[25px]"
+                                            : "text-[#C7CBD2] hover:text-[#E61F2C]"
+                                    }`}
+                                >
+                                    {i + 1}
+                                </button>
+                            ))}
+
+                            <button
+                                disabled={page === totalPages}
+                                onClick={() => setPage((p) => p + 1)}
+                                className="px-4 py-2 text-[#C7CBD2] disabled:opacity-40 disabled:cursor-not-allowed flex items-center justify-center"
+                            >
+                                <MdArrowForwardIos />
+                            </button>
+                        </div>
                     </div>
                 </div>
             </div>
