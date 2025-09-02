@@ -54,7 +54,7 @@ function OwnerPayList() {
     return (
         <MainContainer className="py-[230px] bg-[#F6F6F6] lg:py-[150px] sm:py-[100px]">
             <div className="min-h-screen bg-gray-50 p-8">
-                <div className="w-full min-w-[1200px] mx-auto">
+                <div className="w-full min-w-[1000px] mx-auto">
                     <div className="mb-6 flex justify-start">
                         <button
                             onClick={OwnerDashBoard}
