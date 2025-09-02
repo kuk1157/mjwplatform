@@ -2,6 +2,7 @@ package com.pudding.base.domain.nft.service;
 
 
 import com.pudding.base.domain.nft.dto.NftDto;
+import com.pudding.base.domain.store.dto.StoreDto;
 
 import java.util.List;
 
@@ -18,4 +19,7 @@ public interface NftService {
 
     // nft 고객 매장 기준 조회  - nft 중복 발급 예외 api
     boolean nftExists(Integer storeId, Integer customerId);
+
+    // nft 상세 조회
+    NftDto getNftById(Integer id);
 }

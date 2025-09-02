@@ -2,6 +2,7 @@ package com.pudding.base.domain.nft.controller;
 
 import com.pudding.base.domain.nft.dto.NftDto;
 import com.pudding.base.domain.nft.service.NftService;
+import com.pudding.base.domain.store.dto.StoreDto;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
@@ -46,5 +47,10 @@ public class NftController {
         return ResponseEntity.ok(exists);
     }
 
-
+    @Operation(summary = "NFT 상세보기", description = "NFT 상세 조회")
+    @GetMapping("/nfts/{id}")
+    public ResponseEntity<NftDto> getNftById(@PathVariable Integer id){
+        NftDto nft = nftService.getNftById(id);
+        return ResponseEntity.ok(nft);
+    }
 }

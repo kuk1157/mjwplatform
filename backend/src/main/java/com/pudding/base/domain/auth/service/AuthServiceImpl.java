@@ -24,6 +24,7 @@ import com.pudding.base.domain.visit.dto.VisitLogDto;
 import com.pudding.base.domain.visit.service.VisitLogService;
 import com.pudding.base.security.CustomUserInfoDto;
 import com.pudding.base.security.JwtUtil;
+import com.pudding.base.util.AESUtil;
 import com.rootlab.did.ClaimInfo;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
@@ -34,6 +35,10 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.crypto.KeyGenerator;
+import javax.crypto.SecretKey;
+import java.security.NoSuchAlgorithmException;
+import java.util.Base64;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
@@ -60,6 +65,16 @@ public class AuthServiceImpl implements AuthService {
     @Transactional
     public AuthResponseDto login(AuthRequestDto dto) {
         return authenticate(dto, false);
+    }
+
+    private static SecretKey safeKeyGen() {
+        try {
+            KeyGenerator keyGen = KeyGenerator.getInstance("AES");
+            keyGen.init(256);
+            return keyGen.generateKey();
+        } catch (Exception e) {
+            throw new RuntimeException(e); // unchecked 예외로 변환
+        }
     }
 
     @Override
@@ -173,6 +188,31 @@ public class AuthServiceImpl implements AuthService {
         } catch (Exception e) {
             e.printStackTrace();
         }
+
+
+        // [ 임시 메타데이터 암호화 & 복호화 ]
+        SecretKey secretKeyObj = safeKeyGen();
+        byte[] keyBytes = secretKeyObj.getEncoded(); // 32바이트 그대로 사용
+        String secretKeyBase64 = Base64.getEncoder().encodeToString(keyBytes); // 그냥 출력용
+        System.out.println("Generated AES256 Key (Base64): " + secretKeyBase64);
+
+        String encryptedJson = null; // 32바이트 그대로 사용
+        try {
+            encryptedJson = AESUtil.encrypt(json, keyBytes);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+        System.out.println("암호화 JSON: " + encryptedJson);
+
+        String decryptedJson = null; // 32바이트 그대로 사용
+        try {
+            decryptedJson = AESUtil.decrypt(encryptedJson, keyBytes);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+        System.out.println("복호화 JSON: " + decryptedJson);
+        // [ 임시 메타데이터 암호화 & 복호화 ]
+
 
         // [파일업로드 API 실행]
         String fileVisitTime = checkInTime.replaceAll("\\D", ""); // 방문시간 가공

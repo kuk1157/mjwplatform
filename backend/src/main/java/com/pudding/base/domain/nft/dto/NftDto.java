@@ -14,17 +14,23 @@ public class NftDto {
     private String tokenId;
     private Integer storeId;
     private Integer customerId;
+    private Integer nftIdx;
+    private Integer storeTableId;
     private String storeName; // 서브쿼리로 매장명 담을 필드
+    private String nftImage; // 서브쿼리 NFT 이미지
     private LocalDateTime createdAt;
 
 
     @Builder
-    public NftDto(Integer id, String tokenId, Integer storeId, Integer customerId, String storeName, LocalDateTime createdAt) {
+    public NftDto(Integer id, String tokenId, Integer storeId, Integer customerId, Integer nftIdx, Integer storeTableId, String storeName, String nftImage, LocalDateTime createdAt) {
         this.id = id;
         this.tokenId = tokenId;
         this.storeId = storeId;
         this.customerId = customerId;
+        this.nftIdx = nftIdx;
+        this.storeTableId = storeTableId;
         this.storeName = storeName;
+        this.nftImage = nftImage;
         this.createdAt = createdAt;
     }
 

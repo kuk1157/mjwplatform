@@ -110,5 +110,14 @@ public class NftServiceImpl implements NftService {
         return nftRepository.existsByStoreIdAndCustomerId(storeId,customerId);
     }
 
+
+    // 매장 상세보기
+    public NftDto getNftById(Integer id) {
+        return nftRepository.findNftById(id);
+    }
+
+
+
+
 }
 
