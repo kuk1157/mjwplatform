@@ -142,7 +142,7 @@ const LoginPage = () => {
 
     return (
         <section className="w-full min-h-screen bg-[##ffffff] flex justify-center items-center">
-            <div className="w-full max-w-[500px] h-fit border border-[#C7CBD24D] bg-white rounded-[25px] flex flex-col items-center p-[50px] mt-[80px] mb-[32px] xs:p-[30px] xs:mt-[50px]">
+            <div className="w-full max-w-[500px] h-fit border border-[rgba(199,203,210,0.3)] bg-white rounded-[25px] flex flex-col items-center p-[50px] mt-[80px] mb-[32px] xs:p-[30px] xs:mt-[50px]">
                 <h2 className="font-extrabold text-[25px] leading-[33px] tracking-[-1.25px] text-[#333] xs:text-[22px] mb-[50px] xs:mb-[30px]">
                     로그인
                 </h2>

@@ -69,7 +69,7 @@ const Nav = ({ mainMenu }: NavProps) => {
                             >
                                 <Link
                                     to={menu.path}
-                                    className={`w-full h-fit font-Pretendard text-[20px] leading-[24px] text-[#2A2F3C] font-medium cursor-pointer  lg:text-[18px] xs:text-[16px]
+                                    className={`w-full h-fit font-Pretendard text-[20px] leading-[24px] text-[#000] font-semibold cursor-pointer  lg:text-[18px] xs:text-[16px]
                                         hover:text-[#2A2F3C99]
                                      ${pathname.includes(menu.path) ? "text-[rgb(33,160,137)]" : ""}`}
                                 >
@@ -226,25 +226,16 @@ const NavSide = ({ ...props }) => {
         <div className="flex gap-[30px] w-full max-w-[25%] justify-end lg:max-w-none font-Pretendard">
             {user.name ? (
                 <div className="flex items-center gap-[20px] xl:gap-2 xl:text-[13px]">
-                    <p className=" text-[15px] leading-[18px] tracking-[-0.3px] text-[#2A2F3C] xs:hidden lg:text-nowrap">
-                        <span className="text-[#21A089]">{user.name}</span>님
-                        환영합니다.
-                    </p>
                     <div className="relative flex justify-center">
                         <Button
                             onClick={() => setOpenToggle(!openToggle)}
-                            className="bg-[#EFF5F3] rounded-[5px] py-[8px] px-[28px] max-h-[31px]"
+                            className="bg-[#FFFFFF] rounded-[25px] py-[15px] px-[18px] max-h-[31px] text-sm font-Pretendard font-semibold text-[#000000] border border-[#C7CBD24D]"
                         >
-                            <img src="/assets/icon/my_icon.svg" alt="" />
+                            {user.name}님
                         </Button>
                         {openToggle && (
-                            <div className="absolute w-[150px] bg-white rounded-[5px] shadow-[0px_1px_3px_#D6D6D6] top-[40px] z-20">
-                                <div className="border-b border-[#EEE] py-[15px] px-[20px]">
-                                    <span className="text-[15px] text-[#333] font-semibold tracking-[-0.6px]">
-                                        {user.name}
-                                    </span>
-                                </div>
-                                <div className="border-b border-[#EEE] py-[15px] px-[20px] flex flex-col gap-[10px] items-start">
+                            <div className="absolute w-[170px] bg-white border border-[rgba(0,0,0,0.16)] rounded-[15px] shadow-[0px_0px_3px_rgba(0,0,0,0.16)] top-[40px] z-20">
+                                <div className="py-[15px] px-[20px] flex flex-col gap-[10px] items-start">
                                     {user.role.includes("admin") ? (
                                         <Link
                                             to={"/admin"}
@@ -255,14 +246,26 @@ const NavSide = ({ ...props }) => {
                                     ) : (
                                         <Link
                                             to={"/myPage/myInfo"}
-                                            className="text-[15px] text-[#666] font-medium leading-[18px] tracking-[-0.6px]"
+                                            className="text-[15px] text-[#000] font-medium leading-[18px] tracking-[-0.6px] flex justify-center"
                                         >
-                                            내 정보
+                                            <img
+                                                src="/assets/icon/hamburger_myInfo.svg"
+                                                alt=""
+                                            />
+                                            <span className="ml-2 text-base">
+                                                내 정보
+                                            </span>
                                         </Link>
                                     )}
                                     <button onClick={handleLogout}>
-                                        <span className="text-[15px] text-[#666] font-medium leading-[18px] tracking-[-0.6px]">
-                                            로그아웃
+                                        <span className="text-[15px] text-[#000] font-medium leading-[18px] tracking-[-0.6px] flex justify-center">
+                                            <img
+                                                src="/assets/icon/hamburger_logout.svg"
+                                                alt=""
+                                            />
+                                            <span className="ml-2 text-base">
+                                                로그아웃
+                                            </span>
                                         </span>
                                     </button>
                                 </div>
@@ -272,8 +275,8 @@ const NavSide = ({ ...props }) => {
                 </div>
             ) : (
                 <Link to="/login">
-                    <Button className="bg-[#EFF5F3] rounded-[5px] py-[8px] px-[18.5px]">
-                        <span className="text-[13px] leading-[15px] tracking-[-0.26px] text-[#2A2F3C] font-semibold font-Pretendard whitespace-pre">
+                    <Button className="bg-[#E61F2C] rounded-[25px] py-[10px] px-[18.5px]">
+                        <span className="text-[13px] leading-[15px] tracking-[-0.26px] text-[#FFFFFF] font-semibold font-Pretendard whitespace-pre">
                             로그인
                         </span>
                     </Button>
