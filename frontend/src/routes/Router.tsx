@@ -222,6 +222,11 @@ const MobileMyVisitLogList = Loadable({
     Component: lazy(() => import("../components/pages/mobile/myVisitLogList")),
 });
 
+// 모바일 NFT 상세보기
+const MobileNftDetail = Loadable({
+    Component: lazy(() => import("../components/pages/mobile/nftDetail")),
+});
+
 const Router = createBrowserRouter([
     {
         path: "/",
@@ -462,6 +467,12 @@ const Router = createBrowserRouter([
     {
         path: "/mobile/myVisitLogList/:customerId",
         element: <MobileMyVisitLogList />,
+    },
+
+    // 모바일 고객 나의 방문 기록 목록
+    {
+        path: "/mobile/nftDetail/:customerId/:id",
+        element: <MobileNftDetail />,
     },
 ]);
 

@@ -1,5 +1,5 @@
 import axios from "axios";
-import { useParams, useNavigate } from "react-router-dom";
+import { useParams, useNavigate, Link } from "react-router-dom";
 import { useEffect, useState } from "react";
 
 import { MdArrowForwardIos } from "react-icons/md";
@@ -102,31 +102,33 @@ export function MobileMainPage() {
             <section>
                 {nftLogs.length > 0 ? (
                     nftLogs.map((nft, idx) => (
-                        <div
-                            key={idx}
-                            className="bg-white rounded-xl shadow-sm border border-gray-100 p-5 mb-3 flex items-center"
-                        >
-                            {/* 기존 데이터는 그대로 */}
-                            <div className="flex items-center">
-                                <img
-                                    src="/assets/image/mobile/nftIcon.svg"
-                                    alt="nft 리스트 아이콘"
-                                />
-                                <div className="flex flex-col ml-3 font-Pretendard">
-                                    <p className="text-xl font-semibold mb-1 ">
-                                        {nft.storeName}
-                                    </p>
-                                    <p className="text-xs text-[#999ca2]">
-                                        <span className="font-bold mr-2">
-                                            NFT ID
-                                        </span>
-                                        <span className="font-normal ">
-                                            {nft.tokenId}
-                                        </span>
-                                    </p>
+                        <Link to={`/mobile/nftDetail/${customerId}/${nft.id}`}>
+                            <div
+                                key={idx}
+                                className="bg-white rounded-xl shadow-sm border border-gray-100 p-5 mb-3 flex items-center"
+                            >
+                                {/* 기존 데이터는 그대로 */}
+                                <div className="flex items-center">
+                                    <img
+                                        src="/assets/image/mobile/nftIcon.svg"
+                                        alt="nft 리스트 아이콘"
+                                    />
+                                    <div className="flex flex-col ml-3 font-Pretendard">
+                                        <p className="text-xl font-semibold mb-1 ">
+                                            {nft.storeName}
+                                        </p>
+                                        <p className="text-xs text-[#999ca2]">
+                                            <span className="font-bold mr-2">
+                                                NFT ID
+                                            </span>
+                                            <span className="font-normal ">
+                                                {nft.tokenId}
+                                            </span>
+                                        </p>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
+                        </Link>
                     ))
                 ) : (
                     <div className="bg-white rounded-xl shadow-sm border border-gray-100 p-6 flex flex-col items-center justify-center">
