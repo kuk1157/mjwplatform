@@ -18,6 +18,7 @@ const menuList: MenuItem[] = [
         label: "NFT 갤러리",
         path: `/mobile/myNftList/`,
         iconName: "nftGallery.svg",
+        matchPaths: ["/mobile/myNftList/", "/mobile/nftDetail/"],
     },
     {
         label: "방문 기록",

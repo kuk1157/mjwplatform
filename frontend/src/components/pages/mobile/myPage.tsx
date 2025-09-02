@@ -81,8 +81,8 @@ export function MobileMyPage() {
                 </div>
             </div>
 
-            <div className="px-4 py-2 bg-gradient-to-r from-[#E61F2C] to-[#FF4854] text-white text-center rounded-2xl text-lg font-Pretendard">
-                <button onClick={myWalletButton}>
+            <div className="bg-gradient-to-r from-[#E61F2C] to-[#FF4854] text-white text-center rounded-2xl text-lg font-Pretendard">
+                <button className="w-full px-4 py-2" onClick={myWalletButton}>
                     <span>나의 지갑 정보</span>
                 </button>
             </div>

@@ -77,8 +77,21 @@ export function MobileMyWallet() {
 
                     <div className="bg-white rounded-xl shadow-sm shadow-[rgb(92, 123, 185, 0.102)] border border-gray-100 px-3 py-4 mb-3 flex items-center">
                         <div className="flex flex-col ml-3 font-Pretendard min-w-0">
+                            <p className="text-base text-[#000]">
+                                매장 이름 : {nftDetails.storeName}
+                            </p>
                             <p className="text-xs text-[#999ca2] flex">
-                                <span className="font-normal truncate w-full"></span>
+                                <span className="font-normal truncate w-full">
+                                    <p>
+                                        {nftDetails.createdAt.replace("T", " ")}
+                                        &nbsp;초에
+                                    </p>
+                                    <p>
+                                        {nftDetails.storeName} 매장의 테이블{" "}
+                                        {nftDetails.storeTableId}번에서 발급받은
+                                        NFT입니다.
+                                    </p>
+                                </span>
                             </p>
                         </div>
                     </div>
