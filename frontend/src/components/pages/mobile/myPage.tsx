@@ -17,9 +17,15 @@ export function MobileMyPage() {
     useEffect(() => {
         if (!customerId) return;
 
+        if (!accessToken) {
+            alert("로그인이 정상적으로 완료되지 않았습니다.");
+            navigate("/user/userVisitStore");
+        }
+
         const fetchData = async () => {
             try {
                 console.log(accessToken);
+
                 const memberRes = await axios.get("/api/v1/member", {
                     headers: { Authorization: `Bearer ${accessToken}` },
                 });
@@ -34,7 +40,7 @@ export function MobileMyPage() {
         };
 
         fetchData();
-    }, [customerId, accessToken]);
+    }, [customerId, accessToken, navigate]);
 
     // 나의 지갑 페이지로 이동
     const myWalletButton = () => {

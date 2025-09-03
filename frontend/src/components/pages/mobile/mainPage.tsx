@@ -29,8 +29,9 @@ export function MobileMainPage() {
     const [nftLogs, setNfts] = useState<Nft[]>([]);
     const [visitLogs, setVisitLogs] = useState<VisitLog[]>([]);
 
+    const accessToken = localStorage.getItem("accessToken"); // 다대구 연동 로그인시 생성된 토큰 가져오기
+
     useEffect(() => {
-        const accessToken = localStorage.getItem("accessToken"); // 다대구 연동 로그인시 생성된 토큰 가져오기
         if (!customerId) {
             alert("고객정보가 존재하지 않습니다.");
             navigate(-1);
@@ -38,7 +39,7 @@ export function MobileMainPage() {
 
         if (!accessToken) {
             alert("로그인이 정상적으로 완료되지 않았습니다.");
-            navigate(-1);
+            navigate("/user/userVisitStore");
         }
 
         const fetchData = async () => {
@@ -59,7 +60,7 @@ export function MobileMainPage() {
         };
 
         fetchData();
-    }, [customerId, navigate]);
+    }, [customerId, navigate, accessToken]);
 
     // 나의 정보 페이지로 이동
     const myInfoButton = () => {

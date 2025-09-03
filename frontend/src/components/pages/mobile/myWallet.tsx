@@ -15,6 +15,11 @@ export function MobileMyWallet() {
     useEffect(() => {
         if (!customerId) return;
 
+        if (!accessToken) {
+            alert("로그인이 정상적으로 완료되지 않았습니다.");
+            navigate("/user/userVisitStore");
+        }
+
         const fetchData = async () => {
             try {
                 console.log(accessToken);
@@ -30,7 +35,7 @@ export function MobileMyWallet() {
         };
 
         fetchData();
-    }, [customerId, accessToken]);
+    }, [customerId, accessToken, navigate]);
 
     const handleBack = () => {
         navigate(-1); // 뒤로 가기
