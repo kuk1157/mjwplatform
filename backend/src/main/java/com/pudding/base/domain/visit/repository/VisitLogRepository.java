@@ -12,6 +12,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Repository
@@ -31,4 +32,5 @@ public interface VisitLogRepository extends JpaRepository<VisitLog, Integer> {
     List<VisitLog> findByStoreId(Integer storeNum);
     List<VisitLog> findByStoreIdAndPaymentStatusAndVisitStatus(Integer storeNum, IsPaymentStatus paymentStatus, IsVisitStatus visitStatus);
 
+    List<VisitLog> findByCustomerIdAndCreatedAtBetween(Integer customerId, LocalDateTime start, LocalDateTime end);
 }

@@ -27,6 +27,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -59,15 +60,37 @@ public class PayServiceImpl implements PayService {
             throw new CustomException("이미 결제처리가 완료된 방문(주문)은 결제 처리를 할 수 없습니다..");
         }
 
-        // 1일 1회 이미 결제된 고객은 점주 금액입력 못하게(결제 데이터 안쌓이게)
-        LocalDateTime start = LocalDate.now().atStartOfDay();
+
+        // [결제 불가 로직 시작]
+        LocalDate visitDate = visitLog.getCreatedAt().toLocalDate();
+        LocalDateTime start = visitDate.atStartOfDay();
         LocalDateTime end = start.plusDays(1);
 
         Integer count = payRepository.countTodayPayments(visitLog.getCustomerId(), visitLog.getStoreId(),  start, end);
 
         if (count != null && count > 0) {
-            throw new CustomException("오늘 이미 결제하셨습니다.");
+            throw new CustomException("해당 방문일에 이미 동일 고객 결제처리하였습니다.");
         }
+
+        // 방문일 범위의 모든 로그 조회
+        List<VisitLog> visitLogsOfThatDay = visitLogRepository.findByCustomerIdAndCreatedAtBetween(
+                visitLog.getCustomerId(), start, end
+        );
+
+        // 방문기록 업데이트 로직
+        for (VisitLog v : visitLogsOfThatDay) {
+            if (v.getId().equals(visitLog.getId())) {
+                v.updateVisitStatus();        // visitStatus = Y
+                v.updatePaymentStatus();      // paymentStatus = Y
+                v.updateAmountEnteredAt();    // 금액 입력 시간 기록
+            } else {
+                v.updatePaymentStatus(); // paymentStatus = Y
+            }
+        }
+
+
+
+
 
         // 회원 정보 가져오기(visitLog.getOwnerId로 member 테이블 조회)
         Member member = memberRepository.findById(visitLog.getOwnerId()).orElseThrow(() -> new CustomException("존재하지 않는 점주입니다."));

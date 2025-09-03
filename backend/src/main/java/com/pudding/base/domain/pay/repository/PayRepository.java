@@ -11,7 +11,20 @@ import java.time.LocalDateTime;
 
 @Repository
 public interface PayRepository extends JpaRepository<Pay, Integer>{
-    @Query("SELECT COUNT(p) FROM Pay p WHERE p.customerId = :customerId AND p.storeId = :storeId AND p.createdAt >= :start AND p.createdAt < :end")
+
+
+
+    // 결제 불가 로직 쿼리(방문일 기준으로 조회하기)
+    @Query("""
+        SELECT COUNT(v)
+        FROM VisitLog v
+        WHERE v.customerId = :customerId
+        AND v.storeId = :storeId
+        AND v.visitStatus = 'Y'
+        AND v.paymentStatus = 'Y'
+        AND v.createdAt >= :start
+        AND v.createdAt < :end
+    """)
     Integer countTodayPayments(@Param("customerId") Integer customerId,
                                @Param("storeId") Integer storeId,
                                @Param("start") LocalDateTime start,

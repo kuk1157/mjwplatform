@@ -54,7 +54,7 @@ public class VisitLog {
     @Schema(description = "하루 결제 상태(1일 결제 체크 같은고객이 하루 결제 된 기록이 있을 경우 그 날 일괄 데이터 y로 변경)")
     private IsPaymentStatus paymentStatus;
 
-    @Column(name = "amount_entered_at", insertable = false, updatable = false)
+    @Column(name = "amount_entered_at")
     @Schema(description = "점주가 금액을 입력한 일시")
     private LocalDateTime amountEnteredAt;
 
@@ -63,15 +63,15 @@ public class VisitLog {
     @Schema(description = "생성일")
     private LocalDateTime createdAt;
 
-    // 점주가 금액 입력시 - 방문 기록 상태 y로
+    // 점주가 금액 입력시 - 방문 기록 상태 y로 (결제 주체만 결제로 잡히는 방문(주문)기록에만)
     public void updateVisitStatus(){
         this.visitStatus = IsVisitStatus.y;
     }
-//
-//    // 점주가 금액 입력시 - 하루 결제 상태 y로
-//    public void updatePaymentStatus(){
-//        this.paymentStatus = IsPaymentStatus.y;
-//    }
+
+    // 점주가 금액 입력시 - 하루 결제 상태 y로(그날에 잡히는 방문(주문)은 일괄 Y로 변경)
+    public void updatePaymentStatus(){
+        this.paymentStatus = IsPaymentStatus.y;
+    }
 
     // 점주가 금액 입력시 - 날짜 남도록
     public void updateAmountEnteredAt(){

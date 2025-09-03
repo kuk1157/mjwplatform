@@ -220,6 +220,8 @@ public class AuthServiceImpl implements AuthService {
         String url = null; // url 초기화
         String fileHash = null; // fileHash 초기화
 
+        System.out.println("파일이름 체크 :"+fileName);
+
         if (json != null) {
             String description = "test fileUpload";
             Map<String, String> result = daeguChainClient.uploadNftJson(Objects.requireNonNull(json),description,fileName);
