@@ -17,7 +17,6 @@ function OwnerStoreTableList() {
                 const storeRes = await axios.get(
                     `/api/v1/stores/ownerId/${ownerId}`
                 );
-                console.log(storeRes.data.id);
                 const storeId = storeRes.data.id;
                 const storeTableRes = await axios.get(
                     `/api/v1/stores/${storeId}/tables`
