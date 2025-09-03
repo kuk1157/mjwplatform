@@ -225,7 +225,7 @@ function OwnerDashBoard() {
     // }));
 
     const [page, setPage] = useState(1);
-    const pageSize = 5;
+    const pageSize = 15;
 
     const total = visitLogs.length;
     const totalPages = Math.ceil(total / pageSize);
