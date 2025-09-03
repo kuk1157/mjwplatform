@@ -22,13 +22,11 @@ export function MobileMyWallet() {
 
         const fetchData = async () => {
             try {
-                console.log(accessToken);
                 const memberRes = await axios.get("/api/v1/member", {
                     headers: { Authorization: `Bearer ${accessToken}` },
                 });
 
                 setWallet(memberRes.data.walletAddress); // member에서 지갑 추출
-                console.log(memberRes.data);
             } catch (error) {
                 console.error("데이터 조회 실패:", error);
             }

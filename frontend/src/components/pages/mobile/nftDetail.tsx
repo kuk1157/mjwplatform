@@ -28,10 +28,8 @@ export function MobileMyWallet() {
 
         const fetchData = async () => {
             try {
-                console.log(id);
                 const nftDetailRes = await axios.get(`/api/v1/nfts/${id}`);
                 setNftDetails(nftDetailRes.data);
-                console.log(nftDetailRes.data);
             } catch (error) {
                 console.error("데이터 조회 실패:", error);
             }

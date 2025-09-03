@@ -24,16 +24,12 @@ export function MobileMyPage() {
 
         const fetchData = async () => {
             try {
-                console.log(accessToken);
-
                 const memberRes = await axios.get("/api/v1/member", {
                     headers: { Authorization: `Bearer ${accessToken}` },
                 });
 
                 setDid(memberRes.data.did); // member에서 did 추출
                 setMemberName(memberRes.data.name); // member에서 name 추출
-
-                console.log(memberRes.data);
             } catch (error) {
                 console.error("데이터 조회 실패:", error);
             }
