@@ -162,7 +162,8 @@ public class AuthServiceImpl implements AuthService {
         String schemaId = "sv.v1";
         String type = "store_visit";
         String name = "Store Visit Badge";
-        String metadataFileName = "대구통닭 체크인 증명";
+        String storeName = store.getName();
+        String metadataFileName = storeName+" 체크인 증명";
         String store_id = String.valueOf(storeId); // 매장번호 형변환 (issuer)
         // 아래에 NFT Mint 에도 동시사용
         String customerWallet = Objects.requireNonNull(savedCustomer).getWalletAddress(); // 고객의 지갑 주소(holder)
