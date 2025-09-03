@@ -338,64 +338,95 @@ function OwnerDashBoard() {
                                 신규 방문(주문) 기록
                             </span>
                         </div>
-                        <div className="flex items-center">
-                            <div className="grid grid-cols-3 gap-2 px-2">
-                                {newVisitLogs.map((newVisitLog) => (
-                                    <div
-                                        key={newVisitLog.id}
-                                        className="rounded-[50px] bg-[#fff] px-7 py-8 hover:text-[#E61F2C] shadow-md"
-                                    >
-                                        <div className="text-base mb-8">
-                                            <p className="mb-3 flex">
-                                                <span className="flex-[8]">
-                                                    방문기록 번호
-                                                </span>
-                                                <span className="font-semibold text-[#E61F2C]">
-                                                    {newVisitLog.id}
-                                                </span>
-                                            </p>
-                                            <p className="flex">
-                                                <span className="flex-[8]">
-                                                    테이블번호
-                                                </span>
-                                                <span className="font-semibold text-[#E61F2C]">
-                                                    {newVisitLog.storeTableId}
-                                                </span>
-                                            </p>
-                                        </div>
-                                        <div className="flex w-full">
-                                            <div className="flex items-center w-full">
-                                                <input
-                                                    type="number"
-                                                    placeholder="금액 입력"
-                                                    className="flex-1 min-w-0 rounded-[25px] bg-[#FBFBFC] placeholder:text-[#C7CBD2] py-3 pl-3 pr-20"
-                                                    value={
-                                                        visitAmounts[
-                                                            newVisitLog.id
-                                                        ] || ""
-                                                    }
-                                                    onChange={(e) =>
-                                                        handleAmountChange(
-                                                            newVisitLog.id,
-                                                            e.target.value
-                                                        )
-                                                    }
-                                                />
-                                                <button
-                                                    className="ml-[-4rem] md:ml-[-4rem] flex-shrink-0 z-10 bg-[#E61F2C] text-[#fff] rounded-[25px] px-4 py-3"
-                                                    onClick={() =>
-                                                        handleOrder(
-                                                            newVisitLog.id
-                                                        )
-                                                    }
-                                                >
-                                                    등록
-                                                </button>
+                        <div className="flex items-center justify-center">
+                            {newVisitLogs.length > 0 ? (
+                                <div className="grid grid-cols-3 gap-2 px-2">
+                                    {newVisitLogs.map((newVisitLog) => (
+                                        <div
+                                            key={newVisitLog.id}
+                                            className="rounded-[50px] bg-[#fff] px-7 py-8 hover:text-[#E61F2C] shadow-md"
+                                        >
+                                            <div className="text-base mb-8">
+                                                <p className="mb-3 flex">
+                                                    <span className="flex-[8]">
+                                                        방문기록 번호
+                                                    </span>
+                                                    <span className="font-semibold text-[#E61F2C]">
+                                                        {newVisitLog.id}
+                                                    </span>
+                                                </p>
+                                                <p className="mb-3 flex">
+                                                    <span className="flex-[8]">
+                                                        테이블번호
+                                                    </span>
+                                                    <span className="font-semibold text-[#E61F2C]">
+                                                        {
+                                                            newVisitLog.storeTableId
+                                                        }
+                                                    </span>
+                                                </p>
+                                                <p className="flex">
+                                                    <span className="flex-[8]">
+                                                        방문 날짜
+                                                    </span>
+                                                    <span className="font-semibold text-[#E61F2C]">
+                                                        {
+                                                            newVisitLog.createdAt.split(
+                                                                "T"
+                                                            )[0]
+                                                        }
+                                                    </span>
+                                                </p>
+                                            </div>
+                                            <div className="flex w-full">
+                                                <div className="flex items-center w-full">
+                                                    <input
+                                                        type="number"
+                                                        placeholder="금액 입력"
+                                                        className="flex-1 min-w-0 rounded-[25px] bg-[#FBFBFC] placeholder:text-[#C7CBD2] py-3 pl-3 pr-20"
+                                                        value={
+                                                            visitAmounts[
+                                                                newVisitLog.id
+                                                            ] || ""
+                                                        }
+                                                        onChange={(e) =>
+                                                            handleAmountChange(
+                                                                newVisitLog.id,
+                                                                e.target.value
+                                                            )
+                                                        }
+                                                    />
+                                                    <button
+                                                        className="ml-[-4rem] md:ml-[-4rem] flex-shrink-0 z-10 bg-[#E61F2C] text-[#fff] rounded-[25px] px-4 py-3"
+                                                        onClick={() =>
+                                                            handleOrder(
+                                                                newVisitLog.id
+                                                            )
+                                                        }
+                                                    >
+                                                        등록
+                                                    </button>
+                                                </div>
                                             </div>
                                         </div>
-                                    </div>
-                                ))}
-                            </div>
+                                    ))}
+                                </div>
+                            ) : (
+                                <section className="flex flex-col items-center text-center justify-center text-[#999ca2] mt-16">
+                                    <img
+                                        className="w-20"
+                                        src="/assets/image/mobile/noVisitIcon.svg"
+                                        alt="방문기록이 없습니다 아이콘"
+                                    />
+                                    <p className="text-2xl font-semibold mt-6">
+                                        신규 방문 기록이 없습니다.
+                                    </p>
+                                    <p className="text-1xl font-light mt-2">
+                                        새로운 방문이 등록되면 이곳에
+                                        표시됩니다.
+                                    </p>
+                                </section>
+                            )}
                         </div>
                     </div>
                 </div>
