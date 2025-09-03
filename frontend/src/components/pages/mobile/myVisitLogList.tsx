@@ -45,7 +45,7 @@ export function MobileMyVisitLogList() {
     return (
         <div className="min-h-screen bg-white p-4">
             {/* 모바일 타이틀 */}
-            {<MobileMain />}
+            {<MobileMain param={Number(customerId)} />}
 
             <div className="mt-8 mb-3">
                 <div className="flex items-center gap-2 mb-2">

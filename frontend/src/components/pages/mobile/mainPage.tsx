@@ -69,7 +69,7 @@ export function MobileMainPage() {
     return (
         <div className="min-h-screen bg-[#fbfbfc] p-4">
             {/* 모바일 타이틀 */}
-            {<MobileMain />}
+            {<MobileMain param={Number(customerId)} />}
 
             <section className="bg-[#fff] border-collapse rounded-2xl shadow-sm border-gray-100">
                 <button
