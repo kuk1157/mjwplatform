@@ -112,13 +112,22 @@ function OwnerPayLogList() {
                                             {payLogs.payId} 번
                                         </td>
                                         <td className="py-4 px-6 text-center whitespace-nowrap">
-                                            {payLogs.amount} 원
+                                            {(
+                                                payLogs.amount ?? 0
+                                            ).toLocaleString()}{" "}
+                                            원
                                         </td>
                                         <td className="py-4 px-6 text-center whitespace-nowrap">
-                                            {payLogs.discountAmount} 원
+                                            {(
+                                                payLogs.discountAmount ?? 0
+                                            ).toLocaleString()}{" "}
+                                            원
                                         </td>
                                         <td className="py-4 px-6 text-center whitespace-nowrap font-semibold">
-                                            {payLogs.finalAmount} 원
+                                            {(
+                                                payLogs.finalAmount ?? 0
+                                            ).toLocaleString()}{" "}
+                                            원
                                         </td>
                                         <td className="py-4 px-6 text-center whitespace-nowrap">
                                             {payLogs.createdAt

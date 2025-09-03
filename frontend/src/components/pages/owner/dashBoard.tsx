@@ -263,7 +263,9 @@ function OwnerDashBoard() {
                                 <p className="text-sm font-light">
                                     보유 포인트
                                 </p>
-                                <p className="text-3xl">{totalPoint}P</p>
+                                <p className="text-3xl">
+                                    {(totalPoint ?? 0).toLocaleString()}P
+                                </p>
                             </div>
                         </div>
 

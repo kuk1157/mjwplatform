@@ -106,10 +106,16 @@ function OwnerPointList() {
                                             {points.payId} 번
                                         </td>
                                         <td className="py-4 px-6 text-center whitespace-nowrap">
-                                            {points.orderPrice} 원
+                                            {(
+                                                points.orderPrice ?? 0
+                                            ).toLocaleString()}{" "}
+                                            원
                                         </td>
                                         <td className="py-4 px-6 text-center whitespace-nowrap font-semibold">
-                                            {points.point} 원
+                                            {(
+                                                points.point ?? 0
+                                            ).toLocaleString()}{" "}
+                                            원
                                         </td>
                                         <td className="py-4 px-6 text-center whitespace-nowrap">
                                             {points.createdAt

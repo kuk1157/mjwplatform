@@ -103,13 +103,22 @@ function OwnerPayList() {
                                             {(page - 1) * pageSize + index + 1}
                                         </td>
                                         <td className="py-4 px-6 text-center whitespace-nowrap">
-                                            {pays.amount} 원
+                                            {(
+                                                pays.amount ?? 0
+                                            ).toLocaleString()}{" "}
+                                            원
                                         </td>
                                         <td className="py-4 px-6 text-center whitespace-nowrap">
-                                            {pays.discountAmount} 원
+                                            {(
+                                                pays.discountAmount ?? 0
+                                            ).toLocaleString()}{" "}
+                                            원
                                         </td>
                                         <td className="py-4 px-6 text-center whitespace-nowrap font-semibold">
-                                            {pays.finalAmount} 원
+                                            {(
+                                                pays.finalAmount ?? 0
+                                            ).toLocaleString()}{" "}
+                                            원
                                         </td>
                                         <td className="py-4 px-6 text-center whitespace-nowrap">
                                             {pays.createdAt
