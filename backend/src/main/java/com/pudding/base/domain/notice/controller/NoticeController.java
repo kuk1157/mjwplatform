@@ -51,7 +51,7 @@ public class NoticeController {
         return ResponseEntity.ok(notice);
     }
 
-    @Operation(summary = "공지사항 조회 수 올리기", description = "공지사항 조회수 올리는 api")
+    @Operation(summary = "공지사항 조회 수", description = "공지사항 조회수 api")
     @PutMapping("/view/{id}")
     public ResponseEntity<NoticeDto> NoticeViewCount(@PathVariable Integer id) {
         NoticeDto updatedNotice = noticeService.NoticeViewCount(id);
