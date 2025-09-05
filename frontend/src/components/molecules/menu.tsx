@@ -221,9 +221,6 @@ const NavSide = ({ ...props }) => {
             refetchOnWindowFocus: false,
         }
     );
-
-    console.log(user);
-
     const [openToggle, setOpenToggle] = useState<boolean>(false);
     const handleLogout = () => {
         localStorage.clear();

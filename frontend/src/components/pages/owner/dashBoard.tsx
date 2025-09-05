@@ -225,7 +225,7 @@ function OwnerDashBoard() {
     // }));
 
     const [page, setPage] = useState(1);
-    const pageSize = 15;
+    const pageSize = 7;
 
     const total = visitLogs.length;
     const totalPages = Math.ceil(total / pageSize);
@@ -234,8 +234,308 @@ function OwnerDashBoard() {
     const currentData = visitLogs.slice((page - 1) * pageSize, page * pageSize);
 
     return (
-        <MainContainer className="py-[230px] bg-[#FFF] lg:py-[150px] sm:py-[100px]">
+        <MainContainer className="bg-[#FFF] py-[100px] lg:py-[150px] sm:py-[100px] xs:py-[60px]">
             <div className="w-full">
+                <div className="w-full bg-[#FFF] py-6">
+                    <div className="w-full max-w-[880px] mx-auto p-4 flex flex-row md:flex-col items-center justify-between gap-6 bg-white rounded-[20px] shadow-md border border-[#FF4854]">
+                        {/* 좌측: 매장/점주 정보 */}
+                        <div className="flex flex-col md:items-center md:text-center">
+                            <p className="text-lg lg:text-sm md:text-xs text-gray-500">
+                                매장 이름 :{" "}
+                                <span className="font-semibold text-gray-900">
+                                    {name}
+                                </span>
+                            </p>
+                            <p className="text-lg lg:text-sm md:text-xs text-gray-500">
+                                점주 이름 :{" "}
+                                <span className="font-semibold text-gray-900">
+                                    {ownerName}
+                                </span>
+                            </p>
+                        </div>
+
+                        {/* 중앙: 보유 포인트 */}
+                        <div className="flex flex-col items-center justify-center border-2 border-[#FF4854] rounded-lg py-3 px-2 shadow-sm min-w-[140px] md:mb-4 md:w-full">
+                            <p className="text-sm text-[#FF4854] font-medium tracking-wide">
+                                보유 포인트
+                            </p>
+                            <p className="text-xl font-extrabold text-[#FF4854] mt-1">
+                                {(totalPoint ?? 0).toLocaleString()} P
+                            </p>
+                        </div>
+
+                        {/* 우측: 기능 버튼 1줄 */}
+                        <div className="flex justify-end gap-3 overflow-x-auto md:w-full md:justify-start md:flex-wrap">
+                            <button
+                                className="w-full h-full py-5 px-15 hover:text-[#E61F2C]"
+                                onClick={OwnerPay}
+                            >
+                                <img
+                                    className="mb-2 inline-block w-[70px] h-[70px]"
+                                    src="/assets/image/dashboard/pay.svg"
+                                    alt="결제 조회"
+                                />
+                                <p className="font-semibold text-sm">결제</p>
+                            </button>
+                            <button
+                                className="w-full h-full py-5 px-15 hover:text-[#E61F2C]"
+                                onClick={OwnerPayLog}
+                            >
+                                <img
+                                    className="mb-2 inline-block w-[70px] h-[70px]"
+                                    src="/assets/image/dashboard/payLog.svg"
+                                    alt="결제 내역 조회"
+                                />
+                                <p className="font-semibold text-sm">
+                                    결제 내역
+                                </p>
+                            </button>
+                            <button
+                                className="w-full h-full py-5 px-15 hover:text-[#E61F2C]"
+                                onClick={OwnerPoint}
+                            >
+                                <img
+                                    className="mb-2 inline-block w-[70px] h-[70px]"
+                                    src="/assets/image/dashboard/point.svg"
+                                    alt="포인트 조회"
+                                />
+                                <p className="font-semibold text-sm">포인트</p>
+                            </button>
+                            <button
+                                className="w-full h-full py-5 px-15 hover:text-[#E61F2C]"
+                                onClick={OwnerStoreTable}
+                            >
+                                <img
+                                    className="mb-2 inline-block w-[70px] h-[70px]"
+                                    src="/assets/image/dashboard/storeTable.svg"
+                                    alt="매장 테이블 조회"
+                                />
+                                <p className="font-semibold text-sm">
+                                    매장 테이블
+                                </p>
+                            </button>
+                            <button
+                                className="w-full h-full py-5 px-15 hover:text-[#E61F2C]"
+                                onClick={OwnerPay}
+                            >
+                                <img
+                                    className="mb-2 inline-block w-[70px] h-[70px]"
+                                    src="/assets/image/dashboard/pay.svg"
+                                    alt="전체 방문기록"
+                                />
+                                <p className="font-semibold text-sm">
+                                    전체 방문
+                                </p>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <div className="w-full bg-[#FFF] py-6">
+                    <div className="w-full max-w-[880px] mx-auto mb-8">
+                        <span className="text-2xl font-bold text-[#E61F2C]">
+                            결제 처리
+                        </span>
+                        <div className="border-b border-b-[#ccc] mt-3"></div>
+                    </div>
+
+                    <div className="w-full max-w-[880px] mx-auto p-8 bg-white rounded-[20px] shadow-xl border border-[#E61F2C] relative bg-gradient-to-br from-white via-[#fffafa] to-white">
+                        <div className="flex flex-row md:flex-col w-full gap-8">
+                            {/* 좌측: 고객 정보 */}
+                            <div className="flex-[1] flex flex-col justify-between border-r border-r-[#eee] pr-6 md:border-r-0 md:border-b md:pb-6 space-y-3">
+                                <p className="flex items-center gap-3 text-gray-600">
+                                    <span className="text-2xl">🪑</span>
+                                    <span className="font-medium">
+                                        테이블 번호 :
+                                    </span>
+                                    <span className="font-bold text-gray-900">
+                                        3 번
+                                    </span>
+                                </p>
+                                <p className="flex items-center gap-3 text-gray-600">
+                                    <span className="text-2xl">👤</span>
+                                    <span className="font-medium">
+                                        고객 이름 :
+                                    </span>
+                                    <span className="font-bold text-gray-900">
+                                        김김김
+                                    </span>
+                                </p>
+                                <p className="flex items-center gap-3 text-gray-600">
+                                    <span className="text-2xl">📅</span>
+                                    <span className="font-medium">
+                                        방문 날짜 :
+                                    </span>
+                                    <span className="font-bold text-gray-900">
+                                        2025.08.31
+                                    </span>
+                                </p>
+                                <p className="flex items-center gap-3 text-gray-600">
+                                    <span className="text-2xl">⏰</span>
+                                    <span className="font-medium">
+                                        방문 시간 :
+                                    </span>
+                                    <span className="font-bold text-gray-900">
+                                        12:01:01
+                                    </span>
+                                </p>
+                            </div>
+
+                            {/* 우측: 금액 입력 및 금액 정보 */}
+                            <div className="flex-[2] flex flex-col gap-4 pl-6 md:pl-0 md:items-center md:text-center">
+                                {/* 금액 입력 */}
+                                <div className="flex items-center w-full">
+                                    <span className="w-28 text-gray-700 font-medium flex-shrink-0">
+                                        💵 금액입력
+                                    </span>
+                                    <input
+                                        type="number"
+                                        className="border border-[#ccc] rounded-lg flex-1 px-3 py-2 focus:outline-none focus:border-[#E61F2C] focus:ring-1 focus:ring-[#E61F2C] transition"
+                                        placeholder="금액 입력"
+                                    />
+                                </div>
+
+                                {/* 금액 요약 */}
+                                {/* 금액 요약 */}
+                                <div className="flex items-center bg-[#fafafa] rounded-md px-3 py-2 border border-[#eee] transition w-full">
+                                    <span className="w-28 text-gray-600 font-medium flex-shrink-0">
+                                        할인금액
+                                    </span>
+                                    <span className="flex-1 text-right font-bold text-gray-900">
+                                        300
+                                    </span>
+                                </div>
+
+                                <div className="flex items-center bg-[#fafafa] rounded-md px-3 py-2 border border-[#eee] transition w-full">
+                                    <span className="w-28 text-gray-600 font-medium flex-shrink-0">
+                                        결제금액
+                                    </span>
+                                    <span className="flex-1 text-right font-bold text-gray-900">
+                                        10000
+                                    </span>
+                                </div>
+
+                                <div className="flex items-center bg-[#fafafa] rounded-md px-3 py-2 border border-[#eee] transition w-full">
+                                    <span className="w-28 text-gray-600 font-medium flex-shrink-0">
+                                        적용포인트
+                                    </span>
+                                    <span className="flex-1 text-right font-bold text-gray-900">
+                                        300
+                                    </span>
+                                </div>
+
+                                {/* 버튼 */}
+                                <div className="mt-5 flex justify-end md:justify-center w-full">
+                                    <button className="bg-[#E61F2C] text-white px-6 py-3 rounded-xl font-semibold shadow-md hover:scale-105 hover:bg-red-600 active:scale-95 transition-transform duration-150">
+                                        결제 완료
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                {/* 신규 방문 기록 섹션 */}
+                <div className="w-full bg-[#FBFBFC] py-12">
+                    <div className="w-full max-w-[880px] mx-auto px-4">
+                        <div className="text-center mb-10">
+                            <span className="font-semibold text-2xl">
+                                신규 방문(주문) 기록
+                            </span>
+                        </div>
+                        <div className="flex items-center justify-center">
+                            {newVisitLogs.length > 0 ? (
+                                <div className="grid grid-cols-3 gap-2 px-2">
+                                    {newVisitLogs.map((newVisitLog) => (
+                                        <div
+                                            key={newVisitLog.id}
+                                            className="rounded-[50px] bg-[#fff] px-7 py-8 hover:text-[#E61F2C] shadow-md"
+                                        >
+                                            <div className="text-base mb-8">
+                                                <p className="mb-3 flex">
+                                                    <span className="flex-[8]">
+                                                        방문기록 번호
+                                                    </span>
+                                                    <span className="font-semibold text-[#E61F2C]">
+                                                        {newVisitLog.id}
+                                                    </span>
+                                                </p>
+                                                <p className="mb-3 flex">
+                                                    <span className="flex-[8]">
+                                                        테이블번호
+                                                    </span>
+                                                    <span className="font-semibold text-[#E61F2C]">
+                                                        {
+                                                            newVisitLog.storeTableId
+                                                        }
+                                                    </span>
+                                                </p>
+                                                <p className="flex">
+                                                    <span className="flex-[8]">
+                                                        방문 날짜
+                                                    </span>
+                                                    <span className="font-semibold text-[#E61F2C]">
+                                                        {
+                                                            newVisitLog.createdAt.split(
+                                                                "T"
+                                                            )[0]
+                                                        }
+                                                    </span>
+                                                </p>
+                                            </div>
+                                            <div className="flex w-full">
+                                                <div className="flex items-center w-full">
+                                                    <input
+                                                        type="number"
+                                                        placeholder="금액 입력"
+                                                        className="flex-1 min-w-0 rounded-[25px] bg-[#FBFBFC] placeholder:text-[#C7CBD2] py-3 pl-3 pr-20"
+                                                        value={
+                                                            visitAmounts[
+                                                                newVisitLog.id
+                                                            ] || ""
+                                                        }
+                                                        onChange={(e) =>
+                                                            handleAmountChange(
+                                                                newVisitLog.id,
+                                                                e.target.value
+                                                            )
+                                                        }
+                                                    />
+                                                    <button
+                                                        className="ml-[-4rem] md:ml-[-4rem] flex-shrink-0 z-10 bg-[#E61F2C] text-[#fff] rounded-[25px] px-4 py-3"
+                                                        onClick={() =>
+                                                            handleOrder(
+                                                                newVisitLog.id
+                                                            )
+                                                        }
+                                                    >
+                                                        등록
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    ))}
+                                </div>
+                            ) : (
+                                <section className="flex flex-col items-center text-center justify-center text-[#999ca2] mt-16">
+                                    <img
+                                        className="w-20"
+                                        src="/assets/image/mobile/noVisitIcon.svg"
+                                        alt="방문기록이 없습니다 아이콘"
+                                    />
+                                    <p className="text-2xl font-semibold mt-6">
+                                        신규 방문 기록이 없습니다.
+                                    </p>
+                                    <p className="text-1xl font-light mt-2">
+                                        새로운 방문이 등록되면 이곳에
+                                        표시됩니다.
+                                    </p>
+                                </section>
+                            )}
+                        </div>
+                    </div>
+                </div>
+
                 {/* 가맹점 및 금액 정보 섹션 */}
                 <div className="w-full bg-[#FFF]">
                     <div className="w-full max-w-[880px] mx-auto px-4">
