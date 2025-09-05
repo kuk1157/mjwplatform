@@ -18,32 +18,33 @@ import java.time.Instant;
 public class EncMetaEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name="id")
     private Integer id;
 
-    @Column(length = 64, nullable = false)
+    @Column(name="cipher_sha256", length = 64, nullable = false)
     private String cipherSha256;
 
-    @Column(length = 32, nullable = false)
+    @Column(name="algo", length = 32, nullable = false)
     @Builder.Default
     private String algo = "AES-256-GCM";
 
-    @Column(length = 24, nullable = false)
+    @Column(name="iv_b64",length = 24, nullable = false)
     private String ivB64;
 
-    @Column(nullable = false)
+    @Column(name="tag_bits",nullable = false)
     @Builder.Default
     private Integer tagBits = 128;
 
     @Lob
-    @Column(nullable = false)
+    @Column(name="wrapped_dek", nullable = false)
     private String wrappedDek;
 
-    @Column(length = 64, nullable = false)
+    @Column(name="aad_hash", length = 64, nullable = false)
     private String aadHash;        // AAD 원문 대신 해시
 
-    @Column(nullable = false)
+    @Column(name="created_at", nullable = false)
     private Instant createdAt;     // 앱에서 세팅 (AAD 구성 요소)
 
-    @Column(nullable = false)
+    @Column(name="wrapped_at", nullable = false)
     private Instant wrappedAt;     // rewrap 시 갱신
 }

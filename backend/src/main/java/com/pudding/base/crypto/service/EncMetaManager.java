@@ -11,6 +11,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 import java.time.Instant;
+import java.time.temporal.ChronoUnit;
 
 @Service
 @RequiredArgsConstructor
@@ -51,7 +52,7 @@ public class EncMetaManager {
 
     @Transactional
     public EncryptResult encryptBytes(byte[] plain) throws Exception {
-        Instant now = Instant.now();
+        Instant now = Instant.now().truncatedTo(ChronoUnit.SECONDS);
         String aad = buildAad(now);
 
         var out = fileCrypto.encryptBytes(plain, aad);
