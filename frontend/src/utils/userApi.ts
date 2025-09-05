@@ -66,7 +66,16 @@ UserApi.interceptors.response.use(
 
 /** 회원조회 API */
 export const fetchUser = async () => {
-    const response = await UserApi.get(`/api/v1/member`);
+    const tokenType = localStorage.getItem("tokenType");
+    const accessToken = localStorage.getItem("accessToken");
+
+    if (!tokenType || !accessToken) return null;
+
+    const response = await axios.get(`/api/v1/member`, {
+        headers: {
+            Authorization: `${tokenType} ${accessToken}`,
+        },
+    });
     return response.data;
 };
 /** 회원정보 수정 API */

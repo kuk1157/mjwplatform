@@ -5,8 +5,8 @@ import { MenuList } from "src/constants/index";
 import shortid from "shortid";
 import { useTranslation } from "react-i18next";
 import i18n from "src/language";
-import { useRecoilValueLoadable } from "recoil";
-import { userSelectorUpdated } from "src/recoil/userState";
+import { useQuery } from "react-query";
+import { fetchUser } from "src/utils/userApi";
 
 interface NavProps {
     mainMenu: any;
@@ -211,7 +211,19 @@ const HamburgerMenu = ({ ...props }) => {
 
 const NavSide = ({ ...props }) => {
     const { openHamburger, setOpenHamburger, isLarge } = props;
-    const { contents: user } = useRecoilValueLoadable(userSelectorUpdated);
+    const { data: user } = useQuery(
+        ["userSelectorUpdated"], // 기존 selector 이름 그대로 key 사용
+        fetchUser,
+        {
+            enabled: !!localStorage.getItem("accessToken"), // 토큰 있을 때만 실행
+            staleTime: 5 * 60 * 1000,
+            cacheTime: 10 * 60 * 1000,
+            refetchOnWindowFocus: false,
+        }
+    );
+
+    console.log(user);
+
     const [openToggle, setOpenToggle] = useState<boolean>(false);
     const handleLogout = () => {
         localStorage.clear();
@@ -224,19 +236,19 @@ const NavSide = ({ ...props }) => {
     }, [path]);
     return (
         <div className="flex gap-[30px] w-full max-w-[25%] justify-end lg:max-w-none font-Pretendard">
-            {user.name ? (
+            {user?.name ? (
                 <div className="flex items-center gap-[20px] xl:gap-2 xl:text-[13px]">
                     <div className="relative flex justify-center">
                         <Button
                             onClick={() => setOpenToggle(!openToggle)}
                             className="bg-[#FFFFFF] rounded-[25px] py-[15px] px-[18px] max-h-[31px] text-sm font-Pretendard font-semibold text-[#000000] border border-[#C7CBD24D]"
                         >
-                            {user.name}님
+                            {user?.name}님
                         </Button>
                         {openToggle && (
                             <div className="absolute w-[170px] bg-white border border-[rgba(0,0,0,0.16)] rounded-[15px] shadow-[0px_0px_3px_rgba(0,0,0,0.16)] top-[40px] z-20">
                                 <div className="py-[15px] px-[20px] flex flex-col gap-[10px] items-start">
-                                    {user.role.includes("admin") ? (
+                                    {user?.role.includes("admin") ? (
                                         <Link
                                             to={"/admin"}
                                             className="text-[15px] text-[#666] font-medium leading-[18px] tracking-[-0.6px]"
