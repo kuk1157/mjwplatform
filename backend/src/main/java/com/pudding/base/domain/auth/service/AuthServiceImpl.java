@@ -2,6 +2,7 @@ package com.pudding.base.domain.auth.service;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.pudding.base.crypto.service.EncMetaManager;
 import com.pudding.base.dchain.DaeguChainClient;
 import com.pudding.base.dchain.dto.DaeguChainNftMetadataDto;
 import com.pudding.base.domain.auth.dto.AuthRequestDto;
@@ -46,6 +47,7 @@ import org.springframework.web.client.RestTemplate;
 
 import javax.crypto.KeyGenerator;
 import javax.crypto.SecretKey;
+import java.nio.charset.StandardCharsets;
 import java.security.NoSuchAlgorithmException;
 import java.util.*;
 
@@ -68,21 +70,12 @@ public class AuthServiceImpl implements AuthService {
     private final VisitLogServiceImpl logService;
     private final ObjectMapper objectMapper;
     private final NftService nftService;
+    private final EncMetaManager encMetaManager;
 
     @Override
     @Transactional
     public AuthResponseDto login(AuthRequestDto dto) {
         return authenticate(dto, false);
-    }
-
-    private static SecretKey safeKeyGen() {
-        try {
-            KeyGenerator keyGen = KeyGenerator.getInstance("AES");
-            keyGen.init(256);
-            return keyGen.generateKey();
-        } catch (Exception e) {
-            throw new RuntimeException(e); // unchecked 예외로 변환
-        }
     }
 
     @Override
@@ -211,34 +204,33 @@ public class AuthServiceImpl implements AuthService {
             );
 
             json = daeguChainClient.createMetadataJson(dto);
-            System.out.println(json);
+            System.out.println("암호화, 복호화 전 JSON: " + json);
+
+
+            // JSON을 byte[]로 변환
+            byte[] plainBytes = json.getBytes(StandardCharsets.UTF_8);
+
+            // 암호화
+            EncMetaManager.EncryptResult encResult = encMetaManager.encryptBytes(plainBytes);
+            System.out.println("Encrypted cipher SHA256: " + encResult.getCipherSha256());
+            System.out.println("length: " + encResult.getCipher().length);
+            System.out.println("DB meta ID: " + encResult.getId());
+            System.out.println("Encrypted bytes: " + encResult.getCipherSha256());
+
+
+            // 바로 복호화
+            byte[] decryptedBytes = encMetaManager.decryptBytes(encResult.getId(), encResult.getCipher());
+            String decryptedJson = new String(decryptedBytes, StandardCharsets.UTF_8);
+            System.out.println("복호화 JSON: " + decryptedJson);
+
+
+            return null;
         } catch (Exception e) {
             e.printStackTrace();
         }
 
 
-        // [ 임시 메타데이터 암호화 & 복호화 ]
-        SecretKey secretKeyObj = safeKeyGen();
-        byte[] keyBytes = secretKeyObj.getEncoded(); // 32바이트 그대로 사용
-        String secretKeyBase64 = Base64.getEncoder().encodeToString(keyBytes); // 그냥 출력용
-        System.out.println("Generated AES256 Key (Base64): " + secretKeyBase64);
 
-        String encryptedJson = null; // 32바이트 그대로 사용
-        try {
-            encryptedJson = AESUtil.encrypt(json, keyBytes);
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        }
-        System.out.println("암호화 JSON: " + encryptedJson);
-
-        String decryptedJson = null; // 32바이트 그대로 사용
-        try {
-            decryptedJson = AESUtil.decrypt(encryptedJson, keyBytes);
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        }
-        System.out.println("복호화 JSON: " + decryptedJson);
-        // [ 임시 메타데이터 암호화 & 복호화 ]
 
 
         // [파일업로드 API 실행]
