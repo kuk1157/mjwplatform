@@ -117,7 +117,7 @@ function OwnerDashBoard() {
     // 주문하기 버튼 클릭 시 POST 요청
     const handleOrder = async () => {
         if (!activeId) {
-            alert("카드를 선택해주세요.");
+            alert("주문을 선택하지 않았습니다.");
             return;
         }
         if (!amount) {
