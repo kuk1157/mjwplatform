@@ -16,6 +16,8 @@ interface VisitLog {
     customerId: number;
     storeName?: string;
     memberName?: string;
+    paymentStatus: "Y" | "N"; // 결제 완료 여부
+    visitStatus: "Y" | "N"; // 방문 완료 여부
     createdAt: string;
 }
 
@@ -69,11 +71,18 @@ function OwnerDashBoard() {
                 socketRef.current.emit("joinStore", storeId);
 
                 socketRef.current.on("storeMessage", (visitLog: VisitLog) => {
-                    // 신규 방문기록을 newVisitLogs에 추가
-                    setNewVisits((prev) => {
-                        if (prev.some((v) => v.id === visitLog.id)) return prev;
-                        return [...prev, visitLog];
-                    });
+                    if (
+                        visitLog.paymentStatus === "N" &&
+                        visitLog.visitStatus === "N"
+                    ) {
+                        // 신규 방문기록을 newVisitLogs에 추가
+                        setNewVisits((prev) => {
+                            if (prev.some((v) => v.id === visitLog.id))
+                                return prev;
+                            return [...prev, visitLog];
+                        });
+                    }
+
                     // 전체 방문기록에도 추가
                     setvisits((prev) => {
                         if (prev.some((v) => v.id === visitLog.id)) return prev;
@@ -298,6 +307,9 @@ function OwnerDashBoard() {
                     <div className="w-full max-w-[880px] mx-auto mb-8">
                         <span className="text-2xl font-bold text-[#E61F2C]">
                             결제 처리
+                        </span>
+                        <span className="text-base font-semibold text-[#ccc]">
+                            {""} ※ 방문 기록의 빠른 정산을 권장 드립니다.
                         </span>
                         <div className="border-b border-b-[#ccc] mt-3"></div>
                     </div>
