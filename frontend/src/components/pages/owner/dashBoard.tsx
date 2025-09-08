@@ -435,7 +435,7 @@ function OwnerDashBoard() {
                             {newVisitLogs.length > 0 ? (
                                 <div className="grid grid-cols-3 md:grid-cols-2 sm:grid-cols-1 gap-4 px-2">
                                     {newVisitLogs.map((newVisitLog) => (
-                                        <div
+                                        <button
                                             key={newVisitLog.id}
                                             onClick={() =>
                                                 handleCardClick(newVisitLog.id)
@@ -492,7 +492,7 @@ function OwnerDashBoard() {
                                                     </button>
                                                 </div>
                                             </div>
-                                        </div>
+                                        </button>
                                     ))}
                                 </div>
                             ) : (
