@@ -79,10 +79,6 @@ public class VisitLogServiceImpl implements VisitLogService {
         String memberName = member.getName(); // 고객 이름
         // DTO 변환
         VisitLogDto dto = VisitLogDto.fromEntity(savedQrVisit, memberName);
-
-        // Socket 서버로 전송
-        sendToSocketServer(dto);
-
 //        // nft 발급 중복 체크
 //        boolean nftExists = nftService.nftExists(storeNum, customer.getId());
 //        if(!nftExists){
@@ -93,7 +89,7 @@ public class VisitLogServiceImpl implements VisitLogService {
         return VisitLogDto.fromEntity(savedQrVisit, memberName);
     }
 
-    private void sendToSocketServer(VisitLogDto visitLog ) {
+    public void sendToSocketServer(VisitLogDto visitLog ) {
         String socketServerUrl = "https://coex.everymeta.kr:7951/api/socket/store-visitLogs";
         try {
             RestTemplate restTemplate = new RestTemplate();

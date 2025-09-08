@@ -10,6 +10,8 @@ import com.pudding.base.domain.auth.dto.DidLoginResponseDto;
 import com.pudding.base.domain.auth.entity.Auth;
 import com.pudding.base.domain.auth.repository.AuthRepository;
 import com.pudding.base.domain.common.enums.IsActive;
+import com.pudding.base.domain.common.enums.IsPaymentStatus;
+import com.pudding.base.domain.common.enums.IsVisitStatus;
 import com.pudding.base.domain.common.exception.CustomException;
 import com.pudding.base.domain.customer.entity.Customer;
 import com.pudding.base.domain.customer.repository.CustomerRepository;
@@ -24,26 +26,28 @@ import com.pudding.base.domain.visit.dto.VisitLogDto;
 import com.pudding.base.domain.visit.entity.VisitLog;
 import com.pudding.base.domain.visit.repository.VisitLogRepository;
 import com.pudding.base.domain.visit.service.VisitLogService;
+import com.pudding.base.domain.visit.service.VisitLogServiceImpl;
 import com.pudding.base.security.CustomUserInfoDto;
 import com.pudding.base.security.JwtUtil;
 import com.pudding.base.util.AESUtil;
 import com.rootlab.did.ClaimInfo;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.client.RestTemplate;
 
 import javax.crypto.KeyGenerator;
 import javax.crypto.SecretKey;
 import java.security.NoSuchAlgorithmException;
-import java.util.Base64;
-import java.util.Map;
-import java.util.Objects;
-import java.util.Optional;
+import java.util.*;
 
 
 @Service
@@ -61,6 +65,7 @@ public class AuthServiceImpl implements AuthService {
     private final VisitLogService visitLogService;
     private final VisitLogRepository visitLogRepository;
     private final StoreRepository storeRepository;
+    private final VisitLogServiceImpl logService;
     private final ObjectMapper objectMapper;
     private final NftService nftService;
 
@@ -142,6 +147,17 @@ public class AuthServiceImpl implements AuthService {
             VisitLog visitStatusUpdate = visitLogRepository.findById(visitLogDto.getId()).orElseThrow(() -> new CustomException("존재하지 않는 방문 기록입니다."));
             visitStatusUpdate.updatePaymentStatus();
         }
+
+        // 소켓 emit 판단
+        VisitLog latestVisitLog = visitLogRepository.findById(visitLogDto.getId())
+                .orElseThrow(() -> new CustomException("방문 기록 없음"));
+        // n,n 일때만 emit
+        if (latestVisitLog.getPaymentStatus() == IsPaymentStatus.n
+                && latestVisitLog.getVisitStatus() == IsVisitStatus.n) {
+            logService.sendToSocketServer(VisitLogDto.fromEntity(latestVisitLog, member.getName()));
+        }
+
+
 
         // 점주의 고유번호 추출을 위한 객체 호출
         Store store = storeRepository.findById(storeId).orElseThrow(() -> new CustomException("존재하지 않는 매장입니다."));

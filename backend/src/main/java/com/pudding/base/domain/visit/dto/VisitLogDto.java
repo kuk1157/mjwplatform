@@ -56,6 +56,8 @@ public class VisitLogDto {
                 .customerId(visitLog.getCustomerId())
                 .storeName(visitLog.getStoreName())
                 .memberName(memberName)
+                .visitStatus(visitLog.getVisitStatus())
+                .paymentStatus(visitLog.getPaymentStatus())
                 .createdAt(visitLog.getCreatedAt())
                 .build();
     }
