@@ -98,6 +98,10 @@ function OwnerDashBoard() {
     const [activeId, setActiveId] = useState(null);
     const handleCardClick = (id) => {
         setActiveId(id);
+        window.scrollTo({
+            top: 0,
+            behavior: "smooth", // 스크롤 부드럽게
+        });
     };
 
     // 금액 입력 시 동적 처리
