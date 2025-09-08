@@ -53,8 +53,8 @@ public class VisitLogController {
 
     @Operation(summary = "신규 방문(주문) 기록 조회 ", description = "visit_status = n, payment_status = n 결제금액 입력가능 데이터만")
     @GetMapping("/visits/new/{storeNum}")
-    public ResponseEntity<List<VisitLogDto>> getStoreByAndVisitStatusAndPaymentStatusByVisitLog(@PathVariable Integer storeNum, IsPaymentStatus paymentStatus, IsVisitStatus visitStatus){
-        List<VisitLogDto> visitLogs = visitLogService.getStoreByAndVisitStatusAndPaymentStatusByVisitLog(storeNum, paymentStatus, visitStatus);
+    public ResponseEntity<List<VisitLogDto>> getNewVisitLog(@PathVariable Integer storeNum){
+        List<VisitLogDto> visitLogs = visitLogService.getNewVisitLog(storeNum);
         return ResponseEntity.ok(visitLogs);
     }
 

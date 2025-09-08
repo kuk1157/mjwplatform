@@ -18,5 +18,5 @@ public interface VisitLogService {
     // 고객 NFT 최근 2개 조회
     List<VisitLogDto> getLimitedVisitLogSorted(Integer customerId, String sort, Integer limit);
 
-    List<VisitLogDto> getStoreByAndVisitStatusAndPaymentStatusByVisitLog(Integer storeNum, IsPaymentStatus paymentStatus, IsVisitStatus visitStatus);
+    List<VisitLogDto> getNewVisitLog(Integer storeNum);
 }

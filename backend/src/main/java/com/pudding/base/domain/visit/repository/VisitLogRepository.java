@@ -30,6 +30,20 @@ public interface VisitLogRepository extends JpaRepository<VisitLog, Integer> {
     List<VisitLog> findByCustomerId(Integer customerId, Sort sort);
     Page<VisitLog> findByCustomerId(Integer customerId, Pageable pageable);
     List<VisitLog> findByStoreId(Integer storeNum);
+
+
+    // 최신 신규 방문 memberName 뽑아오기
+    @Query("SELECT new com.pudding.base.domain.visit.dto.VisitLogDto(" +
+            "v.id, v.ownerId, v.storeId, v.storeTableId, v.customerId, v.storeName, m.name, v.createdAt) " +
+            "FROM VisitLog v " +
+            "JOIN Customer c ON c.id = v.customerId " +
+            "JOIN Member m ON m.id = c.memberId " +
+            "WHERE v.storeId = :storeNum " +
+            "AND v.paymentStatus = 'N' " +
+            "AND v.visitStatus = 'N'")
+    List<VisitLogDto> findUnpaidAndUnvisitedByStoreId(@Param("storeNum") Integer storeNum);
+
+    // 기존 신규방문
     List<VisitLog> findByStoreIdAndPaymentStatusAndVisitStatus(Integer storeNum, IsPaymentStatus paymentStatus, IsVisitStatus visitStatus);
 
     List<VisitLog> findByCustomerIdAndCreatedAtBetween(Integer customerId, LocalDateTime start, LocalDateTime end);
