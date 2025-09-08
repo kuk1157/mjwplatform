@@ -20,7 +20,7 @@ public interface VisitLogRepository extends JpaRepository<VisitLog, Integer> {
 
 
     @Query("SELECT new com.pudding.base.domain.visit.dto.VisitLogDto(" +
-            "v.id, v.ownerId, v.storeId, v.storeTableId, v.customerId, v.storeName, m.name, v.createdAt) " +
+            "v.id, v.ownerId, v.storeId, v.storeTableId, v.customerId, v.storeName, m.name, v.visitStatus, v.paymentStatus, v.createdAt) " +
             "FROM VisitLog v " +
             "JOIN Customer c ON c.id = v.customerId " +
             "JOIN Member m ON m.id = c.memberId " +
@@ -34,7 +34,7 @@ public interface VisitLogRepository extends JpaRepository<VisitLog, Integer> {
 
     // 최신 신규 방문 memberName 뽑아오기
     @Query("SELECT new com.pudding.base.domain.visit.dto.VisitLogDto(" +
-            "v.id, v.ownerId, v.storeId, v.storeTableId, v.customerId, v.storeName, m.name, v.createdAt) " +
+            "v.id, v.ownerId, v.storeId, v.storeTableId, v.customerId, v.storeName, m.name, v.visitStatus, v.paymentStatus, v.createdAt) " +
             "FROM VisitLog v " +
             "JOIN Customer c ON c.id = v.customerId " +
             "JOIN Member m ON m.id = c.memberId " +
@@ -42,6 +42,10 @@ public interface VisitLogRepository extends JpaRepository<VisitLog, Integer> {
             "AND v.paymentStatus = 'N' " +
             "AND v.visitStatus = 'N'")
     List<VisitLogDto> findUnpaidAndUnvisitedByStoreId(@Param("storeNum") Integer storeNum);
+
+    // 방문기록 결제 처리 전에는 안쌓이게끔 하는 쿼리
+    @Query("SELECT COUNT(v) FROM VisitLog v WHERE v.paymentStatus = 'N' AND v.visitStatus = 'N' AND v.storeId = :storeId AND v.customerId = :customerId")
+    Integer findByVisitCount(@Param("storeId") Integer storeId, @Param("customerId") Integer customerId);
 
     // 기존 신규방문
     List<VisitLog> findByStoreIdAndPaymentStatusAndVisitStatus(Integer storeNum, IsPaymentStatus paymentStatus, IsVisitStatus visitStatus);

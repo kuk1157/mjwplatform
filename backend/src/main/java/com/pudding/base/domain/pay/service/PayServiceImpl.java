@@ -62,31 +62,31 @@ public class PayServiceImpl implements PayService {
 
 
         // [결제 불가 로직 시작]
-        LocalDate visitDate = visitLog.getCreatedAt().toLocalDate();
-        LocalDateTime start = visitDate.atStartOfDay();
-        LocalDateTime end = start.plusDays(1);
-
-        Integer count = payRepository.countTodayPayments(visitLog.getCustomerId(), visitLog.getStoreId(),  start, end);
-
-        if (count != null && count > 0) {
-            throw new CustomException("해당 방문일에 이미 동일 고객 결제처리하였습니다.");
-        }
-
-        // 방문일 범위의 모든 로그 조회
-        List<VisitLog> visitLogsOfThatDay = visitLogRepository.findByCustomerIdAndCreatedAtBetween(
-                visitLog.getCustomerId(), start, end
-        );
-
-        // 방문기록 업데이트 로직
-        for (VisitLog v : visitLogsOfThatDay) {
-            if (v.getId().equals(visitLog.getId())) {
-                v.updateVisitStatus();        // visitStatus = Y
-                v.updatePaymentStatus();      // paymentStatus = Y
-                v.updateAmountEnteredAt();    // 금액 입력 시간 기록
-            } else {
-                v.updatePaymentStatus(); // paymentStatus = Y
-            }
-        }
+//        LocalDate visitDate = visitLog.getCreatedAt().toLocalDate();
+//        LocalDateTime start = visitDate.atStartOfDay();
+//        LocalDateTime end = start.plusDays(1);
+//
+//        Integer count = payRepository.countTodayPayments(visitLog.getCustomerId(), visitLog.getStoreId(),  start, end);
+//
+//        if (count != null && count > 0) {
+//            throw new CustomException("해당 방문일에 이미 동일 고객 결제처리하였습니다.");
+//        }
+//
+//        // 방문일 범위의 모든 로그 조회
+//        List<VisitLog> visitLogsOfThatDay = visitLogRepository.findByCustomerIdAndCreatedAtBetween(
+//                visitLog.getCustomerId(), start, end
+//        );
+//
+//        // 방문기록 업데이트 로직
+//        for (VisitLog v : visitLogsOfThatDay) {
+//            if (v.getId().equals(visitLog.getId())) {
+//                v.updateVisitStatus();        // visitStatus = Y
+//                v.updatePaymentStatus();      // paymentStatus = Y
+//                v.updateAmountEnteredAt();    // 금액 입력 시간 기록
+//            } else {
+//                v.updatePaymentStatus(); // paymentStatus = Y
+//            }
+//        }
 
 
 

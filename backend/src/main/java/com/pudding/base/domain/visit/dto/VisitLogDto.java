@@ -1,7 +1,13 @@
 package com.pudding.base.domain.visit.dto;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.pudding.base.domain.common.enums.IsPaymentStatus;
+import com.pudding.base.domain.common.enums.IsVisitStatus;
 import com.pudding.base.domain.visit.entity.VisitLog;
+import io.swagger.v3.oas.annotations.media.Schema;
+import jakarta.persistence.Column;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -19,13 +25,16 @@ public class VisitLogDto {
     private Integer storeTableId;
     private Integer customerId;
     private String storeName;
-    private String memberName; // 고객 이름(member 테이블에서 가져오기)
+    private String memberName; // 고객 이름
+    private IsVisitStatus visitStatus;
+    private IsPaymentStatus paymentStatus;
+
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss")
     private LocalDateTime createdAt;
 
     @Builder
     public VisitLogDto(Integer id, Integer ownerId, Integer storeId, Integer storeTableId,
-                       Integer customerId, String storeName, String memberName, LocalDateTime createdAt) {
+                       Integer customerId, String storeName, String memberName, IsVisitStatus visitStatus, IsPaymentStatus paymentStatus, LocalDateTime createdAt) {
         this.id = id;
         this.ownerId = ownerId;
         this.storeId = storeId;
@@ -33,6 +42,8 @@ public class VisitLogDto {
         this.customerId = customerId;
         this.storeName = storeName;
         this.memberName = memberName;
+        this.visitStatus = visitStatus;
+        this.paymentStatus = paymentStatus;
         this.createdAt = createdAt;
     }
 

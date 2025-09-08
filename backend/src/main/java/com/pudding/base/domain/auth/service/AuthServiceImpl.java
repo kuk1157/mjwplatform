@@ -21,6 +21,8 @@ import com.pudding.base.domain.nft.service.NftService;
 import com.pudding.base.domain.store.entity.Store;
 import com.pudding.base.domain.store.repository.StoreRepository;
 import com.pudding.base.domain.visit.dto.VisitLogDto;
+import com.pudding.base.domain.visit.entity.VisitLog;
+import com.pudding.base.domain.visit.repository.VisitLogRepository;
 import com.pudding.base.domain.visit.service.VisitLogService;
 import com.pudding.base.security.CustomUserInfoDto;
 import com.pudding.base.security.JwtUtil;
@@ -57,6 +59,7 @@ public class AuthServiceImpl implements AuthService {
     private final ModelMapper modelMapper;
     private final CustomerRepository customerRepository;
     private final VisitLogService visitLogService;
+    private final VisitLogRepository visitLogRepository;
     private final StoreRepository storeRepository;
     private final ObjectMapper objectMapper;
     private final NftService nftService;
@@ -130,8 +133,15 @@ public class AuthServiceImpl implements AuthService {
             }
         }
 
+
+        Integer visitCount = visitLogRepository.findByVisitCount(storeId, customer.getId());
         // 방문기록 생성 (did, storeId, tableNumber 직접 전달)
         VisitLogDto visitLogDto = visitLogService.createVisitLog(info.getDid(), storeId, tableNumber);
+        // 점주가 해당 고객의 결제 처리를 하지 않았을 경우,
+        if (visitCount != 0) {
+            VisitLog visitStatusUpdate = visitLogRepository.findById(visitLogDto.getId()).orElseThrow(() -> new CustomException("존재하지 않는 방문 기록입니다."));
+            visitStatusUpdate.updatePaymentStatus();
+        }
 
         // 점주의 고유번호 추출을 위한 객체 호출
         Store store = storeRepository.findById(storeId).orElseThrow(() -> new CustomException("존재하지 않는 매장입니다."));
