@@ -295,8 +295,8 @@ function OwnerDashBoard() {
                     >
                         <div className="flex flex-row md:flex-col w-full gap-8">
                             {/* 좌측: 고객 정보 */}
-                            <div className="flex-[1] flex flex-col justify-between border-r border-r-[#eee] pr-6 md:border-r-0 md:border-b md:pb-6 space-y-3">
-                                <p className="flex items-center gap-3 border-b-[#E61F2C] border-b pb-3">
+                            <div className="flex-[1] flex flex-col last:border-r border-r-[#eee] md:border-r-0 md:border-b md:pb-6">
+                                <p className="mb-10 flex items-center gap-3 border-b-[#ccc] border-b pb-3">
                                     <span className="text-2xl">👤</span>
                                     <span className="font-bold text-2xl">
                                         {activeId
@@ -307,7 +307,7 @@ function OwnerDashBoard() {
                                     </span>
                                 </p>
 
-                                <p className="flex items-center gap-3 text-gray-600">
+                                <p className="mb-10 flex items-center gap-3 text-gray-600">
                                     <span className="text-2xl">🪑</span>
                                     <span className="font-medium">
                                         테이블 번호 :
@@ -320,7 +320,7 @@ function OwnerDashBoard() {
                                             : ""}
                                     </span>
                                 </p>
-                                <p className="flex items-center gap-3 text-gray-600">
+                                <p className="mb-10 flex items-center gap-3 text-gray-600">
                                     <span className="text-2xl">📅</span>
                                     <span className="font-medium">
                                         방문 날짜 :
@@ -353,12 +353,14 @@ function OwnerDashBoard() {
                             </div>
 
                             {/* 우측: 금액 입력 및 금액 정보 */}
-                            <div className="flex-[2] flex flex-col gap-4 pl-6 md:pl-0 md:items-center md:text-center">
+                            <div className="flex-[2] flex flex-col gap-4 pl-6 md:pl-0 md:items-center md:text-center border-l border-[#ccc]">
                                 {/* 금액 입력 */}
-                                <div className="flex items-center w-full">
-                                    <span className="w-28 text-gray-700 font-medium flex-shrink-0">
+                                <div className="w-full border-b-[#ccc] border-b pb-3">
+                                    <span className=" text-black font-bold text-2xl">
                                         💵 금액입력
                                     </span>
+                                </div>
+                                <div className="flex items-center w-full">
                                     <input
                                         type="number"
                                         value={amount}
