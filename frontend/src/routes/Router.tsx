@@ -190,6 +190,11 @@ const OwnerStoreTableList = Loadable({
     ),
 });
 
+// 점주용 전체 방문 기록
+const OwnerAllVisitLogList = Loadable({
+    Component: lazy(() => import("../components/pages/owner/ownerAllVisitLog")),
+});
+
 // [모바일]
 
 // 모바일 로그인 페이지
@@ -292,6 +297,11 @@ const Router = createBrowserRouter([
             {
                 path: "/owner/ownerStoreTableList/:ownerId",
                 element: <OwnerStoreTableList />,
+            },
+            // 점주용 매장 테이블 조회
+            {
+                path: "/owner/ownerAllVisitLog/:ownerId/:storeId",
+                element: <OwnerAllVisitLogList />,
             },
 
             // [ user - 고객 ]

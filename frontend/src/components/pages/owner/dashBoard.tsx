@@ -2,10 +2,6 @@ import { MainContainer } from "../../molecules/container";
 import axios, { AxiosError } from "axios";
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-
-import { MdArrowBackIosNew } from "react-icons/md"; // 페이징 이전 아이콘
-import { MdArrowForwardIos } from "react-icons/md"; // 페이징 다음 아이콘
-
 import { io } from "socket.io-client";
 import { useRef } from "react";
 
@@ -16,8 +12,8 @@ interface VisitLog {
     customerId: number;
     storeName?: string;
     memberName?: string;
-    paymentStatus: "Y" | "N"; // 결제 완료 여부
-    visitStatus: "Y" | "N"; // 방문 완료 여부
+    paymentStatus: "y" | "n"; // 결제 완료 여부
+    visitStatus: "y" | "n"; // 방문 완료 여부
     createdAt: string;
 }
 
@@ -28,7 +24,6 @@ function OwnerDashBoard() {
     const [storeId, setStoreId] = useState();
     const { ownerId } = useParams();
     const [totalPoint, setTotalPoint] = useState();
-    const [visitLogs, setvisits] = useState<VisitLog[]>([]);
     const [newVisitLogs, setNewVisits] = useState<VisitLog[]>([]);
 
     const navigate = useNavigate();
@@ -56,12 +51,10 @@ function OwnerDashBoard() {
                 setOwnerName(storeRes.data.ownerName); // 점주 이름
 
                 // 신규 방문(주문) 기록, 전체 방문 기록(아래)
-                const [newVisitLogRes, visitLogRes] = await Promise.all([
+                const [newVisitLogRes] = await Promise.all([
                     axios.get(`/api/v1/visits/new/${storeId}`),
-                    axios.get(`/api/v1/visits/${storeId}`),
                 ]);
                 setNewVisits(newVisitLogRes.data);
-                setvisits(visitLogRes.data);
 
                 // 소켓 연결 및 방 참가
                 if (!socketRef.current) {
@@ -71,20 +64,8 @@ function OwnerDashBoard() {
                 socketRef.current.emit("joinStore", storeId);
 
                 socketRef.current.on("storeMessage", (visitLog: VisitLog) => {
-                    if (
-                        visitLog.paymentStatus === "N" &&
-                        visitLog.visitStatus === "N"
-                    ) {
-                        // 신규 방문기록을 newVisitLogs에 추가
-                        setNewVisits((prev) => {
-                            if (prev.some((v) => v.id === visitLog.id))
-                                return prev;
-                            return [...prev, visitLog];
-                        });
-                    }
-
-                    // 전체 방문기록에도 추가
-                    setvisits((prev) => {
+                    // 신규 방문기록을 newVisitLogs에 추가
+                    setNewVisits((prev) => {
                         if (prev.some((v) => v.id === visitLog.id)) return prev;
                         return [...prev, visitLog];
                     });
@@ -192,18 +173,10 @@ function OwnerDashBoard() {
         navigate(`/owner/ownerStoreTableList/${ownerId}`);
     };
 
-    // [페이징 추후 변경 예정]
-
-    const [page, setPage] = useState(1);
-    const pageSize = 7;
-
-    const total = visitLogs.length;
-    const totalPages = Math.ceil(total / pageSize);
-
-    // 현재 페이지 데이터만 자르기
-    const currentData = visitLogs.slice((page - 1) * pageSize, page * pageSize);
-
-    // [페이징 추후 변경 예정]
+    // 점주 매장 전체 방문 페이지로 이동
+    const OwnerAllVisitLog = () => {
+        navigate(`/owner/ownerAllVisitLog/${ownerId}/${storeId}`);
+    };
 
     return (
         <MainContainer className="bg-[#FFF] py-[100px] lg:py-[150px] sm:py-[100px] xs:py-[60px]">
@@ -288,7 +261,7 @@ function OwnerDashBoard() {
                             </button>
                             <button
                                 className="w-full h-full py-5 px-15 hover:text-[#E61F2C]"
-                                onClick={OwnerPay}
+                                onClick={OwnerAllVisitLog}
                             >
                                 <img
                                     className="mb-2 inline-block w-[70px] h-[70px]"
@@ -499,9 +472,6 @@ function OwnerDashBoard() {
                                                         placeholder="금액 입력"
                                                         className="flex-1 min-w-0 rounded-[25px] bg-[#FBFBFC] placeholder:text-[#C7CBD2] py-3 pl-3 pr-20"
                                                     />
-                                                    <button className="ml-[-4rem] md:ml-[-4rem] flex-shrink-0 z-10 bg-[#E61F2C] text-[#fff] rounded-[25px] px-4 py-3">
-                                                        등록
-                                                    </button>
                                                 </div>
                                             </div>
                                         </button>
@@ -523,93 +493,6 @@ function OwnerDashBoard() {
                                     </p>
                                 </section>
                             )}
-                        </div>
-                    </div>
-                </div>
-
-                {/* 전체 방문 기록 섹션 */}
-                <div className="w-full bg-[#FFF]">
-                    <div className="w-full max-w-[880px] mx-auto px-4">
-                        <div className="text-center mb-10">
-                            <span className="font-semibold text-2xl">
-                                전체 방문(주문) 기록
-                            </span>
-                        </div>
-                        <div className="overflow-x-auto bg-white rounded-[25px] border ml-8 mb-8">
-                            <table className="min-w-full border-collapse text-[#000]">
-                                <thead>
-                                    <tr className="bg-[#FBFBFC] uppercase text-base tracking-wide select-none">
-                                        <th className="py-4 px-6 text-center">
-                                            번호
-                                        </th>
-                                        <th className="py-4 px-6 text-center">
-                                            고객 이름
-                                        </th>
-                                        <th className="py-4 px-6 text-center">
-                                            테이블 번호
-                                        </th>
-                                        <th className="py-4 px-6 text-center">
-                                            방문일시
-                                        </th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    {currentData.map((visitLog, index) => (
-                                        <tr
-                                            key={visitLog.id}
-                                            className="transition-colors duration-200 cursor-default"
-                                        >
-                                            <td className="py-4 px-6 text-center whitespace-nowrap font-semibold">
-                                                {(page - 1) * pageSize +
-                                                    index +
-                                                    1}
-                                            </td>
-                                            <td className="py-4 px-6 text-center whitespace-nowrap">
-                                                {visitLog.memberName}
-                                            </td>
-                                            <td className="py-4 px-6 text-center whitespace-nowrap">
-                                                {visitLog.storeTableId}
-                                            </td>
-                                            <td className="py-4 px-6 text-center whitespace-nowrap">
-                                                {new Date(
-                                                    visitLog.createdAt
-                                                ).toLocaleString()}
-                                            </td>
-                                        </tr>
-                                    ))}
-                                </tbody>
-                            </table>
-                        </div>
-                        <div className="flex items-center justify-center gap-2">
-                            <button
-                                disabled={page === 1}
-                                onClick={() => setPage((p) => p - 1)}
-                                className="px-4 py-2 text-[#C7CBD2] disabled:opacity-40 disabled:cursor-not-allowed flex items-center justify-center"
-                            >
-                                <MdArrowBackIosNew />
-                            </button>
-
-                            {Array.from({ length: totalPages }, (_, i) => (
-                                <button
-                                    key={i + 1}
-                                    onClick={() => setPage(i + 1)}
-                                    className={`px-4 py-2 flex items-center justify-center ${
-                                        page === i + 1
-                                            ? "bg-[#E61F2C] text-[#fff] rounded-[25px]"
-                                            : "text-[#C7CBD2] hover:text-[#E61F2C]"
-                                    }`}
-                                >
-                                    {i + 1}
-                                </button>
-                            ))}
-
-                            <button
-                                disabled={page === totalPages}
-                                onClick={() => setPage((p) => p + 1)}
-                                className="px-4 py-2 text-[#C7CBD2] disabled:opacity-40 disabled:cursor-not-allowed flex items-center justify-center"
-                            >
-                                <MdArrowForwardIos />
-                            </button>
                         </div>
                     </div>
                 </div>
