@@ -422,11 +422,22 @@ function OwnerDashBoard() {
                             {newVisitLogs.length > 0 ? (
                                 <div className="grid grid-cols-3 md:grid-cols-2 sm:grid-cols-1 gap-4 px-2">
                                     {newVisitLogs.map((newVisitLog) => (
-                                        <button
+                                        <div
                                             key={newVisitLog.id}
+                                            role="button"
+                                            tabIndex={0}
                                             onClick={() =>
                                                 handleCardClick(newVisitLog.id)
                                             }
+                                            onKeyDown={(e) => {
+                                                if (
+                                                    e.key === "Enter" ||
+                                                    e.key === " "
+                                                )
+                                                    handleCardClick(
+                                                        newVisitLog.id
+                                                    );
+                                            }}
                                             className={`rounded-[50px] pt-10 pl-10 pr-10 shadow-md cursor-pointer
             ${activeId === newVisitLog.id ? "border-2 border-[#E61F2C]" : "border border-transparent"}`}
                                         >
@@ -482,7 +493,7 @@ function OwnerDashBoard() {
                                                     />
                                                 </div>
                                             </div>
-                                        </button>
+                                        </div>
                                     ))}
                                 </div>
                             ) : (
