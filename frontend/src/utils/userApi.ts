@@ -69,8 +69,6 @@ export const fetchUser = async () => {
     const tokenType = localStorage.getItem("tokenType");
     const accessToken = localStorage.getItem("accessToken");
 
-    if (!tokenType || !accessToken) return null;
-
     const response = await axios.get(`/api/v1/member`, {
         headers: {
             Authorization: `${tokenType} ${accessToken}`,
