@@ -29,7 +29,6 @@ function OwnerDashBoard() {
     const navigate = useNavigate();
     const socketRef = useRef<any>(null);
 
-    // 받아온 ownerId로 가맹점과 방문기록 바로 가져오기
     useEffect(() => {
         if (!ownerId) return;
         const accessToken = localStorage.getItem("accessToken"); // 토큰 세팅
@@ -50,7 +49,7 @@ function OwnerDashBoard() {
                 setStoreName(storeRes.data.name); // 가맹점 이름
                 setOwnerName(storeRes.data.ownerName); // 점주 이름
 
-                // 신규 방문(주문) 기록, 전체 방문 기록(아래)
+                // 신규 방문(주문) 기록
                 const [newVisitLogRes] = await Promise.all([
                     axios.get(`/api/v1/visits/new/${storeId}`),
                 ]);
@@ -62,7 +61,6 @@ function OwnerDashBoard() {
                 }
 
                 socketRef.current.emit("joinStore", storeId);
-
                 socketRef.current.on("storeMessage", (visitLog: VisitLog) => {
                     // 신규 방문기록을 newVisitLogs에 추가
                     setNewVisits((prev) => {
@@ -186,7 +184,7 @@ function OwnerDashBoard() {
         <MainContainer className="bg-[#FFF] py-[100px] lg:py-[150px] sm:py-[100px] xs:py-[60px]">
             <div className="w-full">
                 <div className="w-full bg-[#FFF] py-6">
-                    <div className="w-full max-w-[880px] mx-auto p-4 flex flex-row md:flex-col items-center justify-between gap-6 bg-white rounded-[20px] shadow-md border border-[#FF4854]">
+                    <div className="w-full max-w-[880px] mx-auto p-4 flex flex-row md:flex-col items-center justify-between gap-6 bg-white rounded-[20px] shadow-md border-2 border-[#E61F2C]">
                         {/* 좌측: 매장/점주 정보 */}
                         <div className="flex flex-col md:items-center md:text-center">
                             <p className="text-lg lg:text-sm md:text-xs text-gray-500">
@@ -204,11 +202,11 @@ function OwnerDashBoard() {
                         </div>
 
                         {/* 중앙: 보유 포인트 */}
-                        <div className="flex flex-col items-center justify-center border-2 border-[#FF4854] rounded-lg py-3 px-2 shadow-sm min-w-[140px] md:mb-4 md:w-full">
-                            <p className="text-sm text-[#FF4854] font-medium tracking-wide">
+                        <div className="flex flex-col items-center justify-center border-2 border-[#E61F2C] rounded-lg py-3 px-2 shadow-sm min-w-[140px] md:mb-4 md:w-full">
+                            <p className="text-sm text-[#E61F2C] font-medium tracking-wide">
                                 보유 포인트
                             </p>
-                            <p className="text-xl font-extrabold text-[#FF4854] mt-1">
+                            <p className="text-xl font-extrabold text-[#E61F2C] mt-1">
                                 {(totalPoint ?? 0).toLocaleString()} P
                             </p>
                         </div>
@@ -433,6 +431,12 @@ function OwnerDashBoard() {
             ${activeId === newVisitLog.id ? "border-2 border-[#E61F2C]" : "border border-transparent"}`}
                                         >
                                             <div className="text-base">
+                                                <p className="mb-3 flex justify-between border-b border-[#CCC] pb-1">
+                                                    <span className="font-bold text-xl">
+                                                        {newVisitLog.memberName}
+                                                    </span>
+                                                </p>
+
                                                 <p className="mb-3 flex justify-between">
                                                     <span>방문기록 번호</span>
                                                     <span className="font-semibold text-[#E61F2C]">
