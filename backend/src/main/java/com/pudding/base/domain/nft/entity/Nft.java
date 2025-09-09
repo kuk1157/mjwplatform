@@ -46,15 +46,23 @@ public class Nft {
     private Integer nftIdx;
 
     @Column(name = "nft_url")
-    @Schema(description = "nft 토큰 이미지 uri")
+    @Schema(description = "nft 암호화 uri")
     private String nftUrl;
+
+    @Column(name = "enc_id")
+    @Schema(description = "복호화 ID")
+    private Integer encId;
+
+    @Column(name = "enc_cipher")
+    @Schema(description = "복호화 CIPHER")
+    private byte[] encCipher;
 
     @Column(name = "created_at", insertable = false, updatable = false)
     @Schema(description = "생성일")
     private LocalDateTime createdAt;
 
     @Builder
-    public Nft(Integer id, String tokenId, String tokenHash, Integer storeId, Integer customerId, Integer storeTableId, Integer nftIdx, String nftUrl, LocalDateTime createdAt) {
+    public Nft(Integer id, String tokenId, String tokenHash, Integer storeId, Integer customerId, Integer storeTableId, Integer nftIdx, String nftUrl, Integer encId, byte[] encCipher, LocalDateTime createdAt) {
         this.id = id;
         this.tokenId = tokenId;
         this.tokenHash = tokenHash;
@@ -63,6 +71,8 @@ public class Nft {
         this.storeTableId = storeTableId;
         this.nftIdx = nftIdx;
         this.nftUrl = nftUrl;
+        this.encId = encId;
+        this.encCipher = encCipher;
         this.createdAt = createdAt;
     }
 }

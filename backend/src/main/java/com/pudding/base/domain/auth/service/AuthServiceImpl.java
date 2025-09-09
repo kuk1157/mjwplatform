@@ -210,21 +210,19 @@ public class AuthServiceImpl implements AuthService {
             // JSON을 byte[]로 변환
             byte[] plainBytes = json.getBytes(StandardCharsets.UTF_8);
 
-            // 암호화
-            EncMetaManager.EncryptResult encResult = encMetaManager.encryptBytes(plainBytes);
-            System.out.println("Encrypted cipher SHA256: " + encResult.getCipherSha256());
-            System.out.println("length: " + encResult.getCipher().length);
-            System.out.println("DB meta ID: " + encResult.getId());
-            System.out.println("Encrypted bytes: " + encResult.getCipherSha256());
-
-
-            // 바로 복호화
-            byte[] decryptedBytes = encMetaManager.decryptBytes(encResult.getId(), encResult.getCipher());
-            String decryptedJson = new String(decryptedBytes, StandardCharsets.UTF_8);
-            System.out.println("복호화 JSON: " + decryptedJson);
-
-
-            return null;
+//            // 암호화
+//            EncMetaManager.EncryptResult encResult = encMetaManager.encryptBytes(plainBytes);
+//            System.out.println("Encrypted cipher SHA256: " + encResult.getCipherSha256());
+//            System.out.println("length: " + encResult.getCipher().length);
+//            System.out.println("DB meta ID: " + encResult.getId());
+//            System.out.println("Encrypted bytes: " + encResult.getCipherSha256());
+//
+//
+//            // 바로 복호화
+//            byte[] decryptedBytes = encMetaManager.decryptBytes(encResult.getId(), encResult.getCipher());
+//            String decryptedJson = new String(decryptedBytes, StandardCharsets.UTF_8);
+//            System.out.println("복호화 JSON: " + decryptedJson);
+//            return null;
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -256,10 +254,29 @@ public class AuthServiceImpl implements AuthService {
 
 
 
+
+        // [ nft api 파일업로드 성공 후에 해당 파일 url 암호화하고 그 정보 nft에 추후 저장 ]
+        // 업로드한 파일 변환
+        byte[] plainBytes = nftFileUri.getBytes(StandardCharsets.UTF_8);
+
+        // 암호화
+        EncMetaManager.EncryptResult encResult = null;
+        try {
+            encResult = encMetaManager.encryptBytes(plainBytes);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+        System.out.println("Encrypted cipher SHA256: " + encResult.getCipherSha256());
+        System.out.println("length: " + encResult.getCipher().length);
+        System.out.println("DB meta ID: " + encResult.getId());
+        System.out.println("Encrypted bytes: " + encResult.getCipherSha256());
+
+
         // [NFT Mint 진행하기]
         Map<String, Object> mintResult = null; // 예외 처리를 위한 NFT Mint 객체 초기화
         String factHash = null; // factHash 초기화(NFT ID 추출을 위해 필요한 값)
         if(nftFileUri != null){
+
             mintResult = daeguChainClient.nftMint(
                     contractAddress,
                     customerWallet,
@@ -304,8 +321,12 @@ public class AuthServiceImpl implements AuthService {
             throw new RuntimeException("Token Info 실행을 실패하였습니다.");
         }
 
+        String encUrl = encResult.getCipherSha256(); // VARCHAR
+        Integer encId = encResult.getId(); // INT
+        byte[] encCipher = encResult.getCipher(); // BLOB
+
         // [NFT DB에 저장]
-        nftService.createNft(savedCustomer.getDid(), tokenHash, tableNumber, nftIdx, nftTokenImageUrl, storeId, visitLogDto.getCustomerId());
+        nftService.createNft(savedCustomer.getDid(), tokenHash, tableNumber, nftIdx, encUrl, encId, encCipher, storeId, visitLogDto.getCustomerId());
 
         // 토큰 생성
         CustomUserInfoDto userInfo = modelMapper.map(member, CustomUserInfoDto.class);

@@ -1,6 +1,7 @@
 package com.pudding.base.domain.nft.service;
 
 
+import com.pudding.base.domain.common.exception.CustomException;
 import com.pudding.base.domain.nft.dto.NftDto;
 import com.pudding.base.domain.nft.entity.Nft;
 import com.pudding.base.domain.nft.repository.NftRepository;
@@ -25,7 +26,7 @@ public class NftServiceImpl implements NftService {
     private final StoreRepository storeRepository;
 
 
-    public NftDto createNft(String did, String tokenHash, Integer storeTableId, Integer nftIdx, String nftUrl, Integer storeId, Integer customerId){
+    public NftDto createNft(String did, String tokenHash, Integer storeTableId, Integer nftIdx, String nftUrl, Integer encId, byte[] encCipher, Integer storeId, Integer customerId){
         String finalToken = UUID.randomUUID().toString();
 
         Nft nft = Nft.builder()
@@ -36,6 +37,8 @@ public class NftServiceImpl implements NftService {
                 .storeTableId(storeTableId)
                 .nftIdx(nftIdx)
                 .nftUrl(nftUrl)
+                .encId(encId)
+                .encCipher(encCipher)
                 .build();
 
         Nft savedNft = nftRepository.save(nft);
@@ -111,13 +114,11 @@ public class NftServiceImpl implements NftService {
     }
 
 
-    // 매장 상세보기
+    // NFT 상세보기
     public NftDto getNftById(Integer id) {
+        Nft nft = nftRepository.findById(id).orElseThrow(() -> new CustomException("존재하지 않는 NFT 입니다."));
+
         return nftRepository.findNftById(id);
     }
-
-
-
-
 }
 
