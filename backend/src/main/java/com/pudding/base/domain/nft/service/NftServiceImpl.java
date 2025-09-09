@@ -1,6 +1,7 @@
 package com.pudding.base.domain.nft.service;
 
 
+import com.pudding.base.crypto.service.EncMetaManager;
 import com.pudding.base.domain.common.exception.CustomException;
 import com.pudding.base.domain.nft.dto.NftDto;
 import com.pudding.base.domain.nft.entity.Nft;
@@ -24,6 +25,7 @@ public class NftServiceImpl implements NftService {
 
     private final NftRepository nftRepository;
     private final StoreRepository storeRepository;
+    private final EncMetaManager encMetaManager;
 
 
     public NftDto createNft(String did, String tokenHash, Integer storeTableId, Integer nftIdx, String nftUrl, Integer encId, byte[] encCipher, Integer storeId, Integer customerId){
@@ -113,12 +115,17 @@ public class NftServiceImpl implements NftService {
         return nftRepository.existsByStoreIdAndCustomerId(storeId,customerId);
     }
 
-
     // NFT 상세보기
     public NftDto getNftById(Integer id) {
         Nft nft = nftRepository.findById(id).orElseThrow(() -> new CustomException("존재하지 않는 NFT 입니다."));
 
-        return nftRepository.findNftById(id);
+        // [ NFT 온체인 검증 ]
+        try{
+            encMetaManager.decryptBytes(nft.getEncId(), nft.getEncCipher());
+            return nftRepository.findNftById(id);
+        }catch(Exception e){
+            throw new CustomException("NFT 온체인 검증에 실패하였습니다.");
+        }
     }
 }
 
