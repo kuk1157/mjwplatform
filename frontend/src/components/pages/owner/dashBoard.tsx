@@ -297,26 +297,27 @@ function OwnerDashBoard() {
                             {/* 좌측: 고객 정보 */}
                             <div className="flex-[1] flex flex-col last:border-r border-r-[#eee] md:border-r-0 md:border-b md:pb-6">
                                 <p className="mb-10 flex items-center gap-3 border-b-[#ccc] border-b pb-3">
-                                    <span className="text-2xl">👤</span>
+                                    <span className="text-2xl">🪑</span>
                                     <span className="font-bold text-2xl">
+                                        테이블 번호 : {""}
                                         {activeId
                                             ? newVisitLogs.find(
                                                   (v) => v.id === activeId
-                                              )?.memberName
+                                              )?.storeTableId
                                             : ""}
                                     </span>
                                 </p>
 
                                 <p className="mb-10 flex items-center gap-3 text-gray-600">
-                                    <span className="text-2xl">🪑</span>
+                                    <span className="text-2xl">👤</span>
                                     <span className="font-medium">
-                                        테이블 번호 :
+                                        고객 이름 :
                                     </span>
                                     <span className="font-bold text-gray-900">
                                         {activeId
                                             ? newVisitLogs.find(
                                                   (v) => v.id === activeId
-                                              )?.storeTableId
+                                              )?.memberName
                                             : ""}
                                     </span>
                                 </p>
@@ -446,6 +447,16 @@ function OwnerDashBoard() {
                                             <div className="text-base">
                                                 <p className="mb-3 flex justify-between border-b border-[#CCC] pb-1">
                                                     <span className="font-bold text-xl">
+                                                        테이블 번호 :{" "}
+                                                        {
+                                                            newVisitLog.storeTableId
+                                                        }
+                                                    </span>
+                                                </p>
+
+                                                <p className="mb-3 flex justify-between">
+                                                    <span>고객 이름</span>
+                                                    <span className="font-bold">
                                                         {newVisitLog.memberName}
                                                     </span>
                                                 </p>
@@ -454,14 +465,6 @@ function OwnerDashBoard() {
                                                     <span>방문기록 번호</span>
                                                     <span className="font-semibold text-[#E61F2C]">
                                                         {newVisitLog.id}
-                                                    </span>
-                                                </p>
-                                                <p className="mb-3 flex justify-between">
-                                                    <span>테이블번호</span>
-                                                    <span className="font-semibold text-[#E61F2C]">
-                                                        {
-                                                            newVisitLog.storeTableId
-                                                        }
                                                     </span>
                                                 </p>
                                                 <p className="mb-3 flex justify-between">
