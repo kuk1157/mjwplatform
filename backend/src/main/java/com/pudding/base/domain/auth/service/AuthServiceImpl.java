@@ -30,26 +30,16 @@ import com.pudding.base.domain.visit.service.VisitLogService;
 import com.pudding.base.domain.visit.service.VisitLogServiceImpl;
 import com.pudding.base.security.CustomUserInfoDto;
 import com.pudding.base.security.JwtUtil;
-import com.pudding.base.util.AESUtil;
 import com.rootlab.did.ClaimInfo;
-import jdk.swing.interop.SwingInterOpUtils;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
-import org.springframework.http.HttpEntity;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.MediaType;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.client.RestTemplate;
-
-import javax.crypto.KeyGenerator;
-import javax.crypto.SecretKey;
 import java.nio.charset.StandardCharsets;
-import java.security.NoSuchAlgorithmException;
 import java.util.*;
 
 

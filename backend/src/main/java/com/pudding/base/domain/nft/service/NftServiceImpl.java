@@ -1,10 +1,6 @@
 package com.pudding.base.domain.nft.service;
-
-
-import com.pudding.base.crypto.entity.EncMetaEntity;
 import com.pudding.base.crypto.repository.EncMetaRepository;
 import com.pudding.base.crypto.service.EncMetaManager;
-import com.pudding.base.domain.common.exception.CustomException;
 import com.pudding.base.domain.nft.dto.NftDto;
 import com.pudding.base.domain.nft.entity.Nft;
 import com.pudding.base.domain.nft.repository.NftRepository;
@@ -15,13 +11,6 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
-
-import java.io.InputStream;
-import java.net.URL;
-import java.nio.charset.StandardCharsets;
-import java.nio.file.Files;
-import java.nio.file.Paths;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;

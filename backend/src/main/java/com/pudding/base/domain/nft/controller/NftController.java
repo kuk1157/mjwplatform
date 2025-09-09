@@ -2,7 +2,6 @@ package com.pudding.base.domain.nft.controller;
 
 import com.pudding.base.domain.nft.dto.NftDto;
 import com.pudding.base.domain.nft.service.NftService;
-import com.pudding.base.domain.store.dto.StoreDto;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
