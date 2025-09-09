@@ -138,12 +138,12 @@ public class DaeguChainClient {
                 .writeValueAsString(dto);
     }
     // [NFT 파일 업로드 API]
-    public Map<String, String> uploadNftJson(String jsonContent, String description, String filename) {
+    public Map<String, String> uploadNftJson(byte[] encBytes, String description, String filename) {
         File tempFile;
         try {
             tempFile = File.createTempFile("metadata_", ".json");
             try (FileOutputStream fos = new FileOutputStream(tempFile)) {
-                fos.write(jsonContent.getBytes(StandardCharsets.UTF_8));
+                fos.write(encBytes);
             }
             System.out.println("임시파일 생성: " + tempFile.getAbsolutePath());
         } catch (Exception e) {

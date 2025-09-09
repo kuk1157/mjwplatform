@@ -1,4 +1,4 @@
-import axios, { AxiosError } from "axios";
+import axios from "axios";
 import { useNavigate, useParams } from "react-router-dom";
 import { useEffect, useState, useRef } from "react";
 import { MobileMain } from "src/components/organisms/mobileMain"; // 모바일 상단 타이틀
@@ -34,14 +34,15 @@ export function MobileMyWallet() {
                 const nftDetailRes = await axios.get(`/api/v1/nfts/${id}`);
                 setNftDetails(nftDetailRes.data);
             } catch (error) {
-                const axiosError = error as AxiosError<{ message: string }>;
-                const message = axiosError.response?.data?.message; // message를 변수로
-                if (message) {
-                    alert(message);
-                    navigate(`/mobile/mainPage/${customerId}`);
-                } else {
-                    alert("알 수 없는 오류가 발생했습니다.");
-                }
+                console.error("데이터 조회 실패:", error);
+                // const axiosError = error as AxiosError<{ message: string }>;
+                // const message = axiosError.response?.data?.message; // message를 변수로
+                // if (message) {
+                //     alert(message);
+                //     navigate(`/mobile/mainPage/${customerId}`);
+                // } else {
+                //     alert("알 수 없는 오류가 발생했습니다.");
+                // }
             }
         };
 

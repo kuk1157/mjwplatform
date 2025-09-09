@@ -53,16 +53,12 @@ public class Nft {
     @Schema(description = "복호화 ID")
     private Integer encId;
 
-    @Column(name = "enc_cipher")
-    @Schema(description = "복호화 CIPHER")
-    private byte[] encCipher;
-
     @Column(name = "created_at", insertable = false, updatable = false)
     @Schema(description = "생성일")
     private LocalDateTime createdAt;
 
     @Builder
-    public Nft(Integer id, String tokenId, String tokenHash, Integer storeId, Integer customerId, Integer storeTableId, Integer nftIdx, String nftUrl, Integer encId, byte[] encCipher, LocalDateTime createdAt) {
+    public Nft(Integer id, String tokenId, String tokenHash, Integer storeId, Integer customerId, Integer storeTableId, Integer nftIdx, String nftUrl, Integer encId, LocalDateTime createdAt) {
         this.id = id;
         this.tokenId = tokenId;
         this.tokenHash = tokenHash;
@@ -72,7 +68,6 @@ public class Nft {
         this.nftIdx = nftIdx;
         this.nftUrl = nftUrl;
         this.encId = encId;
-        this.encCipher = encCipher;
         this.createdAt = createdAt;
     }
 }
