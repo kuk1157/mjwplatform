@@ -124,7 +124,7 @@ public class NftServiceImpl implements NftService {
             encMetaManager.decryptBytes(nft.getEncId(), nft.getEncCipher());
             return nftRepository.findNftById(id);
         }catch(Exception e){
-            throw new CustomException("NFT 온체인 검증에 실패하였습니다.");
+            throw new CustomException("NFT 온체인 검증에 실패하였습니다. \n 메인 페이지로 이동합니다.");
         }
     }
 }
