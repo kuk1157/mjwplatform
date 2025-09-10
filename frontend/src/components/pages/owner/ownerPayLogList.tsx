@@ -20,35 +20,27 @@ function OwnerPayLogList() {
     }
 
     const [ownerPayLogs, setOwnerPayLogs] = useState<OwnerPayLog[]>([]);
+    const [page, setPage] = useState(0);
+    const [pageSize] = useState(5);
+    const [totalPages, setTotalPages] = useState(0);
 
     useEffect(() => {
         if (!ownerId) return;
 
         const fetchData = async () => {
             try {
-                const url = `/api/v1/payLog/owner/${ownerId}`;
+                const url = `/api/v1/payLog/owner/${ownerId}?page=${page}&size=${pageSize}`;
                 const response = await axios.get(url);
                 // Page 객체 기준: content 배열만 추출
                 setOwnerPayLogs(response.data.content || []);
+                setTotalPages(response.data.totalPages);
             } catch (error) {
                 console.error("데이터 조회 실패:", error);
             }
         };
 
         fetchData();
-    }, [ownerId]);
-
-    const [page, setPage] = useState(1);
-    const pageSize = 5;
-
-    const total = ownerPayLogs.length;
-    const totalPages = Math.ceil(total / pageSize);
-
-    // 현재 페이지 데이터만 자르기
-    const currentData = ownerPayLogs.slice(
-        (page - 1) * pageSize,
-        page * pageSize
-    );
+    }, [ownerId, page, pageSize]);
 
     // 점주 대시보드로 이동
     const OwnerDashBoard = () => {
@@ -100,13 +92,13 @@ function OwnerPayLogList() {
                                 </tr>
                             </thead>
                             <tbody>
-                                {currentData.map((payLogs, index) => (
+                                {ownerPayLogs.map((payLogs, index) => (
                                     <tr
                                         key={payLogs.id}
                                         className="transition-colors duration-200 cursor-default"
                                     >
                                         <td className="py-4 px-6 text-center whitespace-nowrap font-semibold">
-                                            {(page - 1) * pageSize + index + 1}
+                                            {page * pageSize + index + 1}
                                         </td>
                                         <td className="py-4 px-6 text-center whitespace-nowrap">
                                             {payLogs.payId} 번
@@ -146,7 +138,7 @@ function OwnerPayLogList() {
                     {/* 페이징 영역 */}
                     <div className="flex items-center justify-center gap-2">
                         <button
-                            disabled={page === 1}
+                            disabled={page === 0}
                             onClick={() => setPage((p) => p - 1)}
                             className="px-4 py-2 text-[#C7CBD2] disabled:opacity-40 disabled:cursor-not-allowed flex items-center justify-center"
                         >
@@ -155,10 +147,10 @@ function OwnerPayLogList() {
 
                         {Array.from({ length: totalPages }, (_, i) => (
                             <button
-                                key={i + 1}
-                                onClick={() => setPage(i + 1)}
+                                key={i}
+                                onClick={() => setPage(i)}
                                 className={`px-4 py-2 flex items-center justify-center ${
-                                    page === i + 1
+                                    page === i
                                         ? "bg-[#E61F2C] text-[#fff] rounded-[25px]"
                                         : "text-[#C7CBD2] hover:text-[#E61F2C]"
                                 }`}
@@ -168,7 +160,7 @@ function OwnerPayLogList() {
                         ))}
 
                         <button
-                            disabled={page === totalPages}
+                            disabled={page + 1 >= totalPages}
                             onClick={() => setPage((p) => p + 1)}
                             className="px-4 py-2 text-[#C7CBD2] disabled:opacity-40 disabled:cursor-not-allowed flex items-center justify-center"
                         >

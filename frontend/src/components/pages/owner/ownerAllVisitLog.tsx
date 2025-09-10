@@ -21,7 +21,7 @@ function OwnerAllVisitLogList() {
     }
 
     const [ownerAllLogs, setOwnerAllLogs] = useState<VisitLog[]>([]);
-    const [page, setPage] = useState(0); // 백엔드 Pageable은 보통 0부터 시작
+    const [page, setPage] = useState(0);
     const [pageSize] = useState(5);
     const [totalPages, setTotalPages] = useState(0);
 
