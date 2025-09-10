@@ -238,13 +238,38 @@ const NavSide = ({ ...props }) => {
                     <div className="relative flex justify-center">
                         <Button
                             onClick={() => setOpenToggle(!openToggle)}
-                            className="bg-[#FFFFFF] rounded-[25px] py-[15px] px-[18px] max-h-[31px] text-sm font-Pretendard font-semibold text-[#000000] border border-[#C7CBD24D]"
+                            className="xs:hidden xxs:hidden bg-[#FFFFFF] rounded-[25px] py-[15px] px-[18px] max-h-[31px] text-sm font-Pretendard font-semibold text-[#000000] border border-[#C7CBD24D]"
                         >
                             {user?.name}님
+                        </Button>
+
+                        <Button
+                            onClick={() => setOpenToggle(!openToggle)}
+                            className="hidden xs:block xxs:block text-xs font-Pretendard font-semibold text-[#000000]"
+                        >
+                            {user?.name}
                         </Button>
                         {openToggle && (
                             <div className="absolute w-[170px] bg-white border border-[rgba(0,0,0,0.16)] rounded-[15px] shadow-[0px_0px_3px_rgba(0,0,0,0.16)] top-[40px] z-20">
                                 <div className="py-[15px] px-[20px] flex flex-col gap-[10px] items-start">
+                                    {user?.role === "owner" && (
+                                        <Link
+                                            to={`/owner/dashboard/${user?.id}`}
+                                            className="text-[15px] text-[#000] font-medium leading-[18px] tracking-[-0.6px] flex justify-center"
+                                            onClick={() =>
+                                                setOpenToggle(!openToggle)
+                                            }
+                                        >
+                                            <img
+                                                src="/assets/icon/hamburger_myInfo.svg"
+                                                alt=""
+                                            />
+                                            <span className="ml-2 text-base">
+                                                점주용 대시보드
+                                            </span>
+                                        </Link>
+                                    )}
+
                                     {user?.role.includes("admin") ? (
                                         <Link
                                             to={"/admin"}
@@ -266,6 +291,7 @@ const NavSide = ({ ...props }) => {
                                             </span>
                                         </Link>
                                     )}
+
                                     <button onClick={handleLogout}>
                                         <span className="text-[15px] text-[#000] font-medium leading-[18px] tracking-[-0.6px] flex justify-center">
                                             <img

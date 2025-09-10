@@ -11,6 +11,7 @@ export default {
 
             sm: { max: "639px" },
             xs: { max: "500px" },
+            xxs: { max: "360px" },
         },
         extend: {},
         fontFamily: {
