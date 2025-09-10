@@ -107,20 +107,6 @@ export function MobileMyWallet() {
                     </div>
                 </div>
             ) : (
-                // <div className="bg-white rounded-xl shadow-sm border border-gray-100 p-4">
-                //     <img
-                //         src={
-                //             nftDetails.nftImage ||
-                //             "/assets/image/defaultNFT.png"
-                //         }
-                //         alt={nftDetails.storeName || "NFT 이미지"}
-                //         className="w-full h-auto rounded-lg mb-3"
-                //     />
-                //     <p>매장: {nftDetails.storeName || "-"}</p>
-                //     <p>토큰 ID: {nftDetails.tokenId || "-"}</p>
-                //     <p>방문 테이블: {nftDetails.storeTableId || "-"}</p>
-                //     <p>발급 시간: {nftDetails.createdAt || "-"}</p>
-                // </div>
                 <p className="text-gray-400">NFT 정보를 불러오는 중...</p>
             )}
 
