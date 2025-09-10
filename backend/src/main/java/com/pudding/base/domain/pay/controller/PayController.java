@@ -12,6 +12,8 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -53,7 +55,7 @@ public class PayController {
 
     @Operation(summary = "점주의 결제 조회", description = "ownerId 기준으로 조회")
     @GetMapping("/owner/{ownerId}")
-    public ResponseEntity<Page<PayDto>> getOwnerIdByPays(Pageable pageable, @PathVariable Integer ownerId) {
+    public ResponseEntity<Page<PayDto>> getOwnerIdByPays(@PageableDefault(sort = "createdAt", direction = Sort.Direction.DESC) Pageable pageable, @PathVariable Integer ownerId) {
         Page<PayDto> payDto = payService.findByOwnerId(pageable, ownerId);
         return ResponseEntity.ok(payDto);
     }
