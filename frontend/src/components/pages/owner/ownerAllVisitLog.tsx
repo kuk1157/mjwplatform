@@ -8,7 +8,6 @@ import { MdArrowForwardIos } from "react-icons/md"; // 페이징 다음 아이�
 
 function OwnerAllVisitLogList() {
     const { storeId, ownerId } = useParams();
-    console.log(storeId, ownerId);
     const navigate = useNavigate();
 
     interface VisitLog {
@@ -22,35 +21,27 @@ function OwnerAllVisitLogList() {
     }
 
     const [ownerAllLogs, setOwnerAllLogs] = useState<VisitLog[]>([]);
+    const [page, setPage] = useState(0); // 백엔드 Pageable은 보통 0부터 시작
+    const [pageSize] = useState(5);
+    const [totalPages, setTotalPages] = useState(0);
 
     useEffect(() => {
         if (!storeId) return;
 
         const fetchData = async () => {
             try {
-                const url = `/api/v1/visits/${storeId}`;
+                const url = `/api/v1/visits/${storeId}?page=${page}&size=${pageSize}`;
                 const response = await axios.get(url);
                 // Page 객체 기준: content 배열만 추출
-                setOwnerAllLogs(response.data);
+                setOwnerAllLogs(response.data.content);
+                setTotalPages(response.data.totalPages);
             } catch (error) {
                 console.error("데이터 조회 실패:", error);
             }
         };
 
         fetchData();
-    }, [storeId]);
-
-    const [page, setPage] = useState(1);
-    const pageSize = 5;
-
-    const total = ownerAllLogs.length;
-    const totalPages = Math.ceil(total / pageSize);
-
-    // 현재 페이지 데이터만 자르기
-    const currentData = ownerAllLogs.slice(
-        (page - 1) * pageSize,
-        page * pageSize
-    );
+    }, [storeId, page, pageSize]);
 
     // 점주 대시보드로 이동
     const OwnerDashBoard = () => {
@@ -98,13 +89,13 @@ function OwnerAllVisitLogList() {
                                 </tr>
                             </thead>
                             <tbody>
-                                {currentData.map((visitLog, index) => (
+                                {ownerAllLogs.map((visitLog, index) => (
                                     <tr
                                         key={visitLog.id}
                                         className="transition-colors duration-200 cursor-default"
                                     >
                                         <td className="py-4 px-6 text-center whitespace-nowrap font-semibold">
-                                            {(page - 1) * pageSize + index + 1}
+                                            {page * pageSize + index + 1}
                                         </td>
                                         <td className="py-4 px-6 text-center whitespace-nowrap">
                                             {visitLog.memberName}
@@ -125,7 +116,7 @@ function OwnerAllVisitLogList() {
                     {/* 페이징 영역 */}
                     <div className="flex items-center justify-center gap-2">
                         <button
-                            disabled={page === 1}
+                            disabled={page === 0}
                             onClick={() => setPage((p) => p - 1)}
                             className="px-4 py-2 text-[#C7CBD2] disabled:opacity-40 disabled:cursor-not-allowed flex items-center justify-center"
                         >
@@ -134,10 +125,10 @@ function OwnerAllVisitLogList() {
 
                         {Array.from({ length: totalPages }, (_, i) => (
                             <button
-                                key={i + 1}
-                                onClick={() => setPage(i + 1)}
+                                key={i}
+                                onClick={() => setPage(i)}
                                 className={`px-4 py-2 flex items-center justify-center ${
-                                    page === i + 1
+                                    page === i
                                         ? "bg-[#E61F2C] text-[#fff] rounded-[25px]"
                                         : "text-[#C7CBD2] hover:text-[#E61F2C]"
                                 }`}
@@ -147,7 +138,7 @@ function OwnerAllVisitLogList() {
                         ))}
 
                         <button
-                            disabled={page === totalPages}
+                            disabled={page + 1 >= totalPages}
                             onClick={() => setPage((p) => p + 1)}
                             className="px-4 py-2 text-[#C7CBD2] disabled:opacity-40 disabled:cursor-not-allowed flex items-center justify-center"
                         >
