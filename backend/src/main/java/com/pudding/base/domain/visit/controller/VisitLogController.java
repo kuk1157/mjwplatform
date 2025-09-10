@@ -7,6 +7,10 @@ import com.pudding.base.domain.visit.service.VisitLogService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -44,10 +48,10 @@ public class VisitLogController {
     }
 
 
-    @Operation(summary = "방문 기록 조회", description = "방문기록 알람에 활용될 api")
+    @Operation(summary = "방문 기록 조회", description = "전체 방문 기록")
     @GetMapping("/visits/{storeNum}")
-    public ResponseEntity<List<VisitLogDto>> getAllVisitLog(@PathVariable Integer storeNum){
-        List<VisitLogDto> visitLogs = visitLogService.getAllVisitLog(storeNum);
+    public ResponseEntity<Page<VisitLogDto>> getAllVisitLog(@PathVariable Integer storeNum, @PageableDefault(sort = "createdAt", direction = Sort.Direction.DESC) Pageable pageable){
+        Page<VisitLogDto> visitLogs = visitLogService.getAllVisitLog(storeNum, pageable);
         return ResponseEntity.ok(visitLogs);
     }
 

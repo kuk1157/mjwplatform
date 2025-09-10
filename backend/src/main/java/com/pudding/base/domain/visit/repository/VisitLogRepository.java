@@ -19,13 +19,14 @@ import java.util.List;
 public interface VisitLogRepository extends JpaRepository<VisitLog, Integer> {
 
 
+    // 점주 기준 방문기록 전체 조회
     @Query("SELECT new com.pudding.base.domain.visit.dto.VisitLogDto(" +
             "v.id, v.ownerId, v.storeId, v.storeTableId, v.customerId, v.storeName, m.name, v.visitStatus, v.paymentStatus, v.createdAt) " +
             "FROM VisitLog v " +
             "JOIN Customer c ON c.id = v.customerId " +
             "JOIN Member m ON m.id = c.memberId " +
             "WHERE v.storeId = :storeNum")
-    List<VisitLogDto> findByAllVisitLog(@Param("storeNum") Integer storeNum);
+    Page<VisitLogDto> findByAllVisitLog(@Param("storeNum") Integer storeNum, Pageable pageable);
 
     List<VisitLog> findByCustomerId(Integer customerId, Sort sort);
     Page<VisitLog> findByCustomerId(Integer customerId, Pageable pageable);

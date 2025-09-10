@@ -20,6 +20,7 @@ import jakarta.persistence.EntityNotFoundException;
 import jakarta.persistence.PersistenceContext;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
@@ -147,8 +148,8 @@ public class VisitLogServiceImpl implements VisitLogService {
     }
 
     // 가맹점 별 전체 방문기록
-    public List<VisitLogDto> getAllVisitLog(Integer storeNum){
-        return visitLogRepository.findByAllVisitLog(storeNum);
+    public Page<VisitLogDto> getAllVisitLog(Integer storeNum, Pageable pageable){
+        return visitLogRepository.findByAllVisitLog(storeNum, pageable);
     }
 
 
