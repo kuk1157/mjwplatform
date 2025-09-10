@@ -8,6 +8,8 @@ import i18n from "src/language";
 import { useQuery } from "react-query";
 import { fetchUser } from "src/utils/userApi";
 
+import { SiHomeassistantcommunitystore } from "react-icons/si";
+
 interface NavProps {
     mainMenu: any;
 }
@@ -260,10 +262,7 @@ const NavSide = ({ ...props }) => {
                                                 setOpenToggle(!openToggle)
                                             }
                                         >
-                                            <img
-                                                src="/assets/icon/hamburger_myInfo.svg"
-                                                alt=""
-                                            />
+                                            <SiHomeassistantcommunitystore className="w-[20px] h-[24px] text-[#ccc] flex-shrink-0" />
                                             <span className="ml-2 text-base">
                                                 점주용 대시보드
                                             </span>

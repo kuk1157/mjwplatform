@@ -389,7 +389,7 @@ function OwnerDashBoard() {
                                         ref={inputRef}
                                         value={amount}
                                         onChange={handleAmountChange}
-                                        className="border border-[#ccc] rounded-lg flex-1 px-3 py-2 focus:outline-none focus:border-[#E61F2C] focus:ring-1 focus:ring-[#E61F2C] transition"
+                                        className="border border-[#ccc] rounded-lg w-full min-w-0 px-3 py-2 focus:outline-none focus:border-[#E61F2C] focus:ring-1 focus:ring-[#E61F2C] transition"
                                         placeholder="금액 입력"
                                     />
                                 </div>
