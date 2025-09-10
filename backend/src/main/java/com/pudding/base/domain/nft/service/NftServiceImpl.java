@@ -1,6 +1,8 @@
 package com.pudding.base.domain.nft.service;
+import com.pudding.base.crypto.entity.EncMetaEntity;
 import com.pudding.base.crypto.repository.EncMetaRepository;
 import com.pudding.base.crypto.service.EncMetaManager;
+import com.pudding.base.domain.common.exception.CustomException;
 import com.pudding.base.domain.nft.dto.NftDto;
 import com.pudding.base.domain.nft.entity.Nft;
 import com.pudding.base.domain.nft.repository.NftRepository;
@@ -11,6 +13,12 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
+
+import java.io.ByteArrayOutputStream;
+import java.io.InputStream;
+import java.net.HttpURLConnection;
+import java.net.URL;
+import java.nio.charset.StandardCharsets;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
@@ -114,16 +122,41 @@ public class NftServiceImpl implements NftService {
 
     // NFT 상세보기
     public NftDto getNftById(Integer id) {
-         //Nft nft = nftRepository.findById(id).orElseThrow(() -> new CustomException("존재하지 않는 NFT 입니다."));
-        //EncMetaEntity encMetaEntity = encMetaRepository.findById(nft.getEncId()).orElseThrow(() -> new CustomException("존재하지 않는 암호화 메타데이터 입니다."));
-        return nftRepository.findNftById(id);
-//        // [ NFT 온체인 검증 ]
-//        try{
-//            encMetaManager.decryptBytes(nft.getEncId(),encCipher);
-//            return nftRepository.findNftById(id);
-//        }catch(Exception e){
-//            throw new CustomException("NFT 온체인 검증에 실패하였습니다. \n 메인 페이지로 이동합니다.");
-//        }
+        Nft nft = nftRepository.findById(id).orElseThrow(() -> new CustomException("존재하지 않는 NFT 입니다."));
+        byte[] encBytes;
+        try {
+            URL url = new URL(nft.getNftUrl());
+            HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+            conn.setRequestMethod("GET");
+
+            int status = conn.getResponseCode();
+            if (status >= 200 && status < 300) {
+                try (InputStream in = conn.getInputStream();
+                     ByteArrayOutputStream out = new ByteArrayOutputStream()) {
+                    byte[] buffer = new byte[8192];
+                    int bytesRead;
+                    while ((bytesRead = in.read(buffer)) != -1) {
+                        out.write(buffer, 0, bytesRead);
+                    }
+                    encBytes = out.toByteArray();
+                }
+            } else {
+                throw new RuntimeException("enc 파일 다운로드 실패: " + status);
+            }
+        } catch (Exception e) {
+            throw new CustomException("enc 파일 다운로드 에러");
+        }
+
+        // [ NFT 온체인 검증 ]
+        String decryptedJson;
+        try{
+            byte[] plainBytes = encMetaManager.decryptBytes(nft.getEncId(), encBytes);
+            decryptedJson = new String(plainBytes, StandardCharsets.UTF_8);
+            System.out.println("json 파일 파일"+decryptedJson);
+            return nftRepository.findNftById(id);
+        }catch(Exception e){
+            throw new CustomException("NFT 온체인 검증에 실패하였습니다. \n 메인 페이지로 이동합니다.");
+        }
     }
 }
 
