@@ -93,18 +93,17 @@ function OwnerDashBoard() {
     const points = discount;
 
     // 신규방문 active border
-    const [activeId, setActiveId] = useState(null);
-    const handleCardClick = (id) => {
+    const [activeId, setActiveId] = useState(Number);
+    const handleCardClick = (id: number) => {
         setActiveId(id);
         window.scrollTo({
             top: 0,
             behavior: "smooth", // 스크롤 부드럽게
         });
     };
-
     // 금액 입력 시 동적 처리
-    const handleAmountChange = (e) => {
-        const value = e.target.value;
+    const handleAmountChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+        const value = event.target.value;
         // 0 이하 값 체크
         if (Number(value) < 0) {
             alert("금액은 1원 이상 입력해주세요!");
