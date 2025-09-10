@@ -55,7 +55,7 @@ function OwnerStoreTableList() {
                         />
                         <span>매장 테이블 조회</span>
                     </div>
-                    <div className="grid grid-cols-4 gap-4 p-4">
+                    <div className="grid grid-cols-4 md:grid-cols-3 sm:grid-cols-2 gap-4 p-4">
                         {tables.length === 0 ? (
                             <div className="col-span-4 text-center text-gray-500 text-lg">
                                 매장 테이블이 존재하지 않습니다

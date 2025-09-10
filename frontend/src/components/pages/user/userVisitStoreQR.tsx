@@ -76,7 +76,7 @@ function UserVisitStoreQR() {
 
     return (
         <div className="flex items-center justify-center min-h-screen bg-gray-100">
-            <div className="grid grid-cols-4 gap-4 p-4">
+            <div className="grid grid-cols-4 md:grid-cols-3 sm:grid-cols-2 gap-4 p-4">
                 {/* 테이블 목록 동적으로 렌더링 */}
                 {tables.map((table, index) => (
                     <div

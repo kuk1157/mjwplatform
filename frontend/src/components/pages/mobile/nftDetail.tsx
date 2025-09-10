@@ -5,6 +5,7 @@ import { MobileMain } from "src/components/organisms/mobileMain"; // 모바일 �
 import { MobileFooter } from "src/components/organisms/mobileFooter"; // 하단 모바일 footer 공통 컴포넌트
 
 import { MdArrowBackIosNew } from "react-icons/md"; // 이전 페이지이동 좌측 화살표 아이콘
+import { AxiosError } from "axios";
 
 interface NftList {
     id: number;
@@ -34,15 +35,15 @@ export function MobileMyWallet() {
                 const nftDetailRes = await axios.get(`/api/v1/nfts/${id}`);
                 setNftDetails(nftDetailRes.data);
             } catch (error) {
-                console.error("데이터 조회 실패:", error);
-                // const axiosError = error as AxiosError<{ message: string }>;
-                // const message = axiosError.response?.data?.message; // message를 변수로
-                // if (message) {
-                //     alert(message);
-                //     navigate(`/mobile/mainPage/${customerId}`);
-                // } else {
-                //     alert("알 수 없는 오류가 발생했습니다.");
-                // }
+                // console.error("데이터 조회 실패:", error);
+                const axiosError = error as AxiosError<{ message: string }>;
+                const message = axiosError.response?.data?.message; // message를 변수로
+                if (message) {
+                    alert(message);
+                    navigate(`/mobile/mainPage/${customerId}`);
+                } else {
+                    alert("알 수 없는 오류가 발생했습니다.");
+                }
             }
         };
 
