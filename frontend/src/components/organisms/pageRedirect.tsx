@@ -1,11 +1,20 @@
 // PageRedirect.tsx
 import { useEffect } from "react";
-import { useRecoilValueLoadable } from "recoil";
-import { userSelectorUpdated } from "src/recoil/userState";
 import { useNavigate, useLocation } from "react-router-dom";
+import { useQuery } from "react-query";
+import { fetchUser } from "src/utils/userApi";
 
 export const PageRedirect = () => {
-    const { contents: user } = useRecoilValueLoadable(userSelectorUpdated);
+    const { data: user } = useQuery(
+        ["userSelectorUpdated"], // 기존 selector 이름 그대로 key 사용
+        fetchUser,
+        {
+            enabled: !!localStorage.getItem("accessToken"), // 토큰 있을 때만 실행
+            staleTime: 5 * 60 * 1000,
+            cacheTime: 10 * 60 * 1000,
+            refetchOnWindowFocus: false,
+        }
+    );
     const navigate = useNavigate();
     const location = useLocation();
 
