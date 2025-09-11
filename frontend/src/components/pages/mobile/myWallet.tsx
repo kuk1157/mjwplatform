@@ -3,7 +3,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { MobileMain } from "src/components/organisms/mobileMain"; // 모바일 상단 타이틀
 import { MobileFooter } from "src/components/organisms/mobileFooter"; // 하단 모바일 footer 공통 컴포넌트
-
+import { MdAccountBalanceWallet } from "react-icons/md";
 import { MdArrowBackIosNew } from "react-icons/md"; // 이전 페이지이동 좌측 화살표 아이콘
 
 export function MobileMyWallet() {
@@ -62,7 +62,9 @@ export function MobileMyWallet() {
 
             <div className="bg-white rounded-xl shadow-sm shadow-[#5C7BB91A] border border-gray-100 px-3 py-28 mb-3 flex items-center">
                 <div className="w-full flex justify-center items-center font-Pretendard min-w-0 text-[#999ca2] text-base font-normal">
-                    지갑 이미지
+                    <div className="flex justify-center items-center">
+                        <MdAccountBalanceWallet className="text-6xl text-[#5C7BB9]" />
+                    </div>
                 </div>
             </div>
 
