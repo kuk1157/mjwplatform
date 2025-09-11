@@ -190,7 +190,7 @@ function OwnerDashBoard() {
     return (
         <MainContainer className="bg-[#FFF] py-[100px] lg:py-[150px] sm:py-[100px] xs:py-[60px]">
             <div className="w-full">
-                <div className="w-full bg-[#FFF] py-6 px-4 xs:px-6 xxs:px-6">
+                <div className="w-full bg-[#FFF] p-6">
                     <div className="xs:block xxs:block hidden mb-4">
                         <button
                             onClick={() => setIsOpen(!isOpen)}
@@ -206,9 +206,9 @@ function OwnerDashBoard() {
                         className={`${!isOpen ? "block" : "hidden"} w-full max-w-[880px] mx-auto p-4 flex flex-row md:flex-col items-center justify-between bg-white rounded-[20px] shadow-md border-2 border-[#E61F2C]`}
                     >
                         {/* 좌측 + 중앙 */}
-                        <div className="w-full flex flex-row gap-4 xs:flex-row xxs:flex-row xs:justify-between xxs:justify-between">
+                        <div className="w-full flex flex-row gap-4 md:px-10 xs:p-0 xxs:p-0 xs:flex-row md:justify-between sm:justify-between xxs:flex-row xs:justify-between xxs:justify-between">
                             {/* 좌측: 매장/점주 정보 */}
-                            <div className="flex-col xs:w-[48%] xxs:w-[48%] xs:flex xxs:flex xs:justify-center xxs:justify-center ">
+                            <div className="flex flex-col justify-center xs:w-[48%] xxs:w-[48%]">
                                 <p className="text-lg lg:text-sm md:text-sm text-gray-500">
                                     매장 이름 :{" "}
                                     <span className="font-semibold text-gray-900">
@@ -224,7 +224,7 @@ function OwnerDashBoard() {
                             </div>
 
                             {/* 중앙: 보유 포인트 */}
-                            <div className="flex flex-col items-center justify-center border-2 border-[#E61F2C] rounded-lg py-3 px-2 shadow-sm min-w-[140px] xs:w-[48%] xxs:w-[48%]">
+                            <div className="flex flex-col items-center ml-14 xs:ml-0 xxs:ml-0 justify-center border-2 border-[#E61F2C] rounded-lg py-3 px-2 shadow-sm min-w-[140px] xs:w-[48%] xxs:w-[48%]">
                                 <p className="text-sm text-[#E61F2C] font-medium tracking-wide">
                                     보유 포인트
                                 </p>
@@ -235,13 +235,13 @@ function OwnerDashBoard() {
                         </div>
 
                         {/* 버튼 5개 가로 배치 */}
-                        <div className="w-full flex justify-between gap-1 mt-4 xs:flex-nowrap xxs:flex-nowrap">
+                        <div className="w-full flex justify-center md:mt-3 xs:mt-3 xxs:mt-3 xs:flex-nowrap xxs:flex-nowrap">
                             <button
                                 className="flex-1 xs:min-w-[18%] xxs:min-w-[18%] py-3 hover:text-[#E61F2C]"
                                 onClick={OwnerPay}
                             >
                                 <img
-                                    className="w-[50px] h-[50px] mb-1"
+                                    className="w-[50px] h-[50px] mb-1 inline-block"
                                     src="/assets/image/dashboard/pay.svg"
                                     alt="결제 조회"
                                 />
@@ -252,7 +252,7 @@ function OwnerDashBoard() {
                                 onClick={OwnerPayLog}
                             >
                                 <img
-                                    className="w-[50px] h-[50px] mb-1"
+                                    className="w-[50px] h-[50px] mb-1 inline-block"
                                     src="/assets/image/dashboard/payLog.svg"
                                     alt="결제 내역 조회"
                                 />
@@ -265,7 +265,7 @@ function OwnerDashBoard() {
                                 onClick={OwnerPoint}
                             >
                                 <img
-                                    className="w-[50px] h-[50px] mb-1"
+                                    className="w-[50px] h-[50px] mb-1 inline-block"
                                     src="/assets/image/dashboard/point.svg"
                                     alt="포인트 조회"
                                 />
@@ -276,7 +276,7 @@ function OwnerDashBoard() {
                                 onClick={OwnerStoreTable}
                             >
                                 <img
-                                    className="w-[50px] h-[50px] mb-1"
+                                    className="w-[50px] h-[50px] mb-1 inline-block"
                                     src="/assets/image/dashboard/storeTable.svg"
                                     alt="매장 테이블 조회"
                                 />
@@ -287,7 +287,7 @@ function OwnerDashBoard() {
                                 onClick={OwnerAllVisitLog}
                             >
                                 <img
-                                    className="w-[50px] h-[50px] mb-1"
+                                    className="w-[50px] h-[50px] mb-1 inline-block"
                                     src="/assets/image/dashboard/pay.svg"
                                     alt="전체 방문기록"
                                 />
@@ -299,7 +299,7 @@ function OwnerDashBoard() {
                     </div>
                 </div>
 
-                <div className="w-full bg-[#FFF] py-6 xs:px-6 xxs:px-6 ">
+                <div className="w-full bg-[#FFF] p-6">
                     <div className="w-full max-w-[880px] mx-auto mb-8">
                         <span className="text-2xl font-bold text-[#E61F2C]">
                             결제 처리
@@ -375,10 +375,10 @@ function OwnerDashBoard() {
                             </div>
 
                             {/* 우측: 금액 입력 및 금액 정보 */}
-                            <div className="flex-[2] flex flex-col gap-4 pl-6 md:pl-0 md:items-center md:text-center border-[#ccc]">
+                            <div className="flex-[2] flex flex-col gap-4 pl-6 md:pl-0 border-[#ccc]">
                                 {/* 금액 입력 */}
 
-                                <div className="w-full border-b-[#ccc] border-b pb-3 xs:text-left xxs:text-left">
+                                <div className="w-full border-b-[#ccc] border-b pb-3">
                                     <span className=" text-black font-bold text-2xl">
                                         💵 금액입력
                                     </span>
