@@ -1,5 +1,6 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import axios from "axios";
+import LoadingSpinner from "src/utils/loadingSpinner";
 
 // 타입 확장
 declare global {
@@ -18,6 +19,7 @@ interface DidLoginButtonProps {
 }
 
 const DidLoginButton = ({ storeNum, tableNumber }: DidLoginButtonProps) => {
+    const [loading, setLoading] = useState(false);
     useEffect(() => {
         // 로그인 처리 콜백 등록
         window.handleDidLogin = async (
@@ -25,6 +27,7 @@ const DidLoginButton = ({ storeNum, tableNumber }: DidLoginButtonProps) => {
         ) => {
             console.log("returnData", returnData);
             try {
+                setLoading(true); // 스피너 켜기
                 const response = await axios.post(
                     `/api/v1/auth/did/${storeNum}/${tableNumber}`,
                     {
@@ -34,6 +37,7 @@ const DidLoginButton = ({ storeNum, tableNumber }: DidLoginButtonProps) => {
                                 : JSON.stringify(returnData),
                     }
                 );
+
                 const userRole = response.data.auth.role;
                 if (userRole != "user") {
                     alert("고객만 연동 로그인이 가능합니다.");
@@ -53,11 +57,11 @@ const DidLoginButton = ({ storeNum, tableNumber }: DidLoginButtonProps) => {
 
                 const customerId = response.data.customerId; // customerId 변수 추가
                 localStorage.setItem("customerId", customerId); // 권한별 분기처리를 위한 고객 고유번호 저장
-
                 window.location.replace(`/mobile/mainPage/${customerId}`); // 여기에 customerId 넣기
             } catch (err) {
                 console.error("다대구 로그인 실패", err);
                 alert("다대구 로그인에 실패했습니다. 다시 시도해 주세요.");
+                setLoading(false); // 스피너 끄기
             }
         };
 
@@ -100,17 +104,24 @@ const DidLoginButton = ({ storeNum, tableNumber }: DidLoginButtonProps) => {
         })();
     }, [storeNum, tableNumber]);
 
+    const loginClick = () => {
+        window.daeguIdLogin?.();
+    };
+
     return (
-        <button
-            onClick={() => window.daeguIdLogin?.()}
-            className="cursor-pointer"
-        >
-            <img
-                src="/assets/image/did/icon_5.png"
-                alt="Daegu ID Logo"
-                className="object-contain"
-            />
-        </button>
+        <>
+            {loading && <LoadingSpinner />}
+            <button
+                onClick={loginClick}
+                className="cursor-pointer relative z-10"
+            >
+                <img
+                    src="/assets/image/did/icon_5.png"
+                    alt="Daegu ID Logo"
+                    className="object-contain"
+                />
+            </button>
+        </>
     );
 };
 
