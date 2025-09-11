@@ -63,7 +63,7 @@ export function MobileMyWallet() {
             <div className="bg-white rounded-xl shadow-sm shadow-[#5C7BB91A] border border-gray-100 px-3 py-28 mb-3 flex items-center">
                 <div className="w-full flex justify-center items-center font-Pretendard min-w-0 text-[#999ca2] text-base font-normal">
                     <div className="flex justify-center items-center">
-                        <MdAccountBalanceWallet className="text-6xl text-[#5C7BB9]" />
+                        <MdAccountBalanceWallet className="text-6xl text-[#E61F2C]" />
                     </div>
                 </div>
             </div>
