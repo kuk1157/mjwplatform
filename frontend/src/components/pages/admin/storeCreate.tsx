@@ -4,6 +4,7 @@ import { UserApi } from "src/utils/userApi";
 import { SectionCard } from "../../molecules/card";
 import { LabelDetail } from "src/components/atoms/labelDetail"; // 첨부파일 없는 등록, 수정폼 공통
 import { ActionButtons } from "../../organisms/actionButtons"; // 등록, 수정 공통 버튼
+import { AxiosError } from "axios";
 //import { useQuery } from "react-query";
 
 // 점주 선택 select를 위한 정보
@@ -85,7 +86,13 @@ export function StoreCreate() {
             navigate("/admin/store");
         } catch (error) {
             console.log(error);
-            alert("매장 등록 중 오류가 발생했습니다.");
+            const axiosError = error as AxiosError<{ message: string }>;
+            const message = axiosError.response?.data?.message; // message를 변수로
+            if (message) {
+                alert(message);
+            } else {
+                alert("알 수 없는 오류가 발생했습니다.");
+            }
         }
     };
 
