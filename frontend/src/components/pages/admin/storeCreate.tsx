@@ -7,16 +7,13 @@ import { ActionButtons } from "../../organisms/actionButtons"; // 등록, 수정
 import { AxiosError } from "axios";
 //import { useQuery } from "react-query";
 
-// 점주 선택 select를 위한 정보
-export interface OwnerList {
-    id: number;
-    name?: string;
-    role: "owner";
-    isActive: "y";
-}
-
 export function StoreCreate() {
     const navigate = useNavigate();
+
+    interface Owner {
+        id: number;
+        name: string;
+    }
 
     const [formData, setFormData] = useState({
         name: "",
@@ -24,17 +21,18 @@ export function StoreCreate() {
         address: "",
     });
 
-    const [owners, setOwners] = useState<OwnerList[]>([]);
+    const [owners, setOwners] = useState<Owner[]>([]);
+    const [nullOwners, setNullOwners] = useState("");
 
     // 점주정보만 가져오기
     const fetchOwners = async () => {
         try {
-            const res = await UserApi.get("/api/v1/admin/member"); // 전체 member 조회 API
-            const filtered = res.data.content.filter(
-                (member: OwnerList) =>
-                    member.role === "owner" && member.isActive === "y"
-            );
-            setOwners(filtered);
+            const res = await UserApi.get("/api/v1/stores/available-owners"); // 가맹점 미보유 점주만 조회
+            setOwners(res.data);
+            console.log(res.data);
+            if (!res.data || res.data.length === 0) {
+                setNullOwners("선택할 점주가 없음.");
+            }
         } catch (err) {
             console.error("점주 목록 가져오기 실패", err);
         }
@@ -42,7 +40,7 @@ export function StoreCreate() {
 
     useEffect(() => {
         fetchOwners();
-    }, []);
+    }, [nullOwners]);
 
     const handleChange = (
         e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
@@ -95,13 +93,22 @@ export function StoreCreate() {
             }
         }
     };
-
+    console.log(nullOwners);
     return (
         <SectionCard className="px-[30px]">
-            <h2 className="font-[TmoneyRoundWind] font-extrabold text-[35px] leading-[50px] tracking-[-1.75px] text-[#333] md:text-[30px] pb-[50px]">
+            <div className={`font-bold ${nullOwners ? "block" : "hidden"}`}>
+                <p>매장 등록할 점주가 없습니다.</p>
+                <p>점주를 등록 후 매장 등록해주세요.</p>
+            </div>
+
+            <h2
+                className={`font-[TmoneyRoundWind] font-extrabold text-[35px] leading-[50px] tracking-[-1.75px] text-[#333] md:text-[30px] pb-[50px] ${nullOwners ? "hidden" : "block"}`}
+            >
                 매장 관리
             </h2>
-            <div className="w-full bg-white p-10 rounded-xl shadow">
+            <div
+                className={`w-full bg-white p-10 rounded-xl shadow ${nullOwners ? "hidden" : "block"}`}
+            >
                 <h2 className="text-3xl font-bold text-gray-800 mb-8 border-b pb-4">
                     매장 등록
                 </h2>
