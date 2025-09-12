@@ -29,7 +29,6 @@ export function StoreCreate() {
         try {
             const res = await UserApi.get("/api/v1/stores/available-owners"); // 가맹점 미보유 점주만 조회
             setOwners(res.data);
-            console.log(res.data);
             if (!res.data || res.data.length === 0) {
                 setNullOwners("선택할 점주가 없음.");
             }
@@ -93,7 +92,6 @@ export function StoreCreate() {
             }
         }
     };
-    console.log(nullOwners);
     return (
         <SectionCard className="px-[30px]">
             <div className={`font-bold ${nullOwners ? "block" : "hidden"}`}>
