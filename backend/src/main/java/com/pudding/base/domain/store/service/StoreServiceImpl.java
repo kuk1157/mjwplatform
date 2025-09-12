@@ -1,5 +1,6 @@
 package com.pudding.base.domain.store.service;
 
+import com.pudding.base.domain.common.exception.CustomException;
 import com.pudding.base.domain.store.dto.StoreDto;
 import com.pudding.base.domain.store.entity.Store;
 import com.pudding.base.domain.store.repository.StoreRepository;
@@ -18,9 +19,9 @@ public class StoreServiceImpl implements StoreService{
     // 매장 등록
     public StoreDto createStore(StoreDto.Request storeDto){
         // 매장 이미 보유하고 있는 점주 예외처리
-        boolean exists = storeRepository.existsById(storeDto.getOwnerId());
+        boolean exists = storeRepository.existsByOwnerId(storeDto.getOwnerId());
         if (exists) {
-            throw new IllegalStateException("선택한 점주는 이미 매장을 보유하고 있습니다.");
+            throw new CustomException("선택한 점주는 이미 매장을 보유하고 있습니다.");
         }
 
         Store store = Store.builder()

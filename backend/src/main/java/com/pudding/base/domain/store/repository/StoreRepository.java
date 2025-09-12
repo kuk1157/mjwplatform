@@ -2,6 +2,7 @@ package com.pudding.base.domain.store.repository;
 
 import com.pudding.base.domain.store.dto.StoreDto;
 import com.pudding.base.domain.store.entity.Store;
+import jakarta.validation.constraints.NotNull;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -54,5 +55,5 @@ public interface StoreRepository extends JpaRepository<Store, Integer> {
     StoreDto findByOwnerIdSearch(@Param("ownerId") Integer ownerId);
 
 
-
+    boolean existsByOwnerId(@NotNull(message = "점주를 선택해주세요.") Integer ownerId);
 }
