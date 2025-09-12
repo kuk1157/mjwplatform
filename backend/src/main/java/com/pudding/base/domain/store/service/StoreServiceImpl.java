@@ -1,6 +1,7 @@
 package com.pudding.base.domain.store.service;
 
 import com.pudding.base.domain.common.exception.CustomException;
+import com.pudding.base.domain.member.dto.MemberDto;
 import com.pudding.base.domain.store.dto.StoreDto;
 import com.pudding.base.domain.store.entity.Store;
 import com.pudding.base.domain.store.repository.StoreRepository;
@@ -9,6 +10,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -56,5 +59,7 @@ public class StoreServiceImpl implements StoreService{
         return storeRepository.findByOwnerIdSearch(ownerId);
     }
 
-
+    public List<MemberDto> getAvailableOwners(){
+        return storeRepository.findAvailableOwners();
+    }
 }

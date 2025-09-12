@@ -1,5 +1,6 @@
 package com.pudding.base.domain.store.controller;
 
+import com.pudding.base.domain.member.dto.MemberDto;
 import com.pudding.base.domain.store.dto.StoreDto;
 import com.pudding.base.domain.store.service.StoreService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -16,6 +17,7 @@ import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 
 
 @Tag(name = "매장(store) 관련 전체 테이블", description= "관리자 전용, 매장 CRUD")
@@ -67,4 +69,14 @@ public class StoreController {
         StoreDto store = storeService.findStoreByOwnerId(ownerId);
         return ResponseEntity.ok(store);
     }
+
+    @Operation(summary = "매장 등록 시 점주 선택", description = "가맹점 보유하고 있지 않은 점주만 조회")
+    @GetMapping("/available-owners")
+    public ResponseEntity<List<MemberDto>> getAvailableOwners(){
+        return ResponseEntity.ok(storeService.getAvailableOwners());
+    }
+
+
+
+
 }

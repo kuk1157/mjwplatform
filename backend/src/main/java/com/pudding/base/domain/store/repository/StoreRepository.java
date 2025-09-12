@@ -1,5 +1,6 @@
 package com.pudding.base.domain.store.repository;
 
+import com.pudding.base.domain.member.dto.MemberDto;
 import com.pudding.base.domain.store.dto.StoreDto;
 import com.pudding.base.domain.store.entity.Store;
 import jakarta.validation.constraints.NotNull;
@@ -9,6 +10,8 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
+
+import java.util.List;
 
 @Repository
 public interface StoreRepository extends JpaRepository<Store, Integer> {
@@ -55,5 +58,18 @@ public interface StoreRepository extends JpaRepository<Store, Integer> {
     StoreDto findByOwnerIdSearch(@Param("ownerId") Integer ownerId);
 
 
+    // 가맹점 생성시 점주 선택 예외처리
     boolean existsByOwnerId(@NotNull(message = "점주를 선택해주세요.") Integer ownerId);
+
+    // 페이지에서 가맹점 보유 여부 미리 체크하기 위한 쿼리
+    @Query("""
+        SELECT m 
+        FROM Member m 
+        WHERE m.role = 'owner'
+          AND m.isActive = 'Y'
+          AND NOT EXISTS (
+              SELECT 1 FROM Store s WHERE s.ownerId = m.id
+          )
+    """)
+    List<MemberDto> findAvailableOwners();
 }
