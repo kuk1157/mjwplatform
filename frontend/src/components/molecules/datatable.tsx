@@ -16,7 +16,7 @@ import UserModal from "./userModal";
 import { formatDate } from "src/utils/common";
 import { useRecoilValue, useSetRecoilState } from "recoil";
 import { sortState } from "src/recoil/sortState";
-import { UserRoleList } from "src/constants/index";
+// import { UserRoleList } from "src/constants/index";
 import { cdn } from "src/constans"; // 공지사항 첨부파일 경로 참조
 import { noticeFolder } from "src/constans"; // 공지사항 첨부파일 경로 참조
 // import parse from "html-react-parser"; // 공지사항 내용 html 태그 적용
@@ -36,7 +36,7 @@ export const DataTable = ({
         ref,
         type,
         handleRowSelect,
-        handleRoleChange,
+        // handleRoleChange,
         handleIsConfirmed,
     } = dataTableProps;
 
@@ -129,15 +129,15 @@ export const DataTable = ({
         [navigate, location.pathname, type, handleRowSelect]
     );
 
-    const handleRoleSelectChange = useCallback(
-        (rowId: any, event: React.ChangeEvent<HTMLSelectElement>) => {
-            event.stopPropagation();
-            if (handleRoleChange) {
-                handleRoleChange(rowId, event.target.value);
-            }
-        },
-        [handleRoleChange]
-    );
+    // const handleRoleSelectChange = useCallback(
+    //     (rowId: any, event: React.ChangeEvent<HTMLSelectElement>) => {
+    //         event.stopPropagation();
+    //         if (handleRoleChange) {
+    //             handleRoleChange(rowId, event.target.value);
+    //         }
+    //     },
+    //     [handleRoleChange]
+    // );
 
     const handleConfirmationClick = useCallback(
         (row: any, event: React.MouseEvent) => {
