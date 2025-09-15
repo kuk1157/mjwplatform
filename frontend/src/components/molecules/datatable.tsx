@@ -215,22 +215,33 @@ export const DataTable = ({
                     case "loginId":
                         return row.loginId;
                     case "role":
-                        return (
-                            <select
-                                className="border py-1.5 px-2 rounded-[5px]"
-                                value={row.role}
-                                onClick={(e) => e.stopPropagation()}
-                                onChange={(e) =>
-                                    handleRoleSelectChange(row.id, e)
-                                }
-                            >
-                                {UserRoleList.map((item) => (
-                                    <option key={item.name} value={item.name}>
-                                        {item.value}
-                                    </option>
-                                ))}
-                            </select>
-                        );
+                        // return (
+                        //     <select
+                        //         className="border py-1.5 px-2 rounded-[5px]"
+                        //         value={row.role}
+                        //         onClick={(e) => e.stopPropagation()}
+                        //         onChange={(e) =>
+                        //             handleRoleSelectChange(row.id, e)
+                        //         }
+                        //     >
+                        //         {UserRoleList.map((item) => (
+                        //             <option key={item.name} value={item.name}>
+                        //                 {item.value}
+                        //             </option>
+                        //         ))}
+                        //     </select>
+                        // );
+                        switch (row.role) {
+                            case "owner":
+                                return "점주";
+                            case "admin":
+                                return "관리자";
+                            case "user":
+                                return "고객";
+                            default:
+                                return "알 수 없음";
+                        }
+
                     case "detail":
                         return (
                             <Button

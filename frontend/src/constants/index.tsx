@@ -54,7 +54,6 @@ const AdminMenuList = [
 const UserRoleList = [
     { id: 1, name: "admin", value: "최고 관리자" },
     { id: 2, name: "owner", value: "점주" },
-    { id: 2, name: "user", value: "고객(손님)" },
 ];
 
 const SocialDomain = ["gmail.com", "naver.com", "daum.net", "hanmail.net"];
