@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { login } from "../../utils/authLogin";
 import { useCookies } from "react-cookie";
+import { AxiosError } from "axios";
 
 // import DidLoginButton from "../atoms/didLoginButton";
 
@@ -124,10 +125,16 @@ const LoginPage = () => {
                 }
             })
             .catch((error) => {
-                alert(
-                    error.response.data.message ??
-                        "알 수없는 오류가 발생했습니다. 관리자에게 문의해 주세요."
-                );
+                const axiosError = error as AxiosError<{ message: string }>;
+                const message = axiosError.response?.data?.message; // message를 변수로
+                if (message) {
+                    alert(message);
+                } else {
+                    alert(
+                        error.response.data.message ??
+                            "알 수없는 오류가 발생했습니다. 관리자에게 문의해 주세요."
+                    );
+                }
                 console.log(error);
             });
     };
@@ -207,13 +214,14 @@ const LoginPage = () => {
                         <DidLoginButton />
                     </div> */}
 
-                    <div className="w-full border-b border-[#C7CBD2] h-[1px] mt-1"></div>
-
+                    {/* 구분선도 주석 */}
+                    {/* <div className="w-full border-b border-[#C7CBD2] h-[1px] mt-1"></div> */}
+                    {/* 회원가입 임시로 주석
                     <Link to="/sign-up" className="w-full">
                         <button className="flex items-center justify-center rounded-[10px] w-full text-[17px] leading-[20px] xs:text-[15px] text-[#999CA2] bg-white py-[15px] xs:py-[10px]">
                             회원가입
                         </button>
-                    </Link>
+                    </Link> */}
                 </div>
             </div>
         </section>
