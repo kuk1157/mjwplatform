@@ -65,12 +65,6 @@ public class AuthServiceImpl implements AuthService {
 
     @Override
     @Transactional
-    public AuthResponseDto login(AuthRequestDto dto) {
-        return authenticate(dto, false);
-    }
-
-    @Override
-    @Transactional
     public DidLoginResponseDto didLogin(ClaimInfo info, Integer storeId, Integer tableNumber) {
         Optional<Member> optional = memberRepository.findByDid(info.getDid());
 
@@ -327,12 +321,9 @@ public class AuthServiceImpl implements AuthService {
         return new DidLoginResponseDto(authResponseDto, visitLogDto.getCustomerId());
     }
 
-    @Transactional
-    public AuthResponseDto adminLogin(AuthRequestDto dto) {
-        return authenticate(dto, true);
-    }
 
-    private AuthResponseDto authenticate(AuthRequestDto dto, boolean isAdmin) {
+    // 관리자, 점주 로그인 공통 예외처리
+    private Member authenticateBase(AuthRequestDto dto) {
         String loginId = dto.getLoginId();
         String password = dto.getPassword();
         Member member = memberRepository.findByLoginIdAndIsActive(loginId, IsActive.y);
@@ -344,14 +335,11 @@ public class AuthServiceImpl implements AuthService {
             throw new BadCredentialsException("아이디 또는 비밀번호가 일치하지 않습니다.");
         }
 
-        if (isAdmin && member.getRole() != Role.admin) {
-            throw new AccessDeniedException("권한이 없습니다.");
-        }
+        return member;
+    }
 
-        if(member.getRole() == Role.admin && !isAdmin){
-            throw new IllegalArgumentException("관리자는 로그인 할 수 없습니다.");
-        }
-
+    // 로그인 성공 후 반환 값
+    private AuthResponseDto generateAuthResponse(Member member) {
         CustomUserInfoDto info = modelMapper.map(member, CustomUserInfoDto.class);
         String accessToken = jwtUtil.createAccessToken(info);
         String refreshToken = jwtUtil.createRefreshToken(info);
@@ -371,6 +359,26 @@ public class AuthServiceImpl implements AuthService {
         }
 
         return new AuthResponseDto(auth);
+    }
+
+    // 관리자 로그인
+    @Transactional
+    public AuthResponseDto adminLogin(AuthRequestDto dto) {
+        Member member = authenticateBase(dto);
+        if (member.getRole() != Role.admin) {
+            throw new CustomException("관리자 권한이 아닙니다. 아이디의 권한을 확인해주세요.");
+        }
+        return generateAuthResponse(member);
+    }
+
+    // 점주 로그인
+    @Transactional
+    public AuthResponseDto login(AuthRequestDto dto) {
+        Member member = authenticateBase(dto);
+        if (member.getRole() != Role.owner) {
+            throw new CustomException("점주 권한이 아닙니다. 아이디의 권한을 확인해주세요.");
+        }
+        return generateAuthResponse(member);
     }
 
     /** Token 갱신 */

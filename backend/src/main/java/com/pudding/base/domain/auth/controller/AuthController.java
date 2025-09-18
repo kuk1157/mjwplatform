@@ -29,7 +29,7 @@ public class AuthController {
 
     private final AuthService authService;
 
-    @Operation(summary = "사용자 로그인", description = "로그인 후 토큰 반환")
+    @Operation(summary = "점주 로그인", description = "로그인 후 토큰 반환")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "성공",
                     content = {@Content(schema = @Schema(implementation = ResponseEntity.class))}),
