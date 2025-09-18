@@ -5,6 +5,7 @@ import { ActionButtons } from "src/components/organisms/actionButtons"; // 버�
 import { SectionCard } from "src/components/molecules/card";
 import { LabelDetail } from "src/components/atoms/labelDetail";
 import { StoreDetailType } from "src/types";
+import { AxiosError } from "axios";
 
 function StoreEdit() {
     const [formData, setFormData] = useState({
@@ -43,7 +44,7 @@ function StoreEdit() {
     };
 
     // 매장 수정 페이지 이동
-    const handleEdit = () => {
+    const handleEdit = async () => {
         if (!formData.name) {
             alert("매장 이름을 입력해주세요.");
             return;
@@ -54,7 +55,7 @@ function StoreEdit() {
         }
 
         try {
-            UserApi.patch(`/api/v1/stores/${id}`, {
+            await UserApi.patch(`/api/v1/stores/${id}`, {
                 id: id,
                 name: formData.name,
                 address: formData.address,
@@ -63,7 +64,13 @@ function StoreEdit() {
             navigate(`/admin/store/storeDetail/${id}`);
         } catch (error) {
             console.error("수정 실패", error);
-            alert("사용자 수정 중 오류가 발생했습니다.");
+            const axiosError = error as AxiosError<{ message: string }>;
+            const message = axiosError.response?.data?.message; // message를 변수로
+            if (message) {
+                alert(message);
+            } else {
+                alert("사용자 수정 중 오류가 발생했습니다.");
+            }
         }
     };
 
