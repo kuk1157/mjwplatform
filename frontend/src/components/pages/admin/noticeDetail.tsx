@@ -106,7 +106,7 @@ function NoticeDetailPage() {
         try {
             await UserApi.delete(`/api/v1/admin/notice/${id}`, {});
             alert("공지사항 삭제(비활성화)가 완료되었습니다.");
-            navigate("/admin/noticeTest"); // 목록으로 이동
+            navigate("/admin/notice"); // 목록으로 이동
         } catch (err) {
             console.error("삭제 실패", err);
             alert("삭제 중 오류가 발생했습니다.");
@@ -115,7 +115,7 @@ function NoticeDetailPage() {
 
     // 뒤로 가기 (공지사항목록 이동)
     const handleBack = () => {
-        navigate("/admin/noticeTest");
+        navigate("/admin/notice");
     };
 
     // 공지사항 수정 페이지 이동

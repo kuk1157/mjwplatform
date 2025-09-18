@@ -86,7 +86,7 @@ export function NoticeEdit() {
                     );
                     alert("데이터 로딩 실패");
                     alert(id);
-                    navigate("/admin/noticeTest"); // 실패 시 목록으로
+                    navigate("/admin/notice"); // 실패 시 목록으로
                 });
         }
     }, [id, navigate]);
