@@ -5,7 +5,7 @@ import { useState, useEffect } from "react";
 import { StoreTable } from "src/types";
 
 function OwnerStoreTableList() {
-    const { ownerId } = useParams();
+    const { storeId, ownerId } = useParams();
     const navigate = useNavigate();
     const [tables, setTables] = useState<StoreTable[]>([]);
 
@@ -14,10 +14,6 @@ function OwnerStoreTableList() {
 
         const fetchData = async () => {
             try {
-                const storeRes = await axios.get(
-                    `/api/v1/stores/ownerId/${ownerId}`
-                );
-                const storeId = storeRes.data.id;
                 const storeTableRes = await axios.get(
                     `/api/v1/stores/${storeId}/tables`
                 );
@@ -29,7 +25,7 @@ function OwnerStoreTableList() {
         };
 
         fetchData();
-    }, [ownerId]);
+    }, [ownerId, storeId]);
 
     // 점주 대시보드로 이동
     const OwnerDashBoard = () => {

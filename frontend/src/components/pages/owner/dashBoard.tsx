@@ -177,7 +177,7 @@ function OwnerDashBoard() {
 
     // 점주 매장 테이블 목록 조회 페이지로 이동
     const OwnerStoreTable = () => {
-        navigate(`/owner/ownerStoreTableList/${ownerId}`);
+        navigate(`/owner/ownerStoreTableList/${ownerId}/${storeId}`);
     };
 
     // 점주 매장 전체 방문 페이지로 이동

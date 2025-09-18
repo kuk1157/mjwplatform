@@ -295,7 +295,7 @@ const Router = createBrowserRouter([
 
             // 점주용 매장 테이블 조회
             {
-                path: "/owner/ownerStoreTableList/:ownerId",
+                path: "/owner/ownerStoreTableList/:ownerId/:storeId",
                 element: <OwnerStoreTableList />,
             },
             // 점주용 매장 테이블 조회
