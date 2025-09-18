@@ -4,6 +4,7 @@ import { useRecoilValue } from "recoil";
 import { MainContainer } from "src/components/molecules/container";
 import { userSelectorUpdated } from "src/recoil/userState";
 import { adminLogin } from "src/utils/authLogin";
+import { AxiosError } from "axios";
 
 const LoginPage = () => {
     const user = useRecoilValue(userSelectorUpdated);
@@ -33,10 +34,16 @@ const LoginPage = () => {
                 window.location.href = `/admin/user`;
             })
             .catch((error) => {
-                alert(
-                    error.response.data.message ??
-                        "알 수없는 오류가 발생했습니다. 관리자에게 문의해 주세요."
-                );
+                const axiosError = error as AxiosError<{ message: string }>;
+                const message = axiosError.response?.data?.message; // message를 변수로
+                if (message) {
+                    alert(message);
+                } else {
+                    alert(
+                        error.response.data.message ??
+                            "알 수없는 오류가 발생했습니다. 관리자에게 문의해 주세요."
+                    );
+                }
                 console.log(error);
             });
     };
