@@ -39,6 +39,11 @@ public class StoreServiceImpl implements StoreService{
 
     public StoreDto updateStore(StoreDto.Request storeDto, Integer id){
         Store store = storeRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("존재하지 않는 매장 입니다."));
+        // 매장 수정시 매장 이름 중복체크
+        boolean exists = storeRepository.existsByNameAndIdNot(storeDto.getName(), id);
+        if (exists) {
+            throw new CustomException("동일한 이름의 매장이 존재합니다. 다른 이름을 입력해주세요.");
+        }
         store.updateStoreInfo(storeDto.getName(), storeDto.getAddress());
         storeRepository.save(store);
         return StoreDto.fromEntity(store);

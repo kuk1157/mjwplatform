@@ -72,4 +72,9 @@ public interface StoreRepository extends JpaRepository<Store, Integer> {
           )
     """)
     List<MemberDto> findAvailableOwners();
+
+    // 매장 수정시 매장이름 중복체크
+    boolean existsByName(@NotNull(message = "매장 이름을 입력해주세요.") String name);
+
+    boolean existsByNameAndIdNot(String name, Integer id);
 }
