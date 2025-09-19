@@ -95,7 +95,7 @@ function OwnerDashBoard() {
     const points = discount;
 
     // 신규방문 active border
-    const [activeId, setActiveId] = useState(Number);
+    const [activeId, setActiveId] = useState<number | null>(null);
     const inputRef = useRef<HTMLInputElement>(null);
     const handleCardClick = (id: number) => {
         setActiveId(id);
@@ -107,6 +107,11 @@ function OwnerDashBoard() {
             inputRef.current.focus();
         }
     };
+
+    const closeClick = () => {
+        setActiveId(null);
+    };
+
     // 금액 입력 시 동적 처리
     const handleAmountChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         const value = event.target.value;
@@ -299,148 +304,12 @@ function OwnerDashBoard() {
                     </div>
                 </div>
 
-                <div className="w-full bg-[#FFF] p-6">
-                    <div className="w-full max-w-[880px] mx-auto mb-8">
-                        <span className="text-2xl font-bold text-[#E61F2C]">
-                            결제 처리
-                        </span>
-                        <span className="text-base font-semibold text-[#ccc]">
-                            {""} ※ 빠른 정산을 권장 드립니다.
-                        </span>
-                        <div className="border-b border-b-[#ccc] mt-3"></div>
-                    </div>
-
-                    <div
-                        className={`w-full max-w-[880px] mx-auto p-8 rounded-[20px] shadow-xl relative bg-gradient-to-br from-white via-[#fffafa] to-white transition-all duration-300
-          ${activeId ? "border-2 border-[#E61F2C] blur-none" : "border border-transparent blur-md"}`}
-                    >
-                        <div className="flex flex-row md:flex-col w-full ">
-                            {/* 좌측: 고객 정보 */}
-                            <div className="flex-[1] flex flex-col last:border-r border-r-[#eee] md:border-r-0 md:pb-6">
-                                <p className="mb-10 xs:mb-5 xxs:mb-5 flex items-center gap-3 border-b-[#ccc] border-b pb-3">
-                                    <span className="text-2xl">🪑</span>
-                                    <span className="font-bold text-2xl">
-                                        테이블 번호 : {""}
-                                        {activeId
-                                            ? newVisitLogs.find(
-                                                  (v) => v.id === activeId
-                                              )?.storeTableId
-                                            : ""}
-                                    </span>
-                                </p>
-
-                                <p className="mb-10 xs:mb-5 xxs:mb-5 flex items-center gap-3 text-gray-600">
-                                    <span className="text-2xl">👤</span>
-                                    <span className="font-medium">
-                                        고객 이름 :
-                                    </span>
-                                    <span className="font-bold text-gray-900">
-                                        {activeId
-                                            ? newVisitLogs.find(
-                                                  (v) => v.id === activeId
-                                              )?.memberName
-                                            : ""}
-                                    </span>
-                                </p>
-                                <p className="mb-10 xs:mb-5 xxs:mb-5 flex items-center gap-3 text-gray-600">
-                                    <span className="text-2xl">📅</span>
-                                    <span className="font-medium">
-                                        방문 날짜 :
-                                    </span>
-                                    <span className="font-bold text-gray-900">
-                                        {activeId
-                                            ? newVisitLogs
-                                                  .find(
-                                                      (v) => v.id === activeId
-                                                  )
-                                                  ?.createdAt.split("T")[0]
-                                            : ""}
-                                    </span>
-                                </p>
-                                <p className="flex items-center gap-3 text-gray-600">
-                                    <span className="text-2xl">⏰</span>
-                                    <span className="font-medium">
-                                        방문 시간 :
-                                    </span>
-                                    <span className="font-bold text-gray-900">
-                                        {activeId
-                                            ? newVisitLogs
-                                                  .find(
-                                                      (v) => v.id === activeId
-                                                  )
-                                                  ?.createdAt.split("T")[1]
-                                            : ""}
-                                    </span>
-                                </p>
-                            </div>
-
-                            {/* 우측: 금액 입력 및 금액 정보 */}
-                            <div className="flex-[2] flex flex-col gap-4 pl-6 md:pl-0 border-[#ccc]">
-                                {/* 금액 입력 */}
-
-                                <div className="w-full border-b-[#ccc] border-b pb-3">
-                                    <span className=" text-black font-bold text-2xl">
-                                        💵 금액입력
-                                    </span>
-                                </div>
-                                <div className="flex items-center w-full">
-                                    <input
-                                        type="number"
-                                        ref={inputRef}
-                                        value={amount}
-                                        onChange={handleAmountChange}
-                                        className="border border-[#ccc] rounded-lg w-full min-w-0 px-3 py-2 focus:outline-none focus:border-[#E61F2C] focus:ring-1 focus:ring-[#E61F2C] transition"
-                                        placeholder="금액 입력"
-                                    />
-                                </div>
-
-                                {/* 금액 요약 */}
-                                <div className="flex items-center bg-[#fafafa] rounded-md px-3 py-2 border border-[#eee] transition w-full">
-                                    <span className="w-28 text-gray-600 font-medium flex-shrink-0">
-                                        할인금액
-                                    </span>
-                                    <span className="flex-1 text-right font-bold text-gray-900">
-                                        {discount.toLocaleString()}원
-                                    </span>
-                                </div>
-
-                                <div className="flex items-center bg-[#fafafa] rounded-md px-3 py-2 border border-[#eee] transition w-full">
-                                    <span className="w-28 text-gray-600 font-medium flex-shrink-0">
-                                        결제금액
-                                    </span>
-                                    <span className="flex-1 text-right font-bold text-gray-900">
-                                        {payment.toLocaleString()}원
-                                    </span>
-                                </div>
-
-                                <div className="flex items-center bg-[#fafafa] rounded-md px-3 py-2 border border-[#eee] transition w-full">
-                                    <span className="w-28 text-gray-600 font-medium flex-shrink-0">
-                                        적용포인트
-                                    </span>
-                                    <span className="flex-1 text-right font-bold text-gray-900">
-                                        {points.toLocaleString()}P
-                                    </span>
-                                </div>
-
-                                {/* 버튼 */}
-                                <div className="mt-5 flex justify-end md:justify-center w-full">
-                                    <button
-                                        onClick={handleOrder}
-                                        className="bg-[#E61F2C] text-white px-6 py-3 rounded-xl font-semibold shadow-md hover:scale-105 hover:bg-red-600 active:scale-95 transition-transform duration-150"
-                                    >
-                                        결제 완료
-                                    </button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
                 {/* 신규 방문 기록 섹션 */}
                 <div className="w-full bg-[#FBFBFC] py-12">
                     <div className="w-full max-w-[880px] mx-auto px-4">
                         <div className="text-center mb-10">
                             <span className="font-semibold text-2xl">
-                                신규 방문(주문) 기록
+                                신규 방문(주문)
                             </span>
                         </div>
                         <div className="flex items-center justify-center">
@@ -539,6 +408,167 @@ function OwnerDashBoard() {
                                     </p>
                                 </section>
                             )}
+                        </div>
+                    </div>
+                </div>
+
+                <div
+                    className={`${
+                        activeId
+                            ? "fixed inset-0 z-50 flex items-center justify-center"
+                            : "hidden"
+                    }`}
+                >
+                    {/* 배경 딤 */}
+                    <div className="absolute inset-0 bg-black/70 backdrop-blur-md"></div>
+                    <div className="relative w-full max-w-[880px] mx-auto p-6 bg-[#FFF] rounded-[20px] shadow-2xl z-10 animate-fadeIn ">
+                        <div className="w-full max-w-[880px] mx-auto mb-8 md:mb-4">
+                            <span className="text-2xl font-bold text-[#E61F2C]">
+                                결제 처리
+                            </span>
+                            <span className="text-base font-semibold text-[#ccc]">
+                                {""} ※ 빠른 정산을 권장 드립니다.
+                            </span>
+                            <div className="border-b border-b-[#ccc] mt-3"></div>
+                        </div>
+                        <div className="relative w-full mb-5 max-w-[880px] mx-auto p-8 rounded-[20px] bg-gradient-to-br border-2 border-[#E61F2C]">
+                            <div className="flex flex-row md:flex-col w-full ">
+                                {/* 좌측: 고객 정보 */}
+                                <div className="flex-[1] flex flex-col last:border-r border-r-[#eee] md:border-r-0 md:pb-6">
+                                    <p className="mb-10 xs:mb-5 xxs:mb-5 flex items-center gap-3 border-b-[#ccc] border-b pb-3">
+                                        <span className="text-2xl">🪑</span>
+                                        <span className="font-bold text-2xl">
+                                            테이블 번호 : {""}
+                                            {activeId
+                                                ? newVisitLogs.find(
+                                                      (v) => v.id === activeId
+                                                  )?.storeTableId
+                                                : ""}
+                                        </span>
+                                    </p>
+
+                                    <p className="mb-10 xs:mb-5 xxs:mb-5 flex items-center gap-3 text-gray-600">
+                                        <span className="text-2xl">👤</span>
+                                        <span className="font-medium">
+                                            고객 이름 :
+                                        </span>
+                                        <span className="font-bold text-gray-900">
+                                            {activeId
+                                                ? newVisitLogs.find(
+                                                      (v) => v.id === activeId
+                                                  )?.memberName
+                                                : ""}
+                                        </span>
+                                    </p>
+                                    <p className="mb-10 xs:mb-5 xxs:mb-5 flex items-center gap-3 text-gray-600">
+                                        <span className="text-2xl">📅</span>
+                                        <span className="font-medium">
+                                            방문 날짜 :
+                                        </span>
+                                        <span className="font-bold text-gray-900">
+                                            {activeId
+                                                ? newVisitLogs
+                                                      .find(
+                                                          (v) =>
+                                                              v.id === activeId
+                                                      )
+                                                      ?.createdAt.split("T")[0]
+                                                : ""}
+                                        </span>
+                                    </p>
+                                    <p className="flex items-center gap-3 text-gray-600">
+                                        <span className="text-2xl">⏰</span>
+                                        <span className="font-medium">
+                                            방문 시간 :
+                                        </span>
+                                        <span className="font-bold text-gray-900">
+                                            {activeId
+                                                ? newVisitLogs
+                                                      .find(
+                                                          (v) =>
+                                                              v.id === activeId
+                                                      )
+                                                      ?.createdAt.split("T")[1]
+                                                : ""}
+                                        </span>
+                                    </p>
+
+                                    {/* 버튼 */}
+                                    <div className="mt-12  md:justify-center w-full md:hidden block">
+                                        <button
+                                            onClick={closeClick}
+                                            className="bg-[#fff] text-[#E61F2C] border-[#E61F2C] border px-6 py-3 rounded-xl font-semibold active:scale-95 transition-transform duration-150 mr-5"
+                                        >
+                                            닫기
+                                        </button>
+                                    </div>
+                                </div>
+
+                                {/* 우측: 금액 입력 및 금액 정보 */}
+                                <div className="flex-[2] flex flex-col gap-4 pl-6 md:pl-0 border-[#ccc]">
+                                    {/* 금액 입력 */}
+
+                                    <div className="w-full border-b-[#ccc] border-b pb-3">
+                                        <span className=" text-black font-bold text-2xl">
+                                            💵 금액입력
+                                        </span>
+                                    </div>
+                                    <div className="flex items-center w-full">
+                                        <input
+                                            type="number"
+                                            ref={inputRef}
+                                            value={amount}
+                                            onChange={handleAmountChange}
+                                            className="border border-[#ccc] rounded-lg w-full min-w-0 px-3 py-2 focus:outline-none focus:border-[#E61F2C] focus:ring-1 focus:ring-[#E61F2C] transition"
+                                            placeholder="금액 입력"
+                                        />
+                                    </div>
+
+                                    {/* 금액 요약 */}
+                                    <div className="flex items-center bg-[#fafafa] rounded-md px-3 py-2 border border-[#eee] transition w-full">
+                                        <span className="w-28 text-gray-600 font-medium flex-shrink-0">
+                                            할인금액
+                                        </span>
+                                        <span className="flex-1 text-right font-bold text-gray-900">
+                                            {discount.toLocaleString()}원
+                                        </span>
+                                    </div>
+
+                                    <div className="flex items-center bg-[#fafafa] rounded-md px-3 py-2 border border-[#eee] transition w-full">
+                                        <span className="w-28 text-gray-600 font-medium flex-shrink-0">
+                                            결제금액
+                                        </span>
+                                        <span className="flex-1 text-right font-bold text-gray-900">
+                                            {payment.toLocaleString()}원
+                                        </span>
+                                    </div>
+
+                                    <div className="flex items-center bg-[#fafafa] rounded-md px-3 py-2 border border-[#eee] transition w-full">
+                                        <span className="w-28 text-gray-600 font-medium flex-shrink-0">
+                                            적용포인트
+                                        </span>
+                                        <span className="flex-1 text-right font-bold text-gray-900">
+                                            {points.toLocaleString()}P
+                                        </span>
+                                    </div>
+
+                                    {/* 버튼 */}
+                                    <div className="mt-5 flex justify-end md:justify-center w-full">
+                                        <button
+                                            onClick={closeClick}
+                                            className="md:block hidden bg-[#fff] text-[#E61F2C] border-[#E61F2C] border px-6 py-3 rounded-xl font-semibold active:scale-95 transition-transform duration-150 mr-5"
+                                        >
+                                            닫기
+                                        </button>
+                                        <button
+                                            onClick={handleOrder}
+                                            className="bg-[#E61F2C] text-white px-6 py-3 rounded-xl font-semibold shadow-md hover:scale-105 hover:bg-red-600 active:scale-95 transition-transform duration-150"
+                                        >
+                                            결제 완료
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
