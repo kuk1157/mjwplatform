@@ -94,6 +94,25 @@ const DidLoginButton = ({ storeNum, tableNumber }: DidLoginButtonProps) => {
                             callbackFunc: "handleDidLogin",
                         };
                         window.didLogin?.loginPopup(data);
+
+                        // Fallback: 앱이 없을 때 스토어로 이동
+                        const timer = setTimeout(() => {
+                            if (/Android/i.test(navigator.userAgent)) {
+                                window.location.href =
+                                    "https://play.google.com/store/apps/details?id=com.dreamsecurity.daegudid";
+                            } else if (
+                                /iPhone|iPad|iPod/i.test(navigator.userAgent)
+                            ) {
+                                window.location.href =
+                                    "https://apps.apple.com/kr/app/%EB%8B%A4%EB%8C%80%EA%B5%AC/id1565818679";
+                            }
+                        }, 1200);
+
+                        document.addEventListener("visibilitychange", () => {
+                            if (document.hidden) {
+                                clearTimeout(timer);
+                            }
+                        });
                     };
                 } else {
                     console.error("window.didLogin is still undefined!");
