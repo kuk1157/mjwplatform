@@ -1,5 +1,6 @@
 package com.pudding.base.domain.point.controller;
 
+import com.pudding.base.domain.common.dto.SearchDateDto;
 import com.pudding.base.domain.point.dto.PointDto;
 import com.pudding.base.domain.point.service.PointService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -9,17 +10,16 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import org.springframework.data.domain.Pageable;
+
+import java.time.LocalDate;
 
 @Tag(name = "포인트 관련 api", description = "포인트 관련 전체 api")
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/api/v1/point")
+@RequestMapping("/api/v1/points")
 public class PointController {
 
     private final PointService pointService;
@@ -38,5 +38,19 @@ public class PointController {
         return ResponseEntity.ok(pointDto);
     }
 
+//    @Operation(summary = "구매/결제 통계(구매신청 전체데이터)", description = "전체 데이터 count(검색 항목 4가지 포함)")
+//    @GetMapping("/admin/analytics/point")
+//    public ResponseEntity<SearchDateDto> paymentCount(@RequestParam(required = false) LocalDate start, @RequestParam(required = false) LocalDate end) {
+//
+//        if(start == null){
+//            start = LocalDate.of(1900,1,1);
+//        }
+//        if(end == null){
+//            end = LocalDate.of(9999,12,31);
+//        }
+//
+//        SearchDateDto searchDateDto = pointService.pointCount(start,end);
+//        return ResponseEntity.ok(searchDateDto);
+//    }
 
 }

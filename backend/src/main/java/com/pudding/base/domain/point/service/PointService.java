@@ -1,8 +1,11 @@
 package com.pudding.base.domain.point.service;
 
+import com.pudding.base.domain.common.dto.SearchDateDto;
 import com.pudding.base.domain.point.dto.PointDto;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+
+import java.time.LocalDate;
 
 public interface PointService {
 
@@ -11,4 +14,7 @@ public interface PointService {
 
     // 점주 포인트 조회
     Page<PointDto> findByOwnerIdPoint(Pageable pageable, Integer ownerID);
+
+//    // 포인트 통계 (포인트, 주문금액)
+//    SearchDateDto pointCount(LocalDate start, LocalDate end);
 }
