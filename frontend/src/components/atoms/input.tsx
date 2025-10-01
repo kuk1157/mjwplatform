@@ -1,6 +1,7 @@
 import React from "react";
 import { cn } from "../../utils/tailwindMerge";
 import "react-datepicker/dist/react-datepicker.css";
+import { DateCalendar } from "../molecules/dateCalendar";
 
 interface InputProps extends React.InputHTMLAttributes<HTMLInputElement> {
     title: string;
@@ -100,6 +101,144 @@ const InfoRadioInput = React.forwardRef<HTMLInputElement, RadioProps>(
         );
     }
 );
+
+interface DateInputProps extends React.InputHTMLAttributes<HTMLInputElement> {
+    title: string;
+    selected: Date | null;
+    handleChange: (date: Date | null) => void;
+    titleClass?: string;
+    className?: string;
+    placeholderText: string;
+    dateClassName?: string;
+    disabled?: boolean;
+}
+
+const DateInput = React.forwardRef<HTMLInputElement, DateInputProps>(
+    (
+        {
+            selected,
+            handleChange,
+            placeholderText,
+            className,
+            dateClassName,
+            disabled,
+        },
+        ref
+    ) => {
+        const [isOpen, setIsOpen] = React.useState(false);
+
+        const toggleCalendar = () => {
+            setIsOpen(!isOpen);
+        };
+        return (
+            <div
+                className={
+                    "w-full flex items-center md:w-full xs:flex-col xs:items-start xs:gap-1 relative "
+                }
+                ref={ref}
+            >
+                <div
+                    className={cn(
+                        `w-full h-[35px] border border-[#D6D6D6] px-[15px] rounded-[5px]  text-[#333] text-[17px] xs:text-[13px] focus:outline-none flex items-center`,
+                        className
+                    )}
+                >
+                    <DateCalendar
+                        selected={selected}
+                        changeHandler={handleChange}
+                        // className={className}
+                        dateClassName={dateClassName}
+                        placeholderText={placeholderText}
+                        disabled={disabled}
+                        isOpen={isOpen}
+                        setIsOpen={setIsOpen}
+                    />
+                </div>
+                <button
+                    className="absolute right-3 xs:bottom-[10px]"
+                    onClick={disabled ? undefined : toggleCalendar}
+                >
+                    <img src="/assets/icon/calender.svg" alt="" />
+                </button>
+            </div>
+        );
+    }
+);
+
+interface DateRangeInputProps
+    extends React.InputHTMLAttributes<HTMLInputElement> {
+    title: string;
+    startSelected: Date | null;
+    handleStart: (date: Date | null) => void;
+    endSelected: Date | null;
+    handleEnd: (date: Date | null) => void;
+    startPlaceholder: string;
+    endPlaceholder: string;
+}
+const DateRangeInput = ({
+    title,
+    startSelected,
+    handleStart,
+    endSelected,
+    handleEnd,
+    startPlaceholder,
+    endPlaceholder,
+}: DateRangeInputProps) => {
+    const [isStartOpen, setIsStartOpen] = React.useState(false);
+    const [isEndOpen, setIsEndOpen] = React.useState(false);
+
+    return (
+        <div className="w-full flex items-center md:w-full xs:flex-col xs:items-start xs:gap-1">
+            <p className="text-[17px] leading-[18px] tracking-[-0.6px] xs:text-[11px] font-semibold min-w-[80px] xs:min-w-[60px] text-[#333]">
+                {title}
+            </p>
+            <div className="w-full flex gap-[10px] items-center">
+                <div className="w-full relative">
+                    <div
+                        className={`w-full h-[35px] border border-[#D6D6D6] px-[15px] rounded-[5px] text-[#333] placeholder:text-[#333] text-[15px] xs:text-[13px] focus:outline-none flex items-center`}
+                    >
+                        <DateCalendar
+                            selected={startSelected}
+                            changeHandler={handleStart}
+                            // className={className}
+                            placeholderText={startPlaceholder}
+                            isOpen={isStartOpen}
+                            setIsOpen={setIsStartOpen}
+                        />
+                    </div>
+                    <button
+                        className="absolute top-[10px] right-3 xs:bottom-[10px]"
+                        onClick={() => setIsStartOpen(true)}
+                    >
+                        <img src="/assets/icon/calender.svg" alt="" />
+                    </button>
+                </div>
+                <span>~</span>
+                <div className="w-full relative">
+                    <div
+                        className={`w-full h-[35px] border border-[#D6D6D6] px-[15px] rounded-[5px] text-[#333] placeholder:text-[#333] text-[15px] xs:text-[13px] focus:outline-none flex items-center`}
+                    >
+                        <DateCalendar
+                            selected={endSelected}
+                            changeHandler={handleEnd}
+                            // className={className}
+                            placeholderText={endPlaceholder}
+                            isOpen={isEndOpen}
+                            setIsOpen={setIsEndOpen}
+                        />
+                    </div>
+                    <button
+                        className="absolute top-[10px] right-3 xs:bottom-[10px]"
+                        onClick={() => setIsEndOpen(true)}
+                    >
+                        <img src="/assets/icon/calender.svg" alt="" />
+                    </button>
+                </div>
+            </div>
+        </div>
+    );
+};
+
 interface NumberInputProps extends React.InputHTMLAttributes<HTMLInputElement> {
     title: string;
     count: number;
@@ -177,4 +316,11 @@ const TextArea = React.forwardRef<HTMLTextAreaElement, TextAreaProps>(
 );
 InfoInput.displayName = "InfoInput";
 
-export { InfoInput, InfoRadioInput, NumberInput, TextArea };
+export {
+    InfoInput,
+    InfoRadioInput,
+    DateInput,
+    DateRangeInput,
+    NumberInput,
+    TextArea,
+};
