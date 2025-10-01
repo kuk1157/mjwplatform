@@ -49,6 +49,33 @@ const AdminMenuList = [
         seq: 3,
         is_active: "Y",
     },
+
+    {
+        id: 6,
+        name: "통계",
+        path: "/admin/store",
+        parent_id: null,
+        seq: 3,
+        is_active: "Y",
+    },
+
+    {
+        id: 7,
+        name: "접속 통계",
+        path: "/admin/analytics/trafficAnalytics",
+        parent_id: 6,
+        seq: 3,
+        is_active: "Y",
+    },
+
+    {
+        id: 8,
+        name: "포인트 통계",
+        path: "/admin/analytics/pointAnalytics",
+        parent_id: 6,
+        seq: 3,
+        is_active: "Y",
+    },
 ];
 
 const UserRoleList = [

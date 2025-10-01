@@ -134,6 +134,16 @@ const AdminStoreTableDetail = Loadable({
     Component: lazy(() => import("../components/pages/admin/storeTableDetail")),
 });
 
+// 통계 - 접속 통계
+const AdminTrafficAnalyticsPage = Loadable({
+    Component: lazy(() => import("../components/pages/admin/trafficAnalytics")),
+});
+
+// 통계 - 포인트 통계
+const AdminPointAnalyticsPage = Loadable({
+    Component: lazy(() => import("../components/pages/admin/pointAnalytics")),
+});
+
 // [ 메인에서 곧바로 진행되는 페이지들 ] - 곧 정리할 예정
 
 // PC - 고객 매장선택 페이지
@@ -435,6 +445,19 @@ const Router = createBrowserRouter([
             {
                 path: "/admin/store/:storeId/storeTableDetail/:id",
                 element: <AdminStoreTableDetail />,
+            },
+
+            // 통계)
+            // 접속 통계
+            {
+                path: "/admin/analytics/trafficAnalytics",
+                element: <AdminTrafficAnalyticsPage />,
+            },
+
+            // 포인트 통계
+            {
+                path: "/admin/analytics/pointAnalytics",
+                element: <AdminPointAnalyticsPage />,
             },
 
             // {
