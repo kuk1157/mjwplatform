@@ -10,6 +10,7 @@ import com.pudding.base.domain.auth.dto.AuthResponseDto;
 import com.pudding.base.domain.auth.dto.DidLoginResponseDto;
 import com.pudding.base.domain.auth.entity.Auth;
 import com.pudding.base.domain.auth.repository.AuthRepository;
+import com.pudding.base.domain.common.enums.ActType;
 import com.pudding.base.domain.common.enums.IsActive;
 import com.pudding.base.domain.common.enums.IsPaymentStatus;
 import com.pudding.base.domain.common.enums.IsVisitStatus;
@@ -19,6 +20,8 @@ import com.pudding.base.domain.customer.repository.CustomerRepository;
 import com.pudding.base.domain.member.entity.Member;
 import com.pudding.base.domain.member.enums.Role;
 import com.pudding.base.domain.member.repository.MemberRepository;
+import com.pudding.base.domain.memberLog.entity.MemberLog;
+import com.pudding.base.domain.memberLog.repository.MemberLogRepository;
 import com.pudding.base.domain.nft.entity.Nft;
 import com.pudding.base.domain.nft.service.NftService;
 import com.pudding.base.domain.store.entity.Store;
@@ -62,6 +65,7 @@ public class AuthServiceImpl implements AuthService {
     private final ObjectMapper objectMapper;
     private final NftService nftService;
     private final EncMetaManager encMetaManager;
+    private final MemberLogRepository memberLogRepository;
 
     @Override
     @Transactional
@@ -318,6 +322,14 @@ public class AuthServiceImpl implements AuthService {
         }
 
         AuthResponseDto authResponseDto = new AuthResponseDto(auth);
+
+        // 활동기록 객체 생성
+        MemberLog memberLog = MemberLog.builder()
+                .memberId(member.getId())
+                .actType(ActType.LOGIN)
+                .build();
+        // 활동기록 등록
+        memberLogRepository.save(memberLog);
         return new DidLoginResponseDto(authResponseDto, visitLogDto.getCustomerId());
     }
 
@@ -357,6 +369,15 @@ public class AuthServiceImpl implements AuthService {
                     .refreshToken(refreshToken)
                     .build());
         }
+
+        // 활동기록 객체 생성
+        MemberLog memberLog = MemberLog.builder()
+                .memberId(member.getId())
+                .actType(ActType.LOGIN)
+                .build();
+        // 활동기록 등록
+        memberLogRepository.save(memberLog);
+
 
         return new AuthResponseDto(auth);
     }
