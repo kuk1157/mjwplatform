@@ -34,6 +34,15 @@ public class Store {
     @Schema(description = "매장 주소")
     private String address;
 
+    // 파일업로드 1개용 썸네일 컬럼
+    @Column(name = "thumbnail")
+    private String thumbnail;
+
+    // 파일업로드 1개용 확장자 컬럼
+    @Column(name = "extension")
+    private String extension;
+
+
     @Column(name = "nft_contract")
     @Schema(description = "nft 계약주소")
     private String nftContract;
@@ -66,5 +75,15 @@ public class Store {
     public void updateStoreInfo(String name, String address){
         this.name = name;
         this.address = address;
+    }
+
+    // 파일업로드 1개용 썸네일 컬럼
+    public void updateThumbnail(String thumbnail){
+        this.thumbnail = thumbnail;
+    }
+
+    // 파일업로드 1개용 확장자 컬럼
+    public void updateExtension(String extension){
+        this.extension = extension;
     }
 }

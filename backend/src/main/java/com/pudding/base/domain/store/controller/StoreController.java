@@ -2,6 +2,8 @@ package com.pudding.base.domain.store.controller;
 
 import com.pudding.base.domain.member.dto.MemberDto;
 import com.pudding.base.domain.store.dto.StoreDto;
+import com.pudding.base.domain.store.dto.StoreRequestDto;
+import com.pudding.base.domain.store.dto.StoreUpdateDto;
 import com.pudding.base.domain.store.service.StoreService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -16,6 +18,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
@@ -34,16 +37,18 @@ public class StoreController {
     })
     @Operation(summary = "매장(store) 등록", description = "관리자 전산에서 매장 등록")
     @PostMapping
-    public ResponseEntity<StoreDto> createStore(@RequestBody StoreDto.Request storeDto){
-        StoreDto createStore = storeService.createStore(storeDto);
+    public ResponseEntity<StoreDto> createStore(@RequestParam("ownerId") Integer ownerId, @RequestParam("name") String name, @RequestParam("address") String address, @RequestParam(value = "file", required = false) MultipartFile file){
+        StoreRequestDto storeRequestDto = new StoreRequestDto(ownerId, name, address);
+        StoreDto createStore = storeService.createStore(storeRequestDto, file);
         return ResponseEntity.ok(createStore);
     }
 
-
-    @Operation(summary = "매장(store) 수정", description = "관리자 전산에서 매장 수정(매장이름, 매장주소만 가능)")
-    @PatchMapping("/{id}")
-    public ResponseEntity<StoreDto> updateStore(@RequestBody StoreDto.Request storeDto, @PathVariable Integer id){
-        StoreDto updateStore = storeService.updateStore(storeDto, id);
+    @Operation(summary = "매장(store) 수정", description = "관리자 전산에서 매장 수정(매장이름, 매장주소, 썸네일만 가능)")
+    @PutMapping("/{id}")
+    public ResponseEntity<StoreDto> updateStore(@RequestParam("name") String name, @RequestParam("address") String address,
+                                                @PathVariable Integer id, @RequestParam(value = "file", required = false) MultipartFile file){
+        StoreUpdateDto storeUpdateDto = new StoreUpdateDto(name, address);
+        StoreDto updateStore = storeService.updateStore(storeUpdateDto, id, file);
         return ResponseEntity.ok(updateStore);
     }
 

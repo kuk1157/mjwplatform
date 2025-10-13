@@ -2,8 +2,11 @@ package com.pudding.base.domain.store.service;
 
 import com.pudding.base.domain.member.dto.MemberDto;
 import com.pudding.base.domain.store.dto.StoreDto;
+import com.pudding.base.domain.store.dto.StoreRequestDto;
+import com.pudding.base.domain.store.dto.StoreUpdateDto;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
@@ -13,10 +16,10 @@ public interface StoreService {
     Page<StoreDto> getAllStore(Pageable pageable, String keyword);
 
     // 매장(store) 등록
-    StoreDto createStore(StoreDto.Request storeDto);
+    StoreDto createStore(StoreRequestDto storeRequestDto, MultipartFile file);
 
     // 매장(store) 수정
-    StoreDto updateStore(StoreDto.Request storeDto, Integer id);
+    StoreDto updateStore(StoreUpdateDto storeUpdateDto, Integer id, MultipartFile file);
 
     // 매장(store) 상세 조회
     StoreDto findStoreById(Integer id);
