@@ -53,7 +53,7 @@ const AdminMenuList = [
     {
         id: 6,
         name: "통계",
-        path: "/admin/store",
+        path: "/admin/analytics/trafficAnalytics",
         parent_id: null,
         seq: 3,
         is_active: "Y",

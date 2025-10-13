@@ -53,16 +53,22 @@ export function Store() {
         {
             key: "ownerName",
             value: "점주 이름",
-            width: "20%",
+            width: "10%",
         },
         {
             key: "name",
             value: "매장 이름",
-            width: "20%",
+            width: "10%",
         },
         {
             key: "address",
             value: "주소",
+            width: "20%",
+        },
+
+        {
+            key: "thumbnail",
+            value: "썸네일",
             width: "30%",
         },
 

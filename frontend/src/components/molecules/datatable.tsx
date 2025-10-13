@@ -19,6 +19,7 @@ import { sortState } from "src/recoil/sortState";
 // import { UserRoleList } from "src/constants/index";
 import { cdn } from "src/constans"; // 공지사항 첨부파일 경로 참조
 import { noticeFolder } from "src/constans"; // 공지사항 첨부파일 경로 참조
+import { storeFolder } from "src/constans"; // 가맹점 첨부파일 경로 참조
 // import parse from "html-react-parser"; // 공지사항 내용 html 태그 적용
 
 export const DataTable = ({
@@ -193,8 +194,11 @@ export const DataTable = ({
         // const thumbnailUrl = pTagRemove(row.description);
         // console.log("내용과 이미지분리" + thumbnailUrl);
 
-        // 최종 썸네일 가공
-        const fileUrl = `${cdn}/${noticeFolder}/${row.uuid}/${row.thumbnail}${row.extension}`;
+        // 공지사항 최종 썸네일 가공
+        const noticefileUrl = `${cdn}/${noticeFolder}/${row.uuid}/${row.thumbnail}${row.extension}`;
+
+        // 가맹점 썸네일 가공
+        const storefileUrl = `${cdn}/${storeFolder}/${row.thumbnail}${row.extension}`;
 
         switch (type) {
             case "notice":
@@ -306,7 +310,7 @@ export const DataTable = ({
                     case "description": // 내용 추가
                         return row.thumbnail ? (
                             <img
-                                src={fileUrl}
+                                src={noticefileUrl}
                                 className="w-24 inline-block"
                                 alt="thumbnail"
                             />
@@ -347,6 +351,16 @@ export const DataTable = ({
             // 매장 관리 상세보기 버튼
             case "admin_store":
                 switch (column.key) {
+                    case "thumbnail": // 내용 추가
+                        return row.thumbnail ? (
+                            <img
+                                src={storefileUrl}
+                                className="w-24 inline-block"
+                                alt="thumbnail"
+                            />
+                        ) : (
+                            <span>썸네일 없음(추가된 기능)</span>
+                        );
                     case "detail":
                         return (
                             <Button

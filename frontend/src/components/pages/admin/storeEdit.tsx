@@ -7,6 +7,9 @@ import { LabelDetail } from "src/components/atoms/labelDetail";
 import { StoreDetailType } from "src/types";
 import { AxiosError } from "axios";
 
+import { cdn } from "src/constans"; // 네이버 클라우드 경로
+import { storeFolder } from "src/constans"; // 매장관리 첨부파일 경로
+
 function StoreEdit() {
     // 썸네일 관련 상태 (등록폼과 동일)
     const [thumbnailFile, setThumbnailFile] = useState<File | null>(null);
@@ -34,7 +37,20 @@ function StoreEdit() {
     useEffect(() => {
         if (id) {
             UserApi.get(`/api/v1/stores/${id}`)
-                .then((res) => setStore(res.data))
+                .then((res) => {
+                    setStore(res.data);
+                    const thumbnail = res.data.thumbnail;
+                    const extension = res.data.extension;
+                    if (thumbnail) {
+                        // 첨부파일 최종경로
+                        const fileUrl = `${cdn}/${storeFolder}/${thumbnail}${extension}`;
+                        setThumbnail(fileUrl);
+                    } else {
+                        // 이미지 미리보기 경로 세팅
+                        setThumbnail("");
+                    }
+                })
+
                 .catch((err) => {
                     console.error("매장 정보를 불러오는 데 실패했습니다.", err);
                     alert("데이터 로딩 실패");
@@ -112,7 +128,7 @@ function StoreEdit() {
             </h2>
             <div className="w-full bg-white p-10 rounded-xl shadow">
                 <h2 className="text-3xl font-bold text-gray-800 mb-8 border-b pb-4">
-                    매장 상세 정보
+                    매장 수정 정보
                 </h2>
 
                 <div className="grid gap-x-16 gap-y-6">
