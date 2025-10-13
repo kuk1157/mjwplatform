@@ -1,6 +1,17 @@
 import { MainContainer } from "../molecules/container";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Navigation, Autoplay } from "swiper/modules";
+
+import { useEffect, useState } from "react";
+import { NoticeDataType } from "src/types";
+import { StoreType } from "src/types";
+import { useQuery } from "react-query";
+import axios from "axios";
+import { cdn } from "src/constans";
+import { storeFolder } from "src/constans";
+// import { UserApi } from "src/utils/userApi";
+// import { useRecoilValue } from "recoil";
+
 // import { useNavigate } from "react-router-dom";
 import "swiper/css";
 import "swiper/css/navigation";
@@ -32,6 +43,42 @@ const customSwiperStyle = `
 `;
 
 function MainPage() {
+    const [noticefilteredData, setNoticeFilteredData] = useState<
+        NoticeDataType[]
+    >([]); // 필터링된 데이터
+    const [storefilteredData, setStoreFilteredData] = useState<StoreType[]>([]); // 필터링된 데이터
+
+    const itemsPerPage = 3;
+    const { data: noticeData, isFetching: noticeLoading } = useQuery({
+        queryKey: ["noticeList"],
+        queryFn: async () => {
+            // size=3로 고정
+            const res = await axios.get(`/api/v1/notice?size=${itemsPerPage}`);
+            return res.data;
+        },
+        refetchOnWindowFocus: false,
+    });
+
+    useEffect(() => {
+        if (!noticeLoading && noticeData) {
+            setNoticeFilteredData(noticeData.content);
+        }
+    }, [noticeData, noticeLoading]);
+
+    const { data: storeData, isFetching: storeLoading } = useQuery({
+        queryKey: ["storeList"],
+        queryFn: async () => {
+            const res = await axios.get("/api/v1/stores"); // 각 가맹점 정보 포함
+            return res.data;
+        },
+        refetchOnWindowFocus: false,
+    });
+
+    useEffect(() => {
+        if (!storeLoading && storeData) {
+            setStoreFilteredData(storeData.content);
+        }
+    }, [storeData, storeLoading]);
     // 위에 배너 슬라이드
     const images = [
         "/public/assets/image/mainTitle.png",
@@ -41,8 +88,8 @@ function MainPage() {
         "/public/assets/image/mainTitle.png",
     ];
 
-    // 가로 메인 이미지
-    const imageSrc = "/public/assets/image/mainStore.png";
+    // // 가로 메인 이미지
+    // const imageSrc = "/public/assets/image/mainStore.png";
 
     // 점주 결제 목록 조회 페이지로 이동
     const btn1 = () => {
@@ -85,7 +132,6 @@ function MainPage() {
                                         </SwiperSlide>
                                     ))}
                                 </Swiper>
-                                {/* 👇 깔끔하게 상단 정의한 스타일 삽입 */}
                                 <style>{customSwiperStyle}</style>
                             </div>
 
@@ -132,44 +178,49 @@ function MainPage() {
                         </div>
 
                         {/* 두번째 영역 */}
-
                         <div className="w-full overflow-hidden mt-16">
                             <Swiper
-                                modules={[Autoplay]}
-                                slidesPerView={1}
-                                loop={true}
-                                autoplay={{
-                                    delay: 0,
-                                    disableOnInteraction: false,
-                                }}
-                                speed={18000} // 이미지가 길수록 속도 조절
-                                spaceBetween={20} // 슬라이드 사이 간격 20px
+                                slidesPerView="auto"
+                                spaceBetween={20}
+                                loop={storefilteredData?.length * 350 > 1600} // 영역 넘어가면 loop
+                                autoplay={
+                                    storefilteredData?.length * 350 > 1600
+                                        ? {
+                                              delay: 0,
+                                              disableOnInteraction: false,
+                                          }
+                                        : false
+                                }
                             >
-                                <SwiperSlide>
-                                    <img
-                                        src={imageSrc}
-                                        alt="슬라이드1"
-                                        className="w-screen h-auto block"
-                                    />
-                                </SwiperSlide>
-                                <SwiperSlide>
-                                    <img
-                                        src={imageSrc}
-                                        alt="슬라이드2"
-                                        className="w-screen h-auto block"
-                                    />
-                                </SwiperSlide>
+                                {storefilteredData?.map((store, idx) => {
+                                    const src = `${cdn}/${storeFolder}/${store.thumbnail}${store.extension}`;
+                                    return (
+                                        <SwiperSlide
+                                            key={idx}
+                                            style={{ width: 350 }}
+                                        >
+                                            <div className="relative w-full h-[150px]">
+                                                {/* 가맹점 이름 오버레이 */}
+                                                <div className="absolute bottom-2 left-2 font-bold border border-[#580098] text-[#580098] px-2 py-1 rounded-md text-sm">
+                                                    {store.name}
+                                                </div>
+                                                {store.thumbnail ? (
+                                                    <img
+                                                        src={src}
+                                                        alt={`가게 ${store.name}`}
+                                                        className="w-full h-full object-cover rounded-xl"
+                                                    />
+                                                ) : (
+                                                    <div className="text-center items-center">
+                                                        썸네일 없음
+                                                    </div>
+                                                )}
+                                            </div>
+                                        </SwiperSlide>
+                                    );
+                                })}
                             </Swiper>
                         </div>
-                        {/* 
-                        <div className="w-full flex mt-16">
-                            <div className="w-[1600px]">
-                                <img
-                                    src="/public/assets/image/mainStore.png"
-                                    alt="가맹점 슬라이드 이미지"
-                                ></img>
-                            </div>
-                        </div> */}
 
                         {/* 세번째 영역 */}
                         <div className="w-full flex mt-16">
@@ -180,33 +231,27 @@ function MainPage() {
                                 </div>
                                 <div className="flex flex-col p-5 font-normal">
                                     <div className="flex flex-col">
-                                        <div className="flex p-2 border-b border-[#580098] ">
-                                            <span className="bg-[#580098] w-14 text-[#fff] text-center rounded-md mr-4">
-                                                공지
-                                            </span>
-                                            <span>
-                                                웹 사이트 주소가 변경
-                                                되었습니다.
-                                            </span>
-                                        </div>
-                                        <div className="flex p-2 border-b border-[#580098]">
-                                            <span className="bg-[#580098] w-14 text-[#fff] text-center rounded-md mr-4">
-                                                공지
-                                            </span>
-                                            <span>
-                                                메인페이지엔 3개의 공지사항만 볼
-                                                수 있습니다.
-                                            </span>
-                                        </div>
-                                        <div className="flex p-2">
-                                            <span className="bg-[#580098] w-14 text-[#fff] text-center rounded-md mr-4">
-                                                공지
-                                            </span>
-                                            <span>
-                                                동터 상인회 전체 이번 한달
-                                                쉽니다. 그동안 너무 고생해서요.
-                                            </span>
-                                        </div>
+                                        {noticefilteredData.length > 0 ? (
+                                            noticefilteredData.map(
+                                                (notice, idx) => (
+                                                    <div
+                                                        key={idx}
+                                                        className="flex p-2 border-b border-[#580098]"
+                                                    >
+                                                        <span className="bg-[#580098] w-14 text-[#fff] text-center rounded-md mr-4">
+                                                            공지
+                                                        </span>
+                                                        <span>
+                                                            {notice.title}
+                                                        </span>
+                                                    </div>
+                                                )
+                                            )
+                                        ) : (
+                                            <div className="p-2 text-gray-400">
+                                                공지사항이 없습니다.
+                                            </div>
+                                        )}
                                     </div>
                                 </div>
                             </div>
@@ -264,11 +309,6 @@ function MainPage() {
                                 </button> */}
                             </div>
                         </div>
-                    </div>
-
-                    <div className="w-full mx-auto p-4 ">
-                        {/* 메인 슬라이드 및 포인트 영역 */}
-                        <div></div>
                     </div>
                 </div>
             </div>

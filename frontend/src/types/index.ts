@@ -135,6 +135,8 @@ export interface StoreType {
     ownerId: number;
     name?: string;
     address?: string;
+    thumbnail: string;
+    extension: string;
 }
 
 // 매장(store) 정보 상세조회용..
