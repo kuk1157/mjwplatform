@@ -10,6 +10,19 @@ import { AxiosError } from "axios";
 export function StoreCreate() {
     const navigate = useNavigate();
 
+    const [thumbnailFile, setThumbnailFile] = useState<File | null>(null);
+    const [thumbnail, setThumbnail] = useState<string | undefined>();
+
+    const handleThumbnailChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const file = e.target.files?.[0];
+        if (!file) return;
+
+        setThumbnailFile(file); // 실제 서버 업로드용
+        const reader = new FileReader();
+        reader.onloadend = () => setThumbnail(reader.result as string); // 미리보기용
+        reader.readAsDataURL(file);
+    };
+
     interface Owner {
         id: number;
         name: string;
@@ -19,6 +32,7 @@ export function StoreCreate() {
         name: "",
         ownerId: "",
         address: "",
+        thumbnail: "",
     });
 
     const [owners, setOwners] = useState<Owner[]>([]);
@@ -73,11 +87,19 @@ export function StoreCreate() {
             return;
         }
 
+        if (!thumbnailFile) {
+            alert("썸네일을 첨부해주세요.");
+            return;
+        }
+
+        const form = new FormData();
+        form.append("file", thumbnailFile); // 실제 파일 업로드
+        form.append("ownerId", formData.ownerId);
+        form.append("name", formData.name);
+        form.append("address", formData.address);
         try {
-            await UserApi.post("/api/v1/stores", {
-                ownerId: formData.ownerId,
-                name: formData.name,
-                address: formData.address,
+            await UserApi.post("/api/v1/stores", form, {
+                headers: { "Content-Type": "multipart/form-data" },
             });
             alert("매장 등록이 완료되었습니다.");
             navigate("/admin/store");
@@ -112,7 +134,7 @@ export function StoreCreate() {
                 </h2>
                 <div className="grid grid-cols-1 gap-y-6">
                     <div className="flex items-center gap-2">
-                        <span className="w-32">점주선택</span>
+                        <span className="w-32 text-[#374151]">점주선택</span>
                         <select
                             name="ownerId"
                             value={formData.ownerId}
@@ -143,6 +165,41 @@ export function StoreCreate() {
                         name="address"
                         onChange={handleChange}
                     />
+
+                    {handleThumbnailChange && (
+                        <div className="w-full flex items-center lg:text-sm xs:text-[13px] xs:flex-col gap-[20px]">
+                            <p className="text-base font-semibold mb-5 mr-20 text-nowrap text-[#374151]">
+                                썸네일
+                            </p>
+                            <div className="flex w-full flex-col xs:ml-6 xs:mt-5">
+                                <input
+                                    type="file"
+                                    className="w-full border border-[#D6D6D6] rounded-[5px] max-w-[800px] p-4 mb-5"
+                                    onChange={handleThumbnailChange}
+                                    accept="image/*"
+                                />
+                                {thumbnail && (
+                                    <img
+                                        src={thumbnail}
+                                        alt=""
+                                        className="w-[400px] h-[300px] aspect-auto object-contain"
+                                    />
+                                )}
+                                {/* presigned url 기능 주석 */}
+                                {/* {thumbnail === "/assets/image/time.png" ? (
+                                <span className="mt-5">유효기간 만료</span>
+                            ) : (
+                                <a
+                                    className="w-36 border border-black rounded py-3 text-center mt-5"
+                                    href={thumbnail}
+                                    download
+                                >
+                                    이미지 다운로드
+                                </a>
+                            )} */}
+                            </div>
+                        </div>
+                    )}
                 </div>
                 {/* 공통 버튼 영역 */}
                 <ActionButtons

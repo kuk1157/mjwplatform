@@ -47,14 +47,14 @@ const DetailForm = ({
                     <TextEditor content={content} setContent={setContent} />
                 </div>
                 {handleInputChange && (
-                    <div className="w-full flex py-4 border-b border-[#f3f3f3] lg:text-sm xs:text-[13px] xs:flex-col mt-[50px] gap-[20px]">
+                    <div className="w-full flex items-center py-4 border-b border-[#f3f3f3] lg:text-sm xs:text-[13px] xs:flex-col mt-[50px] gap-[20px]">
                         <p className="text-base font-semibold mb-[10px] text-nowrap">
                             썸네일
                         </p>
                         <div className="flex w-full flex-col xs:ml-6 xs:mt-5">
                             <input
                                 type="file"
-                                className="w-full border-b border-[#D6D6D6] rounded-[5px] max-w-[800px] px-4 pb-2"
+                                className="w-full border border-[#D6D6D6] rounded-[5px] max-w-[800px] p-4 mb-5"
                                 onChange={handleInputChange}
                                 accept="image/*"
                             />

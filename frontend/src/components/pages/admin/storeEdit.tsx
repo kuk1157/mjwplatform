@@ -8,6 +8,20 @@ import { StoreDetailType } from "src/types";
 import { AxiosError } from "axios";
 
 function StoreEdit() {
+    // 썸네일 관련 상태 (등록폼과 동일)
+    const [thumbnailFile, setThumbnailFile] = useState<File | null>(null);
+    const [thumbnail, setThumbnail] = useState<string | undefined>();
+
+    const handleThumbnailChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const file = e.target.files?.[0];
+        if (!file) return;
+
+        setThumbnailFile(file); // 서버 업로드용 파일 저장
+        const reader = new FileReader();
+        reader.onloadend = () => setThumbnail(reader.result as string); // 미리보기용
+        reader.readAsDataURL(file);
+    };
+
     const [formData, setFormData] = useState({
         name: "",
         // ownerId: "",
@@ -55,12 +69,19 @@ function StoreEdit() {
         }
 
         try {
-            await UserApi.patch(`/api/v1/stores/${id}`, {
-                id: id,
-                name: formData.name,
-                address: formData.address,
+            const form = new FormData();
+            form.append("name", formData.name);
+            form.append("address", formData.address);
+            if (thumbnailFile) {
+                // 썸네일 변경 시에만 파일 추가
+                form.append("file", thumbnailFile);
+            }
+            await UserApi.put(`/api/v1/stores/${id}`, form, {
+                headers: {
+                    "Content-Type": "multipart/form-data",
+                },
             });
-            alert("수정이 완료되었습니다.");
+            alert("매장 수정이 완료되었습니다.");
             navigate(`/admin/store/storeDetail/${id}`);
         } catch (error) {
             console.error("수정 실패", error);
@@ -69,7 +90,7 @@ function StoreEdit() {
             if (message) {
                 alert(message);
             } else {
-                alert("사용자 수정 중 오류가 발생했습니다.");
+                alert("매장 수정 중 오류가 발생했습니다.");
             }
         }
     };
@@ -112,6 +133,41 @@ function StoreEdit() {
                         name="address"
                         onChange={handleChange}
                     />
+
+                    {handleThumbnailChange && (
+                        <div className="w-full flex items-center lg:text-sm xs:text-[13px] xs:flex-col gap-[20px]">
+                            <p className="text-base font-semibold mb-5 mr-20 text-nowrap text-[#374151]">
+                                썸네일
+                            </p>
+                            <div className="flex w-full flex-col xs:ml-6 xs:mt-5">
+                                <input
+                                    type="file"
+                                    className="w-full border border-[#D6D6D6] rounded-[5px] max-w-[800px] p-4 mb-5"
+                                    onChange={handleThumbnailChange}
+                                    accept="image/*"
+                                />
+                                {thumbnail && (
+                                    <img
+                                        src={thumbnail}
+                                        alt=""
+                                        className="w-[400px] h-[300px] aspect-auto object-contain"
+                                    />
+                                )}
+                                {/* presigned url 기능 주석 */}
+                                {/* {thumbnail === "/assets/image/time.png" ? (
+                                <span className="mt-5">유효기간 만료</span>
+                            ) : (
+                                <a
+                                    className="w-36 border border-black rounded py-3 text-center mt-5"
+                                    href={thumbnail}
+                                    download
+                                >
+                                    이미지 다운로드
+                                </a>
+                            )} */}
+                            </div>
+                        </div>
+                    )}
                     <LabelDetail label="매장 등록일" value={store?.createdAt} />
                 </div>
                 {/* 공통 버튼 영역 */}

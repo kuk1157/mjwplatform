@@ -5,4 +5,5 @@ export const siteUrl =
         : "http://localhost:5173";
 
 export const cdn = "https://kr.object.ncloudstorage.com/pudding";
-export const noticeFolder = "base/notice"; // 공지사항 폴더 경로
+export const noticeFolder = "coex/notice"; // 공지사항 폴더 경로
+export const storeFolder = "coex/store"; // 가맹점 이미지 경로
