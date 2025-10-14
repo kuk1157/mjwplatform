@@ -9,11 +9,15 @@ import java.time.LocalDate;
 
 public interface PointService {
 
+    // 포인트 등록
+    PointDto createPoints(Integer payId, Integer storeId, Integer ownerId, Integer finalAmount, Double discount);
+
     // 포인트 전체 조회
     Page<PointDto> findAllPoint(Pageable pageable);
 
     // 점주 포인트 조회
     Page<PointDto> findByOwnerIdPoint(Pageable pageable, Integer ownerID);
+
 
 //    // 포인트 통계 (포인트, 주문금액)
 //    SearchDateDto pointCount(LocalDate start, LocalDate end);

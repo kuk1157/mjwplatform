@@ -7,12 +7,28 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @RequiredArgsConstructor
 @Service
 public class PointServiceImpl implements PointService {
 
     private final PointRepository pointRepository;
+
+    // 포인트 등록
+    @Transactional
+    public PointDto createPoints(Integer payId, Integer storeId, Integer ownerId, Integer finalAmount, Double discount) {
+        Point point = Point.builder()
+                .payId(payId)
+                .storeId(storeId)
+                .ownerId(ownerId)
+                .orderPrice(finalAmount)
+                .point(discount)
+                .build();
+        Point savedPoint = pointRepository.save(point);
+        return PointDto.fromEntity(savedPoint);
+    }
+
 
 
     // 포인트 전체 조회

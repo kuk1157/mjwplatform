@@ -16,6 +16,7 @@ import com.pudding.base.domain.platformConfig.entity.PlatformConfig;
 import com.pudding.base.domain.platformConfig.repository.PlatformConfigRepository;
 import com.pudding.base.domain.point.entity.Point;
 import com.pudding.base.domain.point.repository.PointRepository;
+import com.pudding.base.domain.point.service.PointService;
 import com.pudding.base.domain.visit.entity.VisitLog;
 import com.pudding.base.domain.visit.repository.VisitLogRepository;
 import jakarta.persistence.EntityNotFoundException;
@@ -38,10 +39,9 @@ public class PayServiceImpl implements PayService {
 
     private final PayRepository payRepository;
     private final PayLogService payLogService;
+    private final PointService pointService;
 
 
-    private final PointRepository pointRepository; // 포인트 기본 jpa 리포지터리 가져오기
-    private final OrderRepository orderRepository; // 주문 기본 jpa 리포지터리 가져오기
     private final MemberRepository memberRepository; // 회원 기본 jpa 리포지터리 가져오기
     private final PlatformConfigRepository platformConfigRepository; // 플랫폼 설정 기본 jpa 리포지터리 가져오기
     private final VisitLogRepository visitLogRepository;
@@ -92,10 +92,6 @@ public class PayServiceImpl implements PayService {
 //            }
 //        }
 
-
-
-
-
         // 회원 정보 가져오기(visitLog.getOwnerId로 member 테이블 조회)
         Member member = memberRepository.findById(visitLog.getOwnerId()).orElseThrow(() -> new CustomException("존재하지 않는 점주입니다."));
 
@@ -143,14 +139,7 @@ public class PayServiceImpl implements PayService {
         // point 포인트 insert
         // 결제 고유번호(savedPay - id 추출), 주문금액(finalAmount), 점주가 받을 포인트(discount)
         // point 객체에서 결제내역 등록 메서드 호출하여 진행
-        Point point = Point.builder()
-                .payId(savedPay.getId())
-                .storeId(savedPay.getStoreId()) // 결제에서 매장 고유번호
-                .ownerId(savedPay.getOwnerId()) // 결제에서 점주 고유번호
-                .orderPrice(finalAmount) //  주문금액
-                .point(discount) // 점주 포인트
-                .build();
-        pointRepository.save(point); // 곧바로 저장
+        pointService.createPoints(savedPay.getId(), savedPay.getStoreId(), savedPay.getOwnerId(),finalAmount,discount);
 
         // 점주의 포인트 (+) 하기
         member.addTotalPoint(discount);

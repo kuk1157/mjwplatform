@@ -4,6 +4,10 @@ import com.pudding.base.domain.common.dto.SearchDateDto;
 import com.pudding.base.domain.point.dto.PointDto;
 import com.pudding.base.domain.point.service.PointService;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -23,6 +27,18 @@ import java.time.LocalDate;
 public class PointController {
 
     private final PointService pointService;
+
+    @Operation(summary = "포인트 등록", description= "결제 등록 되고 난 후에 바로 함께 INSERT")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "성공",
+                    content = {@Content(schema = @Schema(implementation = ResponseEntity.class))}),
+            @ApiResponse(responseCode = "404", description = "실패"),
+    })
+    @PostMapping
+    public ResponseEntity<PointDto> createPoints(Integer payId, Integer storeId, Integer ownerId, Integer finalAmount, Double discount){
+        PointDto savePoint = pointService.createPoints(payId,storeId,ownerId,finalAmount,discount);
+        return ResponseEntity.ok(savePoint);
+    }
 
     @Operation(summary = "포인트 전체 조회", description = "포인트 전체 조회 api")
     @GetMapping
