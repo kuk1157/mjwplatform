@@ -19,7 +19,19 @@ public class StoreStampServiceImpl implements StoreStampService{
                 .storeId(storeId)
                 .customerId(customerId)
                 .build();
-        StoreStamp savedStoreStamp = storeStampRepository.save(storeStamp);
-        return StoreStampDto.fromEntity(savedStoreStamp);
+
+        // 가맹점 스탬프 중복체크
+        boolean stampCheck = checkStoreStampExists(storeId, customerId);
+        if(!stampCheck){
+            StoreStamp savedStoreStamp = storeStampRepository.save(storeStamp);
+            return StoreStampDto.fromEntity(savedStoreStamp);
+        }else{
+            return null;
+        }
+    }
+
+    // 가맹점 스탬프 중복 체크 메서드
+    public boolean checkStoreStampExists(Integer storeId, Integer customerId){
+        return storeStampRepository.existsByStoreIdAndCustomerId(storeId,customerId);
     }
 }

@@ -11,6 +11,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -34,4 +35,14 @@ public class StoreStampController {
         StoreStampDto savedStoreStamp = storeStampService.createStoreStamps(customerId,storeId);
         return ResponseEntity.ok(savedStoreStamp);
     }
+    @Operation(summary ="스탬프 고객,매장 기준으로 조회", description = "가맹점 스탬프 중복발급 예외 처리를 위한 API")
+    @GetMapping
+    public ResponseEntity<Boolean> checkStoreStampExists(Integer storeId, Integer customerId){
+        boolean exists = storeStampService.checkStoreStampExists(storeId, customerId);
+        return ResponseEntity.ok(exists);
+    }
+
+
+
+
 }

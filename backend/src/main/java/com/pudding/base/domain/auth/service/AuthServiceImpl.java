@@ -26,6 +26,8 @@ import com.pudding.base.domain.nft.entity.Nft;
 import com.pudding.base.domain.nft.service.NftService;
 import com.pudding.base.domain.store.entity.Store;
 import com.pudding.base.domain.store.repository.StoreRepository;
+import com.pudding.base.domain.storeStamp.repository.StoreStampRepository;
+import com.pudding.base.domain.storeStamp.service.StoreStampService;
 import com.pudding.base.domain.visit.dto.VisitLogDto;
 import com.pudding.base.domain.visit.entity.VisitLog;
 import com.pudding.base.domain.visit.repository.VisitLogRepository;
@@ -66,6 +68,7 @@ public class AuthServiceImpl implements AuthService {
     private final NftService nftService;
     private final EncMetaManager encMetaManager;
     private final MemberLogRepository memberLogRepository;
+    private final StoreStampService storeStampService;
 
     @Override
     @Transactional
@@ -301,6 +304,9 @@ public class AuthServiceImpl implements AuthService {
 
         // [NFT DB에 저장]
         nftService.createNft(savedCustomer.getDid(), tokenHash, tableNumber, nftIdx, nftTokenImageUrl, encId, storeId, visitLogDto.getCustomerId());
+
+        // [ 가맹점 스탬프 저장(찍기) ]
+        storeStampService.createStoreStamps(visitLogDto.getCustomerId(),storeId);
 
         // 토큰 생성
         CustomUserInfoDto userInfo = modelMapper.map(member, CustomUserInfoDto.class);

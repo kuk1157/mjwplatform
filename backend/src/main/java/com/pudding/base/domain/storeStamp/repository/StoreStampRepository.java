@@ -6,4 +6,6 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface StoreStampRepository extends JpaRepository<StoreStamp, Integer> {
+    // 가맹점 스탬프 중복 체크
+    boolean existsByStoreIdAndCustomerId(Integer storeId, Integer customerId);
 }
