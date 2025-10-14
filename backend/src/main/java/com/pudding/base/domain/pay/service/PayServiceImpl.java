@@ -4,22 +4,15 @@ import com.pudding.base.domain.common.enums.IsVisitStatus;
 import com.pudding.base.domain.common.exception.CustomException;
 import com.pudding.base.domain.member.entity.Member;
 import com.pudding.base.domain.member.repository.MemberRepository;
-import com.pudding.base.domain.order.repository.OrderRepository;
 import com.pudding.base.domain.pay.dto.PayDto;
 import com.pudding.base.domain.pay.entity.Pay;
 import com.pudding.base.domain.pay.repository.PayRepository;
-import com.pudding.base.domain.payLog.entity.PayLog;
-import com.pudding.base.domain.payLog.repository.PayLogRepository;
 import com.pudding.base.domain.payLog.service.PayLogService;
-import com.pudding.base.domain.payLog.service.PayLogServiceImpl;
 import com.pudding.base.domain.platformConfig.entity.PlatformConfig;
 import com.pudding.base.domain.platformConfig.repository.PlatformConfigRepository;
-import com.pudding.base.domain.point.entity.Point;
-import com.pudding.base.domain.point.repository.PointRepository;
 import com.pudding.base.domain.point.service.PointService;
 import com.pudding.base.domain.visit.entity.VisitLog;
 import com.pudding.base.domain.visit.repository.VisitLogRepository;
-import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 
 
@@ -63,7 +56,6 @@ public class PayServiceImpl implements PayService {
         if (visitLog.getVisitStatus() == IsVisitStatus.y) {
             throw new CustomException("이미 결제처리가 완료된 방문(주문)은 결제 처리를 할 수 없습니다..");
         }
-
 
         // [결제 불가 로직 시작]
 //        LocalDate visitDate = visitLog.getCreatedAt().toLocalDate();
