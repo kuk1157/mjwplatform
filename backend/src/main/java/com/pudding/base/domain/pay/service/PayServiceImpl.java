@@ -10,6 +10,8 @@ import com.pudding.base.domain.pay.entity.Pay;
 import com.pudding.base.domain.pay.repository.PayRepository;
 import com.pudding.base.domain.payLog.entity.PayLog;
 import com.pudding.base.domain.payLog.repository.PayLogRepository;
+import com.pudding.base.domain.payLog.service.PayLogService;
+import com.pudding.base.domain.payLog.service.PayLogServiceImpl;
 import com.pudding.base.domain.platformConfig.entity.PlatformConfig;
 import com.pudding.base.domain.platformConfig.repository.PlatformConfigRepository;
 import com.pudding.base.domain.point.entity.Point;
@@ -35,7 +37,9 @@ import java.util.Optional;
 public class PayServiceImpl implements PayService {
 
     private final PayRepository payRepository;
-    private final PayLogRepository payLogRepository; // 결제내역 기본 jpa 리포지터리 가져오기
+    private final PayLogService payLogService;
+
+
     private final PointRepository pointRepository; // 포인트 기본 jpa 리포지터리 가져오기
     private final OrderRepository orderRepository; // 주문 기본 jpa 리포지터리 가져오기
     private final MemberRepository memberRepository; // 회원 기본 jpa 리포지터리 가져오기
@@ -130,19 +134,15 @@ public class PayServiceImpl implements PayService {
                 .finalAmount(finalAmount)
                 .build();
         Pay savedPay = payRepository.save(pay);
+
         // payLog 결제내역 insert
         // 결제 고유번호(savedPay - id 추출), 결제금액 finalAmount 2개 넣기
-        PayLog payLog = PayLog.builder()
-                .payId(savedPay.getId())
-                .ownerId(savedPay.getOwnerId()) // 결제에서 점주 고유번호
-                .amount(payDto.getAmount())
-                .discountAmount(discount)
-                .finalAmount(finalAmount)
-                .build();
-        payLogRepository.save(payLog); // 곧바로 저장
+        // payLog 객체에서 결제내역 등록 메서드 호출하여 진행
+        payLogService.createPayLogs(savedPay.getId(), savedPay.getOwnerId(),payDto.getAmount(),discount, finalAmount);
 
         // point 포인트 insert
         // 결제 고유번호(savedPay - id 추출), 주문금액(finalAmount), 점주가 받을 포인트(discount)
+        // point 객체에서 결제내역 등록 메서드 호출하여 진행
         Point point = Point.builder()
                 .payId(savedPay.getId())
                 .storeId(savedPay.getStoreId()) // 결제에서 매장 고유번호
