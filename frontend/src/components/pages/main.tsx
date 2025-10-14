@@ -52,7 +52,6 @@ function MainPage() {
     const { data: noticeData, isFetching: noticeLoading } = useQuery({
         queryKey: ["noticeList"],
         queryFn: async () => {
-            // size=3로 고정
             const res = await axios.get(`/api/v1/notice?size=${itemsPerPage}`);
             return res.data;
         },
@@ -117,7 +116,7 @@ function MainPage() {
                                         delay: 3000,
                                         disableOnInteraction: false,
                                     }}
-                                    speed={1500}
+                                    speed={3000}
                                     spaceBetween={20}
                                     navigation={true}
                                     className="rounded-2xl overflow-hidden"
@@ -180,45 +179,47 @@ function MainPage() {
                         {/* 두번째 영역 */}
                         <div className="w-full overflow-hidden mt-16">
                             <Swiper
+                                modules={[Autoplay]}
                                 slidesPerView="auto"
                                 spaceBetween={20}
-                                loop={storefilteredData?.length * 350 > 1600} // 영역 넘어가면 loop
-                                autoplay={
-                                    storefilteredData?.length * 350 > 1600
-                                        ? {
-                                              delay: 0,
-                                              disableOnInteraction: false,
-                                          }
-                                        : false
-                                }
+                                loop={true}
+                                allowTouchMove={false}
+                                autoplay={{
+                                    delay: 0,
+                                    disableOnInteraction: false,
+                                }}
+                                speed={3000}
+                                className="flex items-center"
                             >
-                                {storefilteredData?.map((store, idx) => {
-                                    const src = `${cdn}/${storeFolder}/${store.thumbnail}${store.extension}`;
-                                    return (
-                                        <SwiperSlide
-                                            key={idx}
-                                            style={{ width: 350 }}
-                                        >
-                                            <div className="relative w-full h-[150px]">
-                                                {/* 가맹점 이름 오버레이 */}
-                                                <div className="absolute bottom-2 left-2 font-bold border border-[#580098] text-[#580098] px-2 py-1 rounded-md text-sm">
-                                                    {store.name}
-                                                </div>
-                                                {store.thumbnail ? (
-                                                    <img
-                                                        src={src}
-                                                        alt={`가게 ${store.name}`}
-                                                        className="w-full h-full object-cover rounded-xl"
-                                                    />
-                                                ) : (
-                                                    <div className="text-center items-center">
-                                                        썸네일 없음
+                                {[...Array(3)].flatMap(() =>
+                                    storefilteredData?.map((store, idx) => {
+                                        const src = `${cdn}/${storeFolder}/${store.thumbnail}${store.extension}`;
+                                        return (
+                                            <SwiperSlide
+                                                key={`${idx}-${Math.random()}`}
+                                                style={{ width: 300 }}
+                                            >
+                                                <div className="relative w-full h-[150px]">
+                                                    {/* 가맹점 이름 오버레이 */}
+                                                    <div className="absolute bottom-2 left-2 font-bold border border-[#fff] text-[#fff] px-2 py-1 rounded-md text-sm">
+                                                        {store.name}
                                                     </div>
-                                                )}
-                                            </div>
-                                        </SwiperSlide>
-                                    );
-                                })}
+                                                    {store.thumbnail ? (
+                                                        <img
+                                                            src={src}
+                                                            alt={`가게 ${store.name}`}
+                                                            className="w-full h-full object-cover rounded-xl"
+                                                        />
+                                                    ) : (
+                                                        <div className="text-center items-center">
+                                                            썸네일 없음
+                                                        </div>
+                                                    )}
+                                                </div>
+                                            </SwiperSlide>
+                                        );
+                                    })
+                                )}
                             </Swiper>
                         </div>
 
