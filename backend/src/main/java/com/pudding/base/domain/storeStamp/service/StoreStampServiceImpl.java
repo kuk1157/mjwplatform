@@ -80,7 +80,7 @@ public class StoreStampServiceImpl implements StoreStampService{
 
     // 고객 매장 방문 스탬프 조회
     public List<StoreStampDto> getCustomerIdStamps(Integer customerId) {
-        List<StoreStamp> storeStamps = storeStampRepository.findCustomerId(customerId);
+        List<StoreStamp> storeStamps = storeStampRepository.findByCustomerId(customerId);
         return storeStamps.stream().map(StoreStampDto::fromEntity).toList();
     }
 

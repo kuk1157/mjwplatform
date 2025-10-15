@@ -16,5 +16,5 @@ public interface StoreStampRepository extends JpaRepository<StoreStamp, Integer>
     Integer countByCustomerId(Integer customerId);
 
     // 고객 매장 방문 스탬프 조회
-    List<StoreStamp> findCustomerId(Integer customerId);
+    List<StoreStamp> findByCustomerId(Integer customerId);
 }
