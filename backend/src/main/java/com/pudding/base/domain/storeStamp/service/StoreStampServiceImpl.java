@@ -11,6 +11,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+
 @RequiredArgsConstructor
 @Service
 public class StoreStampServiceImpl implements StoreStampService{
@@ -75,4 +77,11 @@ public class StoreStampServiceImpl implements StoreStampService{
     public boolean checkStoreStampExists(Integer customerId, Integer storeId){
         return storeStampRepository.existsByCustomerIdAndStoreId(customerId,storeId);
     }
+
+    // 고객 매장 방문 스탬프 조회
+    public List<StoreStampDto> getCustomerIdStamps(Integer customerId) {
+        List<StoreStamp> storeStamps = storeStampRepository.findCustomerId(customerId);
+        return storeStamps.stream().map(StoreStampDto::fromEntity).toList();
+    }
+
 }

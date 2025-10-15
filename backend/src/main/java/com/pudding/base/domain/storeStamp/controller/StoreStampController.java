@@ -16,6 +16,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.List;
+
 
 @Tag(name = "가맹점 스탬프 관련 api", description = "가맹점 스탬프(도장) 관련 전체 api")
 @RestController
@@ -35,14 +37,18 @@ public class StoreStampController {
         StoreStampDto savedStoreStamp = storeStampService.createStoreStamps(customerId,storeId);
         return ResponseEntity.ok(savedStoreStamp);
     }
+
+    @Operation(summary = "고객 방문 스탬프 조회", description = "특정 고객 방문 스탬프 조회")
+    @GetMapping("/{customerId}")
+    public ResponseEntity<List<StoreStampDto>> getCustomerIdStamps(Integer customerId) {
+        List<StoreStampDto> storeStampDto = storeStampService.getCustomerIdStamps(customerId);
+        return ResponseEntity.ok(storeStampDto);
+    }
+
     @Operation(summary ="스탬프 고객,매장 기준으로 조회", description = "가맹점 스탬프 중복발급 예외 처리를 위한 API")
     @GetMapping
     public ResponseEntity<Boolean> checkStoreStampExists(Integer customerId, Integer storeId){
         boolean exists = storeStampService.checkStoreStampExists(customerId, storeId);
         return ResponseEntity.ok(exists);
     }
-
-
-
-
 }
