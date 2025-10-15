@@ -7,8 +7,11 @@ import { MdArrowForwardIos } from "react-icons/md";
 import { MobileMain } from "src/components/organisms/mobileMain"; // 모바일 상단 타이틀
 import { MobileFooter } from "src/components/organisms/mobileFooter"; // 하단 모바일 footer 공통 컴포넌트
 import { StoreType } from "src/types";
+import { Customer } from "src/types";
+import { StoreStamp } from "src/types";
 import { cdn } from "src/constans";
 import { storeFolder } from "src/constans";
+
 interface Nft {
     id: number;
     tokenId: number;
@@ -31,8 +34,8 @@ export function MobileMainPage() {
     const { customerId } = useParams();
     const [nftLogs, setNfts] = useState<Nft[]>([]);
     const [visitLogs, setVisitLogs] = useState<VisitLog[]>([]);
-    const [customer, setCustomer] = useState(); // 고객
-    const [stamp, setStamp] = useState(); // 고객 방문 스탬프
+    const [customer, setCustomer] = useState<Customer | null>(null);
+    const [stamp, setStamp] = useState<StoreStamp[]>([]);
     const [storefilteredData, setStoreFilteredData] = useState<StoreType[]>([]); // 필터링된 데이터
 
     // 가맹점 목록 출력 - 이미지 슬라이드 용도
@@ -90,15 +93,20 @@ export function MobileMainPage() {
         fetchData();
     }, [customerId, navigate, accessToken]);
 
-    console.log("고객 등급 " + customer);
-    console.log("고객 매장 방문 스탬프" + stamp);
+    // 고객 등급 매핑 객체
+    const CustomerGrades: Record<string, string> = {
+        SILVER: "실버",
+        GOLD: "골드",
+        PLATINUM: "플래티넘",
+        DIAMOND: "다이아",
+    };
 
     // 나의 정보 페이지로 이동
     const myInfoButton = () => {
         navigate(`/mobile/myPage/${customerId}`);
     };
     return (
-        <div className="min-h-screen bg-[#fbfbfc] p-4">
+        <div className="min-h-screen bg-[#fbfbfc] p-4 font-Pretendard">
             {/* 모바일 타이틀 */}
             {<MobileMain param={Number(customerId)} />}
 
@@ -107,9 +115,7 @@ export function MobileMainPage() {
                     className="w-full px-4 py-5 flex items-center justify-between"
                     onClick={myInfoButton}
                 >
-                    <span className="text-left font-Pretendard font-bold">
-                        나의 정보
-                    </span>
+                    <span className="text-left  font-bold">나의 정보</span>
                     <span className="float-right">
                         <MdArrowForwardIos />
                     </span>
@@ -123,11 +129,34 @@ export function MobileMainPage() {
             </header> */}
 
             <div className="p-4">
+                <h2 className="text-xl font-bold mb-4">나의 등급</h2>
+
+                <div className="grid grid-cols-3 gap-4">
+                    <span>
+                        {CustomerGrades[customer?.customerGrade ?? ""] ?? "-"}
+                    </span>
+                    <span>
+                        <img
+                            src={`/public/assets/image/customerGrade/${customer?.customerGrade}Grade.png`}
+                            alt={`${CustomerGrades[customer?.customerGrade ?? ""] ?? "-"} 등급`}
+                        ></img>
+                    </span>
+                </div>
+            </div>
+
+            <div className="p-4">
                 <h2 className="text-xl font-bold mb-4">내 스탬프 카드</h2>
 
                 <div className="grid grid-cols-3 gap-4">
                     {storefilteredData?.map((store, idx) => {
                         const src = `${cdn}/${storeFolder}/${store.thumbnail}${store.extension}`;
+
+                        // 방문 여부 체크
+                        const isStamped = stamp?.some(
+                            (s) => s.storeId === store.id
+                        );
+
+                        console.log(isStamped);
                         return (
                             <div
                                 key={idx}
@@ -141,11 +170,13 @@ export function MobileMainPage() {
                                     className="w-full h-28 object-cover transition-all duration-500 brightness-100"
                                     alt={store.name}
                                 />
-                                <img
-                                    src="/public/assets/image/mobile/checkImage.jpg"
-                                    alt="stamp"
-                                    className="absolute inset-0 m-auto w-16 h-16 animate-[stampIn_0.4s_ease-out]"
-                                />
+                                {isStamped && (
+                                    <img
+                                        src="/public/assets/image/mobile/checkImage.jpg"
+                                        alt="stamp"
+                                        className="absolute inset-0 m-auto w-16 h-16 animate-[stampIn_0.4s_ease-out]"
+                                    />
+                                )}
                             </div>
                         );
                     })}
@@ -154,9 +185,7 @@ export function MobileMainPage() {
 
             <div className="mt-8 mb-3">
                 <div className="flex items-center gap-2 mb-2">
-                    <h2 className="text-2xl font-semibold font-Pretendard">
-                        최근 NFT 목록
-                    </h2>
+                    <h2 className="text-2xl font-semibold ">최근 NFT 목록</h2>
                 </div>
             </div>
 
@@ -175,7 +204,7 @@ export function MobileMainPage() {
                                         src="/assets/image/mobile/nftIcon.svg"
                                         alt="nft 리스트 아이콘"
                                     />
-                                    <div className="flex flex-col ml-3 font-Pretendard">
+                                    <div className="flex flex-col ml-3 ">
                                         <p className="text-xl font-semibold mb-1 ">
                                             {nft.storeName}
                                         </p>
@@ -205,9 +234,7 @@ export function MobileMainPage() {
             </section>
             <div className="mt-8 mb-3">
                 <div className="flex items-center gap-2 mb-2">
-                    <h2 className="text-2xl font-semibold font-Pretendard">
-                        최근 방문기록
-                    </h2>
+                    <h2 className="text-2xl font-semibold ">최근 방문기록</h2>
                 </div>
             </div>
 
@@ -224,7 +251,7 @@ export function MobileMainPage() {
                                     src="/assets/image/mobile/visitIcon.svg"
                                     alt="방문기록 리스트 아이콘"
                                 />
-                                <div className="flex flex-col ml-3 font-Pretendard">
+                                <div className="flex flex-col ml-3 ">
                                     <p className="text-xl font-semibold mb-1 ">
                                         {visitLog.storeName}
                                     </p>
@@ -244,7 +271,7 @@ export function MobileMainPage() {
                         </div>
                     ))
                 ) : (
-                    <div className="bg-white rounded-xl shadow-sm border border-gray-100 p-6 flex flex-col items-center justify-center font-Pretendard text-[#999ca2]">
+                    <div className="bg-white rounded-xl shadow-sm border border-gray-100 p-6 flex flex-col items-center justify-center  text-[#999ca2]">
                         <img
                             src="/assets/image/mobile/noVisitIcon.svg"
                             alt="방문기록이 없습니다 아이콘"

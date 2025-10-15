@@ -129,6 +129,8 @@ export interface Member {
     isActive: IsActive;
 }
 
+// 고객
+
 export type CustomerGrade = "SILVER" | "GOLD" | "PLATINUM" | "DIAMOND";
 export type CouponAvailable = "Y" | "N";
 export type CouponStatus = "Y" | "N";
@@ -161,4 +163,11 @@ export interface StoreTable {
     id: number;
     storeId: number;
     tableNumber: number;
+}
+
+// 고객 매장 방문 스탬프
+export interface StoreStamp {
+    id: number;
+    customerId: number;
+    storeId: number;
 }

@@ -114,36 +114,6 @@ export function MobileMainPageTest() {
             {/* 모바일 타이틀 */}
             {<MobileMain param={Number(customerId)} />}
 
-            <div className="p-4">
-                <h2 className="text-xl font-bold mb-4">내 스탬프 카드</h2>
-
-                <div className="grid grid-cols-3 gap-4">
-                    {storefilteredData?.map((store, idx) => {
-                        const src = `${cdn}/${storeFolder}/${store.thumbnail}${store.extension}`;
-                        return (
-                            <div
-                                key={idx}
-                                className="relative rounded-lg overflow-hidden"
-                            >
-                                <div className="absolute text-[#fff] z-10 text-xs p-2">
-                                    {store.name}
-                                </div>
-                                <img
-                                    src={src}
-                                    className="w-full h-28 object-cover transition-all duration-500 brightness-100"
-                                    alt={store.name}
-                                />
-                                <img
-                                    src="/public/assets/image/mobile/checkImage.jpg"
-                                    alt="stamp"
-                                    className="absolute inset-0 m-auto w-16 h-16 animate-[stampIn_0.4s_ease-out]"
-                                />
-                            </div>
-                        );
-                    })}
-                </div>
-            </div>
-
             {/* 상단 배너 광고 */}
             <header className=" rounded-lg mb-5 font-semibold text-base truncate">
                 <Swiper
