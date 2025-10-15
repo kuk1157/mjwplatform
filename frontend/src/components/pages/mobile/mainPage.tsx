@@ -142,6 +142,15 @@ export function MobileMainPage() {
                         ></img>
                     </span>
                 </div>
+                <div>
+                    <span>
+                        쿠폰 발급 가능 여부{" "}
+                        {customer?.couponAvailable === "Y" ? "✅" : "❌"}
+                    </span>
+                    {customer?.couponAvailable === "Y" && (
+                        <button>쿠폰신청 하기</button>
+                    )}
+                </div>
             </div>
 
             <div className="p-4">
