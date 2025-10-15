@@ -1,11 +1,14 @@
 import axios from "axios";
 import { useParams, useNavigate, Link } from "react-router-dom";
 import { useEffect, useState } from "react";
+import { useQuery } from "react-query";
 
 import { MdArrowForwardIos } from "react-icons/md";
 import { MobileMain } from "src/components/organisms/mobileMain"; // 모바일 상단 타이틀
 import { MobileFooter } from "src/components/organisms/mobileFooter"; // 하단 모바일 footer 공통 컴포넌트
-
+import { StoreType } from "src/types";
+import { cdn } from "src/constans";
+import { storeFolder } from "src/constans";
 interface Nft {
     id: number;
     tokenId: number;
@@ -28,6 +31,25 @@ export function MobileMainPage() {
     const { customerId } = useParams();
     const [nftLogs, setNfts] = useState<Nft[]>([]);
     const [visitLogs, setVisitLogs] = useState<VisitLog[]>([]);
+    const [customer, setCustomer] = useState(); // 고객
+    const [stamp, setStamp] = useState(); // 고객 방문 스탬프
+    const [storefilteredData, setStoreFilteredData] = useState<StoreType[]>([]); // 필터링된 데이터
+
+    // 가맹점 목록 출력 - 이미지 슬라이드 용도
+    const { data: storeData, isFetching: storeLoading } = useQuery({
+        queryKey: ["storeList"],
+        queryFn: async () => {
+            const res = await axios.get("/api/v1/stores"); // 각 가맹점 정보 포함
+            return res.data;
+        },
+        refetchOnWindowFocus: false,
+    });
+
+    useEffect(() => {
+        if (!storeLoading && storeData) {
+            setStoreFilteredData(storeData.content);
+        }
+    }, [storeData, storeLoading]);
 
     const accessToken = localStorage.getItem("accessToken"); // 다대구 연동 로그인시 생성된 토큰 가져오기
 
@@ -44,16 +66,22 @@ export function MobileMainPage() {
 
         const fetchData = async () => {
             try {
-                const [nftRes, visits] = await Promise.all([
-                    axios.get(
-                        `/api/v1/customers/${customerId}/nfts?sort=desc&limit=2`
-                    ),
-                    axios.get(
-                        `/api/v1/customers/${customerId}/visits?sort=desc&limit=2`
-                    ),
-                ]);
+                const [nftRes, visits, customerDetail, storeStamp] =
+                    await Promise.all([
+                        axios.get(
+                            `/api/v1/customers/${customerId}/nfts?sort=desc&limit=2`
+                        ),
+                        axios.get(
+                            `/api/v1/customers/${customerId}/visits?sort=desc&limit=2`
+                        ),
+                        axios.get(`/api/v1/customers/${customerId}`),
+                        axios.get(`/api/v1/storeStamps/${customerId}`),
+                    ]);
                 setNfts(nftRes.data); // 해당 고객의 NFT데이터 추출(최근 2개)
                 setVisitLogs(visits.data); // 해당 고객의 방문기록 데이터 추출(최근 2개)
+
+                setCustomer(customerDetail.data); // 고객 정보 추출
+                setStamp(storeStamp.data); // 고객 매장 방문 스탬프
             } catch (error) {
                 console.error("데이터 조회 실패:", error);
             }
@@ -61,6 +89,9 @@ export function MobileMainPage() {
 
         fetchData();
     }, [customerId, navigate, accessToken]);
+
+    console.log("고객 등급 " + customer);
+    console.log("고객 매장 방문 스탬프" + stamp);
 
     // 나의 정보 페이지로 이동
     const myInfoButton = () => {
@@ -90,6 +121,36 @@ export function MobileMainPage() {
                 <p>[나의 DID 정보]</p>
                 <p>DID : {did}</p>
             </header> */}
+
+            <div className="p-4">
+                <h2 className="text-xl font-bold mb-4">내 스탬프 카드</h2>
+
+                <div className="grid grid-cols-3 gap-4">
+                    {storefilteredData?.map((store, idx) => {
+                        const src = `${cdn}/${storeFolder}/${store.thumbnail}${store.extension}`;
+                        return (
+                            <div
+                                key={idx}
+                                className="relative rounded-lg overflow-hidden"
+                            >
+                                <div className="absolute text-[#fff] z-10 text-xs p-2">
+                                    {store.name}
+                                </div>
+                                <img
+                                    src={src}
+                                    className="w-full h-28 object-cover transition-all duration-500 brightness-100"
+                                    alt={store.name}
+                                />
+                                <img
+                                    src="/public/assets/image/mobile/checkImage.jpg"
+                                    alt="stamp"
+                                    className="absolute inset-0 m-auto w-16 h-16 animate-[stampIn_0.4s_ease-out]"
+                                />
+                            </div>
+                        );
+                    })}
+                </div>
+            </div>
 
             <div className="mt-8 mb-3">
                 <div className="flex items-center gap-2 mb-2">

@@ -129,6 +129,17 @@ export interface Member {
     isActive: IsActive;
 }
 
+export type CustomerGrade = "SILVER" | "GOLD" | "PLATINUM" | "DIAMOND";
+export type CouponAvailable = "Y" | "N";
+export type CouponStatus = "Y" | "N";
+export interface Customer {
+    id: number;
+    memberId: number;
+    customerGrade: CustomerGrade;
+    couponAvailable: CouponAvailable;
+    couponStatus: CouponStatus;
+}
+
 // 매장(store) 정보 가져오기
 export interface StoreType {
     id: number;

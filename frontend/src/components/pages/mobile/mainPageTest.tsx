@@ -134,7 +134,7 @@ export function MobileMainPageTest() {
                                     alt={store.name}
                                 />
                                 <img
-                                    src="/assets/stamp.png"
+                                    src="/public/assets/image/mobile/checkImage.jpg"
                                     alt="stamp"
                                     className="absolute inset-0 m-auto w-16 h-16 animate-[stampIn_0.4s_ease-out]"
                                 />
