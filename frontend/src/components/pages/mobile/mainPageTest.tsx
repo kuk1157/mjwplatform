@@ -5,7 +5,7 @@ import { useQuery } from "react-query";
 
 // import { MdArrowForwardIos } from "react-icons/md";
 import { MobileMain } from "src/components/organisms/mobileMain"; // 모바일 상단 타이틀
-import { MobileFooter } from "src/components/organisms/mobileFooter"; // 하단 모바일 footer 공통 컴포넌트
+import { MobileFooter2 } from "src/components/organisms/mobileFooter2"; // 하단 모바일 footer 공통 컴포넌트
 
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Navigation, Autoplay } from "swiper/modules";
@@ -114,7 +114,7 @@ export function MobileMainPageTest() {
             {/* 모바일 타이틀 */}
             {<MobileMain param={Number(customerId)} />}
 
-            <div className="stamp-card p-4">
+            <div className="p-4">
                 <h2 className="text-xl font-bold mb-4">내 스탬프 카드</h2>
 
                 <div className="grid grid-cols-3 gap-4">
@@ -385,7 +385,7 @@ export function MobileMainPageTest() {
             </section>
 
             {/* 하단 네비게이션 */}
-            {customerId && <MobileFooter param={Number(customerId)} />}
+            {<MobileFooter2 />}
         </div>
     );
 }
