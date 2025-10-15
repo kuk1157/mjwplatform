@@ -11,10 +11,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -40,7 +37,7 @@ public class StoreStampController {
 
     @Operation(summary = "고객 방문 스탬프 조회", description = "특정 고객 방문 스탬프 조회")
     @GetMapping("/{customerId}")
-    public ResponseEntity<List<StoreStampDto>> getCustomerIdStamps(Integer customerId) {
+    public ResponseEntity<List<StoreStampDto>> getCustomerIdStamps(@PathVariable Integer customerId) {
         List<StoreStampDto> storeStampDto = storeStampService.getCustomerIdStamps(customerId);
         return ResponseEntity.ok(storeStampDto);
     }
