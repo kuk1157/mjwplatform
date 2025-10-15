@@ -37,8 +37,8 @@ public class StoreStampController {
     }
     @Operation(summary ="스탬프 고객,매장 기준으로 조회", description = "가맹점 스탬프 중복발급 예외 처리를 위한 API")
     @GetMapping
-    public ResponseEntity<Boolean> checkStoreStampExists(Integer storeId, Integer customerId){
-        boolean exists = storeStampService.checkStoreStampExists(storeId, customerId);
+    public ResponseEntity<Boolean> checkStoreStampExists(Integer customerId, Integer storeId){
+        boolean exists = storeStampService.checkStoreStampExists(customerId, storeId);
         return ResponseEntity.ok(exists);
     }
 
