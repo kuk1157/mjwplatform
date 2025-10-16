@@ -286,36 +286,36 @@ const Router = createBrowserRouter([
             // [ owner - 점주 ]
             // 점주용 웹 플랫폼 메인 대시보드
             {
-                path: "/owner/dashBoard/:ownerId",
+                path: "/owner/dashBoard",
                 element: <OwnerDashBoard />,
             },
 
             // 점주용 매장 결제 조회
             {
-                path: "/owner/ownerPayList/:ownerId",
+                path: "/owner/ownerPayList",
                 element: <OwnerPayList />,
             },
 
             // 점주용 매장 결제 로그 조회
             {
-                path: "/owner/ownerPayLogList/:ownerId",
+                path: "/owner/ownerPayLogList",
                 element: <OwnerPayLogList />,
             },
 
             // 점주용 매장 포인트 조회
             {
-                path: "/owner/ownerPointList/:ownerId",
+                path: "/owner/ownerPointList",
                 element: <OwnerPointList />,
             },
 
             // 점주용 매장 테이블 조회
             {
-                path: "/owner/ownerStoreTableList/:ownerId/:storeId",
+                path: "/owner/ownerStoreTableList/:storeId",
                 element: <OwnerStoreTableList />,
             },
             // 점주용 매장 테이블 조회
             {
-                path: "/owner/ownerAllVisitLog/:ownerId/:storeId",
+                path: "/owner/ownerAllVisitLog/:storeId",
                 element: <OwnerAllVisitLogList />,
             },
 

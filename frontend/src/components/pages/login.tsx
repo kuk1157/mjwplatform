@@ -118,7 +118,8 @@ const LoginPage = () => {
 
                 // owner(점주)일 경우 점주 메인대시보드로 이동
                 if (userRole === "owner") {
-                    navigate(`/owner/dashBoard/${userId}`);
+                    localStorage.setItem("ownerId", userId); // 점주 ID 저장
+                    navigate("/owner/dashBoard");
                 } else {
                     // 고객은 그냥 메인
                     navigate("/");

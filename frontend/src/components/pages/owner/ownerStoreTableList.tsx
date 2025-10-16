@@ -5,7 +5,8 @@ import { useState, useEffect } from "react";
 import { StoreTable } from "src/types";
 
 function OwnerStoreTableList() {
-    const { storeId, ownerId } = useParams();
+    const { storeId } = useParams();
+    const ownerId = localStorage.getItem("ownerId"); // 점주 ID 로그인 시 저장한거 추출
     const navigate = useNavigate();
     const [tables, setTables] = useState<StoreTable[]>([]);
 
@@ -29,7 +30,7 @@ function OwnerStoreTableList() {
 
     // 점주 대시보드로 이동
     const OwnerDashBoard = () => {
-        navigate(`/owner/dashboard/${ownerId}`);
+        navigate(`/owner/dashBoard`);
     };
     return (
         <MainContainer className="py-[230px] bg-[#F6F6F6] lg:py-[150px] sm:py-[100px]">

@@ -32,10 +32,10 @@ export const PageRedirect = () => {
         if (user.role === "admin") targetPath = "/admin/user";
         else if (user.role === "owner") {
             if (!user.id) return;
-            targetPath = `/owner/dashBoard/${user.id}`;
+            targetPath = `/owner/dashBoard`;
         } else if (user.role === "user") {
             if (!customerId) return;
-            targetPath = `/mobile/mainPage/${customerId}`;
+            targetPath = `/mobile/mainPage`;
         }
 
         const realmByRole = {

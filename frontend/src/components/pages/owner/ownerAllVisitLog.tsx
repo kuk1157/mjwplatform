@@ -7,7 +7,7 @@ import { MdArrowBackIosNew } from "react-icons/md"; // 페이징 이전 아이�
 import { MdArrowForwardIos } from "react-icons/md"; // 페이징 다음 아이콘
 
 function OwnerAllVisitLogList() {
-    const { storeId, ownerId } = useParams();
+    const { storeId } = useParams();
     const navigate = useNavigate();
 
     interface VisitLog {
@@ -45,7 +45,7 @@ function OwnerAllVisitLogList() {
 
     // 점주 대시보드로 이동
     const OwnerDashBoard = () => {
-        navigate(`/owner/dashboard/${ownerId}`);
+        navigate("/owner/dashBoard");
     };
 
     return (

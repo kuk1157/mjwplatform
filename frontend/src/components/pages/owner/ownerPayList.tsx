@@ -1,5 +1,5 @@
 import { MainContainer } from "../../molecules/container";
-import { useParams, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { useState, useEffect } from "react";
 
@@ -7,7 +7,7 @@ import { MdArrowBackIosNew } from "react-icons/md"; // 페이징 이전 아이�
 import { MdArrowForwardIos } from "react-icons/md"; // 페이징 다음 아이콘
 
 function OwnerPayList() {
-    const { ownerId } = useParams();
+    const ownerId = localStorage.getItem("ownerId"); // 점주 ID 로그인 시 저장한거 추출
 
     const navigate = useNavigate();
 
@@ -44,7 +44,7 @@ function OwnerPayList() {
 
     // 점주 대시보드로 이동
     const OwnerDashBoard = () => {
-        navigate(`/owner/dashboard/${ownerId}`);
+        navigate("/owner/dashBoard");
     };
 
     return (

@@ -1,6 +1,6 @@
 import axios, { AxiosError } from "axios";
 import { useEffect, useState } from "react";
-import { useNavigate, useParams } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { useRef } from "react";
 
 // [아이콘 및 공통 컴포넌트]
@@ -15,7 +15,7 @@ import { VisitLog } from "src/types"; // 방문기록 인터페이스
 
 function OwnerDashBoard() {
     const navigate = useNavigate();
-    const { ownerId } = useParams(); // 점주 ID
+    const ownerId = localStorage.getItem("ownerId"); // 점주 ID 로그인 시 저장한거 추출
     const [amount, setAmount] = useState(""); // 주문 금액 동적 처리 세팅
     const [name, setStoreName] = useState(); // 가맹점 이름 세팅
     const [ownerName, setOwnerName] = useState(); // 점주 이름 세팅
@@ -159,27 +159,27 @@ function OwnerDashBoard() {
 
     // 점주 결제 목록 조회 페이지로 이동
     const OwnerPay = () => {
-        navigate(`/owner/ownerPayList/${ownerId}`);
+        navigate(`/owner/ownerPayList`);
     };
 
     // 점주 결제내역 목록 조회 페이지로 이동
     const OwnerPayLog = () => {
-        navigate(`/owner/ownerPayLogList/${ownerId}`);
+        navigate(`/owner/ownerPayLogList`);
     };
 
     // 점주 포인트 목록 조회 페이지로 이동
     const OwnerPoint = () => {
-        navigate(`/owner/ownerPointList/${ownerId}`);
+        navigate(`/owner/ownerPointList`);
     };
 
     // 점주 매장 테이블 목록 조회 페이지로 이동
     const OwnerStoreTable = () => {
-        navigate(`/owner/ownerStoreTableList/${ownerId}/${storeId}`);
+        navigate(`/owner/ownerStoreTableList/${storeId}`);
     };
 
     // 점주 매장 전체 방문 페이지로 이동
     const OwnerAllVisitLog = () => {
-        navigate(`/owner/ownerAllVisitLog/${ownerId}/${storeId}`);
+        navigate(`/owner/ownerAllVisitLog/${storeId}`);
     };
 
     const [isOpen, setIsOpen] = useState(false);
