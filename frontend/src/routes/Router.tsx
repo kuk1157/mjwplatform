@@ -237,19 +237,24 @@ const MobileMyNftList = Loadable({
     Component: lazy(() => import("../components/pages/mobile/myNftList")),
 });
 
+// 모바일 NFT 상세보기
+const MobileNftDetail = Loadable({
+    Component: lazy(() => import("../components/pages/mobile/nftDetail")),
+});
+
 // 모바일 고객 나의 방문 기록 목록
 const MobileMyVisitLogList = Loadable({
     Component: lazy(() => import("../components/pages/mobile/myVisitLogList")),
 });
 
-// 모바일 고객 나의 방문 기록 목록
+// 모바일 고객 나의 방문 스탬프 목록
 const MobileMyStamp = Loadable({
     Component: lazy(() => import("../components/pages/mobile/myStamp")),
 });
 
-// 모바일 NFT 상세보기
-const MobileNftDetail = Loadable({
-    Component: lazy(() => import("../components/pages/mobile/nftDetail")),
+// 모바일 나의 방문 스탬프 상세보기
+const MobileMyStampDetail = Loadable({
+    Component: lazy(() => import("../components/pages/mobile/stampDetail")),
 });
 
 const Router = createBrowserRouter([
@@ -512,6 +517,12 @@ const Router = createBrowserRouter([
         element: <MobileMyNftList />,
     },
 
+    // 모바일 나의 NFT 상세보기
+    {
+        path: "/mobile/nftDetail/:id",
+        element: <MobileNftDetail />,
+    },
+
     // 모바일 고객 나의 방문 기록 목록
     {
         path: "/mobile/myVisitLogList/",
@@ -524,10 +535,10 @@ const Router = createBrowserRouter([
         element: <MobileMyStamp />,
     },
 
-    // 모바일 나의 NFT 상세보기
+    // 모바일 나의 스탬프 상세보기
     {
-        path: "/mobile/nftDetail/:id",
-        element: <MobileNftDetail />,
+        path: "/mobile/stampDetail/:id/:storeId",
+        element: <MobileMyStampDetail />,
     },
 ]);
 

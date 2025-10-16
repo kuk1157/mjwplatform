@@ -27,7 +27,7 @@ export function MobileMyStamp() {
         const fetchData = async () => {
             try {
                 const [storeStamp, storeList] = await Promise.all([
-                    axios.get(`/api/v1/storeStamps/${customerId}`),
+                    axios.get(`/api/v1/storeStamps/customer/${customerId}`),
                     axios.get("/api/v1/stores"),
                 ]);
                 setStamp(storeStamp.data); // 방문 스탬프 추출
@@ -79,7 +79,7 @@ export function MobileMyStamp() {
 
                         return (
                             <Link
-                                to={`/mobile/stampDetail/${stamp.id}${stamp.storeId}`}
+                                to={`/mobile/stampDetail/${stamp.id}/${stamp.storeId}`}
                                 key={idx}
                             >
                                 <div className="bg-white rounded-xl shadow-sm border border-gray-100 p-5 mb-3 flex items-center">

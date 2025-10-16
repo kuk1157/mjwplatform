@@ -55,7 +55,7 @@ export function MobileMainPage() {
                 const [customerDetail, storeStamp, storeList, nftRes, visits] =
                     await Promise.all([
                         axios.get(`/api/v1/customers/${customerId}`),
-                        axios.get(`/api/v1/storeStamps/${customerId}`),
+                        axios.get(`/api/v1/storeStamps/customer/${customerId}`),
                         axios.get("/api/v1/stores"),
                         axios.get(
                             `/api/v1/customers/${customerId}/nfts?sort=desc&limit=2`
