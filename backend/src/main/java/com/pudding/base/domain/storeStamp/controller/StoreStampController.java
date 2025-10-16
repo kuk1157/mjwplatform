@@ -36,10 +36,17 @@ public class StoreStampController {
     }
 
     @Operation(summary = "고객 방문 스탬프 조회", description = "특정 고객 방문 스탬프 조회")
-    @GetMapping("/{customerId}")
+    @GetMapping("customer/{customerId}")
     public ResponseEntity<List<StoreStampDto>> getCustomerIdStamps(@PathVariable Integer customerId) {
         List<StoreStampDto> storeStampDto = storeStampService.getCustomerIdStamps(customerId);
         return ResponseEntity.ok(storeStampDto);
+    }
+
+    @Operation(summary = "고객 방문 스탬프 상세보기", description = "스탬프 상세 조회")
+    @GetMapping("detail/{id}")
+    public ResponseEntity<StoreStampDto> getStoreStampById(@PathVariable Integer id){
+        StoreStampDto storeStamp = storeStampService.getStoreStampById(id);
+        return ResponseEntity.ok(storeStamp);
     }
 
     @Operation(summary ="스탬프 고객,매장 기준으로 조회", description = "가맹점 스탬프 중복발급 예외 처리를 위한 API")

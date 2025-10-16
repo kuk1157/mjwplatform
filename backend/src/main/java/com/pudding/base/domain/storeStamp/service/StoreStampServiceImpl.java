@@ -84,4 +84,10 @@ public class StoreStampServiceImpl implements StoreStampService{
         return storeStamps.stream().map(StoreStampDto::fromEntity).toList();
     }
 
+    // 고객 매장 방문 스탬프 상세 조회
+    public StoreStampDto getStoreStampById(Integer id){
+        StoreStamp storeStamp = storeStampRepository.findById(id).orElseThrow(() -> new CustomException("존재하지 않는 방문 스탬프입니다."));
+        return StoreStampDto.fromEntity(storeStamp);
+    }
+
 }
