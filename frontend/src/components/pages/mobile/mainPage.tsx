@@ -79,7 +79,7 @@ export function MobileMainPage() {
 
     // 나의 정보 페이지로 이동
     const myInfoButton = () => {
-        navigate(`/mobile/myPage/${customerId}`);
+        navigate(`/mobile/myPage`);
     };
     return (
         <div className="min-h-screen bg-[#fbfbfc] p-4 font-Pretendard">
