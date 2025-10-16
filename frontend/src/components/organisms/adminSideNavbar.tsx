@@ -73,6 +73,10 @@ const AdminSideNavbar = () => {
                                     handleToggle(menu.id)
                                 }
                             >
+                                {/* 메뉴 아이콘 */}
+                                <div className="mr-[15px] text-[25px]">
+                                    {menu.icon}
+                                </div>
                                 <span
                                     className={`block w-full h-full ${
                                         active ? "font-bold" : ""
@@ -96,6 +100,11 @@ const AdminSideNavbar = () => {
                                 to={menu.path}
                                 className="flex items-center py-3"
                             >
+                                {/* 메뉴 아이콘 */}
+                                <div className="mr-[15px] text-[25px]">
+                                    {menu.icon}
+                                </div>
+
                                 <span
                                     className={`block w-full h-full ${
                                         active ? "font-bold text-[#21A089]" : ""

@@ -1,3 +1,8 @@
+import { FiUsers } from "react-icons/fi"; // 사용자 아이콘
+import { CiCircleList } from "react-icons/ci"; // 공지사항 아이콘
+import { IoStorefrontOutline } from "react-icons/io5"; // 매장관리 아이콘
+import { ImStatsBars } from "react-icons/im"; // 통계 아이콘
+
 // Header 메뉴
 const MenuList = [
     {
@@ -16,6 +21,7 @@ const AdminMenuList = [
         parent_id: null,
         seq: 3,
         is_active: "Y",
+        icon: <FiUsers />,
     },
     {
         id: 2,
@@ -24,6 +30,7 @@ const AdminMenuList = [
         parent_id: null,
         seq: 3,
         is_active: "Y",
+        icon: <CiCircleList />,
     },
     {
         id: 3,
@@ -32,6 +39,7 @@ const AdminMenuList = [
         parent_id: null,
         seq: 3,
         is_active: "Y",
+        icon: <IoStorefrontOutline />,
     },
     {
         id: 4,
@@ -57,6 +65,7 @@ const AdminMenuList = [
         parent_id: null,
         seq: 3,
         is_active: "Y",
+        icon: <ImStatsBars />,
     },
 
     {
