@@ -171,3 +171,22 @@ export interface StoreStamp {
     customerId: number;
     storeId: number;
 }
+
+// NFT
+export interface Nft {
+    id: number;
+    tokenId: number;
+    storeId: number;
+    customerId: number;
+    storeName?: string;
+    createdAt: string;
+}
+
+// 방문기록
+export interface VisitLog {
+    id: number;
+    storeId: number;
+    customerId: number;
+    storeName?: string;
+    createdAt: string;
+}

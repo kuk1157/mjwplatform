@@ -1,22 +1,25 @@
+import axios from "axios";
+import { useEffect, useState } from "react";
+
+// [파일 첨부 경로]
+import { cdn } from "src/constans"; // 파일첨부 경로(네이버클라우드)
+import { storeFolder } from "src/constans"; // 첨부 디렉토리 경로 stroe
+
+// [아이콘 및 공통 컴포넌트]
 import { MainContainer } from "../molecules/container";
+
+// [공통 데이터 인터페이스]
+import { StoreType } from "src/types"; // 가맹점(매장) 인터페이스
+import { NoticeDataType } from "src/types"; // 공지사항 인터페이스
+
+// [swiper 플러그인]
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Navigation, Autoplay } from "swiper/modules";
-
-import { useEffect, useState } from "react";
-import { NoticeDataType } from "src/types";
-import { StoreType } from "src/types";
-import { useQuery } from "react-query";
-import axios from "axios";
-import { cdn } from "src/constans";
-import { storeFolder } from "src/constans";
-// import { UserApi } from "src/utils/userApi";
-// import { useRecoilValue } from "recoil";
-
-// import { useNavigate } from "react-router-dom";
 import "swiper/css";
 import "swiper/css/navigation";
 import "swiper/css/autoplay";
 
+// 슬라이드 화살표 커스텀
 const customSwiperStyle = `
 .swiper-button-next,
 .swiper-button-prev {
@@ -43,52 +46,27 @@ const customSwiperStyle = `
 `;
 
 function MainPage() {
-    const [noticefilteredData, setNoticeFilteredData] = useState<
-        NoticeDataType[]
-    >([]); // 필터링된 데이터
-    const [storefilteredData, setStoreFilteredData] = useState<StoreType[]>([]); // 필터링된 데이터
+    const [stores, setStores] = useState<StoreType[]>([]); // 가맹점(매장) 데이터 세팅
+    const [notices, setNotices] = useState<NoticeDataType[]>([]); // 공지사항 데이터 세팅
+    const itemsPerPage = 3; // 공지사항 3개 고정
 
-    const itemsPerPage = 3;
-    const { data: noticeData, isFetching: noticeLoading } = useQuery({
-        queryKey: ["noticeList"],
-        queryFn: async () => {
-            const res = await axios.get(`/api/v1/notice?size=${itemsPerPage}`);
-            return res.data;
-        },
-        refetchOnWindowFocus: false,
-    });
-
+    // 가맹점, 공지사항, 최근 NFT, 최근 방문기록 데이터 추출
     useEffect(() => {
-        if (!noticeLoading && noticeData) {
-            setNoticeFilteredData(noticeData.content);
-        }
-    }, [noticeData, noticeLoading]);
+        const fetchData = async () => {
+            try {
+                const [storeList, noticeList] = await Promise.all([
+                    axios.get("/api/v1/stores"),
+                    axios.get(`/api/v1/notice?size=${itemsPerPage}`),
+                ]);
+                setStores(storeList.data.content); // 가맹점 데이터 추출
+                setNotices(noticeList.data.content); // 공지사항 데이터 추출
+            } catch (error) {
+                console.error("데이터 조회 실패:", error);
+            }
+        };
 
-    const { data: storeData, isFetching: storeLoading } = useQuery({
-        queryKey: ["storeList"],
-        queryFn: async () => {
-            const res = await axios.get("/api/v1/stores"); // 각 가맹점 정보 포함
-            return res.data;
-        },
-        refetchOnWindowFocus: false,
-    });
-
-    useEffect(() => {
-        if (!storeLoading && storeData) {
-            setStoreFilteredData(storeData.content);
-        }
-    }, [storeData, storeLoading]);
-    // 위에 배너 슬라이드
-    const images = [
-        "/public/assets/image/mainTitle.png",
-        "/public/assets/image/mainTitle.png",
-        "/public/assets/image/mainTitle.png",
-        "/public/assets/image/mainTitle.png",
-        "/public/assets/image/mainTitle.png",
-    ];
-
-    // // 가로 메인 이미지
-    // const imageSrc = "/public/assets/image/mainStore.png";
+        fetchData();
+    }, [itemsPerPage]);
 
     // 점주 결제 목록 조회 페이지로 이동
     const btn1 = () => {
@@ -121,10 +99,10 @@ function MainPage() {
                                     navigation={true}
                                     className="rounded-2xl overflow-hidden"
                                 >
-                                    {images.map((src, idx) => (
+                                    {Array.from({ length: 5 }).map((_, idx) => (
                                         <SwiperSlide key={idx}>
                                             <img
-                                                src={src}
+                                                src={`/assets/image/mainTitle.png`}
                                                 alt={`메인 타이틀 ${idx + 1}`}
                                                 className="w-full h-auto block"
                                             />
@@ -192,7 +170,7 @@ function MainPage() {
                                 className="flex items-center"
                             >
                                 {[...Array(3)].flatMap(() =>
-                                    storefilteredData?.map((store, idx) => {
+                                    stores?.map((store, idx) => {
                                         const src = `${cdn}/${storeFolder}/${store.thumbnail}${store.extension}`;
                                         return (
                                             <SwiperSlide
@@ -232,22 +210,18 @@ function MainPage() {
                                 </div>
                                 <div className="flex flex-col p-5 font-normal">
                                     <div className="flex flex-col">
-                                        {noticefilteredData.length > 0 ? (
-                                            noticefilteredData.map(
-                                                (notice, idx) => (
-                                                    <div
-                                                        key={idx}
-                                                        className="flex p-2 border-b border-[#580098]"
-                                                    >
-                                                        <span className="bg-[#580098] w-14 text-[#fff] text-center rounded-md mr-4">
-                                                            공지
-                                                        </span>
-                                                        <span>
-                                                            {notice.title}
-                                                        </span>
-                                                    </div>
-                                                )
-                                            )
+                                        {notices.length > 0 ? (
+                                            notices.map((notice, idx) => (
+                                                <div
+                                                    key={idx}
+                                                    className="flex p-2 border-b border-[#580098]"
+                                                >
+                                                    <span className="bg-[#580098] w-14 text-[#fff] text-center rounded-md mr-4">
+                                                        공지
+                                                    </span>
+                                                    <span>{notice.title}</span>
+                                                </div>
+                                            ))
                                         ) : (
                                             <div className="p-2 text-gray-400">
                                                 공지사항이 없습니다.
@@ -260,7 +234,7 @@ function MainPage() {
                             {/* 버튼 영역 */}
                             <div className="w-[850px] text-xl flex">
                                 <button
-                                    className="w-[360px] p-5 mx-2 bg-[#580098] rounded-xl text-[#fff] flex flex-col items-center justify-center"
+                                    className="w-[390px] p-5 mx-2 bg-[#580098] rounded-xl text-[#fff] flex flex-col items-center justify-center"
                                     onClick={btn1}
                                 >
                                     <img
@@ -274,7 +248,7 @@ function MainPage() {
                                 </button>
 
                                 <button
-                                    className="w-[360px] p-5 mx-2 bg-[#580098] rounded-xl text-[#fff] flex flex-col items-center justify-center"
+                                    className="w-[390px] p-5 mx-2 bg-[#580098] rounded-xl text-[#fff] flex flex-col items-center justify-center"
                                     onClick={btn2}
                                 >
                                     <img

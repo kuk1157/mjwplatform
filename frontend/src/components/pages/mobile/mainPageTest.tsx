@@ -1,121 +1,83 @@
 import axios from "axios";
-import { useParams, useNavigate, Link } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import { useEffect, useState } from "react";
-import { useQuery } from "react-query";
 
+// [파일 첨부 경로]
+import { cdn } from "src/constans"; // 파일첨부 경로(네이버클라우드)
+import { storeFolder } from "src/constans"; // 첨부 디렉토리 경로 stroe
+
+// [아이콘 및 공통 컴포넌트]
 // import { MdArrowForwardIos } from "react-icons/md";
 import { MobileMain } from "src/components/organisms/mobileMain"; // 모바일 상단 타이틀
 import { MobileFooter2 } from "src/components/organisms/mobileFooter2"; // 하단 모바일 footer 공통 컴포넌트
 
+// [공통 데이터 인터페이스]
+import { StoreType } from "src/types"; // 가맹점(매장) 인터페이스
+import { NoticeDataType } from "src/types"; // 공지사항 인터페이스
+import { Nft } from "src/types"; // NFT 인터페이스
+import { VisitLog } from "src/types"; // 방문기록 인터페이스
+
+// [swiper 플러그인]
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Navigation, Autoplay } from "swiper/modules";
-import { NoticeDataType } from "src/types";
-import { StoreType } from "src/types";
-import { cdn } from "src/constans";
-import { storeFolder } from "src/constans";
-
 import "swiper/css";
 import "swiper/css/navigation";
 import "swiper/css/autoplay";
 
-interface Nft {
-    id: number;
-    tokenId: number;
-    storeId: number;
-    customerId: number;
-    storeName?: string;
-    createdAt: string;
-}
-
-interface VisitLog {
-    id: number;
-    storeId: number;
-    customerId: number;
-    storeName?: string;
-    createdAt: string;
-}
-
-// 위에 배너 슬라이드
-const images = [
-    "/public/assets/image/mainTitle.png",
-    "/public/assets/image/mainTitle.png",
-    "/public/assets/image/mainTitle.png",
-    "/public/assets/image/mainTitle.png",
-    "/public/assets/image/mainTitle.png",
-];
-
 export function MobileMainPageTest() {
     const navigate = useNavigate();
-    const { customerId } = useParams();
-    const [nftLogs, setNfts] = useState<Nft[]>([]);
-    const [visitLogs, setVisitLogs] = useState<VisitLog[]>([]);
-    const [noticefilteredData, setNoticeFilteredData] = useState<
-        NoticeDataType[]
-    >([]); // 필터링된 데이터
-    const [storefilteredData, setStoreFilteredData] = useState<StoreType[]>([]); // 필터링된 데이터
+    const customerId = localStorage.getItem("customerId"); // 고객 번호 가져오기
+    const [stores, setStores] = useState<StoreType[]>([]); // 가맹점(매장) 데이터 세팅
+    const [notices, setNotices] = useState<NoticeDataType[]>([]); // 공지사항 데이터 세팅
+    const [nftLogs, setNfts] = useState<Nft[]>([]); // NFT 데이터 세팅
+    const [visitLogs, setVisitLogs] = useState<VisitLog[]>([]); // 방문 기록 데이터 세팅
+    const itemsPerPage = 3; // 공지사항 3개 고정
 
-    // 공지사항 3개 불러오기
-    const itemsPerPage = 3;
-    const { data: noticeData, isFetching: noticeLoading } = useQuery({
-        queryKey: ["noticeList"],
-        queryFn: async () => {
-            const res = await axios.get(`/api/v1/notice?size=${itemsPerPage}`);
-            return res.data;
-        },
-        refetchOnWindowFocus: false,
-    });
-
-    useEffect(() => {
-        if (!noticeLoading && noticeData) {
-            setNoticeFilteredData(noticeData.content);
-        }
-    }, [noticeData, noticeLoading]);
-
-    // 가맹점 목록 출력 - 이미지 슬라이드 용도
-    const { data: storeData, isFetching: storeLoading } = useQuery({
-        queryKey: ["storeList"],
-        queryFn: async () => {
-            const res = await axios.get("/api/v1/stores"); // 각 가맹점 정보 포함
-            return res.data;
-        },
-        refetchOnWindowFocus: false,
-    });
-
-    useEffect(() => {
-        if (!storeLoading && storeData) {
-            setStoreFilteredData(storeData.content);
-        }
-    }, [storeData, storeLoading]);
-
-    // 최근 NFT, 최근 방문기록
+    // 가맹점, 공지사항, 최근 NFT, 최근 방문기록 데이터 추출
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const [nftRes, visits] = await Promise.all([
-                    axios.get(
-                        `/api/v1/customers/${customerId}/nfts?sort=desc&limit=2`
-                    ),
-                    axios.get(
-                        `/api/v1/customers/${customerId}/visits?sort=desc&limit=2`
-                    ),
-                ]);
-                setNfts(nftRes.data); // 해당 고객의 NFT데이터 추출(최근 2개)
-                setVisitLogs(visits.data); // 해당 고객의 방문기록 데이터 추출(최근 2개)
+                if (customerId) {
+                    // 고객이 로그인되어 있을 때
+                    const [storeList, noticeList, nftRes, visits] =
+                        await Promise.all([
+                            axios.get("/api/v1/stores"),
+                            axios.get(`/api/v1/notice?size=${itemsPerPage}`),
+                            axios.get(
+                                `/api/v1/customers/${customerId}/nfts?sort=desc&limit=2`
+                            ),
+                            axios.get(
+                                `/api/v1/customers/${customerId}/visits?sort=desc&limit=2`
+                            ),
+                        ]);
+                    setStores(storeList.data.content); // 가맹점 데이터 추출
+                    setNotices(noticeList.data.content); // 공지사항 데이터 추출
+                    setNfts(nftRes.data); // NFT 데이터 추출
+                    setVisitLogs(visits.data); // 방문기록 데이터 추출
+                } else {
+                    // 로그인 안 된 경우
+                    const [storeList, noticeList] = await Promise.all([
+                        axios.get("/api/v1/stores"),
+                        axios.get(`/api/v1/notice?size=${itemsPerPage}`),
+                    ]);
+                    setStores(storeList.data.content); // 가맹점 데이터 추출
+                    setNotices(noticeList.data.content); // 공지사항 데이터 추출
+                }
             } catch (error) {
                 console.error("데이터 조회 실패:", error);
             }
         };
 
         fetchData();
-    }, [customerId, navigate]);
+    }, [customerId, itemsPerPage, navigate]);
 
     return (
         <div className="min-h-screen bg-[#fbfbfc] p-4 font-Pretendard">
             {/* 모바일 타이틀 */}
             {<MobileMain param={Number(customerId)} />}
 
-            {/* 상단 배너 광고 */}
-            <header className=" rounded-lg mb-5 font-semibold text-base truncate">
+            {/* 상단 배너 슬라이드 */}
+            <div className=" rounded-lg mb-5 font-semibold text-base truncate">
                 <Swiper
                     modules={[Navigation, Autoplay]}
                     slidesPerView={1}
@@ -129,20 +91,20 @@ export function MobileMainPageTest() {
                     navigation={false}
                     className="rounded-2xl overflow-hidden"
                 >
-                    {images.map((src, idx) => (
+                    {Array.from({ length: 5 }).map((_, idx) => (
                         <SwiperSlide key={idx}>
                             <img
-                                src={src}
+                                src={`/assets/image/mainTitle.png`}
                                 alt={`메인 타이틀 ${idx + 1}`}
                                 className="w-full h-[150px] block"
                             />
                         </SwiperSlide>
                     ))}
                 </Swiper>
-            </header>
+            </div>
 
             {/* 가맹점 썸네일 슬라이드 */}
-            <header className=" rounded-lg mb-5 font-semibold text-base truncate">
+            <div className=" rounded-lg mb-5 font-semibold text-base truncate">
                 <Swiper
                     modules={[Navigation, Autoplay]}
                     slidesPerView={1}
@@ -156,7 +118,8 @@ export function MobileMainPageTest() {
                     navigation={false}
                     className="rounded-2xl overflow-hidden"
                 >
-                    {storefilteredData?.map((store, idx) => {
+                    {stores?.map((store, idx) => {
+                        // 최종 경로 가공
                         const src = `${cdn}/${storeFolder}/${store.thumbnail}${store.extension}`;
                         return (
                             <SwiperSlide key={idx}>
@@ -181,10 +144,17 @@ export function MobileMainPageTest() {
                         );
                     })}
                 </Swiper>
-            </header>
+            </div>
 
-            {/* 금액 영역 */}
-            <header className=" rounded-lg mb-5 font-semibold text-base truncate">
+            {/* 금액 타이틀 영역 */}
+            <div className="mt-8 mb-3">
+                <div className="flex items-center gap-2 mb-2">
+                    <h2 className="text-2xl font-semibold ">금액 정보</h2>
+                </div>
+            </div>
+
+            {/* 금액 컨텐츠 영역 */}
+            <div className="mb-5 p-5 font-semibold text-base truncate bg-white rounded-xl shadow-sm">
                 <div className="flex justify-between border-b border-[#580098] p-5">
                     <span>현재 보유 포인트</span>
                     <span className="text-[#580098]">13,500P</span>
@@ -216,20 +186,21 @@ export function MobileMainPageTest() {
                         </div>
                     </div>
                 </div>
-            </header>
+            </div>
 
+            {/* 공지사항 타이틀 영역 */}
             <div className="mt-8 mb-3">
                 <div className="flex items-center gap-2 mb-2">
                     <h2 className="text-2xl font-semibold ">공지사항</h2>
                 </div>
             </div>
 
-            {/* NFT 목록 */}
-            <section>
-                <div className="flex flex-col p-5 font-normal  text-sm">
+            {/* 공지사항 컨텐츠 영역 */}
+            <div>
+                <div className="flex flex-col p-5 font-normal text-sm bg-white rounded-xl shadow-sm">
                     <div className="flex flex-col">
-                        {noticefilteredData.length > 0 ? (
-                            noticefilteredData.map((notice, idx) => (
+                        {notices.length > 0 ? (
+                            notices.map((notice, idx) => (
                                 <div
                                     key={idx}
                                     className="flex p-2 border-b border-[#580098]"
@@ -249,17 +220,18 @@ export function MobileMainPageTest() {
                         )}
                     </div>
                 </div>
-            </section>
+            </div>
 
+            {/* NFT 타이틀 영역 */}
             <div className="mt-8 mb-3">
                 <div className="flex items-center gap-2 mb-2">
                     <h2 className="text-2xl font-semibold ">최근 NFT 목록</h2>
                 </div>
             </div>
 
-            {/* NFT 목록 */}
+            {/* NFT 컨텐츠 영역 */}
             <section>
-                {nftLogs.length > 0 ? (
+                {nftLogs.length > 0 && customerId ? (
                     nftLogs.map((nft, idx) => (
                         <Link to={`/mobile/nftDetail/${customerId}/${nft.id}`}>
                             <div
@@ -300,15 +272,17 @@ export function MobileMainPageTest() {
                     </div>
                 )}
             </section>
+
+            {/* 방문 기록 타이틀 영역 */}
             <div className="mt-8 mb-3">
                 <div className="flex items-center gap-2 mb-2">
                     <h2 className="text-2xl font-semibold ">최근 방문기록</h2>
                 </div>
             </div>
 
-            {/* 방문 목록 */}
+            {/* 방문 기록 컨텐츠 영역 */}
             <section>
-                {visitLogs.length > 0 ? (
+                {visitLogs.length > 0 && customerId ? (
                     visitLogs.map((visitLog, idx) => (
                         <div
                             key={idx}
