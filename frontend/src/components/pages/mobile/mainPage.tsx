@@ -128,10 +128,14 @@ export function MobileMainPage() {
                 <p>DID : {did}</p>
             </header> */}
 
-            <div className="p-4">
-                <h2 className="text-xl font-bold mb-4">나의 등급</h2>
+            <div className="mt-8 mb-3">
+                <div className="flex items-center gap-2 mb-2">
+                    <h2 className="text-2xl font-semibold ">나의 등급</h2>
+                </div>
+            </div>
 
-                <div className="grid grid-cols-3 gap-4">
+            <div>
+                <div className="grid grid-cols-3 gap-4 bg-white rounded-xl shadow-sm border border-gray-100 p-5 mb-3 items-center">
                     <span>
                         {CustomerGrades[customer?.customerGrade ?? ""] ?? "-"}
                     </span>
@@ -142,7 +146,7 @@ export function MobileMainPage() {
                         ></img>
                     </span>
                 </div>
-                <div>
+                <div className="bg-white rounded-xl shadow-sm border border-gray-100 p-5 mb-3 flex items-center">
                     <span>
                         쿠폰 발급 가능 여부{" "}
                         {customer?.couponAvailable === "Y" ? "✅" : "❌"}
@@ -153,10 +157,14 @@ export function MobileMainPage() {
                 </div>
             </div>
 
-            <div className="p-4">
-                <h2 className="text-xl font-bold mb-4">내 스탬프 카드</h2>
+            <div className="mt-8 mb-3">
+                <div className="flex items-center gap-2 mb-2">
+                    <h2 className="text-2xl font-semibold ">내 스탬프 카드</h2>
+                </div>
+            </div>
 
-                <div className="grid grid-cols-3 gap-4">
+            <div>
+                <div className="grid grid-cols-3 gap-4 bg-white rounded-xl shadow-sm border border-gray-100 p-5 mb-3 items-center ">
                     {storefilteredData?.map((store, idx) => {
                         const src = `${cdn}/${storeFolder}/${store.thumbnail}${store.extension}`;
 
