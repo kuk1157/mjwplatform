@@ -22,8 +22,10 @@ function OwnerDashBoard() {
     const [storeId, setStoreId] = useState(); // 가맹점 id 세팅
     const [totalPoint, setTotalPoint] = useState(); // 합계포인트(점주 보유포인트)
     const [newVisitLogs, setNewVisits] = useState<VisitLog[]>([]); // 최근 방문 기록 세팅
-
+    const [requestPrice, setRequestPrice] = useState(""); // 현금화 금액
+    const [isOpen, setIsOpen] = useState(false); // 모바일 상단 정보 토글 버튼 값 세팅
     const socketRef = useRef<any>(null);
+
     useEffect(() => {
         if (!ownerId) return;
         const accessToken = localStorage.getItem("accessToken"); // 토큰 세팅
@@ -182,53 +184,59 @@ function OwnerDashBoard() {
         navigate(`/owner/ownerAllVisitLog/${storeId}`);
     };
 
-    const [isOpen, setIsOpen] = useState(false);
+    const TestPostcash = async () => {
+        try {
+            const cashInput = document.querySelector(
+                ".cashInput"
+            ) as HTMLInputElement | null;
 
-    // const TestPostcash = async () => {
-    //     try {
-    //         const cashInput = document.querySelector(
-    //             ".cashInput"
-    //         ) as HTMLInputElement | null;
+            const memberId = ownerId;
+            const requestNumber = Number(requestPrice);
 
-    //         const memberId = user.id;
-    //         const requestNumber = Number(requestPrice);
+            if (!requestNumber) {
+                alert("현금 신청할 금액을 입력해주세요.");
+                if (cashInput) {
+                    setRequestPrice("");
+                }
+                return;
+            }
 
-    //         if (!requestPrice) {
-    //             alert("현금 신청할 금액을 입력해주세요.");
-    //             if (cashInput) {
-    //                 setRequestPrice("");
-    //             }
-    //             return;
-    //         }
+            if (requestNumber <= 0) {
+                alert("0원이나 (-) 금액은 입력할 수 없습니다.");
+                if (cashInput) {
+                    setRequestPrice("");
+                }
+                return;
+            }
 
-    //         if (requestNumber <= 0) {
-    //             alert("0원이나 (-) 금액은 입력할 수 없습니다.");
-    //             if (cashInput) {
-    //                 setRequestPrice("");
-    //             }
-    //             return;
-    //         }
+            if (requestNumber < 1000) {
+                alert("현금 신청 금액은 최소 1000원부터 가능합니다.");
+                if (cashInput) {
+                    setRequestPrice("");
+                }
+                return;
+            }
 
-    //         if (user.totalPoint <= requestNumber) {
-    //             alert("현금 신청할 금액은 보유포인트보다 클 수 없습니다.");
-    //             if (cashInput) {
-    //                 setRequestPrice("");
-    //             }
-    //             return;
-    //         }
+            if ((totalPoint ?? 0) <= requestNumber) {
+                alert("현금 신청할 금액은 보유포인트보다 클 수 없습니다.");
+                if (cashInput) {
+                    setRequestPrice("");
+                }
+                return;
+            }
 
-    //         const url = `/api/v1/pointCashOutRequest/${memberId}`;
-    //         const response = await axios.post(url, {
-    //             cash: requestNumber,
-    //             headers: { "Content-Type": "application/json" },
-    //         });
-    //         alert(`${requestNumber}포인트 현금화 신청이 완료 되었습니다.`);
-    //         navigate(0);
-    //         console.log("현금 신청 결과:", response.data);
-    //     } catch (error) {
-    //         console.error("현금 신청 실패:", error);
-    //     }
-    // };
+            const url = `/api/v1/pointCashOutRequest/${memberId}`;
+            const response = await axios.post(url, {
+                cash: requestNumber,
+                headers: { "Content-Type": "application/json" },
+            });
+            alert(`${requestNumber}포인트 현금화 신청이 완료 되었습니다.`);
+            navigate(0);
+            console.log("현금 신청 결과:", response.data);
+        } catch (error) {
+            console.error("현금 신청 실패:", error);
+        }
+    };
 
     return (
         <MainContainer className="bg-[#FFF] py-[100px] lg:py-[150px] sm:py-[100px] xs:py-[60px]">
@@ -367,9 +375,16 @@ function OwnerDashBoard() {
                                 <input
                                     type="number"
                                     placeholder="신청 금액 입력"
-                                    className="border border-gray-300 rounded-lg px-3 py-2 text-sm w-[140px] focus:outline-none focus:ring-2 focus:ring-[#E61F2C]"
+                                    value={requestPrice}
+                                    onChange={(e) =>
+                                        setRequestPrice(e.target.value)
+                                    }
+                                    className="cashInput border border-gray-300 rounded-lg px-3 py-2 text-sm w-[140px] focus:outline-none focus:ring-2 focus:ring-[#E61F2C]"
                                 />
-                                <button className="px-5 py-2 rounded-lg font-semibold shadow-sm bg-[#E61F2C] hover:bg-[#c51b25] text-white">
+                                <button
+                                    className="px-5 py-2 rounded-lg font-semibold shadow-sm bg-[#E61F2C] hover:bg-[#c51b25] text-white"
+                                    onClick={TestPostcash}
+                                >
                                     신청
                                 </button>
                             </div>
