@@ -28,7 +28,7 @@ function OwnerPointList() {
 
         const fetchData = async () => {
             try {
-                const url = `/api/v1/point/owner/${ownerId}`;
+                const url = `/api/v1/points/owner/${ownerId}`;
                 const response = await axios.get(url);
                 setOwnerPoints(response.data.content || []);
                 setTotalPages(response.data.totalPages);

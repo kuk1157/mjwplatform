@@ -186,7 +186,11 @@ export interface Nft {
 export interface VisitLog {
     id: number;
     storeId: number;
+    storeTableId: number;
     customerId: number;
     storeName?: string;
+    memberName?: string;
+    paymentStatus: "y" | "n"; // 결제 완료 여부
+    visitStatus: "y" | "n"; // 방문 완료 여부
     createdAt: string;
 }

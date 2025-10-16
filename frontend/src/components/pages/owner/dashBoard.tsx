@@ -1,36 +1,29 @@
-import { MainContainer } from "../../molecules/container";
 import axios, { AxiosError } from "axios";
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import { io } from "socket.io-client";
 import { useRef } from "react";
 
+// [아이콘 및 공통 컴포넌트]
+import { MainContainer } from "../../molecules/container";
 import { IoIosArrowDown } from "react-icons/io"; // 페이지 접는용도
 
-interface VisitLog {
-    id: number;
-    storeId: number;
-    storeTableId: number;
-    customerId: number;
-    storeName?: string;
-    memberName?: string;
-    paymentStatus: "y" | "n"; // 결제 완료 여부
-    visitStatus: "y" | "n"; // 방문 완료 여부
-    createdAt: string;
-}
+// socket
+import { io } from "socket.io-client";
+
+// [공통 데이터 인터페이스]
+import { VisitLog } from "src/types"; // 방문기록 인터페이스
 
 function OwnerDashBoard() {
-    const [amount, setAmount] = useState(""); // 주문 금액 동적 처리 세팅
-    const [name, setStoreName] = useState();
-    const [ownerName, setOwnerName] = useState();
-    const [storeId, setStoreId] = useState();
-    const { ownerId } = useParams();
-    const [totalPoint, setTotalPoint] = useState();
-    const [newVisitLogs, setNewVisits] = useState<VisitLog[]>([]);
-
     const navigate = useNavigate();
-    const socketRef = useRef<any>(null);
+    const { ownerId } = useParams(); // 점주 ID
+    const [amount, setAmount] = useState(""); // 주문 금액 동적 처리 세팅
+    const [name, setStoreName] = useState(); // 가맹점 이름 세팅
+    const [ownerName, setOwnerName] = useState(); // 점주 이름 세팅
+    const [storeId, setStoreId] = useState(); // 가맹점 id 세팅
+    const [totalPoint, setTotalPoint] = useState(); // 합계포인트(점주 보유포인트)
+    const [newVisitLogs, setNewVisits] = useState<VisitLog[]>([]); // 최근 방문 기록 세팅
 
+    const socketRef = useRef<any>(null);
     useEffect(() => {
         if (!ownerId) return;
         const accessToken = localStorage.getItem("accessToken"); // 토큰 세팅
@@ -45,11 +38,10 @@ function OwnerDashBoard() {
                     }),
                 ]);
                 setTotalPoint(userRes.data.totalPoint); // 점주 보유포인트 세팅
-
                 const storeId = storeRes.data.id; // 가맹점 고유번호 추출
-                setStoreId(storeId); // 가맹점 고유번호 저장
-                setStoreName(storeRes.data.name); // 가맹점 이름
-                setOwnerName(storeRes.data.ownerName); // 점주 이름
+                setStoreId(storeId); // 가맹점 고유번호 세팅
+                setStoreName(storeRes.data.name); // 가맹점 이름 세팅
+                setOwnerName(storeRes.data.ownerName); // 점주 이름 세팅
 
                 // 신규 방문(주문) 기록
                 const [newVisitLogRes] = await Promise.all([
@@ -61,7 +53,6 @@ function OwnerDashBoard() {
                 if (!socketRef.current) {
                     socketRef.current = io("https://coex.everymeta.kr:7951");
                 }
-
                 socketRef.current.emit("joinStore", storeId);
                 socketRef.current.on("storeMessage", (visitLog: VisitLog) => {
                     // 신규 방문기록을 newVisitLogs에 추가
@@ -77,7 +68,7 @@ function OwnerDashBoard() {
 
         fetchData();
 
-        // 🔌 컴포넌트 언마운트 시 소켓 종료
+        // 컴포넌트 언마운트 시 소켓 종료
         return () => {
             if (socketRef.current) {
                 socketRef.current.disconnect();
@@ -90,9 +81,9 @@ function OwnerDashBoard() {
     const parsedAmount = Number(amount) || 0;
 
     // [계산 로직]
-    const discount = Math.floor(parsedAmount * 0.03); // 3%
-    const payment = parsedAmount - discount;
-    const points = discount;
+    const discount = Math.floor(parsedAmount * 0.03); // 3% (할인 금액)
+    const payment = parsedAmount - discount; // 결제 금액
+    const points = discount; // 점주가 받을 포인트
 
     // 신규방문 active border
     const [activeId, setActiveId] = useState<number | null>(null);
@@ -108,6 +99,7 @@ function OwnerDashBoard() {
         }
     };
 
+    // 취소 버튼
     const closeClick = () => {
         setActiveId(null);
     };
@@ -192,10 +184,57 @@ function OwnerDashBoard() {
 
     const [isOpen, setIsOpen] = useState(false);
 
+    // const TestPostcash = async () => {
+    //     try {
+    //         const cashInput = document.querySelector(
+    //             ".cashInput"
+    //         ) as HTMLInputElement | null;
+
+    //         const memberId = user.id;
+    //         const requestNumber = Number(requestPrice);
+
+    //         if (!requestPrice) {
+    //             alert("현금 신청할 금액을 입력해주세요.");
+    //             if (cashInput) {
+    //                 setRequestPrice("");
+    //             }
+    //             return;
+    //         }
+
+    //         if (requestNumber <= 0) {
+    //             alert("0원이나 (-) 금액은 입력할 수 없습니다.");
+    //             if (cashInput) {
+    //                 setRequestPrice("");
+    //             }
+    //             return;
+    //         }
+
+    //         if (user.totalPoint <= requestNumber) {
+    //             alert("현금 신청할 금액은 보유포인트보다 클 수 없습니다.");
+    //             if (cashInput) {
+    //                 setRequestPrice("");
+    //             }
+    //             return;
+    //         }
+
+    //         const url = `/api/v1/pointCashOutRequest/${memberId}`;
+    //         const response = await axios.post(url, {
+    //             cash: requestNumber,
+    //             headers: { "Content-Type": "application/json" },
+    //         });
+    //         alert(`${requestNumber}포인트 현금화 신청이 완료 되었습니다.`);
+    //         navigate(0);
+    //         console.log("현금 신청 결과:", response.data);
+    //     } catch (error) {
+    //         console.error("현금 신청 실패:", error);
+    //     }
+    // };
+
     return (
         <MainContainer className="bg-[#FFF] py-[100px] lg:py-[150px] sm:py-[100px] xs:py-[60px]">
             <div className="w-full">
                 <div className="w-full bg-[#FFF] p-6">
+                    {/* 모바일 환경 토글 (열기,닫기) */}
                     <div className="xs:block xxs:block hidden mb-4">
                         <button
                             onClick={() => setIsOpen(!isOpen)}
@@ -207,6 +246,7 @@ function OwnerDashBoard() {
                             <span>{isOpen ? "닫기" : "열기"}</span>
                         </button>
                     </div>
+
                     <div
                         className={`${!isOpen ? "block" : "hidden"} w-full max-w-[880px] mx-auto p-4 flex flex-row md:flex-col items-center justify-between bg-white rounded-[20px] shadow-md border-2 border-[#E61F2C]`}
                     >
@@ -300,6 +340,42 @@ function OwnerDashBoard() {
                                     전체 방문
                                 </p>
                             </button>
+                        </div>
+                    </div>
+                </div>
+
+                {/* 현금화 신청 영역 */}
+                <div className="w-full bg-[#FFF] p-6 mt-6">
+                    <div className="w-full max-w-[880px] mx-auto p-6 flex flex-col md:flex-row items-center justify-between bg-white rounded-[20px] shadow-md border-2 border-[#E61F2C]">
+                        {/* 좌측: 포인트 정보 */}
+                        <div className="flex flex-col text-center md:text-left">
+                            <p className="text-gray-600 text-sm">보유 포인트</p>
+                            <p className="text-2xl font-bold text-[#E61F2C]">
+                                {(totalPoint ?? 0).toLocaleString()} P
+                            </p>
+                            <p className="text-xs text-gray-400 mt-1">
+                                1,000P 이상부터 현금화 신청 가능
+                            </p>
+                        </div>
+
+                        {/* 중앙 구분선 (데스크탑 전용) */}
+                        <div className="hidden md:block h-12 w-px bg-gray-200"></div>
+
+                        {/* 우측: 금액 입력 + 신청 버튼 */}
+                        <div className="flex flex-col items-center md:items-end w-full md:w-auto mt-4 md:mt-0">
+                            <div className="flex items-center gap-2">
+                                <input
+                                    type="number"
+                                    placeholder="신청 금액 입력"
+                                    className="border border-gray-300 rounded-lg px-3 py-2 text-sm w-[140px] focus:outline-none focus:ring-2 focus:ring-[#E61F2C]"
+                                />
+                                <button className="px-5 py-2 rounded-lg font-semibold shadow-sm bg-[#E61F2C] hover:bg-[#c51b25] text-white">
+                                    신청
+                                </button>
+                            </div>
+                            <p className="text-xs text-gray-400 mt-2">
+                                관리자 승인 후 입금 처리됩니다.
+                            </p>
                         </div>
                     </div>
                 </div>
@@ -411,7 +487,6 @@ function OwnerDashBoard() {
                         </div>
                     </div>
                 </div>
-
                 <div
                     className={`${
                         activeId
@@ -419,8 +494,9 @@ function OwnerDashBoard() {
                             : "hidden"
                     }`}
                 >
-                    {/* 배경 딤 */}
+                    {/* 팝업전용 배경 */}
                     <div className="absolute inset-0 bg-black/70 backdrop-blur-md"></div>
+
                     <div className="relative w-full max-w-[880px] mx-auto p-6 bg-[#FFF] rounded-[20px] shadow-2xl z-10 animate-fadeIn ">
                         <div className="w-full max-w-[880px] mx-auto mb-8 md:mb-4">
                             <span className="text-2xl font-bold text-[#E61F2C]">
