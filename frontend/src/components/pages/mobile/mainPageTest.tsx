@@ -26,7 +26,7 @@ import "swiper/css/autoplay";
 
 export function MobileMainPageTest() {
     const navigate = useNavigate();
-    const customerId = localStorage.getItem("customerId"); // 고객 번호 가져오기
+    const customerId = localStorage.getItem("customerId"); // 로그인 후 고객ID 세팅
     const [stores, setStores] = useState<StoreType[]>([]); // 가맹점(매장) 데이터 세팅
     const [notices, setNotices] = useState<NoticeDataType[]>([]); // 공지사항 데이터 세팅
     const [nftLogs, setNfts] = useState<Nft[]>([]); // NFT 데이터 세팅

@@ -485,37 +485,37 @@ const Router = createBrowserRouter([
 
     // 모바일 고객 메인페이지
     {
-        path: "/mobile/mainPage/:customerId",
+        path: "/mobile/mainPage/",
         element: <MobileMainPage />,
     },
 
     // 모바일 고객 마이페이지(나의정보)
     {
-        path: "/mobile/myPage/:customerId",
+        path: "/mobile/myPage/",
         element: <MobileMyPage />,
     },
 
     // 모바일 고객 마이페이지(나의정보)
     {
-        path: "/mobile/myWallet/:customerId",
+        path: "/mobile/myWallet/",
         element: <MobileMyWallet />,
     },
 
     // 모바일 고객 나의 NFT 목록
     {
-        path: "/mobile/myNftList/:customerId",
+        path: "/mobile/myNftList/",
         element: <MobileMyNftList />,
     },
 
     // 모바일 고객 나의 방문 기록 목록
     {
-        path: "/mobile/myVisitLogList/:customerId",
+        path: "/mobile/myVisitLogList/",
         element: <MobileMyVisitLogList />,
     },
 
     // 모바일 고객 나의 방문 기록 목록
     {
-        path: "/mobile/nftDetail/:customerId/:id",
+        path: "/mobile/nftDetail/:id",
         element: <MobileNftDetail />,
     },
 ]);

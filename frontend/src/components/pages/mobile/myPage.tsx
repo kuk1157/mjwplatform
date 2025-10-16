@@ -1,5 +1,5 @@
 import axios from "axios";
-import { useNavigate, useParams } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 
 import { MdArrowBackIosNew } from "react-icons/md"; // 이전 페이지이동 좌측 화살표 아이콘
@@ -8,7 +8,7 @@ import { MobileMain } from "src/components/organisms/mobileMain"; // 모바일 �
 import { MobileFooter } from "src/components/organisms/mobileFooter"; // 하단 모바일 footer 공통 컴포넌트
 
 export function MobileMyPage() {
-    const { customerId } = useParams();
+    const customerId = localStorage.getItem("customerId");
     const [did, setDid] = useState(); // did 세팅 (member 테이블)
     const [memberName, setMemberName] = useState(); // name 세팅 (member 테이블)
     const navigate = useNavigate();
@@ -40,7 +40,7 @@ export function MobileMyPage() {
 
     // 나의 지갑 페이지로 이동
     const myWalletButton = () => {
-        navigate(`/mobile/myWallet/${customerId}`);
+        navigate(`/mobile/myWallet`);
     };
 
     const handleBack = () => {
@@ -90,7 +90,7 @@ export function MobileMyPage() {
             </div>
 
             {/* 하단 네비게이션 */}
-            {customerId && <MobileFooter param={Number(customerId)} />}
+            {customerId && <MobileFooter />}
         </div>
     );
 }

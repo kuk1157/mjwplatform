@@ -1,5 +1,5 @@
 import axios from "axios";
-import { useParams, useNavigate, Link } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import { useEffect, useState } from "react";
 
 // [파일 첨부 경로]
@@ -21,7 +21,7 @@ import { VisitLog } from "src/types"; // 방문기록 인터페이스
 export function MobileMainPage() {
     const navigate = useNavigate();
     const accessToken = localStorage.getItem("accessToken"); // 다대구 연동 로그인시 생성된 토큰 가져오기
-    const { customerId } = useParams(); // 로그인 후 고객ID 세팅
+    const customerId = localStorage.getItem("customerId");
     const [customer, setCustomer] = useState<Customer | null>(null); // 고객 데이터 세팅
     const [stamps, setStamp] = useState<StoreStamp[]>([]); // 방문 스탬프 데이터 세팅
     const [stores, setStore] = useState<StoreType[]>([]); // 가맹점(매장) 데이터 세팅
@@ -187,7 +187,7 @@ export function MobileMainPage() {
             <section>
                 {nftLogs.length > 0 ? (
                     nftLogs.map((nft, idx) => (
-                        <Link to={`/mobile/nftDetail/${customerId}/${nft.id}`}>
+                        <Link to={`/mobile/nftDetail/${nft.id}`}>
                             <div
                                 key={idx}
                                 className="bg-white rounded-xl shadow-sm border border-gray-100 p-5 mb-3 flex items-center"
@@ -283,7 +283,7 @@ export function MobileMainPage() {
             </section>
 
             {/* 하단 네비게이션 */}
-            {customerId && <MobileFooter param={Number(customerId)} />}
+            {customerId && <MobileFooter />}
         </div>
     );
 }

@@ -6,7 +6,7 @@ const MobileMain = ({ param }: MobileMainProps) => {
     return (
         <div className="mb-3 p-1">
             <div className="flex items-center gap-2 mb-2 justify-between">
-                <Link to={`/mobile/mainPage/${param}`}>
+                <Link to={`/mobile/mainPage`}>
                     <img
                         src="/assets/image/mobile/mobileMain.svg"
                         alt="메인 이미지"

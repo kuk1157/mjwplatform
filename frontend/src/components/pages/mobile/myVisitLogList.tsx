@@ -1,5 +1,5 @@
 import axios from "axios";
-import { useParams, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 
 import { MdArrowBackIosNew } from "react-icons/md"; // 이전 페이지이동 좌측 화살표 아이콘
@@ -15,7 +15,7 @@ interface VisitLog {
 }
 
 export function MobileMyVisitLogList() {
-    const { customerId } = useParams();
+    const customerId = localStorage.getItem("customerId");
     const [visitLogs, setVisitLogs] = useState<VisitLog[]>([]);
     const navigate = useNavigate();
 
@@ -111,7 +111,7 @@ export function MobileMyVisitLogList() {
                 )}
             </section>
             {/* 하단 네비게이션 */}
-            {customerId && <MobileFooter param={Number(customerId)} />}
+            {customerId && <MobileFooter />}
         </div>
     );
 }

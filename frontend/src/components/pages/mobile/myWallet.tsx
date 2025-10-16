@@ -1,5 +1,5 @@
 import axios from "axios";
-import { useNavigate, useParams } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { MobileMain } from "src/components/organisms/mobileMain"; // 모바일 상단 타이틀
 import { MobileFooter } from "src/components/organisms/mobileFooter"; // 하단 모바일 footer 공통 컴포넌트
@@ -7,7 +7,7 @@ import { MdAccountBalanceWallet } from "react-icons/md";
 import { MdArrowBackIosNew } from "react-icons/md"; // 이전 페이지이동 좌측 화살표 아이콘
 
 export function MobileMyWallet() {
-    const { customerId } = useParams();
+    const customerId = localStorage.getItem("customerId");
     const [Wallet, setWallet] = useState(); // 지갑 세팅 (member 테이블)
     const navigate = useNavigate();
     const accessToken = localStorage.getItem("accessToken"); // 토큰 세팅
@@ -79,7 +79,7 @@ export function MobileMyWallet() {
             </div>
 
             {/* 하단 네비게이션 */}
-            {customerId && <MobileFooter param={Number(customerId)} />}
+            {customerId && <MobileFooter />}
         </div>
     );
 }

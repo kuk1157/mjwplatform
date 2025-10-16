@@ -1,8 +1,4 @@
 import { useNavigate, useLocation } from "react-router-dom";
-interface MobileFooterProps {
-    param: number;
-}
-
 // 메뉴 타입 정의
 type MenuItem = {
     label: string;
@@ -13,27 +9,27 @@ type MenuItem = {
 
 // 메뉴 데이터
 const menuList: MenuItem[] = [
-    { label: "홈", path: `/mobile/mainPage/`, iconName: "home.svg" },
+    { label: "홈", path: `/mobile/mainPage`, iconName: "home.svg" },
     {
         label: "NFT 갤러리",
-        path: `/mobile/myNftList/`,
+        path: `/mobile/myNftList`,
         iconName: "nftGallery.svg",
-        matchPaths: ["/mobile/myNftList/", "/mobile/nftDetail/"],
+        matchPaths: ["/mobile/myNftList", "/mobile/nftDetail"],
     },
     {
         label: "방문 기록",
-        path: `/mobile/myVisitLogList/`,
+        path: `/mobile/myVisitLogList`,
         iconName: "visit.svg",
     },
     {
         label: "나의 정보",
-        path: `/mobile/myPage/`,
+        path: `/mobile/myPage`,
         iconName: "myInfo.svg",
-        matchPaths: ["/mobile/myPage/", "/mobile/myWallet/"],
+        matchPaths: ["/mobile/myPage", "/mobile/myWallet"],
     },
 ];
 
-const MobileFooter = ({ param }: MobileFooterProps) => {
+const MobileFooter = () => {
     const navigate = useNavigate();
     const location = useLocation();
 
@@ -41,7 +37,7 @@ const MobileFooter = ({ param }: MobileFooterProps) => {
         <nav className="fixed bottom-0 left-0 right-0 bg-white shadow-md">
             <div className="flex justify-around items-center h-16">
                 {menuList.map((menu) => {
-                    const fullPath = `${menu.path}${param}`; // param 붙인 실제 URL
+                    const fullPath = `${menu.path}`; // param 붙인 실제 URL
                     const isActive = menu.matchPaths
                         ? menu.matchPaths.some((p) =>
                               location.pathname.startsWith(p)

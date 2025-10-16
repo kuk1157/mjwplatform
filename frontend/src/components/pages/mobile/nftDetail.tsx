@@ -20,7 +20,8 @@ interface NftList {
 }
 
 export function MobileMyWallet() {
-    const { customerId, id } = useParams();
+    const { id } = useParams();
+    const customerId = localStorage.getItem("customerId");
     const [nftDetails, setNftDetails] = useState<NftList | null>(null); // NFT 정보 세팅
     const navigate = useNavigate();
 
@@ -111,7 +112,7 @@ export function MobileMyWallet() {
             )}
 
             {/* 하단 네비게이션 */}
-            {customerId && <MobileFooter param={Number(customerId)} />}
+            {customerId && <MobileFooter />}
         </div>
     );
 }
