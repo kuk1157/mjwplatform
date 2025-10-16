@@ -81,6 +81,17 @@ export function MobileMainPage() {
     const myInfoButton = () => {
         navigate(`/mobile/myPage`);
     };
+
+    // 나의 스탬프 페이지로 이동
+    const myStampButton = () => {
+        navigate(`/mobile/myStamp`);
+    };
+
+    // 스탬프 없는 가맹점 alert
+    const notMyStampButton = () => {
+        alert("아직 방문하지 않은 매장입니다.");
+    };
+
     return (
         <div className="min-h-screen bg-[#fbfbfc] p-4 font-Pretendard">
             {/* 모바일 타이틀 */}
@@ -151,9 +162,14 @@ export function MobileMainPage() {
                         );
 
                         return (
-                            <div
+                            <button
                                 key={idx}
                                 className="relative rounded-lg overflow-hidden"
+                                onClick={() =>
+                                    isStamped
+                                        ? myStampButton()
+                                        : notMyStampButton()
+                                }
                             >
                                 <div className="absolute text-[#fff] z-10 text-xs p-2">
                                     {store.name}
@@ -170,7 +186,7 @@ export function MobileMainPage() {
                                         className="absolute inset-0 m-auto w-16 h-16 animate-[stampIn_0.4s_ease-out]"
                                     />
                                 )}
-                            </div>
+                            </button>
                         );
                     })}
                 </div>

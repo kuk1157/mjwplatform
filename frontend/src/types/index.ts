@@ -170,6 +170,7 @@ export interface StoreStamp {
     id: number;
     customerId: number;
     storeId: number;
+    createdAt: string;
 }
 
 // NFT

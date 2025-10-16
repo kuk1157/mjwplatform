@@ -27,6 +27,11 @@ const menuList: MenuItem[] = [
         iconName: "myInfo.svg",
         matchPaths: ["/mobile/myPage", "/mobile/myWallet"],
     },
+    {
+        label: "나의 스탬프",
+        path: `/mobile/myStamp`,
+        iconName: "visit.svg",
+    },
 ];
 
 const MobileFooter = () => {
