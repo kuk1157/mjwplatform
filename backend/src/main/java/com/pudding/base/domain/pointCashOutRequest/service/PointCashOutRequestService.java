@@ -11,5 +11,5 @@ public interface PointCashOutRequestService {
     PointCashOutRequestDto createCashRequest(PointCashOutRequestDto.Request pointCashOutRequestDto, Integer memberId);
 
     // 현금화 신청 가맹점 별 조회
-    Page<PointCashOutRequestDto> getStoreIdCashRequests(Pageable pageable, Integer storeId, Integer ownerId);
+    Page<PointCashOutRequestDto> getStoreIdCashRequests(Integer storeId, Pageable pageable);
 }

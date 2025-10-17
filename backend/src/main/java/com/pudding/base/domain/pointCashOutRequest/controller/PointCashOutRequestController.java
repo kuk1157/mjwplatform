@@ -11,6 +11,8 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -36,9 +38,9 @@ public class PointCashOutRequestController {
     }
 
     @Operation(summary = "현금화 신청 조회", description = "현금화 신청 가맹점 별 조회")
-    @GetMapping("/{storeId}/{ownerId}")
-    public ResponseEntity<Page<PointCashOutRequestDto>> getStoreIdCashRequests(Pageable pageable, @PathVariable Integer storeId, @PathVariable Integer ownerId) {
-        Page<PointCashOutRequestDto> pointCashOutRequestDto = pointCashOutRequestService.getStoreIdCashRequests(pageable, storeId, ownerId);
+    @GetMapping("/{storeId}")
+    public ResponseEntity<Page<PointCashOutRequestDto>> getStoreIdCashRequests(@PathVariable Integer storeId, @PageableDefault(sort = "requestAt", direction = Sort.Direction.DESC) Pageable pageable) {
+        Page<PointCashOutRequestDto> pointCashOutRequestDto = pointCashOutRequestService.getStoreIdCashRequests(storeId, pageable);
         return ResponseEntity.ok(pointCashOutRequestDto);
     }
 

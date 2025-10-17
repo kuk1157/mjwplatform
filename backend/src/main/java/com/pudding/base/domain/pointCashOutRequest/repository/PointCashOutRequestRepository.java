@@ -7,5 +7,5 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface PointCashOutRequestRepository extends JpaRepository<PointCashOutRequest, Integer> {
-    Page<PointCashOutRequest> findByStoreIdAndOwnerId(Pageable pageable, Integer storeId, Integer ownerId);
+    Page<PointCashOutRequest> findByStoreId(Integer storeId, Pageable pageable);
 }

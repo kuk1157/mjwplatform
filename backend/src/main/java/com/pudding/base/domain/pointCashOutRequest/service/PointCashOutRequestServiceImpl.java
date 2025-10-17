@@ -57,8 +57,8 @@ public class PointCashOutRequestServiceImpl implements PointCashOutRequestServic
     }
 
     // 현금화 신청 가맹점 별 조회
-    public Page<PointCashOutRequestDto> getStoreIdCashRequests(Pageable pageable, Integer storeId, Integer ownerId) {
-        Page<PointCashOutRequest> pointCashOutRequests = pointCashOutRequestRepository.findByStoreIdAndOwnerId(pageable, storeId, ownerId);
+    public Page<PointCashOutRequestDto> getStoreIdCashRequests(Integer storeId, Pageable pageable) {
+        Page<PointCashOutRequest> pointCashOutRequests = pointCashOutRequestRepository.findByStoreId(storeId, pageable);
         return pointCashOutRequests.map(PointCashOutRequestDto::fromEntity);
     }
 
