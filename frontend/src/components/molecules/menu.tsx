@@ -256,7 +256,7 @@ const NavSide = ({ ...props }) => {
                                 <div className="py-[15px] px-[20px] flex flex-col gap-[10px] items-start">
                                     {user?.role === "owner" && (
                                         <Link
-                                            to={`/owner/dashboard/${user?.id}`}
+                                            to={`/owner/dashboard`}
                                             className="text-[15px] text-[#000] font-medium leading-[18px] tracking-[-0.6px] flex justify-center"
                                             onClick={() =>
                                                 setOpenToggle(!openToggle)

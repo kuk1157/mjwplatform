@@ -29,10 +29,10 @@ export const PageRedirect = () => {
 
         const customerId = localStorage.getItem("customerId") || "";
         let targetPath = "/";
-        if (user.role === "admin") targetPath = "/admin/user";
+        if (user.role === "admin") targetPath = "/";
         else if (user.role === "owner") {
             if (!user.id) return;
-            targetPath = `/owner/dashBoard`;
+            targetPath = `/`;
         } else if (user.role === "user") {
             if (!customerId) return;
             targetPath = `/mobile/mainPage`;
