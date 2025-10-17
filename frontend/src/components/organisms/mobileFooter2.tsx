@@ -36,8 +36,6 @@ const MobileFooter2 = () => {
             <div className="flex justify-around items-center h-16 border-t">
                 {menuList.map((menu) => {
                     const fullPath = `${menu.path}`; // param 붙인 실제 URL
-                    console.log(fullPath);
-
                     const imgSrc = `/assets/image/mobile/active/${menu.iconName}`;
 
                     return (
