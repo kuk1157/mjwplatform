@@ -205,6 +205,11 @@ const OwnerAllVisitLogList = Loadable({
     Component: lazy(() => import("../components/pages/owner/ownerAllVisitLog")),
 });
 
+// 점주용 현금 신청 내역 조회 페이지
+const OwnerCashList = Loadable({
+    Component: lazy(() => import("../components/pages/owner/ownerCashList")),
+});
+
 // [모바일]
 
 // 모바일 로그인 페이지
@@ -323,10 +328,15 @@ const Router = createBrowserRouter([
                 path: "/owner/ownerStoreTableList/:storeId",
                 element: <OwnerStoreTableList />,
             },
-            // 점주용 매장 테이블 조회
+            // 점주용 방문기록 조회
             {
                 path: "/owner/ownerAllVisitLog/:storeId",
                 element: <OwnerAllVisitLogList />,
+            },
+            // 점주용 현금 신청 내역 조회
+            {
+                path: "/owner/ownerCashList/:storeId",
+                element: <OwnerCashList />,
             },
 
             // [ user - 고객 ]

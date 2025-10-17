@@ -195,3 +195,12 @@ export interface VisitLog {
     visitStatus: "y" | "n"; // 방문 완료 여부
     createdAt: string;
 }
+
+// 현금화 신청
+export interface pointCashOutRequest {
+    id: number;
+    storeId: number;
+    ownerId: number;
+    cash: number;
+    requestAt: string;
+}

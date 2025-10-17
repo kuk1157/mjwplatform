@@ -184,6 +184,11 @@ function OwnerDashBoard() {
         navigate(`/owner/ownerAllVisitLog/${storeId}`);
     };
 
+    // 점주 현금화 신청 목록 조회 페이지로 이동
+    const OwnerCash = () => {
+        navigate(`/owner/ownerCashList/${storeId}`);
+    };
+
     const TestPostcash = async () => {
         try {
             const cashInput = document.querySelector(
@@ -366,10 +371,10 @@ function OwnerDashBoard() {
                             </p>
                         </div>
 
-                        {/* 중앙 구분선 (데스크탑 전용) */}
+                        {/* 중앙 구분선 */}
                         <div className="hidden md:block h-12 w-px bg-gray-200"></div>
 
-                        {/* 우측: 금액 입력 + 신청 버튼 */}
+                        {/* 우측: 입력 + 버튼 */}
                         <div className="flex flex-col items-center md:items-end w-full md:w-auto mt-4 md:mt-0">
                             <div className="flex items-center gap-2">
                                 <input
@@ -379,7 +384,7 @@ function OwnerDashBoard() {
                                     onChange={(e) =>
                                         setRequestPrice(e.target.value)
                                     }
-                                    className="cashInput border border-gray-300 rounded-lg px-3 py-2 text-sm w-[140px] focus:outline-none focus:ring-2 focus:ring-[#E61F2C]"
+                                    className="border border-gray-300 rounded-lg px-3 py-2 text-sm w-[140px] focus:outline-none focus:ring-2 focus:ring-[#E61F2C]"
                                 />
                                 <button
                                     className="px-5 py-2 rounded-lg font-semibold shadow-sm bg-[#E61F2C] hover:bg-[#c51b25] text-white"
@@ -393,8 +398,17 @@ function OwnerDashBoard() {
                             </p>
                         </div>
                     </div>
-                </div>
 
+                    {/* 중앙 정렬 내역 보기 버튼 */}
+                    <div className="w-full max-w-[880px] mx-auto mt-4 flex justify-center">
+                        <button
+                            onClick={OwnerCash}
+                            className="px-5 py-2 rounded-lg text-sm font-semibold border border-gray-300 text-gray-600 hover:bg-gray-50 transition"
+                        >
+                            현금화 신청 내역 보기
+                        </button>
+                    </div>
+                </div>
                 {/* 신규 방문 기록 섹션 */}
                 <div className="w-full bg-[#FBFBFC] py-12">
                     <div className="w-full max-w-[880px] mx-auto px-4">
