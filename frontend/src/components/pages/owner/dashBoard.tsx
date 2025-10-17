@@ -225,7 +225,7 @@ function OwnerDashBoard() {
                 return;
             }
 
-            const url = `/api/v1/pointCashOutRequest/${memberId}`;
+            const url = `/api/v1/pointCashOutRequests/${memberId}`;
             const response = await axios.post(url, {
                 cash: requestNumber,
                 headers: { "Content-Type": "application/json" },
