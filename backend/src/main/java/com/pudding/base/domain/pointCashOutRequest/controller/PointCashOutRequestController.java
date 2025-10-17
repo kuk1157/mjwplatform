@@ -9,6 +9,8 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -16,7 +18,7 @@ import org.springframework.web.bind.annotation.*;
 @Tag(name = "현금화 신청 API", description = "현금화 신청 관련 API")
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/api/v1/pointCashOutRequest")
+@RequestMapping("/api/v1/pointCashOutRequests")
 public class PointCashOutRequestController {
 
     private final PointCashOutRequestService pointCashOutRequestService;
@@ -32,4 +34,12 @@ public class PointCashOutRequestController {
         PointCashOutRequestDto saveCashRequest = pointCashOutRequestService.createCashRequest(pointCashOutRequestDto, memberId);
         return ResponseEntity.ok(saveCashRequest);
     }
+
+    @Operation(summary = "현금화 신청 조회", description = "현금화 신청 가맹점 별 조회")
+    @GetMapping("/{storeId}/{ownerId}")
+    public ResponseEntity<Page<PointCashOutRequestDto>> getStoreIdCashRequests(Pageable pageable, @PathVariable Integer storeId, @PathVariable Integer ownerId) {
+        Page<PointCashOutRequestDto> pointCashOutRequestDto = pointCashOutRequestService.getStoreIdCashRequests(pageable, storeId, ownerId);
+        return ResponseEntity.ok(pointCashOutRequestDto);
+    }
+
 }

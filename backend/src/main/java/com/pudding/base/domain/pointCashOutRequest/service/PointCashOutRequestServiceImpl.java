@@ -10,6 +10,8 @@ import com.pudding.base.domain.store.entity.Store;
 import com.pudding.base.domain.store.repository.StoreRepository;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -53,4 +55,13 @@ public class PointCashOutRequestServiceImpl implements PointCashOutRequestServic
         member.useTotalPoint(pointCashOutRequestDto.getCash());
         return PointCashOutRequestDto.fromEntity(request);
     }
+
+    // 현금화 신청 가맹점 별 조회
+    public Page<PointCashOutRequestDto> getStoreIdCashRequests(Pageable pageable, Integer storeId, Integer ownerId) {
+        Page<PointCashOutRequest> pointCashOutRequests = pointCashOutRequestRepository.findByStoreIdAndOwnerId(pageable, storeId, ownerId);
+        return pointCashOutRequests.map(PointCashOutRequestDto::fromEntity);
+    }
+
+
+
 }
