@@ -161,23 +161,25 @@ export function MobileMainPageTest() {
                         const src = `${cdn}/${storeFolder}/${store.thumbnail}${store.extension}`;
                         return (
                             <SwiperSlide key={idx}>
-                                <div className="relative w-full h-[120px]">
-                                    {/* 가맹점 이름 오버레이 */}
-                                    <div className="absolute bottom-2 left-2 font-bold border border-[#fff] text-[#fff] px-2 py-1 rounded-md text-sm">
-                                        {store.name}
-                                    </div>
-                                    {store.thumbnail ? (
-                                        <img
-                                            src={src}
-                                            alt={`가게 ${store.name}`}
-                                            className="w-full h-full object-cover rounded-xl"
-                                        />
-                                    ) : (
-                                        <div className="text-center items-center">
-                                            썸네일 없음
+                                <Link to={`/mobile/storeDetail/${store.id}`}>
+                                    <div className="relative w-full h-[120px]">
+                                        {/* 가맹점 이름 오버레이 */}
+                                        <div className="absolute bottom-2 left-2 font-bold border border-[#fff] text-[#fff] px-2 py-1 rounded-md text-sm">
+                                            {store.name}
                                         </div>
-                                    )}
-                                </div>
+                                        {store.thumbnail ? (
+                                            <img
+                                                src={src}
+                                                alt={`가게 ${store.name}`}
+                                                className="w-full h-full object-cover rounded-xl"
+                                            />
+                                        ) : (
+                                            <div className="text-center items-center">
+                                                썸네일 없음
+                                            </div>
+                                        )}
+                                    </div>
+                                </Link>
                             </SwiperSlide>
                         );
                     })}

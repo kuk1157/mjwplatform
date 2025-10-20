@@ -267,6 +267,11 @@ const MobileNoticeDetail = Loadable({
     Component: lazy(() => import("../components/pages/mobile/noticeDetail")),
 });
 
+// 모바일 가맹점 상세보기
+const MobileStoreDetail = Loadable({
+    Component: lazy(() => import("../components/pages/mobile/storeDetail")),
+});
+
 const Router = createBrowserRouter([
     {
         path: "/",
@@ -560,6 +565,12 @@ const Router = createBrowserRouter([
     {
         path: "/mobile/noticeDetail/:id",
         element: <MobileNoticeDetail />,
+    },
+
+    // 모바일 가맹점 상세보기
+    {
+        path: "/mobile/storeDetail/:id",
+        element: <MobileStoreDetail />,
     },
 ]);
 
