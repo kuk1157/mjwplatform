@@ -257,24 +257,29 @@ const MobileMyStamp = Loadable({
     Component: lazy(() => import("../components/pages/mobile/myStamp")),
 });
 
-// 모바일 가맹점 목록
-const MobileStoreList = Loadable({
-    Component: lazy(() => import("../components/pages/mobile/storeList")),
-});
-
 // 모바일 나의 방문 스탬프 상세보기
 const MobileMyStampDetail = Loadable({
     Component: lazy(() => import("../components/pages/mobile/stampDetail")),
 });
 
-// 모바일 공지사항 상세보기
-const MobileNoticeDetail = Loadable({
-    Component: lazy(() => import("../components/pages/mobile/noticeDetail")),
+// 모바일 가맹점 목록
+const MobileStoreList = Loadable({
+    Component: lazy(() => import("../components/pages/mobile/storeList")),
 });
 
 // 모바일 가맹점 상세보기
 const MobileStoreDetail = Loadable({
     Component: lazy(() => import("../components/pages/mobile/storeDetail")),
+});
+
+// 모바일 공지사항 목록
+const MobileNoticeList = Loadable({
+    Component: lazy(() => import("../components/pages/mobile/noticeList")),
+});
+
+// 모바일 공지사항 상세보기
+const MobileNoticeDetail = Loadable({
+    Component: lazy(() => import("../components/pages/mobile/noticeDetail")),
 });
 
 const Router = createBrowserRouter([
@@ -560,28 +565,34 @@ const Router = createBrowserRouter([
         element: <MobileMyStamp />,
     },
 
-    // 모바일 가맹점 목록
-    {
-        path: "/mobile/storeList/",
-        element: <MobileStoreList />,
-    },
-
     // 모바일 나의 스탬프 상세보기
     {
         path: "/mobile/stampDetail/:id/:storeId",
         element: <MobileMyStampDetail />,
     },
 
-    // 모바일 공지사항 상세보기
+    // 모바일 가맹점 목록
     {
-        path: "/mobile/noticeDetail/:id",
-        element: <MobileNoticeDetail />,
+        path: "/mobile/storeList/",
+        element: <MobileStoreList />,
     },
 
     // 모바일 가맹점 상세보기
     {
         path: "/mobile/storeDetail/:id",
         element: <MobileStoreDetail />,
+    },
+
+    // 모바일 공지사항 목록
+    {
+        path: "/mobile/noticeList/",
+        element: <MobileNoticeList />,
+    },
+
+    // 모바일 공지사항 상세보기
+    {
+        path: "/mobile/noticeDetail/:id",
+        element: <MobileNoticeDetail />,
     },
 ]);
 

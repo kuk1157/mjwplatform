@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 
 // [파일 첨부 경로]
 import { cdn } from "src/constans"; // 파일첨부 경로(네이버클라우드)
-import { storeFolder } from "src/constans"; // 첨부 디렉토리 경로 stroe
+import { noticeFolder } from "src/constans"; // 첨부 디렉토리 경로 stroe
 
 // [아이콘 및 공통 컴포넌트]
 import { MdArrowBackIosNew } from "react-icons/md"; // 이전 페이지이동 좌측 화살표 아이콘
@@ -13,20 +13,20 @@ import { MobileFooter } from "src/components/organisms/mobileFooter"; // 하단 
 import { MobileFooter2 } from "src/components/organisms/mobileFooter2"; // 하단 모바일 footer 공통 컴포넌트
 
 // [공통 데이터 인터페이스]
-import { StoreDetailType } from "src/types"; // 가맹점(매장) 인터페이스
+import { NoticeDetail } from "src/types"; // 공지사항 인터페이스
 
-export function MobileStoreList() {
+export function MobileNoticeList() {
     const navigate = useNavigate();
     const customerId = localStorage.getItem("customerId");
-    const [stores, setStore] = useState<StoreDetailType[]>([]); // 가맹점(매장) 데이터 세팅
+    const [notices, setNotice] = useState<NoticeDetail[]>([]); // 공지사항 데이터 세팅
 
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const [storeList] = await Promise.all([
-                    axios.get("/api/v1/stores"),
+                const [noticeList] = await Promise.all([
+                    axios.get("/api/v1/notice"),
                 ]);
-                setStore(storeList.data.content); // 가맹점(매장) 추출
+                setNotice(noticeList.data.content); // 공지사항 추출
             } catch (error) {
                 console.error("데이터 조회 실패:", error);
             }
@@ -52,7 +52,7 @@ export function MobileStoreList() {
                             <span className="mr-2">
                                 <MdArrowBackIosNew />
                             </span>
-                            <span>가맹점 목록</span>
+                            <span>공지사항 목록</span>
                         </h2>
                     </button>
                 </div>
@@ -60,27 +60,35 @@ export function MobileStoreList() {
 
             {/* NFT 목록 */}
             <section>
-                {stores.length > 0 ? (
-                    stores.map((store, idx) => {
+                {notices.length > 0 ? (
+                    notices.map((notice, idx) => {
                         return (
                             <Link
-                                to={`/mobile/storeDetail/${store.id}`}
+                                to={`/mobile/noticeDetail/${notice.id}`}
                                 key={idx}
                             >
                                 <div className="bg-white rounded-xl shadow-sm border border-gray-100 p-5 mb-3 flex items-center">
                                     <div className="flex items-center">
-                                        <img
-                                            src={`${cdn}/${storeFolder}/${store.thumbnail}${store.extension}`}
-                                            alt={`${store.name}`}
-                                            className="w-12 h-12 rounded-md object-cover"
-                                        />
+                                        {notice.thumbnail ? (
+                                            <img
+                                                src={`${cdn}/${noticeFolder}/${notice.thumbnail}${notice.extension}`}
+                                                alt={`${notice.title}`}
+                                                className="w-12 h-12 rounded-md object-cover"
+                                            />
+                                        ) : (
+                                            <img
+                                                src="/assets/image/time.png"
+                                                alt={`${notice.title}`}
+                                                className="w-12 h-12 rounded-md object-cover"
+                                            />
+                                        )}
                                         <div className="flex flex-col ml-3 font-Pretendard">
                                             <p className="text-xl font-semibold mb-1">
-                                                {store.name}
+                                                {notice.title}
                                             </p>
-                                            <p className="text-xl font-semibold mb-1">
-                                                점주 : {store.ownerName}
-                                            </p>
+                                            {/* <p className="text-xl font-semibold mb-1">
+                                                점주 : {notice.ownerName}
+                                            </p> */}
                                         </div>
                                     </div>
                                 </div>
@@ -94,10 +102,10 @@ export function MobileStoreList() {
                             alt="스탬프가 없습니다 아이콘"
                         />
                         <p className="text-lg font-semibold mt-2">
-                            가맹점이 없습니다.
+                            공지사항이 없습니다.
                         </p>
                         <p className="text-sm font-light mt-1">
-                            가맹점이 등록되면 이곳에 표시됩니다.
+                            공지사항이 등록되면 이곳에 표시됩니다.
                         </p>
                     </div>
                 )}
@@ -108,4 +116,4 @@ export function MobileStoreList() {
         </div>
     );
 }
-export default MobileStoreList;
+export default MobileNoticeList;
