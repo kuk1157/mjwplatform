@@ -9,7 +9,7 @@ type MenuItem = {
 
 // 메뉴 데이터
 const menuList: MenuItem[] = [
-    { label: "홈", path: `/mobile/mainPage`, iconName: "home.svg" },
+    { label: "홈", path: `/mobile/mainPageTest`, iconName: "home.svg" },
     {
         label: "NFT 갤러리",
         path: `/mobile/myNftList`,
