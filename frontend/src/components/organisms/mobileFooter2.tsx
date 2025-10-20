@@ -9,24 +9,24 @@ type MenuItem = {
 
 // 메뉴 데이터
 const menuList: MenuItem[] = [
-    { label: "홈", path: `/mobile/mainPageTest/`, iconName: "home.svg" },
+    { label: "홈", path: `/mobile/mainPageTest`, iconName: "home.svg" },
     {
         label: "공지사항",
-        path: `/mobile/noticeList/`,
+        path: `/mobile/noticeList`,
         iconName: "nftGallery.svg",
-        matchPaths: ["/mobile/noticeList/", "/mobile/noticeDetail/"],
+        matchPaths: ["/mobile/noticeList", "/mobile/noticeDetail"],
     },
     {
         label: "가맹점",
-        path: `/mobile/storeList/`,
+        path: `/mobile/storeList`,
         iconName: "visit.svg",
-        matchPaths: ["/mobile/storeList/", "/mobile/storeDetail/"],
+        matchPaths: ["/mobile/storeList", "/mobile/storeDetail"],
     },
     {
         label: "없음",
-        path: `/mobile/mainPageTest/`,
+        path: `/mobile/mainPageTest`,
         iconName: "myInfo.svg",
-        matchPaths: ["/mobile/myPage/", "/mobile/myWallet/"],
+        matchPaths: ["/mobile/myPage", "/mobile/myWallet"],
     },
 ];
 

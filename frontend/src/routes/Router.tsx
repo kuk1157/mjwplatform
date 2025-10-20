@@ -257,6 +257,11 @@ const MobileMyStamp = Loadable({
     Component: lazy(() => import("../components/pages/mobile/myStamp")),
 });
 
+// 모바일 가맹점 목록
+const MobileStoreList = Loadable({
+    Component: lazy(() => import("../components/pages/mobile/storeList")),
+});
+
 // 모바일 나의 방문 스탬프 상세보기
 const MobileMyStampDetail = Loadable({
     Component: lazy(() => import("../components/pages/mobile/stampDetail")),
@@ -549,10 +554,16 @@ const Router = createBrowserRouter([
         element: <MobileMyVisitLogList />,
     },
 
-    // 모바일 나의 스탬프
+    // 모바일 나의 스탬프 목록
     {
         path: "/mobile/myStamp/",
         element: <MobileMyStamp />,
+    },
+
+    // 모바일 가맹점 목록
+    {
+        path: "/mobile/storeList/",
+        element: <MobileStoreList />,
     },
 
     // 모바일 나의 스탬프 상세보기
