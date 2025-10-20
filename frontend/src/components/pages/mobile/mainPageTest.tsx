@@ -113,7 +113,7 @@ export function MobileMainPageTest() {
     };
 
     return (
-        <div className="min-h-screen bg-[#fbfbfc] p-4 font-Pretendard">
+        <div className="min-h-screen bg-[#fbfbfc] p-4 font-Pretendard overflow-y-auto">
             {/* 모바일 타이틀 */}
             {<MobileMain param={Number(customerId)} />}
 
@@ -249,7 +249,15 @@ export function MobileMainPageTest() {
                     </div>
                 ) : (
                     <div className="text-center">
-                        로그인 후 확인할 수 있습니다.
+                        <p>로그인 후 확인할 수 있습니다</p>
+                        <p>
+                            <Link
+                                className="underline text-[#580098] font-bold"
+                                to={`/mobile/gradeGuide`}
+                            >
+                                [ 등급 안내 ]
+                            </Link>
+                        </p>
                     </div>
                 )}
             </div>
