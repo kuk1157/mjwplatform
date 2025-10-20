@@ -142,49 +142,56 @@ export function MobileMainPageTest() {
             </div>
 
             {/* 가맹점 썸네일 슬라이드 */}
-            <div className=" rounded-lg mb-5 font-semibold text-base truncate">
-                <Swiper
-                    modules={[Navigation, Autoplay]}
-                    slidesPerView={1}
-                    loop={true}
-                    autoplay={{
-                        delay: 3000,
-                        disableOnInteraction: false,
-                    }}
-                    speed={1500}
-                    spaceBetween={20}
-                    navigation={false}
-                    className="rounded-2xl overflow-hidden"
-                >
-                    {stores?.map((store, idx) => {
-                        // 최종 경로 가공
-                        const src = `${cdn}/${storeFolder}/${store.thumbnail}${store.extension}`;
-                        return (
-                            <SwiperSlide key={idx}>
-                                <Link to={`/mobile/storeDetail/${store.id}`}>
-                                    <div className="relative w-full h-[120px]">
-                                        {/* 가맹점 이름 오버레이 */}
-                                        <div className="absolute bottom-2 left-2 font-bold border border-[#fff] text-[#fff] px-2 py-1 rounded-md text-sm">
-                                            {store.name}
-                                        </div>
-                                        {store.thumbnail ? (
-                                            <img
-                                                src={src}
-                                                alt={`가게 ${store.name}`}
-                                                className="w-full h-full object-cover rounded-xl"
-                                            />
-                                        ) : (
-                                            <div className="text-center items-center">
-                                                썸네일 없음
+            {stores?.length > 1 && (
+                <div className=" rounded-lg mb-5 font-semibold text-base truncate">
+                    <Swiper
+                        modules={[Autoplay]}
+                        slidesPerView="auto"
+                        spaceBetween={20}
+                        loop={true}
+                        allowTouchMove={false}
+                        autoplay={{
+                            delay: 0,
+                            disableOnInteraction: false,
+                            pauseOnMouseEnter: false,
+                            stopOnLastSlide: false,
+                        }}
+                        onInit={(swiper) => swiper.autoplay.start()}
+                        speed={3000}
+                        className="flex items-center"
+                    >
+                        {stores?.map((store, idx) => {
+                            // 최종 경로 가공
+                            const src = `${cdn}/${storeFolder}/${store.thumbnail}${store.extension}`;
+                            return (
+                                <SwiperSlide key={idx}>
+                                    <Link
+                                        to={`/mobile/storeDetail/${store.id}`}
+                                    >
+                                        <div className="relative w-full h-[120px]">
+                                            {/* 가맹점 이름 오버레이 */}
+                                            <div className="absolute bottom-2 left-2 font-bold border border-[#fff] text-[#fff] px-2 py-1 rounded-md text-sm">
+                                                {store.name}
                                             </div>
-                                        )}
-                                    </div>
-                                </Link>
-                            </SwiperSlide>
-                        );
-                    })}
-                </Swiper>
-            </div>
+                                            {store.thumbnail ? (
+                                                <img
+                                                    src={src}
+                                                    alt={`가게 ${store.name}`}
+                                                    className="w-full h-full object-cover rounded-xl"
+                                                />
+                                            ) : (
+                                                <div className="text-center items-center">
+                                                    썸네일 없음
+                                                </div>
+                                            )}
+                                        </div>
+                                    </Link>
+                                </SwiperSlide>
+                            );
+                        })}
+                    </Swiper>
+                </div>
+            )}
 
             {/* 금액 타이틀 영역 */}
             <div className="mt-8 mb-3">
