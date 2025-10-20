@@ -105,8 +105,11 @@ export function MobileMainPageTest() {
     };
 
     // 스탬프 없는 가맹점 alert
-    const notMyStampButton = () => {
-        alert("아직 방문하지 않은 매장입니다.");
+    const notMyStampButton = (storeId: number) => {
+        alert(
+            "아직 방문하지 않은 매장입니다. \n가맹점 상세 페이지로 이동합니다."
+        );
+        navigate(`/mobile/storeDetail/${storeId}`);
     };
 
     return (
@@ -365,7 +368,7 @@ export function MobileMainPageTest() {
                                         onClick={() =>
                                             isStamped
                                                 ? myStampButton()
-                                                : notMyStampButton()
+                                                : notMyStampButton(store.id)
                                         }
                                     >
                                         <div className="absolute text-[#fff] z-10 text-xs p-2">
