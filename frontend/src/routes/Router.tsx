@@ -262,6 +262,11 @@ const MobileMyStampDetail = Loadable({
     Component: lazy(() => import("../components/pages/mobile/stampDetail")),
 });
 
+// 모바일 공지사항 상세보기
+const MobileNoticeDetail = Loadable({
+    Component: lazy(() => import("../components/pages/mobile/noticeDetail")),
+});
+
 const Router = createBrowserRouter([
     {
         path: "/",
@@ -549,6 +554,12 @@ const Router = createBrowserRouter([
     {
         path: "/mobile/stampDetail/:id/:storeId",
         element: <MobileMyStampDetail />,
+    },
+
+    // 모바일 공지사항 상세보기
+    {
+        path: "/mobile/noticeDetail/:id",
+        element: <MobileNoticeDetail />,
     },
 ]);
 

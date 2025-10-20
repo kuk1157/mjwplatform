@@ -88,6 +88,17 @@ export interface NoticeDataType {
     view_count?: number;
 }
 
+export interface NoticeDetail {
+    id?: number;
+    title?: string;
+    description?: string;
+    uuid?: string; // 공지사항 UUID
+    thumbnail?: string; // 첨부파일 썸네일(UUID)
+    extension?: string; // 첨부파일 확장자
+    view?: number;
+    createdAt?: string;
+}
+
 export interface BookDataType {
     id: string;
     uuid: string;
