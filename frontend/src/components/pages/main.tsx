@@ -155,51 +155,56 @@ function MainPage() {
                         </div>
 
                         {/* 두번째 영역 */}
-                        <div className="w-full overflow-hidden mt-16">
-                            <Swiper
-                                modules={[Autoplay]}
-                                slidesPerView="auto"
-                                spaceBetween={20}
-                                loop={true}
-                                allowTouchMove={false}
-                                autoplay={{
-                                    delay: 0,
-                                    disableOnInteraction: false,
-                                }}
-                                speed={3000}
-                                className="flex items-center"
-                            >
-                                {[...Array(3)].flatMap(() =>
-                                    stores?.map((store, idx) => {
-                                        const src = `${cdn}/${storeFolder}/${store.thumbnail}${store.extension}`;
-                                        return (
-                                            <SwiperSlide
-                                                key={`${idx}-${Math.random()}`}
-                                                style={{ width: 300 }}
-                                            >
-                                                <div className="relative w-full h-[150px]">
-                                                    {/* 가맹점 이름 오버레이 */}
-                                                    <div className="absolute bottom-2 left-2 font-bold border border-[#fff] text-[#fff] px-2 py-1 rounded-md text-sm">
-                                                        {store.name}
-                                                    </div>
-                                                    {store.thumbnail ? (
-                                                        <img
-                                                            src={src}
-                                                            alt={`가게 ${store.name}`}
-                                                            className="w-full h-full object-cover rounded-xl"
-                                                        />
-                                                    ) : (
-                                                        <div className="text-center items-center">
-                                                            썸네일 없음
+                        {stores?.length > 1 && (
+                            <div className="w-full overflow-hidden mt-16">
+                                <Swiper
+                                    modules={[Autoplay]}
+                                    slidesPerView="auto"
+                                    spaceBetween={20}
+                                    loop={true}
+                                    allowTouchMove={false}
+                                    autoplay={{
+                                        delay: 0,
+                                        disableOnInteraction: false,
+                                        pauseOnMouseEnter: false,
+                                        stopOnLastSlide: false,
+                                    }}
+                                    onInit={(swiper) => swiper.autoplay.start()}
+                                    speed={3000}
+                                    className="flex items-center"
+                                >
+                                    {[...Array(3)].flatMap(() =>
+                                        stores?.map((store) => {
+                                            const src = `${cdn}/${storeFolder}/${store.thumbnail}${store.extension}`;
+                                            return (
+                                                <SwiperSlide
+                                                    key={`${store.id}-${Math.random()}`}
+                                                    style={{ width: 300 }}
+                                                >
+                                                    <div className="relative w-full h-[150px]">
+                                                        {/* 가맹점 이름 오버레이 */}
+                                                        <div className="absolute bottom-2 left-2 font-bold border border-[#fff] text-[#fff] px-2 py-1 rounded-md text-sm">
+                                                            {store.name}
                                                         </div>
-                                                    )}
-                                                </div>
-                                            </SwiperSlide>
-                                        );
-                                    })
-                                )}
-                            </Swiper>
-                        </div>
+                                                        {store.thumbnail ? (
+                                                            <img
+                                                                src={src}
+                                                                alt={`가게 ${store.name}`}
+                                                                className="w-full h-full object-cover rounded-xl"
+                                                            />
+                                                        ) : (
+                                                            <div className="text-center items-center">
+                                                                썸네일 없음
+                                                            </div>
+                                                        )}
+                                                    </div>
+                                                </SwiperSlide>
+                                            );
+                                        })
+                                    )}
+                                </Swiper>
+                            </div>
+                        )}
 
                         {/* 세번째 영역 */}
                         <div className="w-full flex mt-16">
