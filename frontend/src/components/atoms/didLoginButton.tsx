@@ -57,7 +57,7 @@ const DidLoginButton = ({ storeNum, tableNumber }: DidLoginButtonProps) => {
 
                 const customerId = response.data.customerId; // customerId 변수 추가
                 localStorage.setItem("customerId", customerId); // 권한별 분기처리를 위한 고객 고유번호 저장
-                window.location.replace("/mobile/mainPage");
+                window.location.replace("/mobile/mainPageTest");
             } catch (err) {
                 console.error("다대구 로그인 실패", err);
                 alert("다대구 로그인에 실패했습니다. 다시 시도해 주세요.");
