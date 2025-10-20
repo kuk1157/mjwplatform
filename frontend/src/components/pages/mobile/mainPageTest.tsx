@@ -212,30 +212,32 @@ export function MobileMainPageTest() {
                             <span className="text-[#580098]">13,500P</span>
                         </div>
                         <div className="flex flex-col">
-                            <div className="flex justify-between border-b border-[#580098] p-5">
-                                <div className="flex flex-col">
-                                    <span>현재 나의 등급</span>
-                                    <span className="mt-3">
-                                        [ {""}
-                                        {CustomerGrades[
-                                            customer?.customerGrade ?? ""
-                                        ] ?? "-"}{" "}
-                                        회원 ]
-                                    </span>
+                            <Link to={`/mobile/gradeGuide`}>
+                                <div className="flex justify-between border-b border-[#580098] p-5">
+                                    <div className="flex flex-col">
+                                        <span>현재 나의 등급</span>
+                                        <span className="mt-3">
+                                            [ {""}
+                                            {CustomerGrades[
+                                                customer?.customerGrade ?? ""
+                                            ] ?? "-"}{" "}
+                                            회원 ]
+                                        </span>
+                                    </div>
+                                    <div className="flex items-end">
+                                        <span className="text-[#A19CB4] text-sm font-normal">
+                                            적립률 3%
+                                        </span>
+                                        <span>
+                                            <img
+                                                src={`/public/assets/image/customerGrade/${customer?.customerGrade}Grade.png`}
+                                                alt={`${CustomerGrades[customer?.customerGrade ?? ""] ?? "-"} 등급`}
+                                                className="block"
+                                            ></img>
+                                        </span>
+                                    </div>
                                 </div>
-                                <div className="flex items-end">
-                                    <span className="text-[#A19CB4] text-sm font-normal">
-                                        적립률 3%
-                                    </span>
-                                    <span>
-                                        <img
-                                            src={`/public/assets/image/customerGrade/${customer?.customerGrade}Grade.png`}
-                                            alt={`${CustomerGrades[customer?.customerGrade ?? ""] ?? "-"} 등급`}
-                                            className="block"
-                                        ></img>
-                                    </span>
-                                </div>
-                            </div>
+                            </Link>
                             <div className="p-5">
                                 <div>최근 결제 내역</div>
                                 <div className="flex flex-col bg-[#ededed] rounded-lg p-4 mt-2 text-sm font-semibold">

@@ -282,6 +282,11 @@ const MobileNoticeDetail = Loadable({
     Component: lazy(() => import("../components/pages/mobile/noticeDetail")),
 });
 
+// 모바일 고객등급 안내
+const MobileGradeGuide = Loadable({
+    Component: lazy(() => import("../components/pages/mobile/gradeGuide")),
+});
+
 const Router = createBrowserRouter([
     {
         path: "/",
@@ -593,6 +598,12 @@ const Router = createBrowserRouter([
     {
         path: "/mobile/noticeDetail/:id",
         element: <MobileNoticeDetail />,
+    },
+
+    // 모바일 고객 등급 안내
+    {
+        path: "/mobile/gradeGuide",
+        element: <MobileGradeGuide />,
     },
 ]);
 
