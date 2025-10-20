@@ -12,14 +12,15 @@ const menuList: MenuItem[] = [
     { label: "홈", path: `/mobile/mainPageTest/`, iconName: "home.svg" },
     {
         label: "공지사항",
-        path: `/mobile/mainPageTest/`,
+        path: `/mobile/noticeList/`,
         iconName: "nftGallery.svg",
-        matchPaths: ["/mobile/myNftList/", "/mobile/nftDetail/"],
+        matchPaths: ["/mobile/noticeList/", "/mobile/noticeDetail/"],
     },
     {
-        label: "없음.",
-        path: `/mobile/mainPageTest/`,
+        label: "가맹점",
+        path: `/mobile/storeList/`,
         iconName: "visit.svg",
+        matchPaths: ["/mobile/storeList/", "/mobile/storeDetail/"],
     },
     {
         label: "없음",
@@ -36,7 +37,15 @@ const MobileFooter2 = () => {
             <div className="flex justify-around items-center h-16 border-t">
                 {menuList.map((menu) => {
                     const fullPath = `${menu.path}`; // param 붙인 실제 URL
-                    const imgSrc = `/assets/image/mobile/active/${menu.iconName}`;
+                    const isActive = menu.matchPaths
+                        ? menu.matchPaths.some((p) =>
+                              location.pathname.startsWith(p)
+                          )
+                        : location.pathname === fullPath;
+
+                    const imgSrc = isActive
+                        ? `/assets/image/mobile/active/${menu.iconName}`
+                        : `/assets/image/mobile/non-active/${menu.iconName}`;
 
                     return (
                         <button
@@ -51,8 +60,13 @@ const MobileFooter2 = () => {
                                     className="w-6 h-6"
                                 />
                             </span>
-
-                            <span className="mt-1 font-normal font-TmoneyRoundWind text-[#e61f2c]">
+                            <span
+                                className={`mt-1 font-normal font-TmoneyRoundWind ${
+                                    isActive
+                                        ? "text-[#e61f2c]"
+                                        : "text-[#c7cbd2]"
+                                }`}
+                            >
                                 {menu.label}
                             </span>
                         </button>

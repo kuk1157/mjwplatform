@@ -13,6 +13,7 @@ import { MdArrowBackIosNew } from "react-icons/md"; // 이전 페이지이동 �
 import { formatedDate } from "src/utils/common";
 import { MobileMain } from "src/components/organisms/mobileMain"; // 모바일 상단 타이틀
 import { MobileFooter } from "src/components/organisms/mobileFooter"; // 하단 모바일 footer 공통 컴포넌트
+import { MobileFooter2 } from "src/components/organisms/mobileFooter2"; // 하단 모바일 footer 공통 컴포넌트
 
 // [공통 데이터 인터페이스]
 import { NoticeDetail } from "src/types"; // 공지사항 인터페이스
@@ -112,7 +113,7 @@ export function MobileNoticeDetail() {
             )}
 
             {/* 하단 네비게이션 */}
-            {customerId && <MobileFooter />}
+            {customerId ? <MobileFooter /> : <MobileFooter2 />}
         </div>
     );
 }
