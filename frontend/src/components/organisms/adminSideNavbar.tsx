@@ -212,14 +212,14 @@ const AdminSideNavbar = () => {
     if (!user.name) return null;
 
     return (
-        <nav className="flex flex-col w-[300px] max-h-screen pt-[30px] px-[20px] border-r border-[#D5EBE8]">
+        <nav className="flex flex-col w-[300px] pt-[30px] px-[20px] border-r border-[#D5EBE8]">
             <Link to={"/"} className="w-3/4 mx-auto">
                 <img src="/assets/image/logo.svg" alt="Logo" />
             </Link>
             <ul className="flex flex-col gap-1 mt-10 flex-grow">
                 {renderMenus(null)}
             </ul>
-            <div className="px-5 py-3 text-[#999999]">
+            <div className="px-5 py-3 text-[#999999] mb-14">
                 <button onClick={logout}>로그아웃</button>
             </div>
         </nav>

@@ -85,6 +85,15 @@ const AdminMenuList = [
         seq: 3,
         is_active: "Y",
     },
+
+    {
+        id: 9,
+        name: "현금화 통계",
+        path: "/admin/analytics/cashAnalytics",
+        parent_id: 6,
+        seq: 3,
+        is_active: "Y",
+    },
 ];
 
 const UserRoleList = [

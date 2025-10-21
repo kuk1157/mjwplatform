@@ -91,7 +91,7 @@ function AdminPointAnalyticsPage() {
         { label: "년도별", value: "yearly" },
     ];
 
-    const renderChart = () => {
+    const countChart = () => {
         // chartData가 없으면 더미 데이터 생성
         const dataToRender =
             chartData && chartData.length > 0
@@ -161,9 +161,81 @@ function AdminPointAnalyticsPage() {
         );
     };
 
+    const pointChart = () => {
+        // chartData가 없으면 더미 데이터 생성
+        const dataToRender =
+            chartData && chartData.length > 0
+                ? chartData
+                : [{ date: "", count: 0 }];
+
+        // 데이터가 1개면 BarChart
+        if (dataToRender.length === 1) {
+            return (
+                <BarChart
+                    data={dataToRender}
+                    margin={{ top: 20, right: 40, left: 20, bottom: 40 }}
+                >
+                    <XAxis dataKey="date" tick={{ fontSize: 12 }} dy={10} />
+                    <YAxis tick={{ fontSize: 14 }} />
+                    <Tooltip
+                        formatter={(value: any) => [`${value}`, "포인트 합계"]}
+                    />
+                    <Legend verticalAlign="top" height={36} />
+                    <Bar
+                        dataKey="count"
+                        fill="#fbbf24"
+                        name="포인트 합계"
+                        barSize={100}
+                    />
+                </BarChart>
+            );
+        }
+
+        // 데이터 2개 이상이면 AreaChart
+        return (
+            <AreaChart
+                data={dataToRender}
+                margin={{ top: 20, right: 40, left: 20, bottom: 40 }}
+            >
+                <defs>
+                    <linearGradient
+                        id="colorPayment"
+                        x1="0"
+                        y1="0"
+                        x2="0"
+                        y2="1"
+                    >
+                        <stop
+                            offset="5%"
+                            stopColor="#fbbf24"
+                            stopOpacity={0.8}
+                        />
+                        <stop
+                            offset="95%"
+                            stopColor="#fbbf24"
+                            stopOpacity={0}
+                        />
+                    </linearGradient>
+                </defs>
+                <XAxis dataKey="date" tick={{ fontSize: 12 }} dy={10} />
+                <YAxis tick={{ fontSize: 14 }} />
+                <Tooltip
+                    formatter={(value: any) => [`${value}`, "포인트 합계"]}
+                />
+                <Legend verticalAlign="top" height={36} />
+                <Area
+                    dataKey="count"
+                    stroke="#f59e0b"
+                    fill="url(#colorPayment)"
+                    name="포인트 합계"
+                />
+            </AreaChart>
+        );
+    };
+
     return (
         <SectionCard className="h-full text-[15px] leading-[18px]">
-            <PageTitle className="p-10">접속 통계</PageTitle>
+            <PageTitle className="p-10">포인트 통계</PageTitle>
             <SectionWrapper>
                 <div className="p-[20px]">
                     {/* 트렌드 탭 */}
@@ -205,8 +277,35 @@ function AdminPointAnalyticsPage() {
                     {/* 차트 */}
                     <div className="flex py-6">
                         <ResponsiveContainer width="100%" height={500}>
-                            {renderChart()}
+                            {countChart()}
                         </ResponsiveContainer>
+                    </div>
+
+                    {/* 차트 */}
+                    <div className="flex py-6">
+                        <ResponsiveContainer width="100%" height={500}>
+                            {pointChart()}
+                        </ResponsiveContainer>
+                    </div>
+                    <div className="text-center flex justify-center">
+                        <span className="w-[150px] border p-3">
+                            <p className="font-normal">평균 포인트</p>
+                            <p className="text-[#f59e0b] font-bold mt-1">
+                                10,000
+                            </p>
+                        </span>
+                        <span className="mx-3 w-[150px] border p-3">
+                            <p className="font-normal">최소 포인트</p>
+                            <p className="text-[#f59e0b] font-bold mt-1">
+                                20,000
+                            </p>
+                        </span>
+                        <span className="w-[150px] border p-3">
+                            <p className="font-normal">최대 포인트</p>
+                            <p className="text-[#f59e0b] font-bold mt-1">
+                                30,000
+                            </p>
+                        </span>
                     </div>
                 </div>
             </SectionWrapper>
