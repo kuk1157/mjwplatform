@@ -1,6 +1,7 @@
 package com.pudding.base.domain.point.entity;
 
 
+import com.pudding.base.domain.common.entity.BaseTimeEntity;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
@@ -9,6 +10,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.DynamicInsert;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 @DynamicInsert // createdAt 생성일 insert,update 제외
@@ -16,7 +18,7 @@ import java.time.LocalDateTime;
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Table(name = "point") // point 테이블(포인트 테이블)
-public class Point {
+public class Point extends BaseTimeEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
@@ -43,6 +45,9 @@ public class Point {
     @Schema(description = "점주가 받을 포인트")
     private Double point;
 
+    @Column(name = "created_date")
+    private LocalDate createdDate;
+
     @Column(name = "created_at", insertable = false, updatable = false)
     @Schema(description = "생성일")
     private LocalDateTime createdAt;
@@ -56,6 +61,13 @@ public class Point {
         this.orderPrice = orderPrice;
         this.point = point;
         this.createdAt = createdAt;
+    }
+
+
+    // 생성일 통계 검색용도
+    @PrePersist
+    public void prePersist() {// BaseTimeEntity의 createdAt 설정
+        this.createdDate = LocalDate.now(); // 통계용 날짜
     }
 
 

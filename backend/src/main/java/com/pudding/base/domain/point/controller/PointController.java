@@ -1,6 +1,7 @@
 package com.pudding.base.domain.point.controller;
 
 import com.pudding.base.domain.common.dto.SearchDateDto;
+import com.pudding.base.domain.common.dto.SearchPriceDto;
 import com.pudding.base.domain.point.dto.PointDto;
 import com.pudding.base.domain.point.service.PointService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -53,6 +54,21 @@ public class PointController {
         Page<PointDto> pointDto = pointService.findByOwnerIdPoint(pageable, ownerId);
         return ResponseEntity.ok(pointDto);
     }
+
+    @Operation(summary = "포인트 통계", description = "데이터 개수, 합계금액 2가지 차트")
+    @GetMapping("/admin/analytics/point")
+    public ResponseEntity<SearchPriceDto> pointAnalytics(@RequestParam(required = false) LocalDate start, @RequestParam(required = false) LocalDate end) {
+
+        if(start == null){
+            start = LocalDate.of(1900,1,1);
+        }
+        if(end == null){
+            end = LocalDate.of(9999,12,31);
+        }
+        SearchPriceDto searchPriceDto = pointService.pointAnalytics(start,end);
+        return ResponseEntity.ok(searchPriceDto);
+    }
+
 
 //    @Operation(summary = "구매/결제 통계(구매신청 전체데이터)", description = "전체 데이터 count(검색 항목 4가지 포함)")
 //    @GetMapping("/admin/analytics/point")

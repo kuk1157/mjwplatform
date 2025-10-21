@@ -1,5 +1,9 @@
 package com.pudding.base.domain.point.service;
 
+import com.pudding.base.domain.common.dto.DateCount;
+import com.pudding.base.domain.common.dto.PriceCount;
+import com.pudding.base.domain.common.dto.SearchDateDto;
+import com.pudding.base.domain.common.dto.SearchPriceDto;
 import com.pudding.base.domain.point.dto.PointDto;
 import com.pudding.base.domain.point.entity.Point;
 import com.pudding.base.domain.point.repository.PointRepository;
@@ -8,6 +12,9 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.time.LocalDate;
+import java.util.List;
 
 @RequiredArgsConstructor
 @Service
@@ -42,6 +49,24 @@ public class PointServiceImpl implements PointService {
         Page<Point> point = pointRepository.findByOwnerId(pageable, ownerId);
         return point.map(PointDto::fromEntity);
     }
+
+    // 포인트 통계 - 합계금액, 합계 수
+    public SearchPriceDto pointAnalytics(LocalDate start, LocalDate end){
+        List<PriceCount> daily = pointRepository.countDaily(start, end);
+        List<PriceCount> monthly = pointRepository.countMonthly(start, end);
+        List<PriceCount> yearly = pointRepository.countYearly(start, end);
+
+        long customCount = daily.stream().mapToLong(PriceCount::getCount).sum();
+
+        return SearchPriceDto.builder()
+                .daily(daily)
+                .monthly(monthly)
+                .yearly(yearly)
+                .customCount(customCount)
+                .build();
+    }
+
+
 
 
 }
