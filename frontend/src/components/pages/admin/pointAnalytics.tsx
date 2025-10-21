@@ -40,8 +40,10 @@ function AdminPointAnalyticsPage() {
             if (endAt) params.append("end", formatDate(endAt));
 
             const res = await UserApi.get(
-                `/api/v1/memberLogs/admin/analytics/traffic?${params.toString()}`
+                `/api/v1/points/admin/analytics/point?${params.toString()}`
             );
+
+            console.log(res.data);
             return res.data;
         },
         enabled: false,
@@ -107,14 +109,12 @@ function AdminPointAnalyticsPage() {
                 >
                     <XAxis dataKey="date" tick={{ fontSize: 12 }} dy={10} />
                     <YAxis tick={{ fontSize: 14 }} />
-                    <Tooltip
-                        formatter={(value: any) => [`${value}`, "접속 수"]}
-                    />
+                    <Tooltip formatter={(value: any) => [`${value}`, "개수"]} />
                     <Legend verticalAlign="top" height={36} />
                     <Bar
                         dataKey="count"
                         fill="#fbbf24"
-                        name="접속 수"
+                        name="개수"
                         barSize={100}
                     />
                 </BarChart>
@@ -149,13 +149,13 @@ function AdminPointAnalyticsPage() {
                 </defs>
                 <XAxis dataKey="date" tick={{ fontSize: 12 }} dy={10} />
                 <YAxis tick={{ fontSize: 14 }} />
-                <Tooltip formatter={(value: any) => [`${value}`, "접속 수"]} />
+                <Tooltip formatter={(value: any) => [`${value}`, "개수"]} />
                 <Legend verticalAlign="top" height={36} />
                 <Area
                     dataKey="count"
                     stroke="#f59e0b"
                     fill="url(#colorPayment)"
-                    name="접속 수"
+                    name="개수"
                 />
             </AreaChart>
         );
@@ -216,6 +216,132 @@ function AdminPointAnalyticsPage() {
                             stopOpacity={0}
                         />
                     </linearGradient>
+                    <linearGradient
+                        id="colorPayment"
+                        x1="0"
+                        y1="0"
+                        x2="0"
+                        y2="1"
+                    >
+                        <stop
+                            offset="5%"
+                            stopColor="#fbbf24"
+                            stopOpacity={0.8}
+                        />
+                        <stop
+                            offset="95%"
+                            stopColor="#fbbf24"
+                            stopOpacity={0}
+                        />
+                    </linearGradient>
+                    <linearGradient
+                        id="colorPayment"
+                        x1="0"
+                        y1="0"
+                        x2="0"
+                        y2="1"
+                    >
+                        <stop
+                            offset="5%"
+                            stopColor="#fbbf24"
+                            stopOpacity={0.8}
+                        />
+                        <stop
+                            offset="95%"
+                            stopColor="#fbbf24"
+                            stopOpacity={0}
+                        />
+                    </linearGradient>
+                    <linearGradient
+                        id="colorPayment"
+                        x1="0"
+                        y1="0"
+                        x2="0"
+                        y2="1"
+                    >
+                        <stop
+                            offset="5%"
+                            stopColor="#fbbf24"
+                            stopOpacity={0.8}
+                        />
+                        <stop
+                            offset="95%"
+                            stopColor="#fbbf24"
+                            stopOpacity={0}
+                        />
+                    </linearGradient>
+                    <linearGradient
+                        id="colorPayment"
+                        x1="0"
+                        y1="0"
+                        x2="0"
+                        y2="1"
+                    >
+                        <stop
+                            offset="5%"
+                            stopColor="#fbbf24"
+                            stopOpacity={0.8}
+                        />
+                        <stop
+                            offset="95%"
+                            stopColor="#fbbf24"
+                            stopOpacity={0}
+                        />
+                    </linearGradient>
+                    <linearGradient
+                        id="colorPayment"
+                        x1="0"
+                        y1="0"
+                        x2="0"
+                        y2="1"
+                    >
+                        <stop
+                            offset="5%"
+                            stopColor="#fbbf24"
+                            stopOpacity={0.8}
+                        />
+                        <stop
+                            offset="95%"
+                            stopColor="#fbbf24"
+                            stopOpacity={0}
+                        />
+                    </linearGradient>
+                    <linearGradient
+                        id="colorPayment"
+                        x1="0"
+                        y1="0"
+                        x2="0"
+                        y2="1"
+                    >
+                        <stop
+                            offset="5%"
+                            stopColor="#fbbf24"
+                            stopOpacity={0.8}
+                        />
+                        <stop
+                            offset="95%"
+                            stopColor="#fbbf24"
+                            stopOpacity={0}
+                        />
+                    </linearGradient>
+                    <linearGradient
+                        id="colorPayment"
+                        x1="0"
+                        y1="0"
+                        x2="0"
+                        y2="1"
+                    >
+                        <stop
+                            offset="5%"
+                            stopColor="#fbbf24"
+                            stopOpacity={0.8}
+                        />
+                        <stop
+                            offset="95%"
+                            stopColor="#fbbf24"
+                            stopOpacity={0}
+                        />
+                    </linearGradient>
                 </defs>
                 <XAxis dataKey="date" tick={{ fontSize: 12 }} dy={10} />
                 <YAxis tick={{ fontSize: 14 }} />
@@ -224,10 +350,52 @@ function AdminPointAnalyticsPage() {
                 />
                 <Legend verticalAlign="top" height={36} />
                 <Area
-                    dataKey="count"
+                    dataKey="sumPoint"
                     stroke="#f59e0b"
                     fill="url(#colorPayment)"
                     name="포인트 합계"
+                />
+                <Area
+                    dataKey="avgPoint"
+                    stroke="#3b82f6"
+                    fill="url(#colorPayment)"
+                    name="포인트 평균"
+                />
+                <Area
+                    dataKey="minPoint"
+                    stroke="#10b981"
+                    fill="url(#colorPayment)"
+                    name="포인트 최소"
+                />
+                <Area
+                    dataKey="maxPoint"
+                    stroke="#ef4444"
+                    fill="url(#colorPayment)"
+                    name="포인트 최대"
+                />
+                <Area
+                    dataKey="sumOrderPrice"
+                    stroke="#8b5cf6"
+                    fill="url(#colorPayment)"
+                    name="주문금액 합계"
+                />
+                <Area
+                    dataKey="avgOrderPrice"
+                    stroke="#ec4899"
+                    fill="url(#colorPayment)"
+                    name="주문금액 평균"
+                />
+                <Area
+                    dataKey="minOrderPrice"
+                    stroke="#14b8a6"
+                    fill="url(#colorPayment)"
+                    name="주문금액 최소"
+                />
+                <Area
+                    dataKey="maxOrderPrice"
+                    stroke="#6366f1"
+                    fill="url(#colorPayment)"
+                    name="주문금액 최대"
                 />
             </AreaChart>
         );
