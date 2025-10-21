@@ -65,11 +65,11 @@ function OwnerCashList() {
                     <div className="overflow-x-auto bg-white rounded-[25px] border ml-8 mb-8">
                         <table className="min-w-full border-collapse text-[#000]">
                             <thead>
-                                <tr className="bg-[#FBFBFC] uppercase text-base tracking-wide select-none">
+                                <tr className="bg-[#FBFBFC] uppercase text-base tracking-wide select-none border-b">
                                     <th className="py-4 px-6 text-center">
                                         번호
                                     </th>
-                                    <th className="py-4 px-6 text-center">
+                                    <th className="py-4 px-6 text-center border-r border-l">
                                         금액
                                     </th>
                                     <th className="py-4 px-6 text-center">
@@ -86,8 +86,11 @@ function OwnerCashList() {
                                         <td className="py-4 px-6 text-center whitespace-nowrap font-semibold">
                                             {page * pageSize + index + 1}
                                         </td>
-                                        <td className="py-4 px-6 text-center whitespace-nowrap">
-                                            {cashOutRequests.cash}
+                                        <td className="py-4 px-6 text-center whitespace-nowrap border-r border-l">
+                                            {(
+                                                cashOutRequests.cash ?? 0
+                                            ).toLocaleString()}{" "}
+                                            원
                                         </td>
                                         <td className="py-4 px-6 text-center whitespace-nowrap">
                                             {new Date(
