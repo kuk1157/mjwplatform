@@ -215,3 +215,15 @@ export interface pointCashOutRequest {
     cash: number;
     requestAt: string;
 }
+
+// 포인트 통계
+export interface PointAnalytics {
+    sumPoint?: number;
+    avgPoint?: number;
+    minPoint?: number;
+    maxPoint?: number;
+    sumOrderPrice?: number;
+    avgOrderPrice?: number;
+    minOrderPrice?: number;
+    maxOrderPrice?: number;
+}

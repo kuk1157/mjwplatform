@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import axios from "axios";
 import { useQuery } from "react-query";
 import {
     AreaChart,
@@ -17,6 +18,8 @@ import { SectionCard } from "src/components/molecules/card";
 import { DateRangeInput } from "src/components/atoms/input";
 import { UserApi } from "src/utils/userApi";
 
+import { PointAnalytics } from "src/types";
+
 // 날짜 포맷 YYYY-MM-DD
 const formatDate = (date: Date) => {
     const yyyy = date.getFullYear();
@@ -31,6 +34,21 @@ function AdminPointAnalyticsPage() {
     const [trendTab, setTrendTab] = useState<"daily" | "monthly" | "yearly">(
         "daily"
     );
+    const [pointTotal, setPointTotal] = useState<PointAnalytics | null>(null);
+    // 8개 값 대시보드 API
+    useEffect(() => {
+        const fetchData = async () => {
+            try {
+                const [pointTotal] = await Promise.all([
+                    axios.get("/api/v1/points/admin/analytics/point/total"),
+                ]);
+                setPointTotal(pointTotal.data); // 공지사항 추출
+            } catch (error) {
+                console.error("데이터 조회 실패:", error);
+            }
+        };
+        fetchData();
+    }, []);
 
     const { data: trafficData, refetch } = useQuery({
         queryKey: ["paymentStats"],
@@ -312,20 +330,52 @@ function AdminPointAnalyticsPage() {
                     <div className="text-center flex justify-center">
                         <span className="w-[150px] border p-3">
                             <p className="font-normal">전체 합계 포인트</p>
-                            <p className="text-[#000] font-bold mt-1">10,000</p>
+                            <p className="text-[#000] font-bold mt-1">
+                                {pointTotal?.sumPoint?.toLocaleString()} P
+                            </p>
                         </span>
                         <span className="w-[150px] border p-3 ml-3">
                             <p className="font-normal">전체 평균 포인트</p>
-                            <p className="text-[red] font-bold mt-1">10,000</p>
+                            <p className="text-[red] font-bold mt-1">
+                                {pointTotal?.avgPoint} P
+                            </p>
                         </span>
                         <span className="mx-3 w-[150px] border p-3">
                             <p className="font-normal">전체 최소 포인트</p>
-                            <p className="text-[blue] font-bold mt-1">20,000</p>
+                            <p className="text-[blue] font-bold mt-1">
+                                {pointTotal?.minPoint} P
+                            </p>
                         </span>
                         <span className="w-[150px] border p-3">
                             <p className="font-normal">전체 최대 포인트</p>
                             <p className="text-[green] font-bold mt-1">
-                                30,000
+                                {pointTotal?.maxPoint} P
+                            </p>
+                        </span>
+                    </div>
+                    <div className="text-center flex justify-center mt-3">
+                        <span className="w-[150px] border p-3">
+                            <p className="font-normal">전체 합계 주문금액</p>
+                            <p className="text-[#000] font-bold mt-1">
+                                {pointTotal?.sumOrderPrice?.toLocaleString()} 원
+                            </p>
+                        </span>
+                        <span className="w-[150px] border p-3 ml-3">
+                            <p className="font-normal">전체 평균 주문금액</p>
+                            <p className="text-[red] font-bold mt-1">
+                                {pointTotal?.avgOrderPrice} 원
+                            </p>
+                        </span>
+                        <span className="mx-3 w-[150px] border p-3">
+                            <p className="font-normal">전체 최소 주문금액</p>
+                            <p className="text-[blue] font-bold mt-1">
+                                {pointTotal?.minOrderPrice} 원
+                            </p>
+                        </span>
+                        <span className="w-[150px] border p-3">
+                            <p className="font-normal">전체 최대 주문금액</p>
+                            <p className="text-[green] font-bold mt-1">
+                                {pointTotal?.maxOrderPrice?.toLocaleString()} 원
                             </p>
                         </span>
                     </div>
