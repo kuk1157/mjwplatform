@@ -28,7 +28,7 @@ repositories {
 
 dependencies {
     // 다대구 모듈
-    implementation name: 'didclient-1.0.5'
+    implementation name: 'didclient'
 
     // javax 기반 JAXB 다대구 모듈이 참조하는 부분
     implementation 'org.glassfish.jaxb:jaxb-runtime:2.3.1'
