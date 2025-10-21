@@ -93,6 +93,17 @@ function AdminPointAnalyticsPage() {
         { label: "년도별", value: "yearly" },
     ];
 
+    const chartColorType = [
+        { color: "#fbbf24", type: "sumPoint", name: "포인트 합계" },
+        { color: "#3b82f6", type: "avgPoint", name: "포인트 평균" },
+        { color: "#10b981", type: "minPoint", name: "포인트 최소" },
+        { color: "#ef4444", type: "maxPoint", name: "포인트 최대" },
+        { color: "#8b5cf6", type: "sumOrderPrice", name: "주문금액 합계" },
+        { color: "#ec4899", type: "avgOrderPrice", name: "주문금액 평균" },
+        { color: "#14b8a6", type: "minOrderPrice", name: "주문금액 최소" },
+        { color: "#6366f1", type: "maxOrderPrice", name: "주문금액 최대" },
+    ];
+
     const countChart = () => {
         // chartData가 없으면 더미 데이터 생성
         const dataToRender =
@@ -198,205 +209,48 @@ function AdminPointAnalyticsPage() {
                 margin={{ top: 20, right: 40, left: 20, bottom: 40 }}
             >
                 <defs>
-                    <linearGradient
-                        id="colorPayment"
-                        x1="0"
-                        y1="0"
-                        x2="0"
-                        y2="1"
-                    >
-                        <stop
-                            offset="5%"
-                            stopColor="#fbbf24"
-                            stopOpacity={0.8}
-                        />
-                        <stop
-                            offset="95%"
-                            stopColor="#fbbf24"
-                            stopOpacity={0}
-                        />
-                    </linearGradient>
-                    <linearGradient
-                        id="colorPayment"
-                        x1="0"
-                        y1="0"
-                        x2="0"
-                        y2="1"
-                    >
-                        <stop
-                            offset="5%"
-                            stopColor="#fbbf24"
-                            stopOpacity={0.8}
-                        />
-                        <stop
-                            offset="95%"
-                            stopColor="#fbbf24"
-                            stopOpacity={0}
-                        />
-                    </linearGradient>
-                    <linearGradient
-                        id="colorPayment"
-                        x1="0"
-                        y1="0"
-                        x2="0"
-                        y2="1"
-                    >
-                        <stop
-                            offset="5%"
-                            stopColor="#fbbf24"
-                            stopOpacity={0.8}
-                        />
-                        <stop
-                            offset="95%"
-                            stopColor="#fbbf24"
-                            stopOpacity={0}
-                        />
-                    </linearGradient>
-                    <linearGradient
-                        id="colorPayment"
-                        x1="0"
-                        y1="0"
-                        x2="0"
-                        y2="1"
-                    >
-                        <stop
-                            offset="5%"
-                            stopColor="#fbbf24"
-                            stopOpacity={0.8}
-                        />
-                        <stop
-                            offset="95%"
-                            stopColor="#fbbf24"
-                            stopOpacity={0}
-                        />
-                    </linearGradient>
-                    <linearGradient
-                        id="colorPayment"
-                        x1="0"
-                        y1="0"
-                        x2="0"
-                        y2="1"
-                    >
-                        <stop
-                            offset="5%"
-                            stopColor="#fbbf24"
-                            stopOpacity={0.8}
-                        />
-                        <stop
-                            offset="95%"
-                            stopColor="#fbbf24"
-                            stopOpacity={0}
-                        />
-                    </linearGradient>
-                    <linearGradient
-                        id="colorPayment"
-                        x1="0"
-                        y1="0"
-                        x2="0"
-                        y2="1"
-                    >
-                        <stop
-                            offset="5%"
-                            stopColor="#fbbf24"
-                            stopOpacity={0.8}
-                        />
-                        <stop
-                            offset="95%"
-                            stopColor="#fbbf24"
-                            stopOpacity={0}
-                        />
-                    </linearGradient>
-                    <linearGradient
-                        id="colorPayment"
-                        x1="0"
-                        y1="0"
-                        x2="0"
-                        y2="1"
-                    >
-                        <stop
-                            offset="5%"
-                            stopColor="#fbbf24"
-                            stopOpacity={0.8}
-                        />
-                        <stop
-                            offset="95%"
-                            stopColor="#fbbf24"
-                            stopOpacity={0}
-                        />
-                    </linearGradient>
-                    <linearGradient
-                        id="colorPayment"
-                        x1="0"
-                        y1="0"
-                        x2="0"
-                        y2="1"
-                    >
-                        <stop
-                            offset="5%"
-                            stopColor="#fbbf24"
-                            stopOpacity={0.8}
-                        />
-                        <stop
-                            offset="95%"
-                            stopColor="#fbbf24"
-                            stopOpacity={0}
-                        />
-                    </linearGradient>
+                    {chartColorType.map(({ color, type }) => (
+                        <linearGradient
+                            key={type}
+                            id={type}
+                            x1="0"
+                            y1="0"
+                            x2="0"
+                            y2="1"
+                        >
+                            <stop
+                                offset="5%"
+                                stopColor={color}
+                                stopOpacity={0.4}
+                            />
+                            <stop
+                                offset="95%"
+                                stopColor={color}
+                                stopOpacity={0}
+                            />
+                        </linearGradient>
+                    ))}
                 </defs>
                 <XAxis dataKey="date" tick={{ fontSize: 12 }} dy={10} />
                 <YAxis tick={{ fontSize: 14 }} />
                 <Tooltip
-                    formatter={(value: any) => [`${value}`, "포인트 합계"]}
+                    formatter={(value: any, name: string) => [`${value}`, name]}
                 />
-                <Legend verticalAlign="top" height={36} />
-                <Area
-                    dataKey="sumPoint"
-                    stroke="#f59e0b"
-                    fill="url(#colorPayment)"
-                    name="포인트 합계"
+                <Legend
+                    verticalAlign="top"
+                    height={36}
+                    wrapperStyle={{ fontWeight: "bold" }}
                 />
-                <Area
-                    dataKey="avgPoint"
-                    stroke="#3b82f6"
-                    fill="url(#colorPayment)"
-                    name="포인트 평균"
-                />
-                <Area
-                    dataKey="minPoint"
-                    stroke="#10b981"
-                    fill="url(#colorPayment)"
-                    name="포인트 최소"
-                />
-                <Area
-                    dataKey="maxPoint"
-                    stroke="#ef4444"
-                    fill="url(#colorPayment)"
-                    name="포인트 최대"
-                />
-                <Area
-                    dataKey="sumOrderPrice"
-                    stroke="#8b5cf6"
-                    fill="url(#colorPayment)"
-                    name="주문금액 합계"
-                />
-                <Area
-                    dataKey="avgOrderPrice"
-                    stroke="#ec4899"
-                    fill="url(#colorPayment)"
-                    name="주문금액 평균"
-                />
-                <Area
-                    dataKey="minOrderPrice"
-                    stroke="#14b8a6"
-                    fill="url(#colorPayment)"
-                    name="주문금액 최소"
-                />
-                <Area
-                    dataKey="maxOrderPrice"
-                    stroke="#6366f1"
-                    fill="url(#colorPayment)"
-                    name="주문금액 최대"
-                />
+                {chartColorType.map(({ type, color, name }) => (
+                    <Area
+                        key={type}
+                        type="monotone"
+                        dataKey={type}
+                        stroke={color}
+                        fill={`url(#${type})`}
+                        name={name}
+                    />
+                ))}
             </AreaChart>
         );
     };
@@ -457,20 +311,20 @@ function AdminPointAnalyticsPage() {
                     </div>
                     <div className="text-center flex justify-center">
                         <span className="w-[150px] border p-3">
-                            <p className="font-normal">평균 포인트</p>
-                            <p className="text-[#f59e0b] font-bold mt-1">
-                                10,000
-                            </p>
+                            <p className="font-normal">전체 합계 포인트</p>
+                            <p className="text-[#000] font-bold mt-1">10,000</p>
+                        </span>
+                        <span className="w-[150px] border p-3 ml-3">
+                            <p className="font-normal">전체 평균 포인트</p>
+                            <p className="text-[red] font-bold mt-1">10,000</p>
                         </span>
                         <span className="mx-3 w-[150px] border p-3">
-                            <p className="font-normal">최소 포인트</p>
-                            <p className="text-[#f59e0b] font-bold mt-1">
-                                20,000
-                            </p>
+                            <p className="font-normal">전체 최소 포인트</p>
+                            <p className="text-[blue] font-bold mt-1">20,000</p>
                         </span>
                         <span className="w-[150px] border p-3">
-                            <p className="font-normal">최대 포인트</p>
-                            <p className="text-[#f59e0b] font-bold mt-1">
+                            <p className="font-normal">전체 최대 포인트</p>
+                            <p className="text-[green] font-bold mt-1">
                                 30,000
                             </p>
                         </span>
