@@ -125,7 +125,7 @@ export function MobileMainPage() {
                     </span>
                     <span>
                         <img
-                            src={`/public/assets/image/customerGrade/${customer?.customerGrade}Grade.png`}
+                            src={`/assets/image/customerGrade/${customer?.customerGrade}Grade.png`}
                             alt={`${CustomerGrades[customer?.customerGrade ?? ""] ?? "-"} 등급`}
                         ></img>
                     </span>
@@ -181,7 +181,7 @@ export function MobileMainPage() {
                                 />
                                 {isStamped && (
                                     <img
-                                        src="/public/assets/image/mobile/checkImage.jpg"
+                                        src="/assets/image/mobile/checkImage.jpg"
                                         alt="stamp"
                                         className="absolute inset-0 m-auto w-16 h-16 animate-[stampIn_0.4s_ease-out]"
                                     />

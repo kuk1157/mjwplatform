@@ -134,7 +134,7 @@ function MainPage() {
                                             </span>
                                             <span>
                                                 <img
-                                                    src="/public/assets/image/mainNft.png"
+                                                    src="/assets/image/mainNft.png"
                                                     alt="영수증"
                                                     className="block"
                                                 />
@@ -243,7 +243,7 @@ function MainPage() {
                                     onClick={btn1}
                                 >
                                     <img
-                                        src="/public/assets/image/mainbutton1.svg"
+                                        src="/assets/image/mainbutton1.svg"
                                         alt="영수증"
                                         className="block"
                                     />
@@ -257,7 +257,7 @@ function MainPage() {
                                     onClick={btn2}
                                 >
                                     <img
-                                        src="/public/assets/image/mainbutton2.svg"
+                                        src="/assets/image/mainbutton2.svg"
                                         alt="적립내역"
                                         className="block"
                                     />
@@ -268,7 +268,7 @@ function MainPage() {
 
                                 {/* <button className="w-[180px] p-5 mx-2 bg-[#580098] rounded-xl text-[#fff] flex flex-col items-center justify-center">
                                     <img
-                                        src="/public/assets/image/mainbutton3.svg"
+                                        src="/assets/image/mainbutton3.svg"
                                         alt="레이아웃"
                                         className="block"
                                     />
@@ -279,7 +279,7 @@ function MainPage() {
 
                                 <button className="w-[180px] p-5 mx-2 bg-[#580098] rounded-xl text-[#fff] flex flex-col items-center justify-center">
                                     <img
-                                        src="/public/assets/image/mainbutton4.svg"
+                                        src="/assets/image/mainbutton4.svg"
                                         alt="레이아웃"
                                         className="block"
                                     />
