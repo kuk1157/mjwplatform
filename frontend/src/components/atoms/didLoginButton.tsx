@@ -5,13 +5,30 @@ import LoadingSpinner from "src/utils/loadingSpinner";
 // 타입 확장
 declare global {
     interface Window {
-        daeguIdLogin: () => void;
-        didLogin?: {
-            loginPopup: (data: any) => void;
+        DIDLogin?: {
+            init: (opts?: any) => void;
+            isReady: () => boolean;
+            loginPersonal: (opts: any) => void;
+            setOptions?: (opts: any) => void;
+            reset?: () => void;
+            getVersion?: () => string;
         };
-        handleDidLogin: (returnData: string) => void;
+        /** 구버전(호환용) */
+        didLogin?: {
+            setOption?: (opts: any) => void;
+            loginPopup: (opts: any) => void;
+        };
+        /** 앱 진입 함수 */
+        daeguIdLogin?: () => void;
+        /** 공통 콜백 */
+        didLoginCallback?: (encrypted: string | object) => void;
+        /** iOS 전용 전역 콜백 - 반드시 함수 선언문 형태 */
+        iosCallback?: (encrypted: any) => void;
     }
 }
+
+const SITE_ID = "AuyVJfyBUnUGcFzqSih27NT"; // 발급받은 사이트 ID
+const REQUIRED_VC = "Name"; // 필요 VC 항목
 
 interface DidLoginButtonProps {
     storeNum?: number;
@@ -22,19 +39,19 @@ const DidLoginButton = ({ storeNum, tableNumber }: DidLoginButtonProps) => {
     const [loading, setLoading] = useState(false);
     useEffect(() => {
         // 로그인 처리 콜백 등록
-        window.handleDidLogin = async (
-            returnData: string | { returnData?: string }
-        ) => {
+        window.didLoginCallback = async (encrypted) => {
+            const returnData =
+                typeof encrypted === "string"
+                    ? encrypted
+                    : JSON.stringify(encrypted);
+
             console.log("returnData", returnData);
             try {
                 setLoading(true); // 스피너 켜기
                 const response = await axios.post(
                     `/api/v1/auth/did/${storeNum}/${tableNumber}`,
                     {
-                        returnData:
-                            typeof returnData === "string"
-                                ? returnData
-                                : JSON.stringify(returnData),
+                        returnData,
                     }
                 );
 
@@ -65,6 +82,11 @@ const DidLoginButton = ({ storeNum, tableNumber }: DidLoginButtonProps) => {
             }
         };
 
+        // 2) iOS 전역 콜백(함수 선언문 형태 필수)
+        window.iosCallback = function (encrypted: any) {
+            window.didLoginCallback?.(encrypted);
+        };
+
         // 스크립트 로드 유틸 함수
         const loadScript = (src: string) =>
             new Promise<void>((resolve, reject) => {
@@ -75,7 +97,6 @@ const DidLoginButton = ({ storeNum, tableNumber }: DidLoginButtonProps) => {
                 script.onerror = () => reject(`Failed to load ${src}`);
                 document.body.appendChild(script);
             });
-
         // jQuery → didLogin.js 순서대로 로드
         (async () => {
             try {
@@ -85,15 +106,30 @@ const DidLoginButton = ({ storeNum, tableNumber }: DidLoginButtonProps) => {
                 await loadScript("/js/didLogin.js");
                 console.log("didLogin.js loaded");
 
-                if (window.didLogin) {
+                // v2 객체 방식
+                if (window.DIDLogin) {
+                    // 모바일 웹 지원 켜기 (iOS 전역 콜백 필수)
+                    window.DIDLogin.init({
+                        logActive: process.env.NODE_ENV !== "production",
+                        mbActive: true, // 모바일 웹에서 앱 호출 지원
+                    });
+
+                    // 앱 진입 함수(신규)
                     window.daeguIdLogin = () => {
-                        const data = {
-                            siteId: "AuyVJfyBUnUGcFzqSih27NT",
-                            requiredVC: "Name", // DID와 CI는 기본 포함
-                            subVC: "",
-                            callbackFunc: "handleDidLogin",
-                        };
-                        window.didLogin?.loginPopup(data);
+                        if (!window.DIDLogin?.isReady()) {
+                            alert("로그인 모듈 초기화에 실패했습니다.");
+                            return;
+                        }
+                        window.DIDLogin.loginPersonal({
+                            siteId: SITE_ID,
+                            requiredVC: REQUIRED_VC,
+                            // 두 방식 중 하나 택1: 여기서는 콜백 방식 사용
+                            callbackFunc: "didLoginCallback",
+                            // 모바일웹(iOS) 필수: 전역 함수명 문자열
+                            iosCallbackFuncName: "iosCallback",
+                            // 만약 서버 수신으로 바꾸려면 ↓ 사용 (서버의 returnUrl 엔드포인트 구현 필요)
+                            // returnUrl: "/api/v1/auth/did/return",
+                        });
 
                         // Fallback: 앱이 없을 때 스토어로 이동
                         const timer = setTimeout(() => {
@@ -114,8 +150,20 @@ const DidLoginButton = ({ storeNum, tableNumber }: DidLoginButtonProps) => {
                             }
                         });
                     };
+                } else if (window.didLogin) {
+                    // 4) 구버전(호환): didLogin 함수 방식 유지
+                    window.daeguIdLogin = () => {
+                        window.didLogin!.loginPopup({
+                            siteId: SITE_ID,
+                            requiredVC: REQUIRED_VC,
+                            callbackFunc: "didLoginCallback",
+                            iosCallbackFuncName: "iosCallback",
+                        });
+                    };
                 } else {
-                    console.error("window.didLogin is still undefined!");
+                    console.error(
+                        "didLogin.js 로드됨. 구버전(호환): didLogin 함수 방식 유지 전역 객체 미탑재."
+                    );
                 }
             } catch (err) {
                 console.error(err);
