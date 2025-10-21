@@ -42,6 +42,21 @@ public class PriceCount {
         this.maxOrderPrice = maxOrderPrice;
     }
 
+    // 전체 데이터 중 합계 추출 용
+    public PriceCount(Double sumPoint, Long sumOrderPrice,
+                      Double avgPoint, Double avgOrderPrice,
+                      Double minPoint, Integer minOrderPrice,
+                      Double maxPoint, Integer maxOrderPrice) {
+        this.sumPoint = sumPoint;
+        this.sumOrderPrice = sumOrderPrice;
+        this.avgPoint = avgPoint;
+        this.avgOrderPrice = avgOrderPrice;
+        this.minPoint = minPoint;
+        this.minOrderPrice = minOrderPrice;
+        this.maxPoint = maxPoint;
+        this.maxOrderPrice = maxOrderPrice;
+    }
+
 
     private LocalDate convertToLocalDate(Object date) {
         if (date instanceof LocalDate) return (LocalDate) date;

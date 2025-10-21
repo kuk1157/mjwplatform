@@ -66,6 +66,10 @@ public class PointServiceImpl implements PointService {
                 .build();
     }
 
+    public PriceCount getPointTotal(){
+        return pointRepository.getPointTotal();
+    }
+
 
 
 

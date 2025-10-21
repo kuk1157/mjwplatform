@@ -1,5 +1,6 @@
 package com.pudding.base.domain.point.controller;
 
+import com.pudding.base.domain.common.dto.PriceCount;
 import com.pudding.base.domain.common.dto.SearchDateDto;
 import com.pudding.base.domain.common.dto.SearchPriceDto;
 import com.pudding.base.domain.point.dto.PointDto;
@@ -68,6 +69,15 @@ public class PointController {
         SearchPriceDto searchPriceDto = pointService.pointAnalytics(start,end);
         return ResponseEntity.ok(searchPriceDto);
     }
+
+    @Operation(summary = "포인트 최종 통계", description = "대시보드 형태로 8개 형태(전체 데이터 기준)")
+    @GetMapping("/admin/analytics/point/total")
+    public PriceCount getPointTotal(){
+        return pointService.getPointTotal();
+    }
+
+
+
 
 
 //    @Operation(summary = "구매/결제 통계(구매신청 전체데이터)", description = "전체 데이터 count(검색 항목 4가지 포함)")

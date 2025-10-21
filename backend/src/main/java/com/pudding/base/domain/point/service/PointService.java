@@ -1,5 +1,6 @@
 package com.pudding.base.domain.point.service;
 
+import com.pudding.base.domain.common.dto.PriceCount;
 import com.pudding.base.domain.common.dto.SearchDateDto;
 import com.pudding.base.domain.common.dto.SearchPriceDto;
 import com.pudding.base.domain.point.dto.PointDto;
@@ -22,4 +23,6 @@ public interface PointService {
     // 포인트 통계 (개수, 포인트)
     SearchPriceDto pointAnalytics(LocalDate start, LocalDate end);
 
+    // 포인트 최종 통계 대시보드(전체 데이터 기준)
+    PriceCount getPointTotal();
 }

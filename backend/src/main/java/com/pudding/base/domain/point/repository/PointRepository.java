@@ -1,6 +1,5 @@
 package com.pudding.base.domain.point.repository;
 
-import com.pudding.base.domain.common.dto.DateCount;
 import com.pudding.base.domain.common.dto.PriceCount;
 import com.pudding.base.domain.point.entity.Point;
 import org.springframework.data.domain.Page;
@@ -46,4 +45,13 @@ public interface PointRepository extends JpaRepository<Point, Long> {
             "ORDER BY FUNCTION('DATE', CONCAT(FUNCTION('YEAR', p.createdDate), '-01-01'))")
     List<PriceCount> countYearly(@Param("start") LocalDate start,
                                  @Param("end") LocalDate end);
+
+    @Query("SELECT new com.pudding.base.domain.common.dto.PriceCount(" +
+            "SUM(p.point), SUM(p.orderPrice), " +
+            "AVG(p.point), AVG(p.orderPrice), " +
+            "MIN(p.point), MIN(p.orderPrice), " +
+            "MAX(p.point), MAX(p.orderPrice)) " +
+            "FROM Point p")
+    PriceCount getPointTotal();
+
 }
