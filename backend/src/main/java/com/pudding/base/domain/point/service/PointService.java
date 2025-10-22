@@ -25,4 +25,11 @@ public interface PointService {
 
     // 포인트 최종 통계 대시보드(전체 데이터 기준)
     PriceCount getPointTotal();
+
+
+    // 포인트 통계(점주 기준)
+    SearchPriceDto pointOwnerIdByAnalytics(LocalDate start, LocalDate end, Integer ownerId);
+
+    // 포인트 최종 통계 대시보드(점주기준)
+    PriceCount getOwnerIdByPointTotal(Integer ownerId);
 }

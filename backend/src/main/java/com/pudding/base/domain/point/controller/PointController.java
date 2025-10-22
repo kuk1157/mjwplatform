@@ -1,7 +1,6 @@
 package com.pudding.base.domain.point.controller;
 
 import com.pudding.base.domain.common.dto.PriceCount;
-import com.pudding.base.domain.common.dto.SearchDateDto;
 import com.pudding.base.domain.common.dto.SearchPriceDto;
 import com.pudding.base.domain.point.dto.PointDto;
 import com.pudding.base.domain.point.service.PointService;
@@ -58,7 +57,7 @@ public class PointController {
 
     @Operation(summary = "포인트 통계", description = "데이터 개수, 합계금액 2가지 차트")
     @GetMapping("/admin/analytics/point")
-    public ResponseEntity<SearchPriceDto> pointAnalytics(@RequestParam(required = false) LocalDate start, @RequestParam(required = false) LocalDate end) {
+    public ResponseEntity<SearchPriceDto> pointAnalytics(@RequestParam(required = false) LocalDate start, @RequestParam(required = false) LocalDate end, @RequestParam(required = false) Long ownerId) {
 
         if(start == null){
             start = LocalDate.of(1900,1,1);
@@ -76,9 +75,25 @@ public class PointController {
         return pointService.getPointTotal();
     }
 
+    @Operation(summary = "점주 포인트 통계", description = "데이터 개수, 합계금액 2가지 차트")
+    @GetMapping("/admin/owner/analytics/point/{ownerId}")
+    public ResponseEntity<SearchPriceDto> pointOwnerIdByAnalytics(@RequestParam(required = false) LocalDate start, @RequestParam(required = false) LocalDate end, @PathVariable Integer ownerId) {
 
+        if(start == null){
+            start = LocalDate.of(1900,1,1);
+        }
+        if(end == null){
+            end = LocalDate.of(9999,12,31);
+        }
+        SearchPriceDto searchPriceDto = pointService.pointOwnerIdByAnalytics(start,end,ownerId);
+        return ResponseEntity.ok(searchPriceDto);
+    }
 
-
+    @Operation(summary = "점주 포인트 최종 통계", description = "대시보드 형태로 4개 형태(전체 데이터 기준)")
+    @GetMapping("/admin/owner/analytics/point/total/{ownerId}")
+    public PriceCount getOwnerIdByPointTotal(@PathVariable Integer ownerId){
+        return pointService.getOwnerIdByPointTotal(ownerId);
+    }
 
 //    @Operation(summary = "구매/결제 통계(구매신청 전체데이터)", description = "전체 데이터 count(검색 항목 4가지 포함)")
 //    @GetMapping("/admin/analytics/point")

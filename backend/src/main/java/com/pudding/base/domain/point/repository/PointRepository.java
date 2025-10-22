@@ -21,37 +21,44 @@ public interface PointRepository extends JpaRepository<Point, Long> {
             "p.createdDate, COUNT(p), SUM(p.point), SUM(p.orderPrice), AVG(p.point), AVG(p.orderPrice), MIN(p.point), MIN(p.orderPrice), MAX(p.point), MAX(p.orderPrice)) " +
             "FROM Point p " +
             "WHERE p.createdDate BETWEEN :start AND :end " +
+            "AND (:ownerId IS NULL OR p.ownerId = :ownerId) "+
             "GROUP BY p.createdDate " +
             "ORDER BY p.createdDate")
     List<PriceCount> countDaily(@Param("start") LocalDate start,
-                                @Param("end") LocalDate end);
+                                @Param("end") LocalDate end,
+                                @Param("ownerId") Integer ownerId);
 
     // 월별
     @Query("SELECT new com.pudding.base.domain.common.dto.PriceCount(" +
             "FUNCTION('DATE', CONCAT(FUNCTION('YEAR', p.createdDate), '-', FUNCTION('MONTH', p.createdDate), '-01')), COUNT(p), SUM(p.point), SUM(p.orderPrice), AVG(p.point), AVG(p.orderPrice), MIN(p.point), MIN(p.orderPrice), MAX(p.point), MAX(p.orderPrice)) " +
             "FROM Point p " +
             "WHERE p.createdDate BETWEEN :start AND :end " +
+            "AND (:ownerId IS NULL OR p.ownerId = :ownerId) "+
             "GROUP BY FUNCTION('DATE', CONCAT(FUNCTION('YEAR', p.createdDate), '-', FUNCTION('MONTH', p.createdDate), '-01')) " +
             "ORDER BY FUNCTION('DATE', CONCAT(FUNCTION('YEAR', p.createdDate), '-', FUNCTION('MONTH', p.createdDate), '-01'))")
     List<PriceCount> countMonthly(@Param("start") LocalDate start,
-                                  @Param("end") LocalDate end);
+                                  @Param("end") LocalDate end,
+                                  @Param("ownerId") Integer ownerId);
 
     // 년별
     @Query("SELECT new com.pudding.base.domain.common.dto.PriceCount(" +
             "FUNCTION('DATE', CONCAT(FUNCTION('YEAR', p.createdDate), '-01-01')), COUNT(p), SUM(p.point), SUM(p.orderPrice), AVG(p.point), AVG(p.orderPrice), MIN(p.point), MIN(p.orderPrice), MAX(p.point), MAX(p.orderPrice)) " +
             "FROM Point p " +
             "WHERE p.createdDate BETWEEN :start AND :end " +
+            "AND (:ownerId IS NULL OR p.ownerId = :ownerId) "+
             "GROUP BY FUNCTION('DATE', CONCAT(FUNCTION('YEAR', p.createdDate), '-01-01')) " +
             "ORDER BY FUNCTION('DATE', CONCAT(FUNCTION('YEAR', p.createdDate), '-01-01'))")
     List<PriceCount> countYearly(@Param("start") LocalDate start,
-                                 @Param("end") LocalDate end);
+                                 @Param("end") LocalDate end,
+                                 @Param("ownerId") Integer ownerId);
 
     @Query("SELECT new com.pudding.base.domain.common.dto.PriceCount(" +
             "SUM(p.point), SUM(p.orderPrice), " +
             "AVG(p.point), AVG(p.orderPrice), " +
             "MIN(p.point), MIN(p.orderPrice), " +
             "MAX(p.point), MAX(p.orderPrice)) " +
-            "FROM Point p")
-    PriceCount getPointTotal();
+            "FROM Point p " +
+            "WHERE (:ownerId IS NULL OR p.ownerId = :ownerId)")
+    PriceCount getPointTotal(@Param("ownerId") Integer ownerId);
 
 }

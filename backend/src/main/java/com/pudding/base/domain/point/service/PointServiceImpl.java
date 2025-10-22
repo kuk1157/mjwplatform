@@ -52,9 +52,9 @@ public class PointServiceImpl implements PointService {
 
     // 포인트 통계 - 합계금액, 합계 수
     public SearchPriceDto pointAnalytics(LocalDate start, LocalDate end){
-        List<PriceCount> daily = pointRepository.countDaily(start, end);
-        List<PriceCount> monthly = pointRepository.countMonthly(start, end);
-        List<PriceCount> yearly = pointRepository.countYearly(start, end);
+        List<PriceCount> daily = pointRepository.countDaily(start, end, null);
+        List<PriceCount> monthly = pointRepository.countMonthly(start, end, null);
+        List<PriceCount> yearly = pointRepository.countYearly(start, end, null);
 
         long customCount = daily.stream().mapToLong(PriceCount::getCount).sum();
 
@@ -67,8 +67,29 @@ public class PointServiceImpl implements PointService {
     }
 
     public PriceCount getPointTotal(){
-        return pointRepository.getPointTotal();
+        return pointRepository.getPointTotal(null);
     }
+
+    // 점주 포인트 통계 - 합계금액, 합계 수
+    public SearchPriceDto pointOwnerIdByAnalytics(LocalDate start, LocalDate end, Integer ownerId){
+        List<PriceCount> daily = pointRepository.countDaily(start, end, ownerId);
+        List<PriceCount> monthly = pointRepository.countMonthly(start, end, ownerId);
+        List<PriceCount> yearly = pointRepository.countYearly(start, end, ownerId);
+
+        long customCount = daily.stream().mapToLong(PriceCount::getCount).sum();
+
+        return SearchPriceDto.builder()
+                .daily(daily)
+                .monthly(monthly)
+                .yearly(yearly)
+                .customCount(customCount)
+                .build();
+    }
+
+    public PriceCount getOwnerIdByPointTotal(Integer ownerId){
+        return pointRepository.getPointTotal(ownerId);
+    }
+
 
 
 
