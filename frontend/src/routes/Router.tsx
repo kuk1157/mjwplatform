@@ -44,7 +44,7 @@ const ChangePassword = Loadable({
 // [홈페이지에서 메뉴]
 // 가맹점
 
-const homePageStoreDetail = Loadable({
+const HomePageStoreDetail = Loadable({
     Component: lazy(
         () => import("../components/pages/homePage/store/storeDetail")
     ),
@@ -335,7 +335,7 @@ const Router = createBrowserRouter([
             // 가맹점
             {
                 path: "/store/store/:id",
-                element: <homePageStoreDetail />,
+                element: <HomePageStoreDetail />,
             },
 
             // socket 테스트 페이지

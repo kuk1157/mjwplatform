@@ -12,7 +12,7 @@ import { MainContainer } from "src/components/molecules/container";
 // [공통 데이터 인터페이스]
 // import { StoreType } from "src/types"; // 가맹점(매장) 인터페이스
 
-function homePageStoreDetail() {
+function HomePageStoreDetail() {
     return (
         <MainContainer className="bg-[#FFF] py-[100px] lg:py-[150px] sm:py-[100px] xs:py-[60px]">
             <div className="w-full">
@@ -22,4 +22,4 @@ function homePageStoreDetail() {
     );
 }
 
-export default homePageStoreDetail;
+export default HomePageStoreDetail;
