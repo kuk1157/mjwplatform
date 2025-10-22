@@ -2,8 +2,21 @@ import axios, { AxiosError } from "axios";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useRef } from "react";
+import { useQuery } from "react-query";
+import { UserApi } from "src/utils/userApi";
 
 // [아이콘 및 공통 컴포넌트]
+import {
+    AreaChart,
+    Area,
+    BarChart,
+    Bar,
+    XAxis,
+    YAxis,
+    Tooltip,
+    Legend,
+    ResponsiveContainer,
+} from "recharts";
 import { MainContainer } from "../../molecules/container";
 import { IoIosArrowDown } from "react-icons/io"; // 페이지 접는용도
 
@@ -12,6 +25,15 @@ import { io } from "socket.io-client";
 
 // [공통 데이터 인터페이스]
 import { VisitLog } from "src/types"; // 방문기록 인터페이스
+import { PointAnalytics } from "src/types"; // 포인트 통계 인터페이스
+
+// 날짜 포맷 YYYY-MM-DD
+const formatDate = (date: Date) => {
+    const yyyy = date.getFullYear();
+    const mm = String(date.getMonth() + 1).padStart(2, "0");
+    const dd = String(date.getDate()).padStart(2, "0");
+    return `${yyyy}-${mm}-${dd}`;
+};
 
 function OwnerDashBoard() {
     const navigate = useNavigate();
@@ -24,7 +46,14 @@ function OwnerDashBoard() {
     const [newVisitLogs, setNewVisits] = useState<VisitLog[]>([]); // 최근 방문 기록 세팅
     const [requestPrice, setRequestPrice] = useState(""); // 현금화 금액
     const [isOpen, setIsOpen] = useState(false); // 모바일 상단 정보 토글 버튼 값 세팅
+    const [pointTotal, setPointTotal] = useState<PointAnalytics | null>(null);
     const socketRef = useRef<any>(null);
+
+    const [startAt, setStartAt] = useState<Date | null>(null);
+    const [endAt, setEndAt] = useState<Date | null>(null);
+    const [trendTab, setTrendTab] = useState<"daily" | "monthly" | "yearly">(
+        "daily"
+    );
 
     useEffect(() => {
         if (!ownerId) return;
@@ -243,6 +272,256 @@ function OwnerDashBoard() {
         }
     };
 
+    // 8개 값 대시보드 API
+    useEffect(() => {
+        const fetchData = async () => {
+            try {
+                const [pointTotal] = await Promise.all([
+                    axios.get(
+                        `/api/v1/points/admin/owner/analytics/point/total/${ownerId}`
+                    ),
+                ]);
+                setPointTotal(pointTotal.data); // 공지사항 추출
+            } catch (error) {
+                console.error("데이터 조회 실패:", error);
+            }
+        };
+        fetchData();
+    }, [ownerId]);
+
+    const { data: trafficData, refetch } = useQuery({
+        queryKey: ["paymentStats"],
+        queryFn: async () => {
+            const params = new URLSearchParams();
+            if (startAt) params.append("start", formatDate(startAt));
+            if (endAt) params.append("end", formatDate(endAt));
+
+            const res = await UserApi.get(
+                `/api/v1/points/admin/owner/analytics/point/${ownerId}?${params.toString()}`
+            );
+
+            console.log(res.data);
+            return res.data;
+        },
+        enabled: false,
+        refetchOnWindowFocus: false,
+    });
+
+    useEffect(() => {
+        if (!startAt && !endAt) {
+            const today = new Date();
+            const start = new Date();
+            start.setMonth(today.getMonth() - 1);
+            setStartAt(start);
+            setEndAt(today);
+            refetch();
+        }
+    }, [refetch, startAt, endAt]);
+
+    const chartData = (() => {
+        if (!trafficData) return [];
+
+        let rawData: any[] = [];
+        switch (trendTab) {
+            case "daily":
+                rawData = trafficData.daily || [];
+                break;
+            case "monthly":
+                rawData = trafficData.monthly || [];
+                break;
+            case "yearly":
+                rawData = trafficData.yearly || [];
+                break;
+            default:
+                rawData = [];
+        }
+
+        // 데이터가 7개 초과면 최근 7개만 추출
+        return rawData.length > 7 ? rawData.slice(-7) : rawData;
+    })();
+    const trendTabs = [
+        { label: "일별", value: "daily" },
+        { label: "월별", value: "monthly" },
+        { label: "년도별", value: "yearly" },
+    ];
+
+    const chartColorType = [
+        { color: "#8b5cf6", type: "sumPoint", name: "포인트 합계" },
+        { color: "#ec4899", type: "avgPoint", name: "포인트 평균" },
+        { color: "#14b8a6", type: "sumOrderPrice", name: "주문금액 합계" },
+        { color: "#6366f1", type: "avgOrderPrice", name: "주문금액 평균" },
+    ];
+
+    // 개수 차트
+    const countChart = () => {
+        // chartData가 없으면 더미 데이터 생성
+        const dataToRender =
+            chartData && chartData.length > 0
+                ? chartData
+                : [{ date: "", count: 0 }];
+
+        // 데이터가 1개면 BarChart
+        if (dataToRender.length === 1) {
+            return (
+                <BarChart
+                    data={dataToRender}
+                    margin={{ top: 20, right: 40, left: 20, bottom: 40 }}
+                >
+                    <XAxis dataKey="date" tick={{ fontSize: 12 }} dy={10} />
+                    <YAxis tick={{ fontSize: 14 }} />
+                    <Tooltip
+                        formatter={(value: any) => [
+                            `${value}`,
+                            "금액 입력 건 수",
+                        ]}
+                    />
+                    <Legend verticalAlign="top" height={36} />
+                    <Bar
+                        dataKey="count"
+                        fill="#3b82f6"
+                        name="금액 입력 건 수"
+                        barSize={100}
+                    />
+                </BarChart>
+            );
+        }
+
+        // 데이터 2개 이상이면 AreaChart
+        return (
+            <AreaChart
+                data={dataToRender}
+                margin={{ top: 20, right: 40, left: 20, bottom: 40 }}
+            >
+                <defs>
+                    <linearGradient
+                        id="colorPayment"
+                        x1="0"
+                        y1="0"
+                        x2="0"
+                        y2="1"
+                    >
+                        <stop
+                            offset="5%"
+                            stopColor="#3b82f6"
+                            stopOpacity={0.8}
+                        />
+                        <stop
+                            offset="95%"
+                            stopColor="#3b82f6"
+                            stopOpacity={0}
+                        />
+                    </linearGradient>
+                </defs>
+                <XAxis dataKey="date" tick={{ fontSize: 12 }} dy={10} />
+                <YAxis tick={{ fontSize: 14 }} />
+                <Tooltip
+                    formatter={(value: any) => [`${value}`, "금액 입력 건 수"]}
+                />
+                <Legend verticalAlign="top" height={36} />
+                <Area
+                    dataKey="count"
+                    stroke="#3b82f6"
+                    fill="url(#colorPayment)"
+                    name="금액 입력 건 수"
+                />
+            </AreaChart>
+        );
+    };
+
+    // 주문, 포인트 관련 차트
+    const pointChart = () => {
+        // chartData가 없으면 더미 데이터 생성
+        const dataToRender =
+            chartData && chartData.length > 0
+                ? chartData
+                : [{ date: "", count: 0 }];
+
+        // 데이터가 1개면 BarChart
+        if (dataToRender.length === 1) {
+            return (
+                <BarChart
+                    data={dataToRender}
+                    margin={{ top: 20, right: 40, left: 20, bottom: 40 }}
+                >
+                    <XAxis dataKey="date" tick={{ fontSize: 12 }} dy={10} />
+                    <YAxis tick={{ fontSize: 14 }} />
+                    <Tooltip
+                        formatter={(value: any, name: string) => [
+                            `${value}`,
+                            name,
+                        ]}
+                    />
+                    <Legend
+                        verticalAlign="top"
+                        height={36}
+                        wrapperStyle={{ fontWeight: "bold" }}
+                    />
+                    {chartColorType.map(({ type, color, name }) => (
+                        <Bar
+                            key={type}
+                            dataKey={type}
+                            fill={color}
+                            name={name}
+                            barSize={100}
+                        />
+                    ))}
+                </BarChart>
+            );
+        }
+
+        // 데이터 2개 이상이면 AreaChart
+        return (
+            <AreaChart
+                data={dataToRender}
+                margin={{ top: 20, right: 40, left: 20, bottom: 40 }}
+            >
+                <defs>
+                    {chartColorType.map(({ color, type }) => (
+                        <linearGradient
+                            key={type}
+                            id={type}
+                            x1="0"
+                            y1="0"
+                            x2="0"
+                            y2="1"
+                        >
+                            <stop
+                                offset="5%"
+                                stopColor={color}
+                                stopOpacity={0.4}
+                            />
+                            <stop
+                                offset="95%"
+                                stopColor={color}
+                                stopOpacity={0}
+                            />
+                        </linearGradient>
+                    ))}
+                </defs>
+                <XAxis dataKey="date" tick={{ fontSize: 12 }} dy={10} />
+                <YAxis tick={{ fontSize: 14 }} />
+                <Tooltip
+                    formatter={(value: any, name: string) => [`${value}`, name]}
+                />
+                <Legend
+                    verticalAlign="top"
+                    height={36}
+                    wrapperStyle={{ fontWeight: "bold" }}
+                />
+                {chartColorType.map(({ type, color, name }) => (
+                    <Area
+                        key={type}
+                        type="monotone"
+                        dataKey={type}
+                        stroke={color}
+                        fill={`url(#${type})`}
+                        name={name}
+                    />
+                ))}
+            </AreaChart>
+        );
+    };
+
     return (
         <MainContainer className="bg-[#FFF] py-[100px] lg:py-[150px] sm:py-[100px] xs:py-[60px]">
             <div className="w-full">
@@ -353,6 +632,68 @@ function OwnerDashBoard() {
                                     전체 방문
                                 </p>
                             </button>
+                        </div>
+                    </div>
+                </div>
+
+                <div className="w-full bg-[#FFF] p-6">
+                    <div className="w-full max-w-[880px] mx-auto">
+                        {/* 트렌드 탭 */}
+                        <div className="flex gap-3 mb-4">
+                            {trendTabs.map((tab) => (
+                                <button
+                                    key={tab.value}
+                                    onClick={() =>
+                                        setTrendTab(tab.value as any)
+                                    }
+                                    className={`px-4 py-2 border rounded ${
+                                        trendTab === tab.value
+                                            ? "bg-[#E61F2C] text-white border-0"
+                                            : "bg-white text-[#666] border border-[#b8b8b8]"
+                                    }`}
+                                >
+                                    {tab.label}
+                                </button>
+                            ))}
+                        </div>
+                        {/* 통계 영역 */}
+                        <div className="flex py-2">
+                            <ResponsiveContainer width="100%" height={500}>
+                                {countChart()}
+                            </ResponsiveContainer>
+                        </div>
+                        {/* 통계 영역 */}
+                        <div className="flex py-2">
+                            <ResponsiveContainer width="100%" height={500}>
+                                {pointChart()}
+                            </ResponsiveContainer>
+                        </div>
+                        <div className="text-center flex justify-center">
+                            <span className="w-[150px] border px-3 py-1">
+                                <p className="font-normal">전체 합계 포인트</p>
+                                <p className="text-[#000] font-bold">
+                                    {pointTotal?.sumPoint?.toLocaleString()} P
+                                </p>
+                            </span>
+                            <span className="w-[150px] border px-3 py-1 ml-3">
+                                <p className="font-normal">전체 평균 포인트</p>
+                                <p className="text-[red] font-bold">
+                                    {pointTotal?.avgPoint} P
+                                </p>
+                            </span>
+                            <span className="mx-3 w-[150px] border px-3 py-1">
+                                <p className="font-normal">전체 합계 금액</p>
+                                <p className="text-[blue] font-bold">
+                                    {pointTotal?.sumOrderPrice?.toLocaleString()}{" "}
+                                    원
+                                </p>
+                            </span>
+                            <span className="w-[150px] border px-3 py-1">
+                                <p className="font-normal">전체 평균 금액</p>
+                                <p className="text-[green] font-bold ">
+                                    {pointTotal?.avgOrderPrice} 원
+                                </p>
+                            </span>
                         </div>
                     </div>
                 </div>
