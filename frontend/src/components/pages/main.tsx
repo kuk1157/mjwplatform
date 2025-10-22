@@ -222,15 +222,21 @@ function MainPage() {
                                     <div className="flex flex-col">
                                         {notices.length > 0 ? (
                                             notices.map((notice, idx) => (
-                                                <div
-                                                    key={idx}
-                                                    className="flex p-2 border-b border-[#580098]"
+                                                <Link
+                                                    to={`/notice/${notice.id}`}
                                                 >
-                                                    <span className="bg-[#580098] w-14 text-[#fff] text-center rounded-md mr-4">
-                                                        공지
-                                                    </span>
-                                                    <span>{notice.title}</span>
-                                                </div>
+                                                    <div
+                                                        key={idx}
+                                                        className="flex p-2 border-b border-[#580098]"
+                                                    >
+                                                        <span className="bg-[#580098] w-14 text-[#fff] text-center rounded-md mr-4">
+                                                            공지
+                                                        </span>
+                                                        <span>
+                                                            {notice.title}
+                                                        </span>
+                                                    </div>
+                                                </Link>
                                             ))
                                         ) : (
                                             <div className="p-2 text-gray-400">
