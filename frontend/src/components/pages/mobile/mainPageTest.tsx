@@ -230,7 +230,7 @@ export function MobileMainPageTest() {
                                         </span>
                                         <span>
                                             <img
-                                                src={`/assets/image/customerGrade/${customer?.customerGrade}Grade.png`}
+                                                src={`/assets/image/customerGrade/${customer?.customerGrade?.toLowerCase()}Grade.png`}
                                                 alt={`${CustomerGrades[customer?.customerGrade ?? ""] ?? "-"} 등급`}
                                                 className="block"
                                             ></img>
@@ -333,7 +333,7 @@ export function MobileMainPageTest() {
                             </span>
                             <span>
                                 <img
-                                    src={`/assets/image/customerGrade/${customer?.customerGrade}Grade.png`}
+                                    src={`/assets/image/customerGrade/${customer?.customerGrade?.toLowerCase()}Grade.png`}
                                     alt={`${CustomerGrades[customer?.customerGrade ?? ""] ?? "-"} 등급`}
                                 ></img>
                             </span>
