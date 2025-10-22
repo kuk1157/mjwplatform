@@ -56,7 +56,7 @@ const MyInfo = ({
     } = props;
     const location = useLocation().pathname;
     return (
-        <div className="ml-[70px] flex flex-col w-full h-full max-w-[800px] lg:ml-0 lg:max-w-none min-h-screen">
+        <div className="ml-[70px] flex flex-col w-full h-full max-w-[750px] border border-[#580098] p-12 lg:ml-0 lg:max-w-none min-h-screen">
             <div className="lg:flex gap-3 pb-[30px] w-full hidden">
                 <Link
                     to={"/myPage/myInfo"}
@@ -164,7 +164,7 @@ const MyInfo = ({
                                 />
                             )}
                             <Button
-                                className={`${emailLoading || isVerify || verifyTime > 0 ? "bg-[#eee]" : "bg-[#21A089]"} text-white rounded-[5px] text-nowrap px-5 h-[40px] text-[15px] xs:text-[13px] xs:px-3`}
+                                className={`${emailLoading || isVerify || verifyTime > 0 ? "bg-[#eee]" : "bg-[#580098]"} text-white rounded-[5px] text-nowrap px-5 h-[40px] text-[15px] xs:text-[13px] xs:px-3`}
                                 onClick={handleEmailSubmit}
                                 disabled={
                                     emailLoading || isVerify || sendVerify
@@ -187,7 +187,7 @@ const MyInfo = ({
                                 disabled={isVerify}
                             />
                             <Button
-                                className={`${isVerify ? "bg-[#eee]" : "bg-[#21A089]"} text-white rounded-[5px] text-nowrap px-5 h-[40px]`}
+                                className={`${isVerify ? "bg-[#eee]" : "bg-[#580098]"} text-white rounded-[5px] text-nowrap px-5 h-[40px]`}
                                 onClick={handleVerify}
                             >
                                 확인
@@ -214,14 +214,14 @@ const MyInfo = ({
                     />
                 </div>
                 <Link className="self-end" to={"/myPage/changePassword"}>
-                    <Button className="bg-[#21A089] text-white px-[20px] py-[10px] w-full rounded-[5px] text-[15px] xs:text-[13px] xs:px-3">
+                    <Button className="bg-[#580098] text-white px-[20px] py-[10px] w-full rounded-[5px] text-[15px] xs:text-[13px] xs:px-3">
                         비밀번호 변경하기
                     </Button>
                 </Link>
             </div>
             <div className="w-full flex justify-center mt-[50px]">
                 <Button
-                    className="bg-[#21A089] text-white px-[60px] py-[18px] w-fit rounded-[5px] text-[20px] xs:text-[17px] xs:px-[40px] xs:py-[15px]"
+                    className="bg-[#580098] text-white px-[60px] py-[18px] w-fit rounded-[5px] text-[20px] xs:text-[17px] xs:px-[40px] xs:py-[15px]"
                     onClick={onSave}
                 >
                     저장하기
