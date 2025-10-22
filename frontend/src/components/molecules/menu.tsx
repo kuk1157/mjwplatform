@@ -227,7 +227,7 @@ const NavSide = ({ ...props }) => {
     const handleLogout = () => {
         localStorage.clear();
         location.reload();
-        window.location.replace("/login");
+        window.location.replace("/");
     };
     const path = useLocation().pathname;
     useEffect(() => {

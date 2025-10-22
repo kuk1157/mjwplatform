@@ -12,7 +12,7 @@ const AdminSideNavbar = () => {
 
     const logout = () => {
         localStorage.clear();
-        window.location.reload();
+        window.location.replace("/");
     };
 
     const handleToggle = (id: number) => {
