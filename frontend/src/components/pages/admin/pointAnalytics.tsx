@@ -122,6 +122,7 @@ function AdminPointAnalyticsPage() {
         { color: "#6366f1", type: "maxOrderPrice", name: "주문금액 최대" },
     ];
 
+    // 개수 차트
     const countChart = () => {
         // chartData가 없으면 더미 데이터 생성
         const dataToRender =
@@ -142,7 +143,7 @@ function AdminPointAnalyticsPage() {
                     <Legend verticalAlign="top" height={36} />
                     <Bar
                         dataKey="count"
-                        fill="#fbbf24"
+                        fill="#3b82f6"
                         name="개수"
                         barSize={100}
                     />
@@ -166,12 +167,12 @@ function AdminPointAnalyticsPage() {
                     >
                         <stop
                             offset="5%"
-                            stopColor="#fbbf24"
+                            stopColor="#3b82f6"
                             stopOpacity={0.8}
                         />
                         <stop
                             offset="95%"
-                            stopColor="#fbbf24"
+                            stopColor="#3b82f6"
                             stopOpacity={0}
                         />
                     </linearGradient>
@@ -182,7 +183,7 @@ function AdminPointAnalyticsPage() {
                 <Legend verticalAlign="top" height={36} />
                 <Area
                     dataKey="count"
-                    stroke="#f59e0b"
+                    stroke="#3b82f6"
                     fill="url(#colorPayment)"
                     name="개수"
                 />
@@ -190,6 +191,7 @@ function AdminPointAnalyticsPage() {
         );
     };
 
+    // 주문, 포인트 관련 차트
     const pointChart = () => {
         // chartData가 없으면 더미 데이터 생성
         const dataToRender =
@@ -207,15 +209,25 @@ function AdminPointAnalyticsPage() {
                     <XAxis dataKey="date" tick={{ fontSize: 12 }} dy={10} />
                     <YAxis tick={{ fontSize: 14 }} />
                     <Tooltip
-                        formatter={(value: any) => [`${value}`, "포인트 합계"]}
+                        formatter={(value: any, name: string) => [
+                            `${value}`,
+                            name,
+                        ]}
                     />
-                    <Legend verticalAlign="top" height={36} />
-                    <Bar
-                        dataKey="count"
-                        fill="#fbbf24"
-                        name="포인트 합계"
-                        barSize={100}
+                    <Legend
+                        verticalAlign="top"
+                        height={36}
+                        wrapperStyle={{ fontWeight: "bold" }}
                     />
+                    {chartColorType.map(({ type, color, name }) => (
+                        <Bar
+                            key={type}
+                            dataKey={type}
+                            fill={color}
+                            name={name}
+                            barSize={100}
+                        />
+                    ))}
                 </BarChart>
             );
         }
