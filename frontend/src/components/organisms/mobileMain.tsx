@@ -34,7 +34,7 @@ const MobileMain = ({ param }: MobileMainProps) => {
                     <div>
                         <button
                             className="cursor-poiner flex items-center justify-center bg-[#E61F2C] rounded-[25px] py-[8px] px-[14.5px] text-[#fff] font-Pretendard"
-                            onClick={() => alert("으아악 위험")}
+                            onClick={() => alert("준비중 입니다.")}
                         >
                             로그인
                         </button>

@@ -18,7 +18,7 @@ import { SectionCard } from "src/components/molecules/card";
 import { DateRangeInput } from "src/components/atoms/input";
 import { UserApi } from "src/utils/userApi";
 
-import { PointAnalytics } from "src/types";
+import { CashAnalytics } from "src/types";
 
 // 날짜 포맷 YYYY-MM-DD
 const formatDate = (date: Date) => {
@@ -34,15 +34,17 @@ function AdminCashAnalyticsPage() {
     const [trendTab, setTrendTab] = useState<"daily" | "monthly" | "yearly">(
         "daily"
     );
-    const [pointTotal, setPointTotal] = useState<PointAnalytics | null>(null);
+    const [cashTotal, setCashTotal] = useState<CashAnalytics | null>(null);
     // 8개 값 대시보드 API
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const [pointTotal] = await Promise.all([
-                    axios.get("/api/v1/points/admin/analytics/point/total"),
+                const [cashTotal] = await Promise.all([
+                    axios.get(
+                        "/api/v1/pointCashOutRequests/admin/analytics/cash/total"
+                    ),
                 ]);
-                setPointTotal(pointTotal.data); // 공지사항 추출
+                setCashTotal(cashTotal.data); // 공지사항 추출
             } catch (error) {
                 console.error("데이터 조회 실패:", error);
             }
@@ -50,7 +52,7 @@ function AdminCashAnalyticsPage() {
         fetchData();
     }, []);
 
-    const { data: trafficData, refetch } = useQuery({
+    const { data: cashData, refetch } = useQuery({
         queryKey: ["paymentStats"],
         queryFn: async () => {
             const params = new URLSearchParams();
@@ -58,7 +60,7 @@ function AdminCashAnalyticsPage() {
             if (endAt) params.append("end", formatDate(endAt));
 
             const res = await UserApi.get(
-                `/api/v1/points/admin/analytics/point?${params.toString()}`
+                `/api/v1/pointCashOutRequests/admin/analytics/cash?${params.toString()}`
             );
 
             console.log(res.data);
@@ -85,18 +87,18 @@ function AdminCashAnalyticsPage() {
     };
 
     const chartData = (() => {
-        if (!trafficData) return [];
+        if (!cashData) return [];
 
         let rawData: any[] = [];
         switch (trendTab) {
             case "daily":
-                rawData = trafficData.daily || [];
+                rawData = cashData.daily || [];
                 break;
             case "monthly":
-                rawData = trafficData.monthly || [];
+                rawData = cashData.monthly || [];
                 break;
             case "yearly":
-                rawData = trafficData.yearly || [];
+                rawData = cashData.yearly || [];
                 break;
             default:
                 rawData = [];
@@ -343,25 +345,25 @@ function AdminCashAnalyticsPage() {
                         <span className="w-[150px] border p-3">
                             <p className="font-normal">전체 합계 현금</p>
                             <p className="text-[#000] font-bold mt-1">
-                                {pointTotal?.sumPoint?.toLocaleString()} P
+                                {cashTotal?.sumCash?.toLocaleString()} 원
                             </p>
                         </span>
                         <span className="w-[150px] border p-3 ml-3">
                             <p className="font-normal">전체 평균 현금</p>
                             <p className="text-[red] font-bold mt-1">
-                                {pointTotal?.avgPoint} P
+                                {cashTotal?.avgCash} 원
                             </p>
                         </span>
                         <span className="mx-3 w-[150px] border p-3">
                             <p className="font-normal">전체 최소 현금</p>
                             <p className="text-[blue] font-bold mt-1">
-                                {pointTotal?.minPoint} P
+                                {cashTotal?.minCash} 원
                             </p>
                         </span>
                         <span className="w-[150px] border p-3">
                             <p className="font-normal">전체 최대 현금</p>
                             <p className="text-[green] font-bold mt-1">
-                                {pointTotal?.maxPoint} P
+                                {cashTotal?.maxCash} 원
                             </p>
                         </span>
                     </div>

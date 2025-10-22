@@ -114,7 +114,7 @@ function AdminTrafficAnalyticsPage() {
                     <Legend verticalAlign="top" height={36} />
                     <Bar
                         dataKey="count"
-                        fill="#fbbf24"
+                        fill="#3b82f6"
                         name="접속 수"
                         barSize={100}
                     />
@@ -129,21 +129,15 @@ function AdminTrafficAnalyticsPage() {
                 margin={{ top: 20, right: 40, left: 20, bottom: 40 }}
             >
                 <defs>
-                    <linearGradient
-                        id="colorPayment"
-                        x1="0"
-                        y1="0"
-                        x2="0"
-                        y2="1"
-                    >
+                    <linearGradient id="traffic" x1="0" y1="0" x2="0" y2="1">
                         <stop
                             offset="5%"
-                            stopColor="#fbbf24"
+                            stopColor="#3b82f6"
                             stopOpacity={0.8}
                         />
                         <stop
                             offset="95%"
-                            stopColor="#fbbf24"
+                            stopColor="#3b82f6"
                             stopOpacity={0}
                         />
                     </linearGradient>
@@ -154,8 +148,8 @@ function AdminTrafficAnalyticsPage() {
                 <Legend verticalAlign="top" height={36} />
                 <Area
                     dataKey="count"
-                    stroke="#f59e0b"
-                    fill="url(#colorPayment)"
+                    stroke="#3b82f6"
+                    fill="url(#traffic)"
                     name="접속 수"
                 />
             </AreaChart>

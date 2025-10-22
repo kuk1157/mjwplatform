@@ -227,3 +227,11 @@ export interface PointAnalytics {
     minOrderPrice?: number;
     maxOrderPrice?: number;
 }
+
+// 현금화 통계
+export interface CashAnalytics {
+    sumCash?: number;
+    avgCash?: number;
+    minCash?: number;
+    maxCash?: number;
+}
