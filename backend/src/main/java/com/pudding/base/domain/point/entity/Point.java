@@ -48,21 +48,15 @@ public class Point extends BaseTimeEntity {
     @Column(name = "created_date")
     private LocalDate createdDate;
 
-    @Column(name = "created_at", insertable = false, updatable = false)
-    @Schema(description = "생성일")
-    private LocalDateTime createdAt;
-
     @Builder
-    public Point(Integer id, Integer payId, Integer storeId, Integer ownerId, Integer orderPrice, Double point, LocalDateTime createdAt){
+    public Point(Integer id, Integer payId, Integer storeId, Integer ownerId, Integer orderPrice, Double point){
         this.id = id;
         this.payId = payId;
         this.storeId = storeId;
         this.ownerId = ownerId;
         this.orderPrice = orderPrice;
         this.point = point;
-        this.createdAt = createdAt;
     }
-
 
     // 생성일 통계 검색용도
     @PrePersist

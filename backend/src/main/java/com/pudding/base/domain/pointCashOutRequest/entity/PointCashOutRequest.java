@@ -7,6 +7,7 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 @Entity
@@ -37,6 +38,8 @@ public class PointCashOutRequest {
     @Schema(description = "현금화 신청일")
     private LocalDateTime requestAt;
 
+    @Column(name = "created_date")
+    private LocalDate createdDate;
 
     @Builder
     public PointCashOutRequest(Integer id, Integer storeId, Integer ownerId, Integer cash, LocalDateTime requestAt){
@@ -45,6 +48,12 @@ public class PointCashOutRequest {
         this.ownerId = ownerId;
         this.cash = cash;
         this.requestAt = requestAt;
+    }
+
+    // 생성일 통계 검색용도
+    @PrePersist
+    public void prePersist() {// BaseTimeEntity의 createdAt 설정
+        this.createdDate = LocalDate.now(); // 통계용 날짜
     }
 
 }

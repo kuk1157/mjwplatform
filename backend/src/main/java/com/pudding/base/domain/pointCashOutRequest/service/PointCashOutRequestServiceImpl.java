@@ -1,6 +1,8 @@
 package com.pudding.base.domain.pointCashOutRequest.service;
 
 
+import com.pudding.base.domain.common.dto.PriceCount;
+import com.pudding.base.domain.common.dto.SearchPriceDto;
 import com.pudding.base.domain.member.entity.Member;
 import com.pudding.base.domain.member.repository.MemberRepository;
 import com.pudding.base.domain.pointCashOutRequest.dto.PointCashOutRequestDto;
@@ -15,7 +17,9 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -62,6 +66,25 @@ public class PointCashOutRequestServiceImpl implements PointCashOutRequestServic
         return pointCashOutRequests.map(PointCashOutRequestDto::fromEntity);
     }
 
+    // 현금화 통계 - 합계금액, 합계 수
+    public SearchPriceDto cashAnalytics(LocalDate start, LocalDate end){
+        List<PriceCount> daily = pointCashOutRequestRepository.countDaily(start, end);
+        List<PriceCount> monthly = pointCashOutRequestRepository.countMonthly(start, end);
+        List<PriceCount> yearly = pointCashOutRequestRepository.countYearly(start, end);
 
+        long customCount = daily.stream().mapToLong(PriceCount::getCount).sum();
+
+        return SearchPriceDto.builder()
+                .daily(daily)
+                .monthly(monthly)
+                .yearly(yearly)
+                .customCount(customCount)
+                .build();
+    }
+
+    // 현금화 통계 - 4가지 금액
+    public PriceCount getCashTotal(){
+        return pointCashOutRequestRepository.getCashTotal();
+    }
 
 }

@@ -24,6 +24,11 @@ public class PriceCount {
     private Double maxPoint;
     private Integer maxOrderPrice;
 
+    private Number sumCash;
+    private Double avgCash;
+    private Number minCash;
+    private Number maxCash;
+
 
     // 전체 통계용 생성자
     public PriceCount(Object date, Long count, Double sumPoint, Long sumOrderPrice,
@@ -58,9 +63,32 @@ public class PriceCount {
     }
 
 
+
+
+    // 현금화 통계 추출용
+    public PriceCount(Object date, Long count, Number sumCash, Double avgCash, Number minCash, Number maxCash) {
+        this.date = convertToLocalDate(date);
+        this.count = count;
+        this.sumCash = sumCash;
+        this.avgCash = avgCash;
+        this.minCash = minCash;
+        this.maxCash = maxCash;
+    }
+
+    // 현금화 통계 추출용
+    public PriceCount(Number sumCash, Double avgCash, Number minCash, Number maxCash) {
+        this.sumCash = sumCash;
+        this.avgCash = avgCash;
+        this.minCash = minCash;
+        this.maxCash = maxCash;
+    }
+
+
+
     private LocalDate convertToLocalDate(Object date) {
         if (date instanceof LocalDate) return (LocalDate) date;
         if (date instanceof java.sql.Date) return ((java.sql.Date) date).toLocalDate();
+        if (date instanceof String) return LocalDate.parse((String) date);
         throw new IllegalArgumentException("Unsupported date type: " + date.getClass());
     }
 }
