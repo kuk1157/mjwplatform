@@ -144,6 +144,11 @@ const AdminPointAnalyticsPage = Loadable({
     Component: lazy(() => import("../components/pages/admin/pointAnalytics")),
 });
 
+// 통계 - 현금화 통계
+const AdminCashAnalyticsPage = Loadable({
+    Component: lazy(() => import("../components/pages/admin/cashAnalytics")),
+});
+
 // [ 메인에서 곧바로 진행되는 페이지들 ] - 곧 정리할 예정
 
 // PC - 고객 매장선택 페이지
@@ -508,6 +513,12 @@ const Router = createBrowserRouter([
             {
                 path: "/admin/analytics/pointAnalytics",
                 element: <AdminPointAnalyticsPage />,
+            },
+
+            // 현금화 통계
+            {
+                path: "/admin/analytics/CashAnalytics",
+                element: <AdminCashAnalyticsPage />,
             },
 
             // {

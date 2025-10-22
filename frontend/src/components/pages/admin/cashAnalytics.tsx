@@ -28,7 +28,7 @@ const formatDate = (date: Date) => {
     return `${yyyy}-${mm}-${dd}`;
 };
 
-function AdminPointAnalyticsPage() {
+function AdminCashAnalyticsPage() {
     const [startAt, setStartAt] = useState<Date | null>(null);
     const [endAt, setEndAt] = useState<Date | null>(null);
     const [trendTab, setTrendTab] = useState<"daily" | "monthly" | "yearly">(
@@ -112,14 +112,10 @@ function AdminPointAnalyticsPage() {
     ];
 
     const chartColorType = [
-        { color: "#fbbf24", type: "sumPoint", name: "포인트 합계" },
-        { color: "#3b82f6", type: "avgPoint", name: "포인트 평균" },
-        { color: "#10b981", type: "minPoint", name: "포인트 최소" },
-        { color: "#ef4444", type: "maxPoint", name: "포인트 최대" },
-        { color: "#8b5cf6", type: "sumOrderPrice", name: "주문금액 합계" },
-        { color: "#ec4899", type: "avgOrderPrice", name: "주문금액 평균" },
-        { color: "#14b8a6", type: "minOrderPrice", name: "주문금액 최소" },
-        { color: "#6366f1", type: "maxOrderPrice", name: "주문금액 최대" },
+        { color: "#8b5cf6", type: "sumCash", name: "현금 합계" },
+        { color: "#ec4899", type: "avgCash", name: "현금 평균" },
+        { color: "#14b8a6", type: "minCash", name: "현금 최소" },
+        { color: "#6366f1", type: "maxCash", name: "현금 최대" },
     ];
 
     // 개수 차트
@@ -291,7 +287,7 @@ function AdminPointAnalyticsPage() {
 
     return (
         <SectionCard className="h-full text-[15px] leading-[18px]">
-            <PageTitle className="p-10">포인트 통계</PageTitle>
+            <PageTitle className="p-10">현금화 통계</PageTitle>
             <SectionWrapper>
                 <div className="p-[20px]">
                     {/* 트렌드 탭 */}
@@ -345,53 +341,27 @@ function AdminPointAnalyticsPage() {
                     </div>
                     <div className="text-center flex justify-center">
                         <span className="w-[150px] border p-3">
-                            <p className="font-normal">전체 합계 포인트</p>
+                            <p className="font-normal">전체 합계 현금</p>
                             <p className="text-[#000] font-bold mt-1">
                                 {pointTotal?.sumPoint?.toLocaleString()} P
                             </p>
                         </span>
                         <span className="w-[150px] border p-3 ml-3">
-                            <p className="font-normal">전체 평균 포인트</p>
+                            <p className="font-normal">전체 평균 현금</p>
                             <p className="text-[red] font-bold mt-1">
                                 {pointTotal?.avgPoint} P
                             </p>
                         </span>
                         <span className="mx-3 w-[150px] border p-3">
-                            <p className="font-normal">전체 최소 포인트</p>
+                            <p className="font-normal">전체 최소 현금</p>
                             <p className="text-[blue] font-bold mt-1">
                                 {pointTotal?.minPoint} P
                             </p>
                         </span>
                         <span className="w-[150px] border p-3">
-                            <p className="font-normal">전체 최대 포인트</p>
+                            <p className="font-normal">전체 최대 현금</p>
                             <p className="text-[green] font-bold mt-1">
                                 {pointTotal?.maxPoint} P
-                            </p>
-                        </span>
-                    </div>
-                    <div className="text-center flex justify-center mt-3">
-                        <span className="w-[150px] border p-3">
-                            <p className="font-normal">전체 합계 주문금액</p>
-                            <p className="text-[#000] font-bold mt-1">
-                                {pointTotal?.sumOrderPrice?.toLocaleString()} 원
-                            </p>
-                        </span>
-                        <span className="w-[150px] border p-3 ml-3">
-                            <p className="font-normal">전체 평균 주문금액</p>
-                            <p className="text-[red] font-bold mt-1">
-                                {pointTotal?.avgOrderPrice} 원
-                            </p>
-                        </span>
-                        <span className="mx-3 w-[150px] border p-3">
-                            <p className="font-normal">전체 최소 주문금액</p>
-                            <p className="text-[blue] font-bold mt-1">
-                                {pointTotal?.minOrderPrice} 원
-                            </p>
-                        </span>
-                        <span className="w-[150px] border p-3">
-                            <p className="font-normal">전체 최대 주문금액</p>
-                            <p className="text-[green] font-bold mt-1">
-                                {pointTotal?.maxOrderPrice?.toLocaleString()} 원
                             </p>
                         </span>
                     </div>
@@ -401,4 +371,4 @@ function AdminPointAnalyticsPage() {
     );
 }
 
-export default AdminPointAnalyticsPage;
+export default AdminCashAnalyticsPage;
