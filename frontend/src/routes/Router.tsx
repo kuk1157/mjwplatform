@@ -41,6 +41,15 @@ const ChangePassword = Loadable({
     Component: lazy(() => import("../components/pages/myPage/changePassword")),
 });
 
+// [홈페이지에서 메뉴]
+// 가맹점
+
+const homePageStoreDetail = Loadable({
+    Component: lazy(
+        () => import("../components/pages/homePage/store/storeDetail")
+    ),
+});
+
 // [관리자 전산] /admin
 
 const AdminLogin = Loadable({
@@ -320,6 +329,13 @@ const Router = createBrowserRouter([
             {
                 path: "/storeVisit",
                 element: <StoreVisit />,
+            },
+
+            // [홈페이지]
+            // 가맹점
+            {
+                path: "/store/store/:id",
+                element: <homePageStoreDetail />,
             },
 
             // socket 테스트 페이지

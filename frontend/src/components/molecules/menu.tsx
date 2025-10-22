@@ -61,7 +61,7 @@ const Nav = ({ mainMenu }: NavProps) => {
     // }, []);
     return (
         <nav className="h-full w-1/2 flex flex-1 items-center xl:px-[20px]">
-            <ul className="w-full h-full flex flex-wrap justify-between gap-[3%] lg:px-5">
+            <ul className="w-full h-full flex flex-wrap gap-[3%] lg:px-5">
                 <>
                     {mainMenu?.map((menu: any) => {
                         return (
@@ -73,7 +73,7 @@ const Nav = ({ mainMenu }: NavProps) => {
                                     to={menu.path}
                                     className={`w-full h-fit font-Pretendard text-[20px] leading-[24px] text-[#000] font-semibold cursor-pointer  lg:text-[18px] xs:text-[16px]
                                         hover:text-[#2A2F3C99]
-                                     ${pathname.includes(menu.path) ? "text-[rgb(33,160,137)]" : ""}`}
+                                     ${pathname.includes(menu.path) ? "text-[#580098]" : ""}`}
                                 >
                                     {t(`${menu.name}`)}
                                 </Link>

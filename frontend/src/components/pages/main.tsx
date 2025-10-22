@@ -1,5 +1,6 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
 
 // [파일 첨부 경로]
 import { cdn } from "src/constans"; // 파일첨부 경로(네이버클라우드)
@@ -181,23 +182,27 @@ function MainPage() {
                                                     key={`${store.id}-${Math.random()}`}
                                                     style={{ width: 300 }}
                                                 >
-                                                    <div className="relative w-full h-[150px]">
-                                                        {/* 가맹점 이름 오버레이 */}
-                                                        <div className="absolute bottom-2 left-2 font-bold border border-[#fff] text-[#fff] px-2 py-1 rounded-md text-sm">
-                                                            {store.name}
-                                                        </div>
-                                                        {store.thumbnail ? (
-                                                            <img
-                                                                src={src}
-                                                                alt={`가게 ${store.name}`}
-                                                                className="w-full h-full object-cover rounded-xl"
-                                                            />
-                                                        ) : (
-                                                            <div className="text-center items-center">
-                                                                썸네일 없음
+                                                    <Link
+                                                        to={`/store/store/${store.id}`}
+                                                    >
+                                                        <div className="relative w-full h-[150px]">
+                                                            {/* 가맹점 이름 오버레이 */}
+                                                            <div className="absolute bottom-2 left-2 font-bold border border-[#fff] text-[#fff] px-2 py-1 rounded-md text-sm">
+                                                                {store.name}
                                                             </div>
-                                                        )}
-                                                    </div>
+                                                            {store.thumbnail ? (
+                                                                <img
+                                                                    src={src}
+                                                                    alt={`가게 ${store.name}`}
+                                                                    className="w-full h-full object-cover rounded-xl"
+                                                                />
+                                                            ) : (
+                                                                <div className="text-center items-center">
+                                                                    썸네일 없음
+                                                                </div>
+                                                            )}
+                                                        </div>
+                                                    </Link>
                                                 </SwiperSlide>
                                             );
                                         })
