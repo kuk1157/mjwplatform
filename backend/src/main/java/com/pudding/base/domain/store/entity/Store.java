@@ -34,6 +34,14 @@ public class Store {
     @Schema(description = "매장 주소")
     private String address;
 
+    @Column(name = "latitude")
+    @Schema(description = "위도")
+    private Double latitude;
+
+    @Column(name = "longitude")
+    @Schema(description = "경도")
+    private Double longitude;
+
     // 파일업로드 1개용 썸네일 컬럼
     @Column(name = "thumbnail")
     private String thumbnail;
@@ -60,11 +68,13 @@ public class Store {
     private LocalDateTime createdAt;
 
     @Builder
-    public Store(Integer id, Integer ownerId, String name, String address, String nftContract, String nftImage,  String nftUrl, LocalDateTime createdAt){
+    public Store(Integer id, Integer ownerId, String name, String address, Double latitude, Double longitude, String nftContract, String nftImage,  String nftUrl, LocalDateTime createdAt){
         this.id = id;
         this.ownerId = ownerId;
         this.name = name;
         this.address = address;
+        this.latitude = latitude;
+        this.longitude = longitude;
         this.nftContract = nftContract;
         this.nftImage = nftImage;
         this.nftUrl = nftUrl;
@@ -72,10 +82,17 @@ public class Store {
     }
 
     // 매장 수정 (매장이름, 매장주소만 수정)
-    public void updateStoreInfo(String name, String address){
+    public void updateStoreInfo(String name, String address, double latitude, double longitude){
         this.name = name;
         this.address = address;
+        this.latitude = latitude;
+        this.longitude = longitude;
     }
+//// 매장 수정 (매장이름, 매장주소만 수정)
+//public void updateStoreInfo(String name, String address){
+//    this.name = name;
+//    this.address = address;
+//}
 
     // 파일업로드 1개용 썸네일 컬럼
     public void updateThumbnail(String thumbnail){

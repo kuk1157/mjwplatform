@@ -2,12 +2,14 @@ package com.pudding.base.domain.store.service;
 
 import com.pudding.base.domain.common.exception.CustomException;
 import com.pudding.base.domain.member.dto.MemberDto;
+import com.pudding.base.domain.store.dto.StoreAddressDto;
 import com.pudding.base.domain.store.dto.StoreDto;
 import com.pudding.base.domain.store.dto.StoreRequestDto;
 import com.pudding.base.domain.store.dto.StoreUpdateDto;
 import com.pudding.base.domain.store.entity.Store;
 import com.pudding.base.domain.store.repository.StoreRepository;
 import com.pudding.base.file.s3.S3Service;
+import com.pudding.base.naver.api.NaverGecode;
 import com.pudding.base.util.FileUtils;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
@@ -23,6 +25,7 @@ import java.util.UUID;
 @RequiredArgsConstructor
 public class StoreServiceImpl implements StoreService{
 
+    private final NaverGecode naverGecode;
     private final StoreRepository storeRepository;
     private final S3Service s3Service;
     String folderName = "coex/store";
@@ -35,10 +38,15 @@ public class StoreServiceImpl implements StoreService{
             throw new CustomException("선택한 점주는 이미 매장을 보유하고 있습니다.");
         }
 
+        // 위도 경도 추출
+        StoreAddressDto storeAddressDto = naverGecode.geocodeAddress(storeRequestDto.getAddress());
+
         Store store = Store.builder()
                 .ownerId(storeRequestDto.getOwnerId())
                 .name(storeRequestDto.getName())
                 .address(storeRequestDto.getAddress())
+                .latitude(storeAddressDto.getLatitude()) // 위도 저장
+                .longitude(storeAddressDto.getLongitude()) // 경도 저장
                 .build();
         try {
             // 썸네일 첨부
@@ -58,13 +66,12 @@ public class StoreServiceImpl implements StoreService{
             throw new RuntimeException("썸네일 업로드 실패", e);
         }
 
-
         Store savedStore = storeRepository.save(store);
         return StoreDto.fromEntity(savedStore);
     }
 
     public StoreDto updateStore(StoreUpdateDto storeUpdateDto, Integer id, MultipartFile file){
-        Store store = storeRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("존재하지 않는 매장 입니다."));
+        Store store = storeRepository.findById(id).orElseThrow(() -> new CustomException("존재하지 않는 매장 입니다."));
         // 매장 수정시 매장 이름 중복체크
         boolean exists = storeRepository.existsByNameAndIdNot(storeUpdateDto.getName(), id);
         if (exists) {
@@ -92,7 +99,14 @@ public class StoreServiceImpl implements StoreService{
         } catch (Exception e) {
             throw new RuntimeException("썸네일 업로드 실패", e);
         }
-        store.updateStoreInfo(storeUpdateDto.getName(), storeUpdateDto.getAddress());
+
+        // 위도 경도 추출
+        StoreAddressDto storeAddressDto = naverGecode.geocodeAddress(storeUpdateDto.getAddress());
+        // 위도 경도까지 함께 update
+        store.updateStoreInfo(storeUpdateDto.getName(), storeUpdateDto.getAddress(),storeAddressDto.getLatitude(), storeAddressDto.getLongitude());
+
+//        // 위도 경도까지 함께 update
+//        store.updateStoreInfo(storeUpdateDto.getName(), storeUpdateDto.getAddress());
 
         System.out.println("-----------2번---------");
         System.out.println(storeUpdateDto.getName());
