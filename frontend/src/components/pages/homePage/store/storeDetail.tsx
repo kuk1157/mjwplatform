@@ -56,7 +56,7 @@ function HomePageStoreDetail() {
         }
 
         const script = document.createElement("script");
-        script.src = `https://oapi.map.naver.com/openapi/v3/maps.js?ncpKeyId=${clientId}`;
+        script.src = `https://oapi.map.naver.com/openapi/v3/maps.js?ncpKeyId=${clientId}&submodules=geocoder`;
         script.async = true;
         script.onload = () => setIsLoaded(true);
         document.head.appendChild(script);

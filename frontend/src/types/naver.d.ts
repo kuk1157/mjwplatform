@@ -19,8 +19,30 @@ declare global {
             interface MapOptions {
                 center?: LatLng;
                 zoom?: number;
-                marker?: string;
                 [key: string]: any;
+            }
+
+            namespace Service {
+                type Status = "OK" | "ERROR";
+
+                interface GeocodeResponseV2 {
+                    v2: {
+                        addresses: {
+                            x: string;
+                            y: string;
+                            roadAddress?: string;
+                            jibunAddress?: string;
+                        }[];
+                    };
+                }
+
+                function geocode(
+                    options: { query: string },
+                    callback: (
+                        status: Status,
+                        response: GeocodeResponseV2
+                    ) => void
+                ): void;
             }
         }
     }
