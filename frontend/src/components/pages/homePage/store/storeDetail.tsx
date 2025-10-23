@@ -1,5 +1,5 @@
 import axios from "axios";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import { useParams, useNavigate, Link } from "react-router-dom";
 
 // [파일 첨부 경로]
@@ -20,6 +20,11 @@ function HomePageStoreDetail() {
 
     const storeId = id;
     console.log(storeId);
+
+    // 지도 관련
+    const mapRef = useRef<HTMLDivElement>(null);
+    const clientId = "xywfm22tkk";
+    const [isLoaded, setIsLoaded] = useState(false);
 
     // 가맹점, 공지사항, 최근 NFT, 최근 방문기록 데이터 추출
     useEffect(() => {
@@ -43,6 +48,39 @@ function HomePageStoreDetail() {
         navigate(-1);
     }
 
+    // 지도 스크립트 로드
+    useEffect(() => {
+        if (window.naver?.maps) {
+            setIsLoaded(true);
+            return;
+        }
+
+        const script = document.createElement("script");
+        script.src = `https://oapi.map.naver.com/openapi/v3/maps.js?ncpKeyId=${clientId}`;
+        script.async = true;
+        script.onload = () => setIsLoaded(true);
+        document.head.appendChild(script);
+
+        return () => {
+            document.head.removeChild(script);
+        };
+    }, [clientId]);
+
+    // 지도 초기화
+    useEffect(() => {
+        if (!isLoaded || !mapRef.current) return;
+        const lat = 35.8775458;
+        const lng = 128.6309931;
+
+        const mapOptions = {
+            center: new window.naver.maps.LatLng(lat, lng),
+            zoom: 17,
+        };
+
+        // 지도만 초기화
+        new window.naver.maps.Map(mapRef.current, mapOptions);
+    }, [isLoaded]);
+
     return (
         <MainContainer className="bg-[#FFF] py-[100px] lg:py-[150px] sm:py-[100px] xs:py-[60px]">
             <div className="w-full">
@@ -63,11 +101,16 @@ function HomePageStoreDetail() {
                         </div>
                         <div className="flex w-[1450px] bg-[#fff] shadow-2xl p-20 ml-20">
                             <div className="w-[750px] h-[650px] mr-20">
-                                <img
+                                <div
+                                    id="map"
+                                    ref={mapRef}
+                                    className="w-[750px] h-[650px] border-2 border-[#580098] rounded-3xl"
+                                />
+                                {/* <img
                                     src="/assets/image/homePage/storeDetail.png"
                                     alt="가맹점 상세보기"
                                     className="border-2 border-[#580098] rounded-3xl w-[750px] h-[650px]"
-                                ></img>
+                                ></img> */}
                             </div>
                             <div className="border border-[#ededed] p-10 w-[450px] h-[650px] rounded-lg">
                                 <div className="font-bold text-2xl">
