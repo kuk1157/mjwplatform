@@ -45,6 +45,7 @@ function HomePageStoreDetail() {
     }, [storeId]);
 
     if (!storeId) {
+        alert("비정상적인 접근입니다. \n이전 페이지로 돌아갑니다.");
         navigate(-1);
     }
 
@@ -73,13 +74,40 @@ function HomePageStoreDetail() {
         const lng = 128.6309931;
 
         const mapOptions = {
-            center: new window.naver.maps.LatLng(lat, lng),
+            center: new window.naver.maps.LatLng(
+                storeDetail?.latitude ?? lat,
+                storeDetail?.longitude ?? lng
+            ),
             zoom: 17,
         };
 
         // 지도만 초기화
-        new window.naver.maps.Map(mapRef.current, mapOptions);
-    }, [isLoaded]);
+        const maps = new window.naver.maps.Map(mapRef.current, mapOptions);
+
+        const info = `<div style="color: #FFF; font-size: 14px; padding:5px 10px; text-align:center;">${storeDetail?.name}</div>`;
+
+        const infowindow = new window.naver.maps.InfoWindow({
+            content: info,
+            maxWidth: 140,
+            borderWidth: 0,
+            backgroundColor: "#E61F2C",
+            pixelOffset: new window.naver.maps.Point(0, 0),
+        });
+
+        const marker = {
+            position: new window.naver.maps.LatLng(
+                storeDetail?.latitude ?? lat,
+                storeDetail?.longitude ?? lng
+            ),
+            map: maps,
+            icon: {
+                url: "/assets/image/mobile/active/visit.svg",
+                anchor: new naver.maps.Point(10, 10),
+            },
+        };
+        const markerInstance = new window.naver.maps.Marker(marker);
+        infowindow.open(maps, markerInstance);
+    }, [isLoaded, storeDetail]);
     return (
         <MainContainer className="bg-[#FFF] py-[100px] lg:py-[150px] sm:py-[100px] xs:py-[60px]">
             <div className="w-full">

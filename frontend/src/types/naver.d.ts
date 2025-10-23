@@ -17,6 +17,36 @@ declare global {
                 );
             }
 
+            class Point {
+                width: number;
+                height: number;
+                constructor(width: number, height: number);
+            }
+
+            class Size {
+                width: number;
+                height: number;
+                constructor(width: number, height: number);
+            }
+            class Marker {
+                position?: LatLng;
+                map?: Map;
+                constructor(options: { position: LatLng; map?: Map }) {
+                    this.position = options.position;
+                    this.map = options.map;
+                }
+            }
+            class InfoWindow {
+                constructor(options: {
+                    content: string;
+                    maxWidth: number;
+                    borderWidth: number;
+                    backgroundColor: string;
+                    pixelOffset: Map;
+                });
+                open(map: Map, marker: Marker): void;
+            }
+
             interface MapOptions {
                 center?: LatLng;
                 zoom?: number;

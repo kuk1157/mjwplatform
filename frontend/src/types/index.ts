@@ -159,6 +159,8 @@ export interface StoreType {
     ownerId: number;
     name?: string;
     address?: string;
+    latitude?: number;
+    longitude?: number;
     thumbnail: string;
     extension: string;
 }
