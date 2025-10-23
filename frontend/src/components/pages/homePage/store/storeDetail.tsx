@@ -26,7 +26,7 @@ function HomePageStoreDetail() {
         const fetchData = async () => {
             try {
                 const [storeList, storeDetail] = await Promise.all([
-                    axios.get("/api/v1/stores"),
+                    axios.get("/api/v1/stores?sort=id,asc"),
                     axios.get(`/api/v1/stores/${storeId}`),
                 ]);
                 setStores(storeList.data.content); // 가맹점 목록 데이터 추출
