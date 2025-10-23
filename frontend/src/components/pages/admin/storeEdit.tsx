@@ -121,6 +121,31 @@ function StoreEdit() {
         }));
     };
 
+    const openPostcode = () => {
+        new window.daum.Postcode({
+            oncomplete: (data: any) => {
+                console.log("선택된 주소 데이터:", data);
+                console.log(data.roadAddress);
+                const finalAddress = data.roadAddress;
+
+                // data.roadAddress, data.jibunAddress 등 활용 가능
+                setFormData((prev) => ({
+                    ...prev,
+                    address: finalAddress,
+                }));
+            },
+        }).open();
+    };
+
+    // 외부 스크립트 로드
+    useEffect(() => {
+        const script = document.createElement("script");
+        script.src =
+            "//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js";
+        script.async = true;
+        document.body.appendChild(script);
+    }, []);
+
     return (
         <SectionCard className="px-[30px]">
             <h2 className="font-[TmoneyRoundWind] font-extrabold text-[35px] leading-[50px] tracking-[-1.75px] text-[#333] md:text-[30px] pb-[50px]">
@@ -142,13 +167,22 @@ function StoreEdit() {
                         onChange={handleChange}
                     />
 
-                    <LabelDetail
-                        label="매장 주소"
-                        value={formData.address}
-                        editable
-                        name="address"
-                        onChange={handleChange}
-                    />
+                    <div className="flex items-center text-base text-gray-700 space-x-4">
+                        <span className="w-32 font-semibold">매장 주소</span>
+                        <input
+                            type="text"
+                            className="border border-gray-300 rounded px-3 py-1 w-full max-w-sm"
+                            value={formData.address}
+                            name="address"
+                            disabled
+                        ></input>
+                        <button
+                            className="w-[100px] h-[34px] bg-[#21A089] text-[#fff] text-sm rounded-sm"
+                            onClick={openPostcode}
+                        >
+                            주소 검색
+                        </button>
+                    </div>
 
                     {handleThumbnailChange && (
                         <div className="w-full flex items-center lg:text-sm xs:text-[13px] xs:flex-col gap-[20px]">

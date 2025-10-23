@@ -80,7 +80,6 @@ function HomePageStoreDetail() {
         // 지도만 초기화
         new window.naver.maps.Map(mapRef.current, mapOptions);
     }, [isLoaded]);
-
     return (
         <MainContainer className="bg-[#FFF] py-[100px] lg:py-[150px] sm:py-[100px] xs:py-[60px]">
             <div className="w-full">
