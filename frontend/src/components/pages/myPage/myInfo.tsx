@@ -5,8 +5,9 @@ import axios from "axios";
 import { UserApi } from "src/utils/userApi";
 import { SocialDomain } from "src/constants/index";
 import { validatePhoneNumber } from "src/utils/common";
-import { MainContainer } from "../../molecules/container";
+import { MainContainer2 } from "../../molecules/container";
 import { MyInfo } from "src/components/organisms/myPage";
+import { useLocation, Link } from "react-router-dom";
 
 const MyInfoPage = () => {
     const { contents: user } = useRecoilValueLoadable(userSelectorUpdated);
@@ -182,8 +183,29 @@ const MyInfoPage = () => {
         }
     };
 
+    const menuList = [
+        { menuName: "공지사항", menuLink: "/notice" },
+        { menuName: "가맹점", menuLink: "/store/store" },
+        { menuName: "마이페이지", menuLink: "/myPage/myInfo" },
+    ];
+    const locations = useLocation();
+    const nowLink = locations.pathname;
+
     return (
-        <MainContainer className="mt-[100px] pt-[100px]">
+        <MainContainer2 className="mt-[100px] pt-[100px]">
+            <div className="h-[300px] w-[175px] p-5 py-10 bg-[#580098] text-[#fff] rounded-3xl text-center">
+                {menuList?.map((menu) => {
+                    return (
+                        <Link to={`${menu.menuLink}`}>
+                            <p
+                                className={`my-1 ${menu.menuLink === nowLink ? "opacity-100 font-bold" : "opacity-30"}`}
+                            >
+                                {menu.menuName}
+                            </p>
+                        </Link>
+                    );
+                })}
+            </div>
             <MyInfo
                 name={name}
                 setName={setName}
@@ -208,7 +230,7 @@ const MyInfoPage = () => {
                 handleDeleteMember={handleDeleteMember}
                 emailLoading={emailLoading}
             />
-        </MainContainer>
+        </MainContainer2>
     );
 };
 export default MyInfoPage;

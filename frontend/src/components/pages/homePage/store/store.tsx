@@ -128,6 +128,7 @@ function HomePageStoreList() {
     const menuList = [
         { menuName: "공지사항", menuLink: "/notice" },
         { menuName: "가맹점", menuLink: "/store/store" },
+        { menuName: "마이페이지", menuLink: "/myPage/myInfo" },
     ];
     const location = useLocation();
     const nowLink = location.pathname;
