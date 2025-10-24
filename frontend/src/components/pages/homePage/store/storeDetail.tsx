@@ -15,27 +15,26 @@ import { StoreDetailType } from "src/types"; // 가맹점(매장) 인터페이�
 function HomePageStoreDetail() {
     const [storeDetail, setStoreDetail] = useState<StoreDetailType>(); // 가맹점(매장) 상세보기 데이터 세팅
     const [stores, setStores] = useState<StoreDetailType[]>([]); // 가맹점 목록 데이터 세팅
+    const [naverMap, setNaverMap] = useState(String);
     const navigate = useNavigate();
     const { id } = useParams();
-
     const storeId = id;
-    console.log(storeId);
-
     // 지도 관련
     const mapRef = useRef<HTMLDivElement>(null);
-    const clientId = "xywfm22tkk";
     const [isLoaded, setIsLoaded] = useState(false);
 
     // 가맹점, 공지사항, 최근 NFT, 최근 방문기록 데이터 추출
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const [storeList, storeDetail] = await Promise.all([
+                const [storeList, storeDetail, mapKey] = await Promise.all([
                     axios.get("/api/v1/stores?sort=id,asc"),
                     axios.get(`/api/v1/stores/${storeId}`),
+                    axios.get("/api/v1/naver/maps"), // API KEY 추출
                 ]);
                 setStores(storeList.data.content); // 가맹점 목록 데이터 추출
                 setStoreDetail(storeDetail.data); // 가맹점 상세 데이터 추출
+                setNaverMap(mapKey.data);
             } catch (error) {
                 console.error("데이터 조회 실패:", error);
             }
@@ -49,15 +48,19 @@ function HomePageStoreDetail() {
         navigate(-1);
     }
 
+    const clientId = naverMap;
+
     // 지도 스크립트 로드
     useEffect(() => {
+        if (!clientId) return; // key 없으면 기다리기
         if (window.naver?.maps) {
+            // 이미 로드된 경우
             setIsLoaded(true);
             return;
         }
 
         const script = document.createElement("script");
-        script.src = `https://oapi.map.naver.com/openapi/v3/maps.js?ncpKeyId=${clientId}&submodules=geocoder`;
+        script.src = `https://oapi.map.naver.com/openapi/v3/maps.js?ncpKeyId=${clientId}`;
         script.async = true;
         script.onload = () => setIsLoaded(true);
         document.head.appendChild(script);
@@ -69,7 +72,7 @@ function HomePageStoreDetail() {
 
     // 지도 초기화
     useEffect(() => {
-        if (!isLoaded || !mapRef.current) return;
+        if (!isLoaded || !mapRef.current || !storeDetail) return;
         const lat = 35.8775458;
         const lng = 128.6309931;
 
@@ -128,6 +131,7 @@ function HomePageStoreDetail() {
                         </div>
                         <div className="flex w-[1450px] bg-[#fff] shadow-2xl p-20 ml-20">
                             <div className="w-[750px] h-[650px] mr-20">
+                                {/* 지도 영역 */}
                                 <div
                                     id="map"
                                     ref={mapRef}
