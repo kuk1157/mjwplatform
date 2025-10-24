@@ -42,8 +42,13 @@ const ChangePassword = Loadable({
 });
 
 // [홈페이지에서 메뉴]
-// 가맹점
 
+// 가맹점 리스트
+const HomePageStoreList = Loadable({
+    Component: lazy(() => import("../components/pages/homePage/store/store")),
+});
+
+// 가맹점 상세보기
 const HomePageStoreDetail = Loadable({
     Component: lazy(
         () => import("../components/pages/homePage/store/storeDetail")
@@ -332,7 +337,14 @@ const Router = createBrowserRouter([
             },
 
             // [홈페이지]
-            // 가맹점
+
+            // 가맹점 목록
+            {
+                path: "/store/store",
+                element: <HomePageStoreList />,
+            },
+
+            // 가맹점 상세보기
             {
                 path: "/store/store/:id",
                 element: <HomePageStoreDetail />,

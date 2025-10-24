@@ -25,6 +25,7 @@ function HomePageStoreDetail() {
 
     // 가맹점, 공지사항, 최근 NFT, 최근 방문기록 데이터 추출
     useEffect(() => {
+        if (!storeId) return;
         const fetchData = async () => {
             try {
                 const [storeList, storeDetail, mapKey] = await Promise.all([

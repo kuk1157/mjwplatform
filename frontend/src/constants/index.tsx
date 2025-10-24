@@ -11,12 +11,12 @@ const MenuList = [
         path: "/notice",
         is_active: "y",
     },
-    // {
-    //     id: 0,
-    //     name: "store",
-    //     path: "/store/store",
-    //     is_active: "y",
-    // },
+    {
+        id: 0,
+        name: "store",
+        path: "/store/store",
+        is_active: "y",
+    },
 ];
 
 const AdminMenuList = [

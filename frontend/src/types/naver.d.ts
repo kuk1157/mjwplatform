@@ -31,9 +31,28 @@ declare global {
             class Marker {
                 position?: LatLng;
                 map?: Map;
-                constructor(options: { position: LatLng; map?: Map }) {
+                icon?: {
+                    url?: string;
+                    size?: Size;
+                    origin?: Point;
+                    anchor?: Point;
+                    scaledSize?: Size;
+                };
+
+                constructor(options: {
+                    position: LatLng;
+                    map?: Map;
+                    icon?: {
+                        url?: string;
+                        size?: Size;
+                        origin?: Point;
+                        anchor?: Point;
+                        scaledSize?: Size;
+                    };
+                }) {
                     this.position = options.position;
                     this.map = options.map;
+                    this.icon = options.icon;
                 }
             }
             class InfoWindow {
@@ -42,15 +61,34 @@ declare global {
                     maxWidth: number;
                     borderWidth: number;
                     backgroundColor: string;
+                    anchorSkew?: boolean;
                     pixelOffset: Map;
                 });
-                open(map: Map, marker: Marker): void;
+                open(map: Map, marker: Marker, anchorSkew?: boolean): void;
+
+                close() {
+                    // 닫기 기능
+                }
+
+                getMap() {
+                    // 현재 map 반환
+                    return null;
+                }
             }
 
             interface MapOptions {
                 center?: LatLng;
                 zoom?: number;
                 [key: string]: any;
+            }
+
+            // Event 타입 추가
+            namespace Event {
+                function addListener(
+                    target: any,
+                    eventName: string,
+                    handler: (e: any) => void
+                ): void;
             }
 
             namespace Service {
