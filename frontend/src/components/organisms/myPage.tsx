@@ -56,7 +56,7 @@ const MyInfo = ({
     } = props;
     const location = useLocation().pathname;
     return (
-        <div className="ml-[70px] flex flex-col w-full h-full max-w-[750px] border border-[#580098] p-12 lg:ml-0 lg:max-w-none min-h-screen">
+        <div className="ml-[70px] flex flex-col w-full h-full max-w-[750px] border border-[#580098] rounded-3xl p-12 lg:ml-0 lg:max-w-none min-h-screen">
             <div className="lg:flex gap-3 pb-[30px] w-full hidden">
                 <Link
                     to={"/myPage/myInfo"}

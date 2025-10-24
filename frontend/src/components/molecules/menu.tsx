@@ -72,7 +72,7 @@ const Nav = ({ mainMenu }: NavProps) => {
                                 <Link
                                     to={menu.path}
                                     className={`w-full h-fit font-Pretendard text-[20px] leading-[24px] text-[#000] font-semibold cursor-pointer  lg:text-[18px] xs:text-[16px]
-                                        hover:text-[#2A2F3C99]
+                                        hover:text-[#580098]
                                      ${pathname.includes(menu.path) ? "text-[#580098]" : ""}`}
                                 >
                                     {t(`${menu.name}`)}
