@@ -21,12 +21,6 @@ public class NaverGecode {
 
     private String apiUrl = "https://naveropenapi.apigw.ntruss.com/map-geocode/v2/geocode";
     public StoreAddressDto geocodeAddress(String address){
-
-        System.out.println("api 키는 받아옴?"+apiKey);
-        System.out.println("api 시크릿 키는 받아옴?"+apiSecretKey);
-        System.out.println("api url은 받아옴?"+apiUrl);
-
-
         WebClient webClient = WebClient.builder()
                 .baseUrl(apiUrl)
                 .defaultHeaders(httpHeaders -> {

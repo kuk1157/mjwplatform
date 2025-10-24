@@ -78,10 +78,6 @@ public class StoreServiceImpl implements StoreService{
             throw new CustomException("동일한 이름의 매장이 존재합니다. 다른 이름을 입력해주세요.");
         }
 
-        System.out.println("-----------1번---------");
-        System.out.println(storeUpdateDto.getName());
-        System.out.println(storeUpdateDto.getAddress());
-
         try {
             // 썸네일 첨부
             if (file != null && !file.isEmpty()) {
@@ -104,13 +100,6 @@ public class StoreServiceImpl implements StoreService{
         StoreAddressDto storeAddressDto = naverGecode.geocodeAddress(storeUpdateDto.getAddress());
         // 위도 경도까지 함께 update
         store.updateStoreInfo(storeUpdateDto.getName(), storeUpdateDto.getAddress(),storeAddressDto.getLatitude(), storeAddressDto.getLongitude());
-
-//        // 위도 경도까지 함께 update
-//        store.updateStoreInfo(storeUpdateDto.getName(), storeUpdateDto.getAddress());
-
-        System.out.println("-----------2번---------");
-        System.out.println(storeUpdateDto.getName());
-        System.out.println(storeUpdateDto.getAddress());
 
         storeRepository.save(store);
         return StoreDto.fromEntity(store);
