@@ -1,6 +1,6 @@
 import axios from "axios";
 import { useEffect, useState, useRef } from "react";
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 
 // [파일 첨부 경로]
 import { cdn } from "src/constans"; // 파일첨부 경로(네이버클라우드)
@@ -13,6 +13,7 @@ import { MainContainer } from "src/components/molecules/container";
 import { StoreDetailType } from "src/types"; // 가맹점(매장) 인터페이스
 
 function HomePageStoreList() {
+    const navigate = useNavigate();
     const [stores, setStores] = useState<StoreDetailType[]>([]); // 가맹점 목록 데이터 세팅
     const [naverMap, setNaverMap] = useState(String);
     // const navigate = useNavigate();
@@ -38,6 +39,10 @@ function HomePageStoreList() {
         fetchData();
     }, []);
 
+    // 이전 버튼
+    const backButton = () => {
+        navigate(-1);
+    };
     const clientId = naverMap;
 
     // 지도 스크립트 로드
@@ -145,43 +150,56 @@ function HomePageStoreList() {
                                 );
                             })}
                         </div>
-                        <div className="flex w-[1450px] bg-[#fff] shadow-2xl p-20 ml-20">
-                            <div className="w-[750px] h-[650px] mr-20">
-                                {/* 지도 영역 */}
-                                <div
-                                    id="map"
-                                    ref={mapRef}
-                                    className="w-[750px] h-[650px] border-2 border-[#580098] rounded-3xl"
-                                />
+                        <div className="flex flex-col w-[1450px] bg-[#fff] shadow-2xl px-20 py-10 ml-20">
+                            <div className="w-full mb-10">
+                                <button
+                                    type="button"
+                                    className="border border-[#580098] rounded-md text-[#580098] h-[43px] px-8"
+                                    onClick={backButton}
+                                >
+                                    이전
+                                </button>
                             </div>
-                            <div className="border border-[#ededed] p-5 w-[450px] h-[650px] rounded-lg overflow-y-auto">
-                                {stores?.map((store) => {
-                                    return (
-                                        <Link to={`/store/store/${store.id}`}>
-                                            <div className="mb-4 border py-3 px-5 border-[#ccc] rounded-md flex hover:border-[#580098]">
-                                                <div>
-                                                    <div className="font-bold text-base">
-                                                        {store.name}
+                            <div className="flex">
+                                <div className="w-[750px] h-[650px] mr-20">
+                                    {/* 지도 영역 */}
+                                    <div
+                                        id="map"
+                                        ref={mapRef}
+                                        className="w-[750px] h-[650px] border-2 border-[#580098] rounded-3xl"
+                                    />
+                                </div>
+                                <div className="border border-[#ededed] p-5 w-[450px] h-[650px] rounded-lg overflow-y-auto">
+                                    {stores?.map((store) => {
+                                        return (
+                                            <Link
+                                                to={`/store/store/${store.id}`}
+                                            >
+                                                <div className="mb-4 border py-3 px-5 border-[#ccc] rounded-md flex hover:border-[#580098]">
+                                                    <div>
+                                                        <div className="font-bold text-base">
+                                                            {store.name}
+                                                        </div>
+                                                        <img
+                                                            src={`${cdn}/${storeFolder}/${store.thumbnail}${store.extension}`}
+                                                            alt={store.name}
+                                                            className="w-[50px] h-[50px] object-cover rounded-md"
+                                                        ></img>
                                                     </div>
-                                                    <img
-                                                        src={`${cdn}/${storeFolder}/${store.thumbnail}${store.extension}`}
-                                                        alt={store.name}
-                                                        className="w-[50px] h-[50px] object-cover rounded-md"
-                                                    ></img>
-                                                </div>
 
-                                                <div className="mx-5 text-sm">
-                                                    <p className="mb-3">
-                                                        {store.address}
-                                                    </p>
-                                                    <p className="">
-                                                        {store.ownerName}
-                                                    </p>
+                                                    <div className="mx-5 text-sm">
+                                                        <p className="mb-3">
+                                                            {store.address}
+                                                        </p>
+                                                        <p className="">
+                                                            {store.ownerName}
+                                                        </p>
+                                                    </div>
                                                 </div>
-                                            </div>
-                                        </Link>
-                                    );
-                                })}
+                                            </Link>
+                                        );
+                                    })}
+                                </div>
                             </div>
                         </div>
                     </div>

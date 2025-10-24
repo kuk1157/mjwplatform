@@ -49,6 +49,11 @@ function HomePageStoreDetail() {
         navigate(-1);
     }
 
+    // 이전 버튼
+    const backButton = () => {
+        navigate(-1);
+    };
+
     const clientId = naverMap;
 
     // 지도 스크립트 로드
@@ -130,43 +135,62 @@ function HomePageStoreDetail() {
                                 );
                             })}
                         </div>
-                        <div className="flex w-[1450px] bg-[#fff] shadow-2xl p-20 ml-20">
-                            <div className="w-[750px] h-[650px] mr-20">
-                                {/* 지도 영역 */}
-                                <div
-                                    id="map"
-                                    ref={mapRef}
-                                    className="w-[750px] h-[650px] border-2 border-[#580098] rounded-3xl"
-                                />
-                                {/* <img
+                        <div className="flex flex-col w-[1450px] bg-[#fff] shadow-2xl px-20 py-10 ml-20">
+                            <div className="w-full mb-10">
+                                <Link
+                                    to={"/store/store"}
+                                    className=" bg-[#580098] text-[#fff] p-3 mr-3 rounded-md"
+                                >
+                                    가맹점 목록
+                                </Link>
+                                <button
+                                    type="button"
+                                    className="border border-[#580098] rounded-md text-[#580098] h-[43px] px-8"
+                                    onClick={backButton}
+                                >
+                                    이전
+                                </button>
+                            </div>
+                            <div className="flex">
+                                <div className="w-[750px] h-[650px] mr-20">
+                                    {/* 지도 영역 */}
+                                    <div
+                                        id="map"
+                                        ref={mapRef}
+                                        className="w-[750px] h-[650px] border-2 border-[#580098] rounded-3xl"
+                                    />
+                                    {/* <img
                                     src="/assets/image/homePage/storeDetail.png"
                                     alt="가맹점 상세보기"
                                     className="border-2 border-[#580098] rounded-3xl w-[750px] h-[650px]"
                                 ></img> */}
-                            </div>
-                            <div className="border border-[#ededed] p-10 w-[450px] h-[650px] rounded-lg">
-                                <div className="font-bold text-2xl">
-                                    {storeDetail?.name}
                                 </div>
-                                <div className="my-5">
-                                    <img
-                                        src={`${cdn}/${storeFolder}/${storeDetail?.thumbnail}${storeDetail?.extension}`}
-                                        alt={storeDetail?.name}
-                                    ></img>
-                                </div>
-                                <div>
-                                    <p className="mb-3 flex">
-                                        <span className="text-[#706D72] w-[80px]">
-                                            주소
-                                        </span>
-                                        <span>{storeDetail?.address}</span>
-                                    </p>
-                                    <p className="flex">
-                                        <span className="text-[#706D72] w-[80px]">
-                                            점주 이름
-                                        </span>
-                                        <span>{storeDetail?.ownerName}</span>
-                                    </p>
+                                <div className="border border-[#ededed] p-10 w-[450px] h-[650px] rounded-lg">
+                                    <div className="font-bold text-2xl">
+                                        {storeDetail?.name}
+                                    </div>
+                                    <div className="my-5">
+                                        <img
+                                            src={`${cdn}/${storeFolder}/${storeDetail?.thumbnail}${storeDetail?.extension}`}
+                                            alt={storeDetail?.name}
+                                        ></img>
+                                    </div>
+                                    <div>
+                                        <p className="mb-3 flex">
+                                            <span className="text-[#706D72] w-[80px]">
+                                                주소
+                                            </span>
+                                            <span>{storeDetail?.address}</span>
+                                        </p>
+                                        <p className="flex">
+                                            <span className="text-[#706D72] w-[80px]">
+                                                점주 이름
+                                            </span>
+                                            <span>
+                                                {storeDetail?.ownerName}
+                                            </span>
+                                        </p>
+                                    </div>
                                 </div>
                             </div>
                         </div>
