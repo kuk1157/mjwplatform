@@ -8,10 +8,11 @@ import { storeFolder } from "src/constans"; // 첨부 디렉토리 경로 stroe
 
 // [아이콘 및 공통 컴포넌트]
 import { MainContainer } from "src/components/molecules/container";
+import { MenuList } from "src/constants/index";
+import { useTranslation } from "react-i18next";
 
 // [공통 데이터 인터페이스]
 import { StoreDetailType } from "src/types"; // 가맹점(매장) 인터페이스
-
 function HomePageStoreList() {
     const navigate = useNavigate();
     const [stores, setStores] = useState<StoreDetailType[]>([]); // 가맹점 목록 데이터 세팅
@@ -125,11 +126,7 @@ function HomePageStoreList() {
         });
     }, [isLoaded, stores]);
 
-    const menuList = [
-        { menuName: "공지사항", menuLink: "/notice" },
-        { menuName: "가맹점", menuLink: "/store/store" },
-        { menuName: "마이페이지", menuLink: "/myPage/myInfo" },
-    ];
+    const { t } = useTranslation(["header"]);
     const location = useLocation();
     const nowLink = location.pathname;
 
@@ -139,13 +136,13 @@ function HomePageStoreList() {
                 <div className="w-full bg-[#FFF] p-6">
                     <div className="w-[1700px] m-auto flex">
                         <div className="h-[300px] w-[175px] p-5 py-10 bg-[#580098] text-[#fff] rounded-3xl text-center">
-                            {menuList?.map((menu) => {
+                            {MenuList?.map((menu) => {
                                 return (
-                                    <Link to={`${menu.menuLink}`}>
+                                    <Link to={`${menu.path}`}>
                                         <p
-                                            className={`my-1 ${menu.menuLink === nowLink ? "opacity-100 font-bold" : "opacity-30"}`}
+                                            className={`my-1 ${menu.path === nowLink ? "opacity-100 font-bold" : "opacity-30"}`}
                                         >
-                                            {menu.menuName}
+                                            {t(`${menu.name}`)}
                                         </p>
                                     </Link>
                                 );

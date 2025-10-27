@@ -8,6 +8,8 @@ import { MyInfo } from "src/components/organisms/myPage";
 import { useLocation, Link, useNavigate } from "react-router-dom";
 import { useQuery } from "react-query";
 import { fetchUser } from "src/utils/userApi";
+import { MenuList } from "src/constants/index";
+import { useTranslation } from "react-i18next";
 
 const MyInfoPage = () => {
     const { data: user } = useQuery(
@@ -201,24 +203,20 @@ const MyInfoPage = () => {
         }
     };
 
-    const menuList = [
-        { menuName: "공지사항", menuLink: "/notice" },
-        { menuName: "가맹점", menuLink: "/store/store" },
-        { menuName: "마이페이지", menuLink: "/myPage/myInfo" },
-    ];
+    const { t } = useTranslation(["header"]);
     const locations = useLocation();
     const nowLink = locations.pathname;
 
     return (
         <MainContainer2 className="mt-[100px] pt-[100px]">
             <div className="h-[300px] w-[175px] p-5 py-10 bg-[#580098] text-[#fff] rounded-3xl text-center">
-                {menuList?.map((menu) => {
+                {MenuList?.map((menu) => {
                     return (
-                        <Link to={`${menu.menuLink}`}>
+                        <Link key={`${menu.id}`} to={`${menu.path}`}>
                             <p
-                                className={`my-1 ${menu.menuLink === nowLink ? "opacity-100 font-bold" : "opacity-30"}`}
+                                className={`my-1 ${menu.path === nowLink ? "opacity-100 font-bold" : "opacity-30"}`}
                             >
-                                {menu.menuName}
+                                {t(`${menu.name}`)}
                             </p>
                         </Link>
                     );

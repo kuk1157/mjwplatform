@@ -6,6 +6,9 @@ import { useLocation, Link } from "react-router-dom";
 import { PaginatedDataTable } from "../molecules/paginatedDataTable";
 import { BoardSearch } from "../molecules/boardSearch";
 
+import { MenuList } from "src/constants/index";
+import { useTranslation } from "react-i18next";
+
 function NoticePage() {
     const [page, setPage] = useState(1);
     const [searchQuery, setSearchQuery] = useState("");
@@ -76,24 +79,20 @@ function NoticePage() {
 
     const totalElements = noticeList?.totalElements;
 
-    const menuList = [
-        { menuName: "공지사항", menuLink: "/notice" },
-        { menuName: "가맹점", menuLink: "/store/store" },
-        { menuName: "마이페이지", menuLink: "/myPage/myInfo" },
-    ];
+    const { t } = useTranslation(["header"]);
     const location = useLocation();
     const nowLink = location.pathname;
 
     return (
         <div className="flex justify-center">
             <div className="h-[300px] w-[175px] p-5 py-10 bg-[#580098] text-[#fff] rounded-3xl text-center mr-40">
-                {menuList?.map((menu) => {
+                {MenuList?.map((menu) => {
                     return (
-                        <Link to={`${menu.menuLink}`}>
+                        <Link to={`${menu.path}`}>
                             <p
-                                className={`my-1 ${menu.menuLink === nowLink ? "opacity-100 font-bold" : "opacity-30"}`}
+                                className={`my-1 ${menu.path === nowLink ? "opacity-100 font-bold" : "opacity-30"}`}
                             >
-                                {menu.menuName}
+                                {t(`${menu.name}`)}
                             </p>
                         </Link>
                     );
