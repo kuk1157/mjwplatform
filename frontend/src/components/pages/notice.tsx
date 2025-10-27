@@ -1,7 +1,8 @@
-import { SectionContainer } from "../molecules/container";
+import { SectionContainer2 } from "../molecules/container";
 import { useEffect, useRef, useState } from "react";
 import { useQuery } from "react-query";
 import axios from "axios";
+import { useLocation, Link } from "react-router-dom";
 import { PaginatedDataTable } from "../molecules/paginatedDataTable";
 import { BoardSearch } from "../molecules/boardSearch";
 
@@ -75,33 +76,56 @@ function NoticePage() {
 
     const totalElements = noticeList?.totalElements;
 
+    const menuList = [
+        { menuName: "공지사항", menuLink: "/notice" },
+        { menuName: "가맹점", menuLink: "/store/store" },
+        // { menuName: "마이페이지", menuLink: "/myPage/myInfo" },
+    ];
+    const location = useLocation();
+    const nowLink = location.pathname;
+
     return (
-        <SectionContainer className="pt-[100px] pb-[150px] lg:pt-0">
-            <section className="flex flex-col gap-[35px] w-full mt-[100px]">
-                <PaginatedDataTable
-                    isFetching={isFetching}
-                    dataTableProps={{
-                        ref: tableRef,
-                        data: noticeData,
-                        columns: columns,
-                        type: "notice",
-                        startIndex: startIndex,
-                    }}
-                    paginationProps={{
-                        totalItemsCount: totalElements,
-                        activePage: page,
-                        itemsCountPerPage: itemsPerPage,
-                        paginationOnChange: handlePageChange,
-                    }}
-                />
-            </section>
-            <section className="bg-[#F6F6F6] py-[18px] w-full mt-[45px]">
-                <BoardSearch
-                    executeSearch={setSearchQuery}
-                    searchOption={searchOption}
-                />
-            </section>
-        </SectionContainer>
+        <div className="flex justify-center">
+            <div className="h-[300px] w-[175px] p-5 py-10 bg-[#580098] text-[#fff] rounded-3xl text-center mr-40">
+                {menuList?.map((menu) => {
+                    return (
+                        <Link to={`${menu.menuLink}`}>
+                            <p
+                                className={`my-1 ${menu.menuLink === nowLink ? "opacity-100 font-bold" : "opacity-30"}`}
+                            >
+                                {menu.menuName}
+                            </p>
+                        </Link>
+                    );
+                })}
+            </div>
+            <SectionContainer2 className=" pb-[150px] lg:pt-0">
+                <section className="flex flex-col gap-[35px] w-full mt-[100px]">
+                    <PaginatedDataTable
+                        isFetching={isFetching}
+                        dataTableProps={{
+                            ref: tableRef,
+                            data: noticeData,
+                            columns: columns,
+                            type: "notice",
+                            startIndex: startIndex,
+                        }}
+                        paginationProps={{
+                            totalItemsCount: totalElements,
+                            activePage: page,
+                            itemsCountPerPage: itemsPerPage,
+                            paginationOnChange: handlePageChange,
+                        }}
+                    />
+                </section>
+                <section className="bg-[#F6F6F6] py-[18px] w-full mt-[45px]">
+                    <BoardSearch
+                        executeSearch={setSearchQuery}
+                        searchOption={searchOption}
+                    />
+                </section>
+            </SectionContainer2>
+        </div>
     );
 }
 

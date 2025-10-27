@@ -53,7 +53,7 @@ const Paging = styled.div`
         justify-content: center;
         width: 35px;
         height: 35px;
-        background: #21a089;
+        background: #580098;
         border-radius: 5px;
         line-height: 26px;
     }

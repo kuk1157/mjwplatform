@@ -68,6 +68,23 @@ const SectionContainer = React.forwardRef<HTMLDivElement, DivProps>(
     }
 );
 
+const SectionContainer2 = React.forwardRef<HTMLDivElement, DivProps>(
+    ({ className, ...props }, ref) => {
+        return (
+            <section
+                className={cn(
+                    "flex flex-col justify-center items-center w-full h-full max-w-[1320px] font-Pretendard",
+                    className
+                )}
+                ref={ref}
+                {...props}
+            >
+                {props.children}
+            </section>
+        );
+    }
+);
+
 const LoginContainer = React.forwardRef<HTMLDivElement, DivProps>(
     ({ className, ...props }, ref) => {
         return (
@@ -87,6 +104,7 @@ const LoginContainer = React.forwardRef<HTMLDivElement, DivProps>(
 export {
     PrimaryContainer,
     SectionContainer,
+    SectionContainer2,
     MainContainer,
     MainContainer2,
     LoginContainer,

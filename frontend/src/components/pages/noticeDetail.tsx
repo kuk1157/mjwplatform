@@ -91,7 +91,7 @@ function NoticeDetailPage() {
                                 if (!prevData) return alert(t(`first_page`));
                                 navigate(`/notice/${prevData?.id}`);
                             }}
-                            className="px-[41px] py-[13px] text-[#FFFFFF] leading-[24px] rounded-[5px] bg-[#008E80] md:text-[15px] xs:text-[14px]"
+                            className="px-[41px] py-[13px] text-[#FFFFFF] leading-[24px] rounded-[5px] bg-[#580098] md:text-[15px] xs:text-[14px]"
                         >
                             {t(`detail_prev`)}
                         </button>
@@ -100,14 +100,14 @@ function NoticeDetailPage() {
                                 if (!nextData) return alert(t(`last_page`));
                                 navigate(`/notice/${nextData?.id}`);
                             }}
-                            className="px-[41px] py-[13px] text-[#FFFFFF] leading-[24px] rounded-[5px] bg-[#008E80] md:text-[15px] xs:text-[14px]"
+                            className="px-[41px] py-[13px] text-[#FFFFFF] leading-[24px] rounded-[5px] bg-[#580098] md:text-[15px] xs:text-[14px]"
                         >
                             {t(`detail_next`)}
                         </button>
                     </div>
                     <button
                         onClick={() => navigate("/notice")}
-                        className="px-[49.5px] py-[13px] text-[#FFFFFF] leading-[24px] rounded-[5px] bg-[#008E80] md:text-[15px] xs:text-[14px]"
+                        className="px-[49.5px] py-[13px] text-[#FFFFFF] leading-[24px] rounded-[5px] bg-[#580098] md:text-[15px] xs:text-[14px]"
                     >
                         {t(`detail_to_list`)}
                     </button>
