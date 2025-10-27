@@ -68,7 +68,7 @@ export function MobileNoticeList() {
                                 key={idx}
                             >
                                 <div className="bg-white rounded-xl shadow-sm border border-gray-100 p-5 mb-3 flex items-center">
-                                    <div className="flex items-center">
+                                    <div className="flex items-center w-full">
                                         {notice.thumbnail ? (
                                             <img
                                                 src={`${cdn}/${noticeFolder}/${notice.thumbnail}${notice.extension}`}
@@ -82,13 +82,16 @@ export function MobileNoticeList() {
                                                 className="w-12 h-12 rounded-md object-cover"
                                             />
                                         )}
-                                        <div className="flex flex-col ml-3 font-Pretendard">
-                                            <p className="text-xl font-semibold mb-1">
+                                        <div className="flex flex-col ml-3 font-Pretendard min-w-0">
+                                            <p className="text-base font-semibold mb-1 truncate">
                                                 {notice.title}
                                             </p>
-                                            {/* <p className="text-xl font-semibold mb-1">
-                                                점주 : {notice.ownerName}
-                                            </p> */}
+                                            <p className="text-sm mb-1 text-[#999CA2]">
+                                                {notice.createdAt?.replace(
+                                                    "T",
+                                                    " "
+                                                )}
+                                            </p>
                                         </div>
                                     </div>
                                 </div>

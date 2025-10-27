@@ -45,7 +45,7 @@ export function MobileGradeGuide() {
                         <p className="text-xl font-semibold mb-1">
                             실버(SILVER)
                         </p>
-                        <p className="text-xl font-semibold mb-1">
+                        <p className="text-sm mb-1 text-[#999CA2]">
                             - 가게 1개 방문(최초)
                         </p>
                     </div>
@@ -61,7 +61,7 @@ export function MobileGradeGuide() {
                     />
                     <div className="flex flex-col ml-3 font-Pretendard">
                         <p className="text-xl font-semibold mb-1">골드(GOLD)</p>
-                        <p className="text-xl font-semibold mb-1">
+                        <p className="text-sm mb-1 text-[#999CA2]">
                             - 가게 4개 방문
                         </p>
                     </div>
@@ -79,7 +79,7 @@ export function MobileGradeGuide() {
                         <p className="text-xl font-semibold mb-1">
                             플래티넘(PLATINUM)
                         </p>
-                        <p className="text-xl font-semibold mb-1">
+                        <p className="text-sm mb-1 text-[#999CA2]">
                             - 가게 7개 방문
                         </p>
                     </div>
@@ -97,18 +97,20 @@ export function MobileGradeGuide() {
                         <p className="text-xl font-semibold mb-1">
                             다이아(DIAMOND)
                         </p>
-                        <p className="text-xl font-semibold mb-1">
+                        <p className="text-sm mb-1 text-[#999CA2]">
                             - 모든 가게 방문(10개)
                         </p>
                     </div>
                 </div>
             </div>
 
-            <div className="text-[#000] font-semibold text-sm border-t py-3">
+            <div className="text-[#999CA2] text-sm border-t py-3">
                 <p className="text-sm">
                     가게 방문 시 자동으로 스탬프가 발급됩니다.
                 </p>
-                <p>[ 스탬프 개수 = 가게 방문 ]</p>
+                <p className="font-semibold my-1">
+                    [ 스탬프 개수 = 가게 방문 ]
+                </p>
                 <p className="text-xs">
                     ※ 비정상적으로 스탬프를 발급 받을 경우 등급은 초기화 됩니다.
                 </p>
