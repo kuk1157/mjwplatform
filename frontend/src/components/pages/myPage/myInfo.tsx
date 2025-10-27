@@ -1,16 +1,34 @@
 import { useEffect, useState } from "react";
-import { useRecoilValueLoadable } from "recoil";
-import { userSelectorUpdated } from "src/recoil/userState";
 import axios from "axios";
 import { UserApi } from "src/utils/userApi";
 import { SocialDomain } from "src/constants/index";
 import { validatePhoneNumber } from "src/utils/common";
 import { MainContainer2 } from "../../molecules/container";
 import { MyInfo } from "src/components/organisms/myPage";
-import { useLocation, Link } from "react-router-dom";
+import { useLocation, Link, useNavigate } from "react-router-dom";
+import { useQuery } from "react-query";
+import { fetchUser } from "src/utils/userApi";
 
 const MyInfoPage = () => {
-    const { contents: user } = useRecoilValueLoadable(userSelectorUpdated);
+    const { data: user } = useQuery(
+        ["userSelectorUpdated"], // 기존 selector 이름 그대로 key 사용
+        fetchUser,
+        {
+            enabled: !!localStorage.getItem("accessToken"), // 토큰 있을 때만 실행
+            staleTime: 5 * 60 * 1000,
+            cacheTime: 10 * 60 * 1000,
+            refetchOnWindowFocus: false,
+        }
+    );
+
+    const navigate = useNavigate();
+    useEffect(() => {
+        if (user) console.log("user:", user);
+        // user 값이 로드된 후에만 체크 (비동기 recoil 대응)
+        if (!user) {
+            navigate("/", { replace: true });
+        }
+    }, [user, navigate]);
 
     // 기본정보 변경 관련
     const [name, setName] = useState<string>("");
@@ -27,14 +45,14 @@ const MyInfoPage = () => {
     const [emailLoading, setEmailLoading] = useState<boolean>(false);
 
     useEffect(() => {
-        const userEmail = user.email?.split("@")[0];
-        const userEmailDomain = user.email?.split("@")[1];
+        const userEmail = user?.email?.split("@")[0];
+        const userEmailDomain = user?.email?.split("@")[1];
         const isSocialDomain = SocialDomain.includes(userEmailDomain);
-        setName(user.name);
+        setName(user?.name);
         setEmail(userEmail);
         setEmailDomain(isSocialDomain ? userEmailDomain : "etc");
         setCustomDomain(isSocialDomain ? "" : userEmailDomain);
-        setPhoneNumber(user.phoneNumber);
+        setPhoneNumber(user?.phoneNumber);
     }, [user]);
 
     useEffect(() => {
@@ -186,7 +204,7 @@ const MyInfoPage = () => {
     const menuList = [
         { menuName: "공지사항", menuLink: "/notice" },
         { menuName: "가맹점", menuLink: "/store/store" },
-        // { menuName: "마이페이지", menuLink: "/myPage/myInfo" },
+        { menuName: "마이페이지", menuLink: "/myPage/myInfo" },
     ];
     const locations = useLocation();
     const nowLink = locations.pathname;
@@ -209,8 +227,8 @@ const MyInfoPage = () => {
             <MyInfo
                 name={name}
                 setName={setName}
-                loginId={user.loginId}
-                birthday={user.birthday}
+                loginId={user?.loginId}
+                birthday={user?.birthday}
                 email={email}
                 setEmail={setEmail}
                 emailDomain={emailDomain}
