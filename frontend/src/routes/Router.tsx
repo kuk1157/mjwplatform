@@ -55,6 +55,13 @@ const HomePageStoreDetail = Loadable({
     ),
 });
 
+// 입점문의 첫 페이지(등록,문의 2가지 버튼)
+const HomePageStoreInquiry = Loadable({
+    Component: lazy(
+        () => import("../components/pages/homePage/inquiry/storeInquiry")
+    ),
+});
+
 // [관리자 전산] /admin
 
 const AdminLogin = Loadable({
@@ -348,6 +355,12 @@ const Router = createBrowserRouter([
             {
                 path: "/store/store/:id",
                 element: <HomePageStoreDetail />,
+            },
+
+            // 입점 문의 메인페이지
+            {
+                path: "/inquiry/storeInquiry",
+                element: <HomePageStoreInquiry />,
             },
 
             // socket 테스트 페이지

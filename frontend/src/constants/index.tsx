@@ -24,6 +24,13 @@ const MenuList = [
         path: "/myPage/myInfo",
         is_active: "y",
     },
+
+    {
+        id: 0,
+        name: "inquiry",
+        path: "/inquiry/storeInquiry",
+        is_active: "y",
+    },
 ];
 
 const AdminMenuList = [
