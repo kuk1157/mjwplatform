@@ -25,8 +25,6 @@ const MyInfoPage = () => {
 
     const navigate = useNavigate();
     useEffect(() => {
-        if (user) console.log("user:", user);
-        // user 값이 로드된 후에만 체크 (비동기 recoil 대응)
         if (!user) {
             navigate("/", { replace: true });
         }
