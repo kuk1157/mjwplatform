@@ -42,7 +42,6 @@ function AdminTrafficAnalyticsPage() {
             const res = await UserApi.get(
                 `/api/v1/memberLogs/admin/analytics/traffic?${params.toString()}`
             );
-            console.log(res.data);
             return res.data;
         },
         enabled: false,

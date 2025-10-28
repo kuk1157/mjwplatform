@@ -668,27 +668,28 @@ function OwnerDashBoard() {
                                 {pointChart()}
                             </ResponsiveContainer>
                         </div>
-                        <div className="text-center flex justify-center">
-                            <span className="w-[150px] border px-3 py-1">
+
+                        <div className="text-center w-full flex justify-center md:flex-col">
+                            <span className="w-[150px] border px-3 py-1 md:w-full ">
                                 <p className="font-normal">전체 합계 포인트</p>
                                 <p className="text-[#000] font-bold">
                                     {pointTotal?.sumPoint?.toLocaleString()} P
                                 </p>
                             </span>
-                            <span className="w-[150px] border px-3 py-1 ml-3">
+                            <span className="w-[150px] border px-3 py-1 ml-3 md:w-full md:mt-2 md:mx-0">
                                 <p className="font-normal">전체 평균 포인트</p>
                                 <p className="text-[red] font-bold">
                                     {pointTotal?.avgPoint} P
                                 </p>
                             </span>
-                            <span className="mx-3 w-[150px] border px-3 py-1">
+                            <span className="mx-3 w-[150px] border px-3 py-1 md:w-full md:my-2 md:mx-0">
                                 <p className="font-normal">전체 합계 금액</p>
                                 <p className="text-[blue] font-bold">
                                     {pointTotal?.sumOrderPrice?.toLocaleString()}{" "}
                                     원
                                 </p>
                             </span>
-                            <span className="w-[150px] border px-3 py-1">
+                            <span className="w-[150px] border px-3 py-1 md:w-full">
                                 <p className="font-normal">전체 평균 금액</p>
                                 <p className="text-[green] font-bold ">
                                     {pointTotal?.avgOrderPrice} 원
@@ -700,9 +701,9 @@ function OwnerDashBoard() {
 
                 {/* 현금화 신청 영역 */}
                 <div className="w-full bg-[#FFF] p-6 mt-6">
-                    <div className="w-full max-w-[880px] mx-auto p-6 flex flex-col md:flex-row items-center justify-between bg-white rounded-[20px] shadow-md border-2 border-[#E61F2C]">
+                    <div className="w-full max-w-[880px] mx-auto p-6 flex flex-col placeholder:items-center justify-between bg-white rounded-[20px] shadow-md border-2 border-[#E61F2C]">
                         {/* 좌측: 포인트 정보 */}
-                        <div className="flex flex-col text-center md:text-left">
+                        <div className="flex flex-col text-center">
                             <p className="text-gray-600 text-sm">보유 포인트</p>
                             <p className="text-2xl font-bold text-[#E61F2C]">
                                 {(totalPoint ?? 0).toLocaleString()} P
@@ -711,13 +712,9 @@ function OwnerDashBoard() {
                                 1,000P 이상부터 현금화 신청 가능
                             </p>
                         </div>
-
-                        {/* 중앙 구분선 */}
-                        <div className="hidden md:block h-12 w-px bg-gray-200"></div>
-
                         {/* 우측: 입력 + 버튼 */}
-                        <div className="flex flex-col items-center md:items-end w-full md:w-auto mt-4 md:mt-0">
-                            <div className="flex items-center gap-2">
+                        <div className="flex flex-col items-center md:items-end w-full md:w-auto mt-4">
+                            <div className="flex items-center gap-2 md:mr-6">
                                 <input
                                     type="number"
                                     placeholder="신청 금액 입력"
@@ -734,9 +731,9 @@ function OwnerDashBoard() {
                                     신청
                                 </button>
                             </div>
-                            <p className="text-xs text-gray-400 mt-2">
+                            <div className="text-xs text-gray-400 mt-2 w-full flex justify-center">
                                 관리자 승인 후 입금 처리됩니다.
-                            </p>
+                            </div>
                         </div>
                     </div>
 

@@ -61,7 +61,6 @@ function AdminPointAnalyticsPage() {
                 `/api/v1/points/admin/analytics/point?${params.toString()}`
             );
 
-            console.log(res.data);
             return res.data;
         },
         enabled: false,

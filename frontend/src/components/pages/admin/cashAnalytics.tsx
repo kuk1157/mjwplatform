@@ -62,8 +62,6 @@ function AdminCashAnalyticsPage() {
             const res = await UserApi.get(
                 `/api/v1/pointCashOutRequests/admin/analytics/cash?${params.toString()}`
             );
-
-            console.log(res.data);
             return res.data;
         },
         enabled: false,
