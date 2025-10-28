@@ -205,16 +205,16 @@ export function MobileMainPageTest() {
                 </div>
 
                 {/* 금액 컨텐츠 영역 */}
-                <div className="mb-5 p-5 font-semibold text-base truncate bg-white rounded-xl border-[#580098] border">
+                <div className="mb-5 p-5 font-semibold text-base truncate shadow-md bg-white rounded-xl  border">
                     {customerId ? (
                         <div>
-                            <div className="flex justify-between border-b border-[#580098] p-5">
+                            <div className="flex justify-between border-b p-5">
                                 <span>현재 보유 포인트</span>
                                 <span className="text-[#580098]">13,500P</span>
                             </div>
                             <div className="flex flex-col">
                                 <Link to={`/mobile/gradeGuide`}>
-                                    <div className="flex justify-between border-b border-[#580098] p-5">
+                                    <div className="flex justify-between border-b p-5">
                                         <div className="flex flex-col">
                                             <span>현재 나의 등급</span>
                                             <span className="mt-3">
@@ -273,7 +273,7 @@ export function MobileMainPageTest() {
 
                 {/* 공지사항 컨텐츠 영역 */}
                 <div>
-                    <div className="flex flex-col p-5 font-normal text-sm bg-white rounded-xl border-[#580098] border">
+                    <div className="flex flex-col p-5 font-normal text-sm bg-white rounded-xl shadow-md border">
                         <div className="flex flex-col">
                             {notices.length > 0 ? (
                                 notices.map((notice, idx) => (
@@ -305,7 +305,7 @@ export function MobileMainPageTest() {
                 {customerId ? (
                     <div>
                         {/* 나의 정보 영역 */}
-                        <div className="bg-[#fff] border-collapse rounded-2xl shadow-sm mt-8 border border-[#580098]">
+                        <div className="bg-[#fff] border-collapse rounded-2xl shadow-md mt-8 border ">
                             <button
                                 className="w-full px-4 py-5 flex items-center justify-between"
                                 onClick={myInfoButton}
@@ -328,7 +328,7 @@ export function MobileMainPageTest() {
                         </div>
                         {/* 나의 등급 컨텐츠 영역 */}
                         <div>
-                            <div className="grid grid-cols-3 gap-4 bg-white rounded-xl border border-[#580098] p-5 mb-3 items-center">
+                            <div className="grid grid-cols-3 gap-4 bg-white rounded-xl shadow-md border p-5 mb-3 items-center">
                                 <span>
                                     {CustomerGrades[
                                         customer?.customerGrade ?? ""
@@ -342,7 +342,7 @@ export function MobileMainPageTest() {
                                     ></img>
                                 </span>
                             </div>
-                            <div className="bg-white rounded-xl border border-[#580098] p-5 mb-3 flex items-center">
+                            <div className="bg-white rounded-xl border shadow-md p-5 mb-3 flex items-center">
                                 <span>
                                     쿠폰 발급 가능 여부{" "}
                                     {customer?.couponAvailable === "Y"
@@ -365,7 +365,7 @@ export function MobileMainPageTest() {
                         </div>
                         {/* 내 스탬프 컨텐츠 영역 */}
                         <div>
-                            <div className="grid grid-cols-3 gap-4 bg-white rounded-xl border-[#580098] border p-5 mb-3 items-center ">
+                            <div className="grid grid-cols-2 gap-4 bg-white rounded-xl shadow-md border p-5 mb-3 items-center ">
                                 {stores?.map((store, idx) => {
                                     // 최종 파일 첨부 경로 가공
                                     const src = `${cdn}/${storeFolder}/${store.thumbnail}${store.extension}`;
@@ -395,9 +395,9 @@ export function MobileMainPageTest() {
                                             />
                                             {isStamped && (
                                                 <img
-                                                    src="/assets/image/mobile/checkImage.jpg"
+                                                    src="/assets/image/mobile/checkImage.svg"
                                                     alt="stamp"
-                                                    className="absolute inset-0 m-auto w-16 h-16 animate-[stampIn_0.4s_ease-out]"
+                                                    className="absolute inset-0 m-auto w-20 h-20 animate-[stampIn_0.4s_ease-out]"
                                                 />
                                             )}
                                         </button>
@@ -428,7 +428,7 @@ export function MobileMainPageTest() {
                                     <Link to={`/mobile/nftDetail/${nft.id}`}>
                                         <div
                                             key={idx}
-                                            className="bg-white rounded-xl shadow-sm border border-[#580098] p-5 mb-3 flex items-center"
+                                            className="bg-white rounded-xl shadow-md border p-5 mb-3 flex items-center"
                                         >
                                             {/* 기존 데이터는 그대로 */}
                                             <div className="flex items-center">
@@ -454,7 +454,7 @@ export function MobileMainPageTest() {
                                     </Link>
                                 ))
                             ) : (
-                                <div className="bg-white rounded-xl shadow-sm border border-[#580098] p-6 flex flex-col items-center justify-center">
+                                <div className="bg-white rounded-xl shadow-md border p-6 flex flex-col items-center justify-center">
                                     <p className="text-black text-sm font-semibold">
                                         최근 NFT 발급 기록이 없습니다.
                                     </p>
@@ -486,7 +486,7 @@ export function MobileMainPageTest() {
                                 visitLogs.map((visitLog, idx) => (
                                     <div
                                         key={idx}
-                                        className="bg-white rounded-xl shadow-sm border border-[#580098] p-5 mb-3 flex items-center"
+                                        className="bg-white rounded-xl shadow-md border p-5 mb-3 flex items-center"
                                     >
                                         <div className="flex items-center">
                                             <img
@@ -513,7 +513,7 @@ export function MobileMainPageTest() {
                                     </div>
                                 ))
                             ) : (
-                                <div className="bg-white rounded-xl shadow-sm border border-[#580098] p-6 flex flex-col items-center justify-center  text-[#999ca2]">
+                                <div className="bg-white rounded-xl shadow-md border p-6 flex flex-col items-center justify-center  text-[#999ca2]">
                                     <img
                                         src="/assets/image/mobile/noVisitIcon.svg"
                                         alt="방문기록이 없습니다 아이콘"
