@@ -111,7 +111,7 @@ function HomePageStoreInquirySearch() {
                                     <div className="w-full flex">
                                         <input
                                             type="text"
-                                            className="border py-3 px-6 w-[235px] flex ml-[26px] mr-3"
+                                            className="border py-3 px-6 w-[235px] flex ml-[26px] mr-3 rounded-md"
                                             name="address"
                                             placeholder="주소 입력"
                                             disabled
@@ -133,7 +133,7 @@ function HomePageStoreInquirySearch() {
                                     </span>
                                     <input
                                         type="password"
-                                        className="border py-3 px-6"
+                                        className="border py-3 px-6 rounded-md"
                                         name="password"
                                         placeholder="비밀번호 입력"
                                     ></input>

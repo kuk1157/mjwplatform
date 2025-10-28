@@ -85,7 +85,7 @@ export function MobileStoreInquirySearch() {
                         <div className="w-full flex">
                             <input
                                 type="text"
-                                className="w-full flex border px-3 py-2 mr-3"
+                                className="w-full flex border px-3 py-2 mr-3 rounded-md"
                                 name="address"
                                 placeholder="주소 검색"
                                 value={formData.address}
@@ -107,14 +107,14 @@ export function MobileStoreInquirySearch() {
                         <input
                             type="password"
                             name="password"
-                            className="w-full flex border px-3 py-2"
+                            className="w-full flex border px-3 py-2 rounded-md"
                             placeholder="문의 비밀번호 입력"
                         ></input>
                     </div>
                     <div className="flex w-full justify-center">
                         <button
                             type="button"
-                            className="bg-[#580098] text-[#fff] p-3 w-24 rounded-md mr-3"
+                            className="bg-[#580098] text-[#fff] p-3 w-24 rounded-md mr-3 "
                             onClick={inquirySearch}
                         >
                             완료

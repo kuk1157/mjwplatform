@@ -90,7 +90,7 @@ export function MobileStoreInquiryCreate() {
                         <input
                             type="text"
                             name="storeName"
-                            className="w-full flex border px-3 py-2"
+                            className="w-full flex border px-3 py-2 rounded-md"
                             placeholder="상호 이름 입력"
                         ></input>
                     </div>
@@ -101,7 +101,7 @@ export function MobileStoreInquiryCreate() {
                         <input
                             type="text"
                             name="ownerName"
-                            className="w-full flex border px-3 py-2"
+                            className="w-full flex border px-3 py-2 rounded-md"
                             placeholder="점주 이름 입력"
                         ></input>
                     </div>
@@ -112,7 +112,7 @@ export function MobileStoreInquiryCreate() {
                         <input
                             type="text"
                             name="phoneNumber"
-                            className="w-full flex border px-3 py-2"
+                            className="w-full flex border px-3 py-2 rounded-md"
                             placeholder="전화번호 입력"
                         ></input>
                     </div>
@@ -122,7 +122,7 @@ export function MobileStoreInquiryCreate() {
                         <div className="w-full flex">
                             <input
                                 type="text"
-                                className="w-full flex border px-3 py-2 mr-3"
+                                className="w-full flex border px-3 py-2 mr-3 rounded-md"
                                 name="address"
                                 placeholder="주소 검색"
                                 value={formData.address}
@@ -144,7 +144,7 @@ export function MobileStoreInquiryCreate() {
                         <input
                             type="password"
                             name="password"
-                            className="w-full flex border px-3 py-2"
+                            className="w-full flex border px-3 py-2 rounded-md"
                             placeholder="문의 비밀번호 입력"
                         ></input>
                     </div>
