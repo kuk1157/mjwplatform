@@ -104,7 +104,7 @@ export function MobileStoreList() {
             const content = storeList
                 .map(
                     (s) =>
-                        `<div style="color: #FFF; font-size: 11px; padding:5px; text-align:center; font-family: Pretendard; ">${s.name}</div>`
+                        `<div style="color: #FFF; font-size: 11px; padding:6px; text-align:center; font-family: Pretendard; ">${s.name}</div>`
                 )
                 .join("");
 

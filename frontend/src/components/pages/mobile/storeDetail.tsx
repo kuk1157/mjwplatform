@@ -87,7 +87,7 @@ export function MobileStoreDetail() {
         // 지도만 초기화
         const maps = new window.naver.maps.Map(mapRef.current, mapOptions);
 
-        const info = `<div style="color: #FFF; font-size: 14px; padding:5px 10px; text-align:center;">${storeDetail?.name}</div>`;
+        const info = `<div style="color:#FFF; font-size:13px; padding:6px; text-align:center;">${storeDetail?.name}</div>`;
 
         const infowindow = new window.naver.maps.InfoWindow({
             content: info,
