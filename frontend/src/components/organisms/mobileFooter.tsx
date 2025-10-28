@@ -30,7 +30,7 @@ const menuList: MenuItem[] = [
     {
         label: "나의 스탬프",
         path: `/mobile/myStamp`,
-        iconName: "visit.svg",
+        iconName: "stamp.svg",
     },
 ];
 
