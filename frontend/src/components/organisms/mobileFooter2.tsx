@@ -26,7 +26,11 @@ const menuList: MenuItem[] = [
         label: "입점 문의",
         path: `/mobile/storeInquiry`,
         iconName: "myInfo.svg",
-        matchPaths: ["/mobile/myPage", "/mobile/myWallet"],
+        matchPaths: [
+            "/mobile/storeInquiry",
+            "/mobile/inquiryCreate",
+            "/mobile/inquirySearch",
+        ],
     },
 ];
 

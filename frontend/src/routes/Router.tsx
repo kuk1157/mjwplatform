@@ -318,6 +318,11 @@ const MobileStoreInquiry = Loadable({
     Component: lazy(() => import("../components/pages/mobile/storeInquiry")),
 });
 
+// 모바일 입점 문의 등록
+const MobileStoreInquiryCreate = Loadable({
+    Component: lazy(() => import("../components/pages/mobile/inquiryCreate")),
+});
+
 // 모바일 입점 문의 확인(항목 입력 후 리스트 확인)
 const MobileStoreInquirySearch = Loadable({
     Component: lazy(() => import("../components/pages/mobile/inquirySearch")),
@@ -672,6 +677,12 @@ const Router = createBrowserRouter([
     {
         path: "/mobile/storeInquiry",
         element: <MobileStoreInquiry />,
+    },
+
+    // 모바일 입점문의 등록
+    {
+        path: "/mobile/inquiryCreate",
+        element: <MobileStoreInquiryCreate />,
     },
 
     // 모바일 입점문의 확인(항목 검색 후 리스트 보여주기)
