@@ -161,19 +161,35 @@ export function MobileStoreDetail() {
                             </div>
                         </div>
 
-                        <div className="bg-white rounded-xl shadow-sm shadow-[rgb(92, 123, 185, 0.102)] border border-[#580098] mb-3 flex items-center">
+                        <div className="bg-white rounded-xl shadow-sm shadow-[rgb(92, 123, 185, 0.102)] border  mb-3 flex items-center">
                             <div className="flex flex-col min-w-0 w-full">
-                                <p className="text-xl text-[#000] px-5 pt-4">
+                                <p className="text-xl text-[#000] font-bold px-5 pt-4">
                                     {storeDetail.name}
                                 </p>
-                                <span className="border-b my-5 w-full border-[#580098]"></span>
+                                <span className="border-b my-5 w-full border-[#ccc]"></span>
                                 <p className="flex px-5 pb-4">
                                     <span className="truncate w-full">
-                                        <p className="text-base ">
-                                            점주 이름 : {storeDetail.ownerName}
+                                        <p className="text-base w-full flex">
+                                            <span className="mr-4">
+                                                <img
+                                                    src="/assets/image/mobile/non-active/myInfo.svg"
+                                                    alt="점주 이름"
+                                                ></img>
+                                            </span>
+                                            <span className="">
+                                                {storeDetail.ownerName}
+                                            </span>
                                         </p>
-                                        <p className="text-sm text-[#000] mt-2">
-                                            <p> 주소 : {storeDetail.address}</p>
+                                        <p className="text-base w-full flex mt-2">
+                                            <span className="mr-4">
+                                                <img
+                                                    src="/assets/image/mobile/non-active/visit.svg"
+                                                    alt="주소"
+                                                ></img>
+                                            </span>
+                                            <span className="">
+                                                {storeDetail.address}
+                                            </span>
                                         </p>
                                     </span>
                                 </p>

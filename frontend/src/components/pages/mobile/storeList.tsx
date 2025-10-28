@@ -165,7 +165,7 @@ export function MobileStoreList() {
                                     to={`/mobile/storeDetail/${store.id}`}
                                     key={idx}
                                 >
-                                    <div className="bg-white rounded-xl shadow-sm border border-gray-100 p-5 mb-3 flex items-center">
+                                    <div className="bg-white rounded-xl shadow-sm border border-gray-100 p-4 mb-3 flex items-center">
                                         <div className="flex items-center">
                                             <img
                                                 src={`${cdn}/${storeFolder}/${store.thumbnail}${store.extension}`}
@@ -173,11 +173,15 @@ export function MobileStoreList() {
                                                 className="w-16 h-16 rounded-md object-cover"
                                             />
                                             <div className="flex flex-col ml-3">
-                                                <p className="text-xl font-semibold mb-1">
+                                                <p className="text-base font-bold mb-1">
                                                     {store.name}
                                                 </p>
-                                                <p className="text-xl font-semibold mb-1">
-                                                    점주 : {store.ownerName}
+                                                <p className="text-sm text-[#999CA2] mb-1">
+                                                    점주 이름 :{" "}
+                                                    {store.ownerName}
+                                                </p>
+                                                <p className="text-xs text-[#999CA2] mb-1">
+                                                    주소 : {store.address}
                                                 </p>
                                             </div>
                                         </div>
