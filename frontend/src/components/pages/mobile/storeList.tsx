@@ -1,6 +1,6 @@
 import axios from "axios";
 import { useNavigate, Link } from "react-router-dom";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 
 // [파일 첨부 경로]
 import { cdn } from "src/constans"; // 파일첨부 경로(네이버클라우드)
@@ -20,13 +20,20 @@ export function MobileStoreList() {
     const customerId = localStorage.getItem("customerId");
     const [stores, setStore] = useState<StoreDetailType[]>([]); // 가맹점(매장) 데이터 세팅
 
+    // 지도 관련
+    const [naverMap, setNaverMap] = useState(String);
+    const mapRef = useRef<HTMLDivElement>(null);
+    const [isLoaded, setIsLoaded] = useState(false);
+
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const [storeList] = await Promise.all([
+                const [storeList, mapKey] = await Promise.all([
                     axios.get("/api/v1/stores"),
+                    axios.get("/api/v1/naver/maps"), // API KEY 추출
                 ]);
                 setStore(storeList.data.content); // 가맹점(매장) 추출
+                setNaverMap(mapKey.data); // API KEY 추출
             } catch (error) {
                 console.error("데이터 조회 실패:", error);
             }
@@ -37,6 +44,88 @@ export function MobileStoreList() {
     const handleBack = () => {
         navigate(-1); // 뒤로 가기
     };
+
+    const clientId = naverMap;
+
+    // 지도 스크립트 로드
+    useEffect(() => {
+        if (!clientId) return; // key 없으면 기다리기
+        if (window.naver?.maps) {
+            // 이미 로드된 경우
+            setIsLoaded(true);
+            return;
+        }
+
+        const script = document.createElement("script");
+        script.src = `https://oapi.map.naver.com/openapi/v3/maps.js?ncpKeyId=${clientId}`;
+        script.async = true;
+        script.onload = () => setIsLoaded(true);
+        document.head.appendChild(script);
+
+        return () => {
+            document.head.removeChild(script);
+        };
+    }, [clientId]);
+
+    // 지도 초기화
+    useEffect(() => {
+        if (!isLoaded || !mapRef.current) return;
+        const lat = 35.8755227;
+        const lng = 128.6285939;
+
+        const mapOptions = {
+            center: new window.naver.maps.LatLng(lat, lng),
+            zoom: 16,
+        };
+
+        // 지도만 초기화
+        const maps = new window.naver.maps.Map(mapRef.current, mapOptions);
+        // 좌표별로 그룹핑
+        const coordMap: Record<string, typeof stores> = {};
+        stores?.forEach((store) => {
+            const x = store.latitude ?? lat;
+            const y = store.longitude ?? lng;
+            const key = `${x},${y}`;
+            if (!coordMap[key]) coordMap[key] = [];
+            coordMap[key].push(store);
+        });
+
+        Object.entries(coordMap).forEach(([coord, storeList]) => {
+            const [x, y] = coord.split(",").map(Number);
+            const marker = new window.naver.maps.Marker({
+                position: new window.naver.maps.LatLng(x, y),
+                map: maps,
+                icon: {
+                    url: "/assets/image/mobile/active/visit.svg",
+                    anchor: new window.naver.maps.Point(10, 10),
+                },
+            });
+
+            const content = storeList
+                .map(
+                    (s) =>
+                        `<div style="color: #FFF; font-size: 11px; padding:5px; text-align:center; font-family: Pretendard; ">${s.name}</div>`
+                )
+                .join("");
+
+            const infowindow = new window.naver.maps.InfoWindow({
+                content,
+                maxWidth: 140,
+                borderWidth: 0,
+                backgroundColor: "#E61F2C",
+                anchorSkew: true,
+                pixelOffset: new window.naver.maps.Point(0, 0),
+            });
+
+            window.naver.maps.Event.addListener(marker, "click", () => {
+                if (infowindow.getMap()) {
+                    infowindow.close();
+                } else {
+                    infowindow.open(maps, marker);
+                }
+            });
+        });
+    }, [isLoaded, stores]);
 
     return (
         <div className="min-h-screen bg-white">
@@ -57,6 +146,14 @@ export function MobileStoreList() {
                             </h2>
                         </button>
                     </div>
+                </div>
+
+                <div className="mb-5 flex items-center">
+                    <div
+                        id="map"
+                        ref={mapRef}
+                        className="w-[330px] h-[330px] border-2 border-[#580098] rounded-3xl"
+                    />
                 </div>
 
                 {/* NFT 목록 */}
