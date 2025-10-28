@@ -25,7 +25,7 @@ export function MobileGradeGuide() {
                             className="w-full flex items-center justify-between"
                             onClick={handleBack}
                         >
-                            <h2 className="text-2xl font-semibold font-Pretendard flex items-center">
+                            <h2 className="text-2xl font-semibold flex items-center">
                                 <span className="mr-2">
                                     <MdArrowBackIosNew />
                                 </span>
@@ -42,7 +42,7 @@ export function MobileGradeGuide() {
                             alt="실버"
                             className="w-12 h-12 rounded-md object-cover"
                         />
-                        <div className="flex flex-col ml-3 font-Pretendard">
+                        <div className="flex flex-col ml-3">
                             <p className="text-xl font-semibold mb-1">
                                 실버(SILVER)
                             </p>
@@ -60,7 +60,7 @@ export function MobileGradeGuide() {
                             alt="골드"
                             className="w-12 h-12 rounded-md object-cover"
                         />
-                        <div className="flex flex-col ml-3 font-Pretendard">
+                        <div className="flex flex-col ml-3">
                             <p className="text-xl font-semibold mb-1">
                                 골드(GOLD)
                             </p>
@@ -78,7 +78,7 @@ export function MobileGradeGuide() {
                             alt="플래티넘"
                             className="w-12 h-12 rounded-md object-cover"
                         />
-                        <div className="flex flex-col ml-3 font-Pretendard">
+                        <div className="flex flex-col ml-3">
                             <p className="text-xl font-semibold mb-1">
                                 플래티넘(PLATINUM)
                             </p>
@@ -96,7 +96,7 @@ export function MobileGradeGuide() {
                             alt="다이아"
                             className="w-12 h-12 rounded-md object-cover"
                         />
-                        <div className="flex flex-col ml-3 font-Pretendard">
+                        <div className="flex flex-col ml-3">
                             <p className="text-xl font-semibold mb-1">
                                 다이아(DIAMOND)
                             </p>

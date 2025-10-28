@@ -8,7 +8,7 @@ export function MobileLogin() {
         ? Number(params.tableNumber)
         : undefined;
     return (
-        <div className="w-screen h-screen flex items-center justify-center">
+        <div className="w-screen h-screen flex items-center justify-center font-Pretendard">
             <div className="w-[360px] bg-white text-center p-6 rounded-xl">
                 {/* 로고 */}
 
@@ -22,10 +22,10 @@ export function MobileLogin() {
                     </div>
 
                     {/* 타이틀 */}
-                    <div className="mb-2 text-2xl font-bold font-Pretendard">
+                    <div className="mb-2 text-2xl font-bold">
                         동대구역 맛집 3% 할인
                     </div>
-                    <div className="mb-4 text-2xl font-light font-Pretendard">
+                    <div className="mb-4 text-2xl font-light">
                         다대구 DID로 간편하게!
                     </div>
                 </div>

@@ -113,7 +113,7 @@ export function MobileStoreDetail() {
     }, [isLoaded, storeDetail]);
 
     return (
-        <div className="min-h-screen bg-white">
+        <div className="min-h-screen bg-white font-Pretendard">
             <div className="p-4 mb-20">
                 {/* 모바일 타이틀 */}
                 {<MobileMain param={Number(customerId)} />}
@@ -124,7 +124,7 @@ export function MobileStoreDetail() {
                             className="w-full flex items-center justify-between"
                             onClick={handleBack}
                         >
-                            <h2 className="text-2xl font-semibold font-Pretendard flex items-center">
+                            <h2 className="text-2xl font-semibold flex items-center">
                                 <span className="mr-2">
                                     <MdArrowBackIosNew />
                                 </span>
@@ -162,7 +162,7 @@ export function MobileStoreDetail() {
                         </div>
 
                         <div className="bg-white rounded-xl shadow-sm shadow-[rgb(92, 123, 185, 0.102)] border border-[#580098] mb-3 flex items-center">
-                            <div className="flex flex-col font-Pretendard min-w-0 w-full">
+                            <div className="flex flex-col min-w-0 w-full">
                                 <p className="text-xl text-[#000] px-5 pt-4">
                                     {storeDetail.name}
                                 </p>

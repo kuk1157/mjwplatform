@@ -39,7 +39,7 @@ export function MobileNoticeList() {
     };
 
     return (
-        <div className="min-h-screen bg-white">
+        <div className="min-h-screen bg-white font-Pretendard">
             <div className="p-4 mb-20">
                 {/* 모바일 타이틀 */}
                 {<MobileMain param={Number(customerId)} />}
@@ -49,7 +49,7 @@ export function MobileNoticeList() {
                             className="w-full flex items-center justify-between"
                             onClick={handleBack}
                         >
-                            <h2 className="text-2xl font-semibold font-Pretendard flex items-center">
+                            <h2 className="text-2xl font-semibold flex items-center">
                                 <span className="mr-2">
                                     <MdArrowBackIosNew />
                                 </span>
@@ -83,7 +83,7 @@ export function MobileNoticeList() {
                                                     className="w-12 h-12 rounded-md object-cover"
                                                 />
                                             )}
-                                            <div className="flex flex-col ml-3 font-Pretendard min-w-0">
+                                            <div className="flex flex-col ml-3 min-w-0">
                                                 <p className="text-base font-semibold mb-1 truncate">
                                                     {notice.title}
                                                 </p>

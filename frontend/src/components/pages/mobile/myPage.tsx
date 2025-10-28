@@ -48,7 +48,7 @@ export function MobileMyPage() {
     };
 
     return (
-        <div className="min-h-screen bg-white">
+        <div className="min-h-screen bg-white font-Pretendard">
             <div className="p-4 mb-20">
                 {/* 모바일 타이틀 */}
                 {<MobileMain param={Number(customerId)} />}
@@ -59,7 +59,7 @@ export function MobileMyPage() {
                             className="w-full flex items-center justify-between"
                             onClick={handleBack}
                         >
-                            <h2 className="text-2xl font-semibold font-Pretendard flex items-center">
+                            <h2 className="text-2xl font-semibold flex items-center">
                                 <span className="mr-2">
                                     <MdArrowBackIosNew />
                                 </span>
@@ -70,7 +70,7 @@ export function MobileMyPage() {
                 </div>
                 <div className="bg-white rounded-xl shadow-sm border border-gray-100 p-3 mb-3 flex items-center">
                     <div className="flex items-center min-w-0">
-                        <div className="flex flex-col ml-3 font-Pretendard min-w-0">
+                        <div className="flex flex-col ml-3 min-w-0">
                             <p className="text-xl font-semibold mb-1">
                                 {memberName}
                             </p>
@@ -84,7 +84,7 @@ export function MobileMyPage() {
                     </div>
                 </div>
 
-                <div className="bg-gradient-to-r from-[#E61F2C] to-[#FF4854] text-white text-center rounded-2xl text-lg font-Pretendard">
+                <div className="bg-gradient-to-r from-[#E61F2C] to-[#FF4854] text-white text-center rounded-2xl text-lg">
                     <button
                         className="w-full px-4 py-2"
                         onClick={myWalletButton}

@@ -56,7 +56,7 @@ export function MobileMyWallet() {
     };
 
     return (
-        <div className="min-h-screen bg-white">
+        <div className="min-h-screen bg-white font-Pretendard">
             <div className="p-4 mb-20">
                 {/* 모바일 타이틀 */}
                 {<MobileMain param={Number(customerId)} />}
@@ -67,7 +67,7 @@ export function MobileMyWallet() {
                             className="w-full flex items-center justify-between"
                             onClick={handleBack}
                         >
-                            <h2 className="text-2xl font-semibold font-Pretendard flex items-center">
+                            <h2 className="text-2xl font-semibold flex items-center">
                                 <span className="mr-2">
                                     <MdArrowBackIosNew />
                                 </span>
@@ -88,7 +88,7 @@ export function MobileMyWallet() {
                         </div>
 
                         <div className="bg-white rounded-xl shadow-sm shadow-[rgb(92, 123, 185, 0.102)] border border-gray-100 px-3 py-4 mb-3 flex items-center">
-                            <div className="flex flex-col ml-3 font-Pretendard min-w-0">
+                            <div className="flex flex-col ml-3 min-w-0">
                                 <p className="text-base text-[#000]">
                                     매장 이름 : {nftDetails.storeName}
                                 </p>
