@@ -44,73 +44,77 @@ export function MobileNoticeDetail() {
     };
 
     return (
-        <div className="min-h-screen bg-white p-4">
-            {/* 모바일 타이틀 */}
-            {<MobileMain param={Number(customerId)} />}
+        <div className="min-h-screen bg-white">
+            <div className="p-4 mb-20">
+                {/* 모바일 타이틀 */}
+                {<MobileMain param={Number(customerId)} />}
 
-            <div className="mt-8 mb-3">
-                <div className="flex items-center gap-2 mb-2">
-                    <button
-                        className="w-full flex items-center justify-between"
-                        onClick={handleBack}
-                    >
-                        <h2 className="text-2xl font-semibold font-Pretendard flex items-center">
-                            <span className="mr-2">
-                                <MdArrowBackIosNew />
-                            </span>
-                            <span>공지사항 상세보기</span>
-                        </h2>
-                    </button>
+                <div className="mt-8 mb-3">
+                    <div className="flex items-center gap-2 mb-2">
+                        <button
+                            className="w-full flex items-center justify-between"
+                            onClick={handleBack}
+                        >
+                            <h2 className="text-2xl font-semibold font-Pretendard flex items-center">
+                                <span className="mr-2">
+                                    <MdArrowBackIosNew />
+                                </span>
+                                <span>공지사항 상세보기</span>
+                            </h2>
+                        </button>
+                    </div>
                 </div>
+                {notice ? (
+                    <div>
+                        <div className=" px-3 py-3 mb-3 flex items-center">
+                            <div className="w-full flex justify-center items-center">
+                                {notice.thumbnail ? (
+                                    <img
+                                        src={`${cdn}/${noticeFolder}/${notice.thumbnail}${notice.extension}`}
+                                        alt={notice.title}
+                                    />
+                                ) : (
+                                    <span className="p-6 text-xl text-center">
+                                        <p>썸네일 없음</p>
+                                        <p className="text-center inline-block mt-3">
+                                            <CiImageOff />
+                                        </p>
+                                    </span>
+                                )}
+                            </div>
+                        </div>
+
+                        <div className="bg-white rounded-xl shadow-sm shadow-[rgb(92, 123, 185, 0.102)] border border-[#580098] mb-3 flex items-center">
+                            <div className="flex flex-col font-Pretendard min-w-0 w-full">
+                                <p className="text-sm text-[#000] px-5 pt-4">
+                                    <p>[제목]</p>
+                                    {notice.title}
+                                </p>
+                                <span className="border-b my-5 w-full border-[#580098]"></span>
+                                <p className="flex px-5 pb-4">
+                                    <span className="truncate w-full">
+                                        <p className="text-base ">
+                                            [내용]
+                                            {notice?.description
+                                                ? parse(notice?.description)
+                                                : ""}
+                                        </p>
+                                        <p className="text-sm text-[#000] mt-2">
+                                            <p>[작성일]</p>
+                                            {notice?.createdAt &&
+                                                formatedDate(notice?.createdAt)}
+                                        </p>
+                                    </span>
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                ) : (
+                    <p className="text-gray-400">
+                        공지사항 정보를 불러오는 중...
+                    </p>
+                )}
             </div>
-            {notice ? (
-                <div>
-                    <div className=" px-3 py-3 mb-3 flex items-center">
-                        <div className="w-full flex justify-center items-center">
-                            {notice.thumbnail ? (
-                                <img
-                                    src={`${cdn}/${noticeFolder}/${notice.thumbnail}${notice.extension}`}
-                                    alt={notice.title}
-                                />
-                            ) : (
-                                <span className="p-6 text-xl text-center">
-                                    <p>썸네일 없음</p>
-                                    <p className="text-center inline-block mt-3">
-                                        <CiImageOff />
-                                    </p>
-                                </span>
-                            )}
-                        </div>
-                    </div>
-
-                    <div className="bg-white rounded-xl shadow-sm shadow-[rgb(92, 123, 185, 0.102)] border border-[#580098] mb-3 flex items-center">
-                        <div className="flex flex-col font-Pretendard min-w-0 w-full">
-                            <p className="text-sm text-[#000] px-5 pt-4">
-                                <p>[제목]</p>
-                                {notice.title}
-                            </p>
-                            <span className="border-b my-5 w-full border-[#580098]"></span>
-                            <p className="flex px-5 pb-4">
-                                <span className="truncate w-full">
-                                    <p className="text-base ">
-                                        [내용]
-                                        {notice?.description
-                                            ? parse(notice?.description)
-                                            : ""}
-                                    </p>
-                                    <p className="text-sm text-[#000] mt-2">
-                                        <p>[작성일]</p>
-                                        {notice?.createdAt &&
-                                            formatedDate(notice?.createdAt)}
-                                    </p>
-                                </span>
-                            </p>
-                        </div>
-                    </div>
-                </div>
-            ) : (
-                <p className="text-gray-400">공지사항 정보를 불러오는 중...</p>
-            )}
 
             {/* 하단 네비게이션 */}
             {customerId ? <MobileFooter /> : <MobileFooter2 />}

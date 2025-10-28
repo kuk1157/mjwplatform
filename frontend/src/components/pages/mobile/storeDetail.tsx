@@ -114,7 +114,7 @@ export function MobileStoreDetail() {
 
     return (
         <div className="min-h-screen bg-white">
-            <div className="p-4">
+            <div className="p-4 mb-20">
                 {/* 모바일 타이틀 */}
                 {<MobileMain param={Number(customerId)} />}
 

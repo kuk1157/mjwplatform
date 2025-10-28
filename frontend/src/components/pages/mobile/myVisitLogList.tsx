@@ -43,73 +43,75 @@ export function MobileMyVisitLogList() {
     };
 
     return (
-        <div className="min-h-screen bg-white p-4">
-            {/* 모바일 타이틀 */}
-            {<MobileMain param={Number(customerId)} />}
+        <div className="min-h-screen bg-white">
+            <div className="p-4 mb-20">
+                {/* 모바일 타이틀 */}
+                {<MobileMain param={Number(customerId)} />}
 
-            <div className="mt-8 mb-3">
-                <div className="flex items-center gap-2 mb-2">
-                    <button
-                        className="w-full flex items-center justify-between"
-                        onClick={handleBack}
-                    >
-                        <h2 className="text-2xl font-semibold font-Pretendard flex items-center">
-                            <span className="mr-2">
-                                <MdArrowBackIosNew />
-                            </span>
-                            <span>나의 방문기록 목록</span>
-                        </h2>
-                    </button>
-                </div>
-            </div>
-
-            {/* 방문 목록 */}
-            <section>
-                {visitLogs.length > 0 ? (
-                    visitLogs.map((visitLog, idx) => (
-                        <div
-                            key={idx}
-                            className="bg-white rounded-xl shadow-sm border border-gray-100 p-5 mb-3 flex items-center"
+                <div className="mt-8 mb-3">
+                    <div className="flex items-center gap-2 mb-2">
+                        <button
+                            className="w-full flex items-center justify-between"
+                            onClick={handleBack}
                         >
-                            <div className="flex items-center">
-                                <img
-                                    src="/assets/image/mobile/visitIcon.svg"
-                                    alt="방문기록 리스트 아이콘"
-                                />
-                                <div className="flex flex-col ml-3 font-Pretendard">
-                                    <p className="text-xl font-semibold mb-1 ">
-                                        {visitLog.storeName}
-                                    </p>
-                                    <p className="text-xs text-[#999ca2]">
-                                        <span className="font-bold mr-2">
-                                            방문 시간
-                                        </span>
-                                        <span className="font-normal">
-                                            {visitLog.createdAt.replace(
-                                                "T",
-                                                " "
-                                            )}
-                                        </span>
-                                    </p>
+                            <h2 className="text-2xl font-semibold font-Pretendard flex items-center">
+                                <span className="mr-2">
+                                    <MdArrowBackIosNew />
+                                </span>
+                                <span>나의 방문기록 목록</span>
+                            </h2>
+                        </button>
+                    </div>
+                </div>
+
+                {/* 방문 목록 */}
+                <section>
+                    {visitLogs.length > 0 ? (
+                        visitLogs.map((visitLog, idx) => (
+                            <div
+                                key={idx}
+                                className="bg-white rounded-xl shadow-sm border border-gray-100 p-5 mb-3 flex items-center"
+                            >
+                                <div className="flex items-center">
+                                    <img
+                                        src="/assets/image/mobile/visitIcon.svg"
+                                        alt="방문기록 리스트 아이콘"
+                                    />
+                                    <div className="flex flex-col ml-3 font-Pretendard">
+                                        <p className="text-xl font-semibold mb-1 ">
+                                            {visitLog.storeName}
+                                        </p>
+                                        <p className="text-xs text-[#999ca2]">
+                                            <span className="font-bold mr-2">
+                                                방문 시간
+                                            </span>
+                                            <span className="font-normal">
+                                                {visitLog.createdAt.replace(
+                                                    "T",
+                                                    " "
+                                                )}
+                                            </span>
+                                        </p>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                    ))
-                ) : (
-                    <section className="w-full min-h-[400px] flex flex-col items-center justify-center bg-white font-Pretendard text-[#999ca2]">
-                        <img
-                            src="/assets/image/mobile/noVisitIcon.svg"
-                            alt="방문기록이 없습니다 아이콘"
-                        />
-                        <p className="text-lg font-semibold mt-2">
-                            방문 기록이 없습니다.
-                        </p>
-                        <p className="text-sm font-light mt-1">
-                            새로운 방문이 등록되면 이곳에 표시됩니다.
-                        </p>
-                    </section>
-                )}
-            </section>
+                        ))
+                    ) : (
+                        <section className="w-full min-h-[400px] flex flex-col items-center justify-center bg-white font-Pretendard text-[#999ca2]">
+                            <img
+                                src="/assets/image/mobile/noVisitIcon.svg"
+                                alt="방문기록이 없습니다 아이콘"
+                            />
+                            <p className="text-lg font-semibold mt-2">
+                                방문 기록이 없습니다.
+                            </p>
+                            <p className="text-sm font-light mt-1">
+                                새로운 방문이 등록되면 이곳에 표시됩니다.
+                            </p>
+                        </section>
+                    )}
+                </section>
+            </div>
             {/* 하단 네비게이션 */}
             {customerId && <MobileFooter />}
         </div>

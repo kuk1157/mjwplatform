@@ -39,80 +39,82 @@ export function MobileNoticeList() {
     };
 
     return (
-        <div className="min-h-screen bg-white p-4">
-            {/* 모바일 타이틀 */}
-            {<MobileMain param={Number(customerId)} />}
-            <div className="mt-8 mb-3">
-                <div className="flex items-center gap-2 mb-2">
-                    <button
-                        className="w-full flex items-center justify-between"
-                        onClick={handleBack}
-                    >
-                        <h2 className="text-2xl font-semibold font-Pretendard flex items-center">
-                            <span className="mr-2">
-                                <MdArrowBackIosNew />
-                            </span>
-                            <span>공지사항 목록</span>
-                        </h2>
-                    </button>
+        <div className="min-h-screen bg-white">
+            <div className="p-4 mb-20">
+                {/* 모바일 타이틀 */}
+                {<MobileMain param={Number(customerId)} />}
+                <div className="mt-8 mb-3">
+                    <div className="flex items-center gap-2 mb-2">
+                        <button
+                            className="w-full flex items-center justify-between"
+                            onClick={handleBack}
+                        >
+                            <h2 className="text-2xl font-semibold font-Pretendard flex items-center">
+                                <span className="mr-2">
+                                    <MdArrowBackIosNew />
+                                </span>
+                                <span>공지사항 목록</span>
+                            </h2>
+                        </button>
+                    </div>
                 </div>
-            </div>
 
-            {/* NFT 목록 */}
-            <section>
-                {notices.length > 0 ? (
-                    notices.map((notice, idx) => {
-                        return (
-                            <Link
-                                to={`/mobile/noticeDetail/${notice.id}`}
-                                key={idx}
-                            >
-                                <div className="bg-white rounded-xl shadow-sm border border-gray-100 p-5 mb-3 flex items-center">
-                                    <div className="flex items-center w-full">
-                                        {notice.thumbnail ? (
-                                            <img
-                                                src={`${cdn}/${noticeFolder}/${notice.thumbnail}${notice.extension}`}
-                                                alt={`${notice.title}`}
-                                                className="w-12 h-12 rounded-md object-cover"
-                                            />
-                                        ) : (
-                                            <img
-                                                src="/assets/image/time.png"
-                                                alt={`${notice.title}`}
-                                                className="w-12 h-12 rounded-md object-cover"
-                                            />
-                                        )}
-                                        <div className="flex flex-col ml-3 font-Pretendard min-w-0">
-                                            <p className="text-base font-semibold mb-1 truncate">
-                                                {notice.title}
-                                            </p>
-                                            <p className="text-sm mb-1 text-[#999CA2]">
-                                                {notice.createdAt?.replace(
-                                                    "T",
-                                                    " "
-                                                )}
-                                            </p>
+                {/* NFT 목록 */}
+                <section>
+                    {notices.length > 0 ? (
+                        notices.map((notice, idx) => {
+                            return (
+                                <Link
+                                    to={`/mobile/noticeDetail/${notice.id}`}
+                                    key={idx}
+                                >
+                                    <div className="bg-white rounded-xl shadow-sm border border-gray-100 p-5 mb-3 flex items-center">
+                                        <div className="flex items-center w-full">
+                                            {notice.thumbnail ? (
+                                                <img
+                                                    src={`${cdn}/${noticeFolder}/${notice.thumbnail}${notice.extension}`}
+                                                    alt={`${notice.title}`}
+                                                    className="w-12 h-12 rounded-md object-cover"
+                                                />
+                                            ) : (
+                                                <img
+                                                    src="/assets/image/time.png"
+                                                    alt={`${notice.title}`}
+                                                    className="w-12 h-12 rounded-md object-cover"
+                                                />
+                                            )}
+                                            <div className="flex flex-col ml-3 font-Pretendard min-w-0">
+                                                <p className="text-base font-semibold mb-1 truncate">
+                                                    {notice.title}
+                                                </p>
+                                                <p className="text-sm mb-1 text-[#999CA2]">
+                                                    {notice.createdAt?.replace(
+                                                        "T",
+                                                        " "
+                                                    )}
+                                                </p>
+                                            </div>
                                         </div>
                                     </div>
-                                </div>
-                            </Link>
-                        );
-                    })
-                ) : (
-                    <div className="bg-white rounded-xl shadow-sm border border-gray-100 p-6 flex flex-col items-center justify-center  text-[#999ca2]">
-                        <img
-                            src="/assets/image/mobile/noVisitIcon.svg"
-                            alt="스탬프가 없습니다 아이콘"
-                        />
-                        <p className="text-lg font-semibold mt-2">
-                            공지사항이 없습니다.
-                        </p>
-                        <p className="text-sm font-light mt-1">
-                            공지사항이 등록되면 이곳에 표시됩니다.
-                        </p>
-                    </div>
-                )}
-            </section>
+                                </Link>
+                            );
+                        })
+                    ) : (
+                        <div className="bg-white rounded-xl shadow-sm border border-gray-100 p-6 flex flex-col items-center justify-center  text-[#999ca2]">
+                            <img
+                                src="/assets/image/mobile/noVisitIcon.svg"
+                                alt="스탬프가 없습니다 아이콘"
+                            />
+                            <p className="text-lg font-semibold mt-2">
+                                공지사항이 없습니다.
+                            </p>
+                            <p className="text-sm font-light mt-1">
+                                공지사항이 등록되면 이곳에 표시됩니다.
+                            </p>
+                        </div>
+                    )}
+                </section>
+            </div>
 
             {/* 하단 네비게이션 */}
             {customerId ? <MobileFooter /> : <MobileFooter2 />}

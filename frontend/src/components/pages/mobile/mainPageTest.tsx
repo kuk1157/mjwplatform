@@ -113,420 +113,426 @@ export function MobileMainPageTest() {
     };
 
     return (
-        <div className="min-h-screen bg-[#fbfbfc] p-4 font-Pretendard overflow-y-auto">
-            {/* 모바일 타이틀 */}
-            {<MobileMain param={Number(customerId)} />}
+        <div className="min-h-screen bg-[#fbfbfc] font-Pretendard overflow-y-auto">
+            <div className="p-4 mb-20">
+                {/* 모바일 타이틀 */}
+                {<MobileMain param={Number(customerId)} />}
 
-            {/* 상단 배너 슬라이드 */}
-            <div className=" rounded-lg mb-5 font-semibold text-base truncate">
-                <Swiper
-                    modules={[Navigation, Autoplay]}
-                    slidesPerView={1}
-                    loop={true}
-                    autoplay={{
-                        delay: 3000,
-                        disableOnInteraction: false,
-                    }}
-                    speed={1500}
-                    spaceBetween={20}
-                    navigation={false}
-                    className="rounded-2xl overflow-hidden"
-                >
-                    {Array.from({ length: 5 }).map((_, idx) => (
-                        <SwiperSlide key={idx}>
-                            <img
-                                src={`/assets/image/mainTitle.png`}
-                                alt={`메인 타이틀 ${idx + 1}`}
-                                className="w-full h-[150px] block"
-                            />
-                        </SwiperSlide>
-                    ))}
-                </Swiper>
-            </div>
-
-            {/* 가맹점 썸네일 슬라이드 */}
-            {stores?.length > 1 && (
+                {/* 상단 배너 슬라이드 */}
                 <div className=" rounded-lg mb-5 font-semibold text-base truncate">
                     <Swiper
-                        modules={[Autoplay]}
-                        slidesPerView="auto"
-                        spaceBetween={20}
+                        modules={[Navigation, Autoplay]}
+                        slidesPerView={1}
                         loop={true}
-                        allowTouchMove={false}
                         autoplay={{
-                            delay: 0,
+                            delay: 3000,
                             disableOnInteraction: false,
-                            pauseOnMouseEnter: false,
-                            stopOnLastSlide: false,
                         }}
-                        onInit={(swiper) => swiper.autoplay.start()}
-                        speed={3000}
-                        className="flex items-center"
+                        speed={1500}
+                        spaceBetween={20}
+                        navigation={false}
+                        className="rounded-2xl overflow-hidden"
                     >
-                        {stores?.map((store, idx) => {
-                            // 최종 경로 가공
-                            const src = `${cdn}/${storeFolder}/${store.thumbnail}${store.extension}`;
-                            return (
-                                <SwiperSlide key={idx}>
-                                    <Link
-                                        to={`/mobile/storeDetail/${store.id}`}
-                                    >
-                                        <div className="relative w-full h-[120px]">
-                                            {/* 가맹점 이름 오버레이 */}
-                                            <div className="absolute bottom-2 left-2 font-bold border border-[#fff] text-[#fff] px-2 py-1 rounded-md text-sm">
-                                                {store.name}
-                                            </div>
-                                            {store.thumbnail ? (
-                                                <img
-                                                    src={src}
-                                                    alt={`가게 ${store.name}`}
-                                                    className="w-full h-full object-cover rounded-xl"
-                                                />
-                                            ) : (
-                                                <div className="text-center items-center">
-                                                    썸네일 없음
-                                                </div>
-                                            )}
-                                        </div>
-                                    </Link>
-                                </SwiperSlide>
-                            );
-                        })}
+                        {Array.from({ length: 5 }).map((_, idx) => (
+                            <SwiperSlide key={idx}>
+                                <img
+                                    src={`/assets/image/mainTitle.png`}
+                                    alt={`메인 타이틀 ${idx + 1}`}
+                                    className="w-full h-[150px] block"
+                                />
+                            </SwiperSlide>
+                        ))}
                     </Swiper>
                 </div>
-            )}
 
-            {/* 금액 타이틀 영역 */}
-            <div className="mt-8 mb-3">
-                <div className="flex items-center gap-2 mb-2">
-                    <h2 className="text-2xl font-semibold ">금액 정보</h2>
+                {/* 가맹점 썸네일 슬라이드 */}
+                {stores?.length > 1 && (
+                    <div className=" rounded-lg mb-5 font-semibold text-base truncate">
+                        <Swiper
+                            modules={[Autoplay]}
+                            slidesPerView="auto"
+                            spaceBetween={20}
+                            loop={true}
+                            allowTouchMove={false}
+                            autoplay={{
+                                delay: 0,
+                                disableOnInteraction: false,
+                                pauseOnMouseEnter: false,
+                                stopOnLastSlide: false,
+                            }}
+                            onInit={(swiper) => swiper.autoplay.start()}
+                            speed={3000}
+                            className="flex items-center"
+                        >
+                            {stores?.map((store, idx) => {
+                                // 최종 경로 가공
+                                const src = `${cdn}/${storeFolder}/${store.thumbnail}${store.extension}`;
+                                return (
+                                    <SwiperSlide key={idx}>
+                                        <Link
+                                            to={`/mobile/storeDetail/${store.id}`}
+                                        >
+                                            <div className="relative w-full h-[120px]">
+                                                {/* 가맹점 이름 오버레이 */}
+                                                <div className="absolute bottom-2 left-2 font-bold border border-[#fff] text-[#fff] px-2 py-1 rounded-md text-sm">
+                                                    {store.name}
+                                                </div>
+                                                {store.thumbnail ? (
+                                                    <img
+                                                        src={src}
+                                                        alt={`가게 ${store.name}`}
+                                                        className="w-full h-full object-cover rounded-xl"
+                                                    />
+                                                ) : (
+                                                    <div className="text-center items-center">
+                                                        썸네일 없음
+                                                    </div>
+                                                )}
+                                            </div>
+                                        </Link>
+                                    </SwiperSlide>
+                                );
+                            })}
+                        </Swiper>
+                    </div>
+                )}
+
+                {/* 금액 타이틀 영역 */}
+                <div className="mt-8 mb-3">
+                    <div className="flex items-center gap-2 mb-2">
+                        <h2 className="text-2xl font-semibold ">금액 정보</h2>
+                    </div>
                 </div>
-            </div>
 
-            {/* 금액 컨텐츠 영역 */}
-            <div className="mb-5 p-5 font-semibold text-base truncate bg-white rounded-xl border-[#580098] border">
+                {/* 금액 컨텐츠 영역 */}
+                <div className="mb-5 p-5 font-semibold text-base truncate bg-white rounded-xl border-[#580098] border">
+                    {customerId ? (
+                        <div>
+                            <div className="flex justify-between border-b border-[#580098] p-5">
+                                <span>현재 보유 포인트</span>
+                                <span className="text-[#580098]">13,500P</span>
+                            </div>
+                            <div className="flex flex-col">
+                                <Link to={`/mobile/gradeGuide`}>
+                                    <div className="flex justify-between border-b border-[#580098] p-5">
+                                        <div className="flex flex-col">
+                                            <span>현재 나의 등급</span>
+                                            <span className="mt-3">
+                                                [ {""}
+                                                {CustomerGrades[
+                                                    customer?.customerGrade ??
+                                                        ""
+                                                ] ?? "-"}{" "}
+                                                회원 ]
+                                            </span>
+                                        </div>
+                                        <div className="flex items-end">
+                                            <span className="text-[#A19CB4] text-sm font-normal">
+                                                적립률 3%
+                                            </span>
+                                            <span>
+                                                <img
+                                                    src={`/assets/image/customerGrade/${customer?.customerGrade?.toLowerCase()}Grade.png`}
+                                                    alt={`${CustomerGrades[customer?.customerGrade ?? ""] ?? "-"} 등급`}
+                                                    className="block"
+                                                ></img>
+                                            </span>
+                                        </div>
+                                    </div>
+                                </Link>
+                                <div className="p-5">
+                                    <div>최근 결제 내역</div>
+                                    <div className="flex flex-col bg-[#ededed] rounded-lg p-4 mt-2 text-sm font-semibold">
+                                        <span>금액 : 15,000원</span>
+                                        <span>시간 : 2025.10.10 14:02:17</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    ) : (
+                        <div className="text-center">
+                            <p>로그인 후 확인할 수 있습니다</p>
+                            <p>
+                                <Link
+                                    className="underline text-[#580098] font-bold"
+                                    to={`/mobile/gradeGuide`}
+                                >
+                                    [ 등급 안내 ]
+                                </Link>
+                            </p>
+                        </div>
+                    )}
+                </div>
+
+                {/* 공지사항 타이틀 영역 */}
+                <div className="mt-8 mb-3">
+                    <div className="flex items-center gap-2 mb-2">
+                        <h2 className="text-2xl font-semibold ">공지사항</h2>
+                    </div>
+                </div>
+
+                {/* 공지사항 컨텐츠 영역 */}
+                <div>
+                    <div className="flex flex-col p-5 font-normal text-sm bg-white rounded-xl border-[#580098] border">
+                        <div className="flex flex-col">
+                            {notices.length > 0 ? (
+                                notices.map((notice, idx) => (
+                                    <Link
+                                        to={`/mobile/noticeDetail/${notice.id}`}
+                                    >
+                                        <div
+                                            key={idx}
+                                            className="flex p-2 border-b border-[#580098]"
+                                        >
+                                            <span className="bg-[#580098] w-14 text-[#fff] text-center rounded-md mr-4 flex-shrink-0">
+                                                공지
+                                            </span>
+                                            <span className="truncate whitespace-nowrap overflow-hidden">
+                                                {notice.title}
+                                            </span>
+                                        </div>
+                                    </Link>
+                                ))
+                            ) : (
+                                <div className="p-2 text-gray-400">
+                                    공지사항이 없습니다.
+                                </div>
+                            )}
+                        </div>
+                    </div>
+                </div>
+
                 {customerId ? (
                     <div>
-                        <div className="flex justify-between border-b border-[#580098] p-5">
-                            <span>현재 보유 포인트</span>
-                            <span className="text-[#580098]">13,500P</span>
+                        {/* 나의 정보 영역 */}
+                        <div className="bg-[#fff] border-collapse rounded-2xl shadow-sm mt-8 border border-[#580098]">
+                            <button
+                                className="w-full px-4 py-5 flex items-center justify-between"
+                                onClick={myInfoButton}
+                            >
+                                <span className="text-left  font-bold">
+                                    나의 정보
+                                </span>
+                                <span className="float-right">
+                                    <MdArrowForwardIos />
+                                </span>
+                            </button>
                         </div>
-                        <div className="flex flex-col">
-                            <Link to={`/mobile/gradeGuide`}>
-                                <div className="flex justify-between border-b border-[#580098] p-5">
-                                    <div className="flex flex-col">
-                                        <span>현재 나의 등급</span>
-                                        <span className="mt-3">
-                                            [ {""}
-                                            {CustomerGrades[
-                                                customer?.customerGrade ?? ""
-                                            ] ?? "-"}{" "}
-                                            회원 ]
-                                        </span>
-                                    </div>
-                                    <div className="flex items-end">
-                                        <span className="text-[#A19CB4] text-sm font-normal">
-                                            적립률 3%
-                                        </span>
-                                        <span>
+                        {/* 나의 등급 타이틀 영역 */}
+                        <div className="mt-8 mb-3">
+                            <div className="flex items-center gap-2 mb-2">
+                                <h2 className="text-2xl font-semibold ">
+                                    나의 등급
+                                </h2>
+                            </div>
+                        </div>
+                        {/* 나의 등급 컨텐츠 영역 */}
+                        <div>
+                            <div className="grid grid-cols-3 gap-4 bg-white rounded-xl border border-[#580098] p-5 mb-3 items-center">
+                                <span>
+                                    {CustomerGrades[
+                                        customer?.customerGrade ?? ""
+                                    ] ?? "-"}{" "}
+                                    회원
+                                </span>
+                                <span>
+                                    <img
+                                        src={`/assets/image/customerGrade/${customer?.customerGrade?.toLowerCase()}Grade.png`}
+                                        alt={`${CustomerGrades[customer?.customerGrade ?? ""] ?? "-"} 등급`}
+                                    ></img>
+                                </span>
+                            </div>
+                            <div className="bg-white rounded-xl border border-[#580098] p-5 mb-3 flex items-center">
+                                <span>
+                                    쿠폰 발급 가능 여부{" "}
+                                    {customer?.couponAvailable === "Y"
+                                        ? "✅"
+                                        : "❌"}
+                                </span>
+                                {/* 실제로 활용하게 될 경우 이벤트 만들기 */}
+                                {customer?.couponAvailable === "Y" && (
+                                    <button>쿠폰신청 하기</button>
+                                )}
+                            </div>
+                        </div>
+                        {/* 내 스탬프 타이틀 영역 */}
+                        <div className="mt-8 mb-3">
+                            <div className="flex items-center gap-2 mb-2">
+                                <h2 className="text-2xl font-semibold ">
+                                    내 스탬프 카드
+                                </h2>
+                            </div>
+                        </div>
+                        {/* 내 스탬프 컨텐츠 영역 */}
+                        <div>
+                            <div className="grid grid-cols-3 gap-4 bg-white rounded-xl border-[#580098] border p-5 mb-3 items-center ">
+                                {stores?.map((store, idx) => {
+                                    // 최종 파일 첨부 경로 가공
+                                    const src = `${cdn}/${storeFolder}/${store.thumbnail}${store.extension}`;
+
+                                    // 방문 여부 체크
+                                    const isStamped = stamps?.some(
+                                        (s) => s.storeId === store.id
+                                    );
+
+                                    return (
+                                        <button
+                                            key={idx}
+                                            className="relative rounded-lg overflow-hidden"
+                                            onClick={() =>
+                                                isStamped
+                                                    ? myStampButton()
+                                                    : notMyStampButton(store.id)
+                                            }
+                                        >
+                                            <div className="absolute text-[#fff] z-10 text-xs p-2">
+                                                {store.name}
+                                            </div>
                                             <img
-                                                src={`/assets/image/customerGrade/${customer?.customerGrade?.toLowerCase()}Grade.png`}
-                                                alt={`${CustomerGrades[customer?.customerGrade ?? ""] ?? "-"} 등급`}
-                                                className="block"
-                                            ></img>
-                                        </span>
-                                    </div>
-                                </div>
-                            </Link>
-                            <div className="p-5">
-                                <div>최근 결제 내역</div>
-                                <div className="flex flex-col bg-[#ededed] rounded-lg p-4 mt-2 text-sm font-semibold">
-                                    <span>금액 : 15,000원</span>
-                                    <span>시간 : 2025.10.10 14:02:17</span>
-                                </div>
+                                                src={src}
+                                                className="w-full h-28 object-cover transition-all duration-500 brightness-100"
+                                                alt={store.name}
+                                            />
+                                            {isStamped && (
+                                                <img
+                                                    src="/assets/image/mobile/checkImage.jpg"
+                                                    alt="stamp"
+                                                    className="absolute inset-0 m-auto w-16 h-16 animate-[stampIn_0.4s_ease-out]"
+                                                />
+                                            )}
+                                        </button>
+                                    );
+                                })}
                             </div>
                         </div>
                     </div>
                 ) : (
-                    <div className="text-center">
-                        <p>로그인 후 확인할 수 있습니다</p>
-                        <p>
-                            <Link
-                                className="underline text-[#580098] font-bold"
-                                to={`/mobile/gradeGuide`}
-                            >
-                                [ 등급 안내 ]
-                            </Link>
-                        </p>
-                    </div>
+                    <div></div>
                 )}
-            </div>
 
-            {/* 공지사항 타이틀 영역 */}
-            <div className="mt-8 mb-3">
-                <div className="flex items-center gap-2 mb-2">
-                    <h2 className="text-2xl font-semibold ">공지사항</h2>
-                </div>
-            </div>
-
-            {/* 공지사항 컨텐츠 영역 */}
-            <div>
-                <div className="flex flex-col p-5 font-normal text-sm bg-white rounded-xl border-[#580098] border">
-                    <div className="flex flex-col">
-                        {notices.length > 0 ? (
-                            notices.map((notice, idx) => (
-                                <Link to={`/mobile/noticeDetail/${notice.id}`}>
-                                    <div
-                                        key={idx}
-                                        className="flex p-2 border-b border-[#580098]"
-                                    >
-                                        <span className="bg-[#580098] w-14 text-[#fff] text-center rounded-md mr-4 flex-shrink-0">
-                                            공지
-                                        </span>
-                                        <span className="truncate whitespace-nowrap overflow-hidden">
-                                            {notice.title}
-                                        </span>
-                                    </div>
-                                </Link>
-                            ))
-                        ) : (
-                            <div className="p-2 text-gray-400">
-                                공지사항이 없습니다.
+                {/* NFT 컨텐츠 영역 */}
+                {customerId ? (
+                    <div>
+                        {/* NFT 타이틀 영역 */}
+                        <div className="mt-8 mb-3">
+                            <div className="flex items-center gap-2 mb-2">
+                                <h2 className="text-2xl font-semibold ">
+                                    최근 NFT 목록
+                                </h2>
                             </div>
-                        )}
-                    </div>
-                </div>
-            </div>
-
-            {customerId ? (
-                <div>
-                    {/* 나의 정보 영역 */}
-                    <div className="bg-[#fff] border-collapse rounded-2xl shadow-sm mt-8 border border-[#580098]">
-                        <button
-                            className="w-full px-4 py-5 flex items-center justify-between"
-                            onClick={myInfoButton}
-                        >
-                            <span className="text-left  font-bold">
-                                나의 정보
-                            </span>
-                            <span className="float-right">
-                                <MdArrowForwardIos />
-                            </span>
-                        </button>
-                    </div>
-                    {/* 나의 등급 타이틀 영역 */}
-                    <div className="mt-8 mb-3">
-                        <div className="flex items-center gap-2 mb-2">
-                            <h2 className="text-2xl font-semibold ">
-                                나의 등급
-                            </h2>
                         </div>
-                    </div>
-                    {/* 나의 등급 컨텐츠 영역 */}
-                    <div>
-                        <div className="grid grid-cols-3 gap-4 bg-white rounded-xl border border-[#580098] p-5 mb-3 items-center">
-                            <span>
-                                {CustomerGrades[
-                                    customer?.customerGrade ?? ""
-                                ] ?? "-"}{" "}
-                                회원
-                            </span>
-                            <span>
-                                <img
-                                    src={`/assets/image/customerGrade/${customer?.customerGrade?.toLowerCase()}Grade.png`}
-                                    alt={`${CustomerGrades[customer?.customerGrade ?? ""] ?? "-"} 등급`}
-                                ></img>
-                            </span>
-                        </div>
-                        <div className="bg-white rounded-xl border border-[#580098] p-5 mb-3 flex items-center">
-                            <span>
-                                쿠폰 발급 가능 여부{" "}
-                                {customer?.couponAvailable === "Y"
-                                    ? "✅"
-                                    : "❌"}
-                            </span>
-                            {/* 실제로 활용하게 될 경우 이벤트 만들기 */}
-                            {customer?.couponAvailable === "Y" && (
-                                <button>쿠폰신청 하기</button>
-                            )}
-                        </div>
-                    </div>
-                    {/* 내 스탬프 타이틀 영역 */}
-                    <div className="mt-8 mb-3">
-                        <div className="flex items-center gap-2 mb-2">
-                            <h2 className="text-2xl font-semibold ">
-                                내 스탬프 카드
-                            </h2>
-                        </div>
-                    </div>
-                    {/* 내 스탬프 컨텐츠 영역 */}
-                    <div>
-                        <div className="grid grid-cols-3 gap-4 bg-white rounded-xl border-[#580098] border p-5 mb-3 items-center ">
-                            {stores?.map((store, idx) => {
-                                // 최종 파일 첨부 경로 가공
-                                const src = `${cdn}/${storeFolder}/${store.thumbnail}${store.extension}`;
-
-                                // 방문 여부 체크
-                                const isStamped = stamps?.some(
-                                    (s) => s.storeId === store.id
-                                );
-
-                                return (
-                                    <button
-                                        key={idx}
-                                        className="relative rounded-lg overflow-hidden"
-                                        onClick={() =>
-                                            isStamped
-                                                ? myStampButton()
-                                                : notMyStampButton(store.id)
-                                        }
-                                    >
-                                        <div className="absolute text-[#fff] z-10 text-xs p-2">
-                                            {store.name}
+                        {/* NFT 컨텐츠 영역 */}
+                        <section>
+                            {nftLogs.length > 0 ? (
+                                nftLogs.map((nft, idx) => (
+                                    <Link to={`/mobile/nftDetail/${nft.id}`}>
+                                        <div
+                                            key={idx}
+                                            className="bg-white rounded-xl shadow-sm border border-[#580098] p-5 mb-3 flex items-center"
+                                        >
+                                            {/* 기존 데이터는 그대로 */}
+                                            <div className="flex items-center">
+                                                <img
+                                                    src="/assets/image/mobile/nftIcon.svg"
+                                                    alt="nft 리스트 아이콘"
+                                                />
+                                                <div className="flex flex-col ml-3 ">
+                                                    <p className="text-xl font-semibold mb-1 ">
+                                                        {nft.storeName}
+                                                    </p>
+                                                    <p className="text-xs text-[#999ca2]">
+                                                        <span className="font-bold mr-2">
+                                                            NFT ID
+                                                        </span>
+                                                        <span className="font-normal ">
+                                                            {nft.tokenId}
+                                                        </span>
+                                                    </p>
+                                                </div>
+                                            </div>
                                         </div>
-                                        <img
-                                            src={src}
-                                            className="w-full h-28 object-cover transition-all duration-500 brightness-100"
-                                            alt={store.name}
-                                        />
-                                        {isStamped && (
-                                            <img
-                                                src="/assets/image/mobile/checkImage.jpg"
-                                                alt="stamp"
-                                                className="absolute inset-0 m-auto w-16 h-16 animate-[stampIn_0.4s_ease-out]"
-                                            />
-                                        )}
-                                    </button>
-                                );
-                            })}
-                        </div>
+                                    </Link>
+                                ))
+                            ) : (
+                                <div className="bg-white rounded-xl shadow-sm border border-[#580098] p-6 flex flex-col items-center justify-center">
+                                    <p className="text-black text-sm font-semibold">
+                                        최근 NFT 발급 기록이 없습니다.
+                                    </p>
+                                    <p className="text-gray-500 text-xs mt-1">
+                                        새로운 NFT가 발급되면 이곳에 표시됩니다.
+                                    </p>
+                                </div>
+                            )}
+                        </section>
                     </div>
-                </div>
-            ) : (
-                <div></div>
-            )}
+                ) : (
+                    <div></div>
+                )}
 
-            {/* NFT 컨텐츠 영역 */}
-            {customerId ? (
-                <div>
-                    {/* NFT 타이틀 영역 */}
-                    <div className="mt-8 mb-3">
-                        <div className="flex items-center gap-2 mb-2">
-                            <h2 className="text-2xl font-semibold ">
-                                최근 NFT 목록
-                            </h2>
+                {customerId ? (
+                    <div>
+                        {/* 방문 기록 타이틀 영역 */}
+                        <div className="mt-8 mb-3">
+                            <div className="flex items-center gap-2 mb-2">
+                                <h2 className="text-2xl font-semibold ">
+                                    최근 방문기록
+                                </h2>
+                            </div>
                         </div>
-                    </div>
-                    {/* NFT 컨텐츠 영역 */}
-                    <section>
-                        {nftLogs.length > 0 ? (
-                            nftLogs.map((nft, idx) => (
-                                <Link to={`/mobile/nftDetail/${nft.id}`}>
+
+                        {/* 방문 기록 컨텐츠 영역 */}
+                        <section>
+                            {visitLogs.length > 0 && customerId ? (
+                                visitLogs.map((visitLog, idx) => (
                                     <div
                                         key={idx}
                                         className="bg-white rounded-xl shadow-sm border border-[#580098] p-5 mb-3 flex items-center"
                                     >
-                                        {/* 기존 데이터는 그대로 */}
                                         <div className="flex items-center">
                                             <img
-                                                src="/assets/image/mobile/nftIcon.svg"
-                                                alt="nft 리스트 아이콘"
+                                                src="/assets/image/mobile/visitIcon.svg"
+                                                alt="방문기록 리스트 아이콘"
                                             />
                                             <div className="flex flex-col ml-3 ">
                                                 <p className="text-xl font-semibold mb-1 ">
-                                                    {nft.storeName}
+                                                    {visitLog.storeName}
                                                 </p>
                                                 <p className="text-xs text-[#999ca2]">
                                                     <span className="font-bold mr-2">
-                                                        NFT ID
+                                                        방문 시간
                                                     </span>
-                                                    <span className="font-normal ">
-                                                        {nft.tokenId}
+                                                    <span className="font-normal">
+                                                        {visitLog.createdAt.replace(
+                                                            "T",
+                                                            " "
+                                                        )}
                                                     </span>
                                                 </p>
                                             </div>
                                         </div>
                                     </div>
-                                </Link>
-                            ))
-                        ) : (
-                            <div className="bg-white rounded-xl shadow-sm border border-[#580098] p-6 flex flex-col items-center justify-center">
-                                <p className="text-black text-sm font-semibold">
-                                    최근 NFT 발급 기록이 없습니다.
-                                </p>
-                                <p className="text-gray-500 text-xs mt-1">
-                                    새로운 NFT가 발급되면 이곳에 표시됩니다.
-                                </p>
-                            </div>
-                        )}
-                    </section>
-                </div>
-            ) : (
-                <div></div>
-            )}
-
-            {customerId ? (
-                <div>
-                    {/* 방문 기록 타이틀 영역 */}
-                    <div className="mt-8 mb-3">
-                        <div className="flex items-center gap-2 mb-2">
-                            <h2 className="text-2xl font-semibold ">
-                                최근 방문기록
-                            </h2>
-                        </div>
-                    </div>
-
-                    {/* 방문 기록 컨텐츠 영역 */}
-                    <section>
-                        {visitLogs.length > 0 && customerId ? (
-                            visitLogs.map((visitLog, idx) => (
-                                <div
-                                    key={idx}
-                                    className="bg-white rounded-xl shadow-sm border border-[#580098] p-5 mb-3 flex items-center"
-                                >
-                                    <div className="flex items-center">
-                                        <img
-                                            src="/assets/image/mobile/visitIcon.svg"
-                                            alt="방문기록 리스트 아이콘"
-                                        />
-                                        <div className="flex flex-col ml-3 ">
-                                            <p className="text-xl font-semibold mb-1 ">
-                                                {visitLog.storeName}
-                                            </p>
-                                            <p className="text-xs text-[#999ca2]">
-                                                <span className="font-bold mr-2">
-                                                    방문 시간
-                                                </span>
-                                                <span className="font-normal">
-                                                    {visitLog.createdAt.replace(
-                                                        "T",
-                                                        " "
-                                                    )}
-                                                </span>
-                                            </p>
-                                        </div>
-                                    </div>
+                                ))
+                            ) : (
+                                <div className="bg-white rounded-xl shadow-sm border border-[#580098] p-6 flex flex-col items-center justify-center  text-[#999ca2]">
+                                    <img
+                                        src="/assets/image/mobile/noVisitIcon.svg"
+                                        alt="방문기록이 없습니다 아이콘"
+                                    />
+                                    <p className="text-lg font-semibold mt-2">
+                                        방문 기록이 없습니다.
+                                    </p>
+                                    <p className="text-sm font-light mt-1">
+                                        새로운 방문이 등록되면 이곳에
+                                        표시됩니다.
+                                    </p>
                                 </div>
-                            ))
-                        ) : (
-                            <div className="bg-white rounded-xl shadow-sm border border-[#580098] p-6 flex flex-col items-center justify-center  text-[#999ca2]">
-                                <img
-                                    src="/assets/image/mobile/noVisitIcon.svg"
-                                    alt="방문기록이 없습니다 아이콘"
-                                />
-                                <p className="text-lg font-semibold mt-2">
-                                    방문 기록이 없습니다.
-                                </p>
-                                <p className="text-sm font-light mt-1">
-                                    새로운 방문이 등록되면 이곳에 표시됩니다.
-                                </p>
-                            </div>
-                        )}
-                    </section>
-                </div>
-            ) : (
-                <div></div>
-            )}
+                            )}
+                        </section>
+                    </div>
+                ) : (
+                    <div></div>
+                )}
+            </div>
 
             {/* 하단 네비게이션 */}
             {customerId ? <MobileFooter /> : <MobileFooter2 />}

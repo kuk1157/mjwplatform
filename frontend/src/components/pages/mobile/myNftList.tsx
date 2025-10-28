@@ -44,68 +44,70 @@ export function MobileMyNftList() {
     };
 
     return (
-        <div className="min-h-screen bg-white p-4">
-            {/* 모바일 타이틀 */}
-            {<MobileMain param={Number(customerId)} />}
-            <div className="mt-8 mb-3">
-                <div className="flex items-center gap-2 mb-2">
-                    <button
-                        className="w-full flex items-center justify-between"
-                        onClick={handleBack}
-                    >
-                        <h2 className="text-2xl font-semibold font-Pretendard flex items-center">
-                            <span className="mr-2">
-                                <MdArrowBackIosNew />
-                            </span>
-                            <span>나의 NFT 갤러리</span>
-                        </h2>
-                    </button>
+        <div className="min-h-screen bg-white">
+            <div className="p-4 mb-20">
+                {/* 모바일 타이틀 */}
+                {<MobileMain param={Number(customerId)} />}
+                <div className="mt-8 mb-3">
+                    <div className="flex items-center gap-2 mb-2">
+                        <button
+                            className="w-full flex items-center justify-between"
+                            onClick={handleBack}
+                        >
+                            <h2 className="text-2xl font-semibold font-Pretendard flex items-center">
+                                <span className="mr-2">
+                                    <MdArrowBackIosNew />
+                                </span>
+                                <span>나의 NFT 갤러리</span>
+                            </h2>
+                        </button>
+                    </div>
                 </div>
-            </div>
 
-            {/* NFT 목록 */}
-            <section>
-                {nftLogs.length > 0 ? (
-                    nftLogs.map((nft, idx) => (
-                        <Link to={`/mobile/nftDetail/${nft.id}`}>
-                            <div
-                                key={idx}
-                                className="bg-white rounded-xl shadow-sm border border-gray-100 p-5 mb-3 flex items-center"
-                            >
-                                {/* 기존 데이터는 그대로 */}
-                                <div className="flex items-center">
-                                    <img
-                                        src="/assets/image/mobile/nftIcon.svg"
-                                        alt="nft 리스트 아이콘"
-                                    />
-                                    <div className="flex flex-col ml-3 font-Pretendard">
-                                        <p className="text-xl font-semibold mb-1 ">
-                                            {nft.storeName}
-                                        </p>
-                                        <p className="text-xs text-[#999ca2]">
-                                            <span className="font-bold mr-2">
-                                                NFT ID
-                                            </span>
-                                            <span className="font-normal ">
-                                                {nft.tokenId}
-                                            </span>
-                                        </p>
+                {/* NFT 목록 */}
+                <section>
+                    {nftLogs.length > 0 ? (
+                        nftLogs.map((nft, idx) => (
+                            <Link to={`/mobile/nftDetail/${nft.id}`}>
+                                <div
+                                    key={idx}
+                                    className="bg-white rounded-xl shadow-sm border border-gray-100 p-5 mb-3 flex items-center"
+                                >
+                                    {/* 기존 데이터는 그대로 */}
+                                    <div className="flex items-center">
+                                        <img
+                                            src="/assets/image/mobile/nftIcon.svg"
+                                            alt="nft 리스트 아이콘"
+                                        />
+                                        <div className="flex flex-col ml-3 font-Pretendard">
+                                            <p className="text-xl font-semibold mb-1 ">
+                                                {nft.storeName}
+                                            </p>
+                                            <p className="text-xs text-[#999ca2]">
+                                                <span className="font-bold mr-2">
+                                                    NFT ID
+                                                </span>
+                                                <span className="font-normal ">
+                                                    {nft.tokenId}
+                                                </span>
+                                            </p>
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
-                        </Link>
-                    ))
-                ) : (
-                    <div className="bg-white rounded-xl shadow-sm border border-gray-100 p-6 flex flex-col items-center justify-center">
-                        <p className="text-black text-sm font-semibold">
-                            NFT 발급 기록이 없습니다.
-                        </p>
-                        <p className="text-gray-500 text-xs mt-1">
-                            새로운 NFT가 발급되면 이곳에 표시됩니다.
-                        </p>
-                    </div>
-                )}
-            </section>
+                            </Link>
+                        ))
+                    ) : (
+                        <div className="bg-white rounded-xl shadow-sm border border-gray-100 p-6 flex flex-col items-center justify-center">
+                            <p className="text-black text-sm font-semibold">
+                                NFT 발급 기록이 없습니다.
+                            </p>
+                            <p className="text-gray-500 text-xs mt-1">
+                                새로운 NFT가 발급되면 이곳에 표시됩니다.
+                            </p>
+                        </div>
+                    )}
+                </section>
+            </div>
             {/* 하단 네비게이션 */}
             {customerId && <MobileFooter />}
         </div>

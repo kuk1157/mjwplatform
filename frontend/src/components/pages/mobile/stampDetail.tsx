@@ -52,59 +52,63 @@ export function MobileMyStampDetail() {
     };
 
     return (
-        <div className="min-h-screen bg-white p-4">
-            {/* 모바일 타이틀 */}
-            {<MobileMain param={Number(customerId)} />}
+        <div className="min-h-screen bg-white">
+            <div className="p-4 mb-20">
+                {/* 모바일 타이틀 */}
+                {<MobileMain param={Number(customerId)} />}
 
-            <div className="mt-8 mb-3">
-                <div className="flex items-center gap-2 mb-2">
-                    <button
-                        className="w-full flex items-center justify-between"
-                        onClick={handleBack}
-                    >
-                        <h2 className="text-2xl font-semibold font-Pretendard flex items-center">
-                            <span className="mr-2">
-                                <MdArrowBackIosNew />
-                            </span>
-                            <span>나의 스탬프 상세보기</span>
-                        </h2>
-                    </button>
-                </div>
-            </div>
-            {stamp && store ? (
-                <div>
-                    <div className=" px-3 py-3 mb-3 flex items-center">
-                        <div className="w-full flex justify-center items-center">
-                            <img
-                                src={`${cdn}/${storeFolder}/${store.thumbnail}${store.extension}`}
-                                alt={store.name}
-                            />
-                        </div>
-                    </div>
-
-                    <div className="bg-white rounded-xl shadow-sm shadow-[rgb(92, 123, 185, 0.102)] border border-gray-100 px-3 py-4 mb-3 flex items-center">
-                        <div className="flex flex-col ml-3 font-Pretendard min-w-0">
-                            <p className="text-base text-[#000]">
-                                매장 이름 : {store.name}
-                            </p>
-                            <p className="text-xs text-[#999ca2] flex">
-                                <span className="font-normal truncate w-full">
-                                    <p>
-                                        {stamp.createdAt.replace("T", " ")}
-                                        &nbsp;초에
-                                    </p>
-                                    <p>
-                                        {store.name} 매장에서 {stamp.id}
-                                        번째로 발급받은 스탬프 입니다.
-                                    </p>
+                <div className="mt-8 mb-3">
+                    <div className="flex items-center gap-2 mb-2">
+                        <button
+                            className="w-full flex items-center justify-between"
+                            onClick={handleBack}
+                        >
+                            <h2 className="text-2xl font-semibold font-Pretendard flex items-center">
+                                <span className="mr-2">
+                                    <MdArrowBackIosNew />
                                 </span>
-                            </p>
-                        </div>
+                                <span>나의 스탬프 상세보기</span>
+                            </h2>
+                        </button>
                     </div>
                 </div>
-            ) : (
-                <p className="text-gray-400">스탬프 정보를 불러오는 중...</p>
-            )}
+                {stamp && store ? (
+                    <div>
+                        <div className=" px-3 py-3 mb-3 flex items-center">
+                            <div className="w-full flex justify-center items-center">
+                                <img
+                                    src={`${cdn}/${storeFolder}/${store.thumbnail}${store.extension}`}
+                                    alt={store.name}
+                                />
+                            </div>
+                        </div>
+
+                        <div className="bg-white rounded-xl shadow-sm shadow-[rgb(92, 123, 185, 0.102)] border border-gray-100 px-3 py-4 mb-3 flex items-center">
+                            <div className="flex flex-col ml-3 font-Pretendard min-w-0">
+                                <p className="text-base text-[#000]">
+                                    매장 이름 : {store.name}
+                                </p>
+                                <p className="text-xs text-[#999ca2] flex">
+                                    <span className="font-normal truncate w-full">
+                                        <p>
+                                            {stamp.createdAt.replace("T", " ")}
+                                            &nbsp;초에
+                                        </p>
+                                        <p>
+                                            {store.name} 매장에서 {stamp.id}
+                                            번째로 발급받은 스탬프 입니다.
+                                        </p>
+                                    </span>
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                ) : (
+                    <p className="text-gray-400">
+                        스탬프 정보를 불러오는 중...
+                    </p>
+                )}
+            </div>
 
             {/* 하단 네비게이션 */}
             {customerId && <MobileFooter />}

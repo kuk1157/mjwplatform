@@ -40,41 +40,43 @@ export function MobileMyWallet() {
     };
 
     return (
-        <div className="min-h-screen bg-white p-4">
-            {/* 모바일 타이틀 */}
-            {<MobileMain param={Number(customerId)} />}
+        <div className="min-h-screen bg-white">
+            <div className="p-4 mb-20">
+                {/* 모바일 타이틀 */}
+                {<MobileMain param={Number(customerId)} />}
 
-            <div className="mt-8 mb-3">
-                <div className="flex items-center gap-2 mb-2">
-                    <button
-                        className="w-full flex items-center justify-between"
-                        onClick={handleBack}
-                    >
-                        <h2 className="text-2xl font-semibold font-Pretendard flex items-center">
-                            <span className="mr-2">
-                                <MdArrowBackIosNew />
-                            </span>
-                            <span>나의 정보</span>
-                        </h2>
-                    </button>
-                </div>
-            </div>
-
-            <div className="bg-white rounded-xl shadow-sm shadow-[#5C7BB91A] border border-gray-100 px-3 py-28 mb-3 flex items-center">
-                <div className="w-full flex justify-center items-center font-Pretendard min-w-0 text-[#999ca2] text-base font-normal">
-                    <div className="flex justify-center items-center">
-                        <MdAccountBalanceWallet className="text-6xl text-[#E61F2C]" />
+                <div className="mt-8 mb-3">
+                    <div className="flex items-center gap-2 mb-2">
+                        <button
+                            className="w-full flex items-center justify-between"
+                            onClick={handleBack}
+                        >
+                            <h2 className="text-2xl font-semibold font-Pretendard flex items-center">
+                                <span className="mr-2">
+                                    <MdArrowBackIosNew />
+                                </span>
+                                <span>나의 정보</span>
+                            </h2>
+                        </button>
                     </div>
                 </div>
-            </div>
 
-            <div className="bg-white rounded-xl shadow-sm shadow-[#5C7BB91A] border border-gray-100 px-3 py-4 mb-3 flex items-center">
-                <div className="flex flex-col ml-3 font-Pretendard min-w-0">
-                    <p className="text-xs text-[#999ca2] flex">
-                        <span className="font-normal truncate w-full">
-                            {Wallet}
-                        </span>
-                    </p>
+                <div className="bg-white rounded-xl shadow-sm shadow-[#5C7BB91A] border border-gray-100 px-3 py-28 mb-3 flex items-center">
+                    <div className="w-full flex justify-center items-center font-Pretendard min-w-0 text-[#999ca2] text-base font-normal">
+                        <div className="flex justify-center items-center">
+                            <MdAccountBalanceWallet className="text-6xl text-[#E61F2C]" />
+                        </div>
+                    </div>
+                </div>
+
+                <div className="bg-white rounded-xl shadow-sm shadow-[#5C7BB91A] border border-gray-100 px-3 py-4 mb-3 flex items-center">
+                    <div className="flex flex-col ml-3 font-Pretendard min-w-0">
+                        <p className="text-xs text-[#999ca2] flex">
+                            <span className="font-normal truncate w-full">
+                                {Wallet}
+                            </span>
+                        </p>
+                    </div>
                 </div>
             </div>
 
