@@ -15,6 +15,10 @@ export function MobileStoreInquiryCreate() {
     const navigate = useNavigate();
     const customerId = localStorage.getItem("customerId"); // 고객 번호 localStroage
 
+    if (customerId) {
+        navigate(-1);
+    }
+
     const handleBack = () => {
         navigate(-1); // 뒤로 가기
     };
