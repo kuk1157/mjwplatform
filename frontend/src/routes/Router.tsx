@@ -62,7 +62,14 @@ const HomePageStoreInquiry = Loadable({
     ),
 });
 
-// 입점문의 첫 페이지(등록,문의 2가지 버튼)
+// 입점문의 등록
+const HomePageStoreInquiryCreate = Loadable({
+    Component: lazy(
+        () => import("../components/pages/homePage/inquiry/storeInquiryCreate")
+    ),
+});
+
+// 입점문의 확인
 const HomePageStoreInquirySearch = Loadable({
     Component: lazy(
         () => import("../components/pages/homePage/inquiry/storeInquirySearch")
@@ -385,7 +392,13 @@ const Router = createBrowserRouter([
                 element: <HomePageStoreInquiry />,
             },
 
-            // 입점 문의 메인페이지
+            // 입점 문의 등록
+            {
+                path: "/inquiry/storeInquiryCreate",
+                element: <HomePageStoreInquiryCreate />,
+            },
+
+            // 입점 문의 입점 확인
             {
                 path: "/inquiry/storeInquirySearch",
                 element: <HomePageStoreInquirySearch />,

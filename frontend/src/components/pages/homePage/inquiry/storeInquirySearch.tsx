@@ -1,5 +1,7 @@
 import { Link, useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
+import { fetchUser } from "src/utils/userApi";
+import { useQuery } from "react-query";
 
 // [아이콘 및 공통 컴포넌트]
 import { MainContainer } from "src/components/molecules/container";
@@ -7,13 +9,24 @@ import { MenuList } from "src/constants/index";
 import { useTranslation } from "react-i18next";
 
 // [공통 데이터 인터페이스]
-function StoreInquirySearch() {
-    const token = localStorage.getItem("accessToken");
+function HomePageStoreInquirySearch() {
+    const { data: user } = useQuery(
+        ["userSelectorUpdated"], // 기존 selector 이름 그대로 key 사용
+        fetchUser,
+        {
+            enabled: !!localStorage.getItem("accessToken"), // 토큰 있을 때만 실행
+            staleTime: 5 * 60 * 1000,
+            cacheTime: 10 * 60 * 1000,
+            refetchOnWindowFocus: false,
+        }
+    );
+
     const navigate = useNavigate();
-    console.log(token);
-    if (token) {
-        navigate(-1);
-    }
+    useEffect(() => {
+        if (user) {
+            navigate("/", { replace: true });
+        }
+    }, [user, navigate]);
     // 이전 버튼
     const backButton = () => {
         navigate(-1);
@@ -150,4 +163,4 @@ function StoreInquirySearch() {
     );
 }
 
-export default StoreInquirySearch;
+export default HomePageStoreInquirySearch;
