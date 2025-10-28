@@ -33,7 +33,7 @@ const menuList: MenuItem[] = [
 const MobileFooter2 = () => {
     const navigate = useNavigate();
     return (
-        <nav className="fixed bottom-0 left-0 right-0 bg-white shadow-md">
+        <nav className="fixed bottom-0 left-0 right-0 bg-white shadow-md font-Pretendard">
             <div className="flex justify-around items-center h-16 border-t">
                 {menuList.map((menu) => {
                     const fullPath = `${menu.path}`; // param 붙인 실제 URL
@@ -61,7 +61,7 @@ const MobileFooter2 = () => {
                                 />
                             </span>
                             <span
-                                className={`mt-1 font-normal font-TmoneyRoundWind ${
+                                className={`mt-1 font-normal ${
                                     isActive
                                         ? "text-[#e61f2c]"
                                         : "text-[#c7cbd2]"
