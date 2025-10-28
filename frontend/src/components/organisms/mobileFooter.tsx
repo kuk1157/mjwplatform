@@ -39,7 +39,7 @@ const MobileFooter = () => {
     const location = useLocation();
 
     return (
-        <nav className="fixed bottom-0 left-0 right-0 bg-white shadow-md">
+        <nav className="sticky bottom-0 left-0 right-0 bg-white shadow-md mt-10">
             <div className="flex justify-around items-center h-16">
                 {menuList.map((menu) => {
                     const fullPath = `${menu.path}`; // param 붙인 실제 URL
