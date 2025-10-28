@@ -7,8 +7,12 @@ import { useTranslation } from "react-i18next";
 
 // [공통 데이터 인터페이스]
 function HomePageStoreInquiry() {
+    const token = localStorage.getItem("accessToken");
     const navigate = useNavigate();
-
+    console.log(token);
+    if (token) {
+        navigate(-1);
+    }
     // 이전 버튼
     const backButton = () => {
         navigate(-1);
@@ -16,12 +20,12 @@ function HomePageStoreInquiry() {
 
     // 이전 버튼
     const inquirySubmitButton = () => {
-        navigate("/inquiry/inquiryCreate");
+        navigate("/inquiry/storeInquiryCreate");
     };
 
     // 이전 버튼
     const inquirySearchButton = () => {
-        navigate("/inquiry/inquiryList");
+        navigate("/inquiry/storeInquirySearch");
     };
 
     const { t } = useTranslation(["header"]);
