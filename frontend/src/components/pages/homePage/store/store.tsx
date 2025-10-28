@@ -175,22 +175,24 @@ function HomePageStoreList() {
                                             >
                                                 <div className="mb-4 border py-3 px-5 border-[#ccc] rounded-md flex hover:border-[#580098]">
                                                     <div>
-                                                        <div className="font-bold text-base">
-                                                            {store.name}
-                                                        </div>
                                                         <img
                                                             src={`${cdn}/${storeFolder}/${store.thumbnail}${store.extension}`}
                                                             alt={store.name}
-                                                            className="w-[50px] h-[50px] object-cover rounded-md"
+                                                            className="w-20 h-20 object-cover rounded-md"
                                                         ></img>
                                                     </div>
 
                                                     <div className="mx-5 text-sm">
-                                                        <p className="mb-3">
-                                                            {store.address}
+                                                        <p className="font-bold text-base">
+                                                            {store.name}
                                                         </p>
-                                                        <p className="">
+                                                        <p className="my-1 text-[#999CA2]">
+                                                            점주 이름 :{" "}
                                                             {store.ownerName}
+                                                        </p>
+                                                        <p className="text-[#999CA2]">
+                                                            주소 :{" "}
+                                                            {store.address}
                                                         </p>
                                                     </div>
                                                 </div>
