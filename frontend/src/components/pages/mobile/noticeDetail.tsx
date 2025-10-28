@@ -45,7 +45,7 @@ export function MobileNoticeDetail() {
 
     return (
         <div className="min-h-screen bg-white font-Pretendard">
-            <div className="p-4 mb-20">
+            <div className="p-4 mb-32">
                 {/* 모바일 타이틀 */}
                 {<MobileMain param={Number(customerId)} />}
 
@@ -84,28 +84,28 @@ export function MobileNoticeDetail() {
                             </div>
                         </div>
 
-                        <div className="bg-white rounded-xl shadow-sm shadow-[rgb(92, 123, 185, 0.102)] border border-[#580098] mb-3 flex items-center">
-                            <div className="flex flex-col min-w-0 w-full">
-                                <p className="text-sm text-[#000] px-5 pt-4">
-                                    <p>[제목]</p>
-                                    {notice.title}
-                                </p>
-                                <span className="border-b my-5 w-full border-[#580098]"></span>
-                                <p className="flex px-5 pb-4">
-                                    <span className="truncate w-full">
-                                        <p className="text-base ">
-                                            [내용]
+                        <div className="bg-white rounded-xl shadow-sm shadow-[rgb(92, 123, 185, 0.102)] border mb-3 flex items-center">
+                            <div className="flex flex-col min-w-0 w-full overflow-x-hidden">
+                                <div className="text-sm text-[#000] px-5 pt-4">
+                                    <p className="text-base font-bold">
+                                        {notice.title}
+                                    </p>
+                                    <p className="text-[#999CA2] mt-1">
+                                        {" "}
+                                        {notice?.createdAt &&
+                                            formatedDate(notice?.createdAt)}
+                                    </p>
+                                </div>
+                                <span className="border-b my-5 w-full border-[#ededed]"></span>
+                                <div className="flex px-5 pb-4">
+                                    <span className="w-full">
+                                        <div className="text-base ">
                                             {notice?.description
                                                 ? parse(notice?.description)
                                                 : ""}
-                                        </p>
-                                        <p className="text-sm text-[#000] mt-2">
-                                            <p>[작성일]</p>
-                                            {notice?.createdAt &&
-                                                formatedDate(notice?.createdAt)}
-                                        </p>
+                                        </div>
                                     </span>
-                                </p>
+                                </div>
                             </div>
                         </div>
                     </div>

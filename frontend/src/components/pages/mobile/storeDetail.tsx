@@ -166,7 +166,7 @@ export function MobileStoreDetail() {
                                 <p className="text-xl text-[#000] font-bold px-5 pt-4">
                                     {storeDetail.name}
                                 </p>
-                                <span className="border-b my-5 w-full border-[#ccc]"></span>
+                                <span className="border-b my-5 w-full border-[#ededed]"></span>
                                 <p className="flex px-5 pb-4">
                                     <span className="truncate w-full">
                                         <p className="text-base w-full flex">
