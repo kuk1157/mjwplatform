@@ -25,7 +25,7 @@ export function MobileStoreInquiry() {
 
     // 이전 버튼
     const inquirySearchButton = () => {
-        navigate("/mobile/inquiryList");
+        navigate("/mobile/inquirySearch");
     };
 
     return (

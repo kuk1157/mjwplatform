@@ -24,7 +24,7 @@ const MobileMain = ({ param }: MobileMainProps) => {
                     <div>
                         {" "}
                         <button
-                            className="cursor-poiner flex items-center justify-center border border-[#E61F2C] rounded-[25px] py-[8px] px-[14.5px] text-[#E61F2C] font-Pretendard"
+                            className="cursor-poiner flex items-center justify-center border border-[#580098] rounded-[25px] py-[8px] px-[14.5px] text-[#580098] font-Pretendard"
                             onClick={logOutButton}
                         >
                             로그아웃
@@ -33,7 +33,7 @@ const MobileMain = ({ param }: MobileMainProps) => {
                 ) : (
                     <div>
                         <button
-                            className="cursor-poiner flex items-center justify-center bg-[#E61F2C] rounded-[25px] py-[8px] px-[14.5px] text-[#fff] font-Pretendard"
+                            className="cursor-poiner flex items-center justify-center bg-[#580098] rounded-[25px] py-[8px] px-[14.5px] text-[#fff] font-Pretendard"
                             onClick={() => alert("준비중 입니다.")}
                         >
                             로그인
