@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { StoreType } from "../../../types";
 import { useQuery } from "react-query";
-import axios from "axios";
+import { UserApi } from "src/utils/userApi";
 import { useRecoilValue } from "recoil";
 import { sortState } from "src/recoil/sortState";
 import { GenericDataTable } from "src/components/organisms/genericDataTable";
@@ -24,14 +24,14 @@ export function Store() {
     const { data: storeList, isFetching } = useQuery({
         queryKey: ["storeList", page, searchQuery, sortConfig],
         queryFn: async () => {
-            const url = `/api/v1/stores?page=${page - 1}&sort=${sortConfig.key},${sortConfig.array}&size=${itemsPerPage}${searchQuery}`;
-            const res = await axios.get(url);
+            const url = `/api/v1/admin/stores?page=${page - 1}&sort=${sortConfig.key},${sortConfig.array}&size=${itemsPerPage}${searchQuery}`;
+            const res = await UserApi.get(url);
             return res.data;
         },
         refetchOnWindowFocus: false,
     });
     useEffect(() => {
-        if (!isFetching) {
+        if (!isFetching && storeList?.content) {
             setFilteredData(storeList.content);
             setTotalElements(storeList.totalElements);
         }

@@ -1,5 +1,4 @@
 import { useState, useEffect } from "react";
-import axios from "axios";
 import { useQuery } from "react-query";
 import {
     AreaChart,
@@ -40,7 +39,7 @@ function AdminPointAnalyticsPage() {
         const fetchData = async () => {
             try {
                 const [pointTotal] = await Promise.all([
-                    axios.get("/api/v1/points/admin/analytics/point/total"),
+                    UserApi.get("/api/v1/admin/analytics/point/total"),
                 ]);
                 setPointTotal(pointTotal.data); // 공지사항 추출
             } catch (error) {
@@ -58,7 +57,7 @@ function AdminPointAnalyticsPage() {
             if (endAt) params.append("end", formatDate(endAt));
 
             const res = await UserApi.get(
-                `/api/v1/points/admin/analytics/point?${params.toString()}`
+                `/api/v1/admin/analytics/point?${params.toString()}`
             );
 
             return res.data;

@@ -41,7 +41,9 @@ export function StoreCreate() {
     // 점주정보만 가져오기
     const fetchOwners = async () => {
         try {
-            const res = await UserApi.get("/api/v1/stores/available-owners"); // 가맹점 미보유 점주만 조회
+            const res = await UserApi.get(
+                "/api/v1/admin/stores/available-owners"
+            ); // 가맹점 미보유 점주만 조회
             setOwners(res.data);
             if (!res.data || res.data.length === 0) {
                 setNullOwners("선택할 점주가 없음.");
@@ -98,7 +100,7 @@ export function StoreCreate() {
         form.append("name", formData.name);
         form.append("address", formData.address);
         try {
-            await UserApi.post("/api/v1/stores", form, {
+            await UserApi.post("/api/v1/admin/stores", form, {
                 headers: { "Content-Type": "multipart/form-data" },
             });
             alert("매장 등록이 완료되었습니다.");

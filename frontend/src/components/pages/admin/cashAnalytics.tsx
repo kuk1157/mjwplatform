@@ -1,5 +1,4 @@
 import { useState, useEffect } from "react";
-import axios from "axios";
 import { useQuery } from "react-query";
 import {
     AreaChart,
@@ -40,8 +39,8 @@ function AdminCashAnalyticsPage() {
         const fetchData = async () => {
             try {
                 const [cashTotal] = await Promise.all([
-                    axios.get(
-                        "/api/v1/pointCashOutRequests/admin/analytics/cash/total"
+                    UserApi.get(
+                        "/api/v1/admin/pointCashOutRequests/analytics/cash/total"
                     ),
                 ]);
                 setCashTotal(cashTotal.data); // 공지사항 추출
@@ -60,7 +59,7 @@ function AdminCashAnalyticsPage() {
             if (endAt) params.append("end", formatDate(endAt));
 
             const res = await UserApi.get(
-                `/api/v1/pointCashOutRequests/admin/analytics/cash?${params.toString()}`
+                `/api/v1/admin/pointCashOutRequests/analytics/cash?${params.toString()}`
             );
             return res.data;
         },

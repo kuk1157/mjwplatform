@@ -71,8 +71,8 @@ function NoticeDetailPage() {
     const { data: noticeDetail } = useQuery({
         queryKey: ["noticeDetail", id],
         queryFn: async () => {
-            const url = `/api/v1/notice/${id}?lang=${currentLanguage}`;
-            const res = await axios.get(url);
+            const url = `/api/v1/admin/notices/${id}?lang=${currentLanguage}`;
+            const res = await UserApi.get(url);
 
             if (res.data.description && res.data.filePaths) {
                 const updatedContents = updateContentsWithImages(
@@ -104,7 +104,7 @@ function NoticeDetailPage() {
         if (!window.confirm("정말 공지사항을 삭제하시겠습니까?")) return;
 
         try {
-            await UserApi.delete(`/api/v1/admin/notice/${id}`, {});
+            await UserApi.delete(`/api/v1/admin/notices/${id}`, {});
             alert("공지사항 삭제(비활성화)가 완료되었습니다.");
             navigate("/admin/notice"); // 목록으로 이동
         } catch (err) {

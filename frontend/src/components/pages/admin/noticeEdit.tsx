@@ -31,7 +31,7 @@ export function NoticeEdit() {
 
     useEffect(() => {
         if (id) {
-            UserApi.get(`/api/v1/notice/${id}`)
+            UserApi.get(`/api/v1/admin/notices/${id}`)
                 .then((res) => {
                     setNotice(res.data);
                     // [presigned URL 값 추출 및 가공 ]
@@ -152,7 +152,7 @@ export function NoticeEdit() {
         });
 
         try {
-            await UserApi.put("/api/v1/admin/notice", form, {
+            await UserApi.put("/api/v1/admin/notices", form, {
                 headers: {
                     "Content-Type": "multipart/form-data",
                 },

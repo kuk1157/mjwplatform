@@ -13,7 +13,7 @@ function StoreDetail() {
 
     useEffect(() => {
         if (id) {
-            UserApi.get(`/api/v1/stores/${id}`)
+            UserApi.get(`/api/v1/admin/stores/${id}`)
                 .then((res) => setStore(res.data))
                 .catch((err) => {
                     console.error("매장 정보를 불러오는 데 실패했습니다.", err);

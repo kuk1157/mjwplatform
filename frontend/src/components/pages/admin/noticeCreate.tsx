@@ -73,7 +73,7 @@ export function NoticeCreate() {
         });
 
         try {
-            await UserApi.post("/api/v1/admin/notice", form, {
+            await UserApi.post("/api/v1/admin/notices", form, {
                 headers: {
                     "Content-Type": "multipart/form-data",
                 },

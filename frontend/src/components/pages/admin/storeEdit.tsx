@@ -36,7 +36,7 @@ function StoreEdit() {
 
     useEffect(() => {
         if (id) {
-            UserApi.get(`/api/v1/stores/${id}`)
+            UserApi.get(`/api/v1/admin/stores/${id}`)
                 .then((res) => {
                     setStore(res.data);
                     const thumbnail = res.data.thumbnail;
@@ -92,7 +92,7 @@ function StoreEdit() {
                 // 썸네일 변경 시에만 파일 추가
                 form.append("file", thumbnailFile);
             }
-            await UserApi.put(`/api/v1/stores/${id}`, form, {
+            await UserApi.put(`/api/v1/admin/stores/${id}`, form, {
                 headers: {
                     "Content-Type": "multipart/form-data",
                 },
