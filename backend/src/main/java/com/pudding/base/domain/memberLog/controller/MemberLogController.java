@@ -16,12 +16,12 @@ import java.time.LocalDate;
 @Tag(name="사용자 로그인/로그아웃 기록 API", description = "사용자 로그인/로그아웃 관련 API")
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/api/v1/memberLogs")
+@RequestMapping("/api/v1/admin")
 public class MemberLogController {
     private final MemberLogService memberLogService;
 
     @Operation(summary = "접속 통계(로그인 데이터)", description = "전체 데이터 count(검색 항목 4가지 포함)")
-    @GetMapping("/admin/analytics/traffic")
+    @GetMapping("/memberLogs/analytics/traffic")
     public ResponseEntity<SearchDateDto> trafficCount(@RequestParam(required = false) LocalDate start, @RequestParam(required = false) LocalDate end) {
 
         if(start == null){

@@ -1,5 +1,6 @@
 package com.pudding.base.domain.store.controller;
 
+
 import com.pudding.base.domain.member.dto.MemberDto;
 import com.pudding.base.domain.store.dto.StoreDto;
 import com.pudding.base.domain.store.dto.StoreRequestDto;
@@ -22,13 +23,36 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
-
 @Tag(name = "매장(store) 관련 전체 테이블", description= "관리자 전용, 매장 CRUD")
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/api/v1/stores")
-public class StoreController {
+@RequestMapping("/api/v1/admin/stores")
+public class StoreAdminController {
+
     private final StoreService storeService;
+
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "성공",
+                    content = {@Content(schema = @Schema(implementation = ResponseEntity.class))}),
+            @ApiResponse(responseCode = "404", description = "실패"),
+    })
+    @Operation(summary = "매장(store) 등록", description = "관리자 전산에서 매장 등록")
+    @PostMapping
+    public ResponseEntity<StoreDto> createStore(@RequestParam("ownerId") Integer ownerId, @RequestParam("name") String name, @RequestParam("address") String address, @RequestParam(value = "file", required = false) MultipartFile file){
+        StoreRequestDto storeRequestDto = new StoreRequestDto(ownerId, name, address);
+        StoreDto createStore = storeService.createStore(storeRequestDto, file);
+        return ResponseEntity.ok(createStore);
+    }
+
+    @Operation(summary = "매장(store) 수정", description = "관리자 전산에서 매장 수정(매장이름, 매장주소, 썸네일만 가능)")
+    @PutMapping("/{id}")
+    public ResponseEntity<StoreDto> updateStore(@RequestParam("name") String name, @RequestParam("address") String address,
+                                                @PathVariable Integer id, @RequestParam(value = "file", required = false) MultipartFile file){
+        StoreUpdateDto storeUpdateDto = new StoreUpdateDto(name, address);
+        StoreDto updateStore = storeService.updateStore(storeUpdateDto, id, file);
+        return ResponseEntity.ok(updateStore);
+    }
+
 
     @Operation(summary = "매장(store) 리스트", description = "매장 목록 조회")
     @GetMapping
@@ -45,10 +69,12 @@ public class StoreController {
         return ResponseEntity.ok(store);
     }
 
-    @Operation(summary = "매장(store) 상세보기", description = "매장 점주 고유번호 기준으로 상세 조회")
-    @GetMapping("/ownerId/{ownerId}")
-    public ResponseEntity<StoreDto> getStoreByOwnerId(@PathVariable Integer ownerId){
-        StoreDto store = storeService.findStoreByOwnerId(ownerId);
-        return ResponseEntity.ok(store);
+    @Operation(summary = "매장 등록 시 점주 선택", description = "가맹점 보유하고 있지 않은 점주만 조회")
+    @GetMapping("/available-owners")
+    public ResponseEntity<List<MemberDto>> getAvailableOwners(){
+        return ResponseEntity.ok(storeService.getAvailableOwners());
     }
+
+
+
 }
