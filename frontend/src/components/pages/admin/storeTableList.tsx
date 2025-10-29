@@ -1,5 +1,5 @@
 import { useParams } from "react-router-dom";
-import axios from "axios";
+import { UserApi } from "src/utils/userApi";
 import { useState, useEffect, useCallback, useRef } from "react";
 import { StoreTable } from "src/types";
 
@@ -15,7 +15,7 @@ export function StoreTableList() {
 
         try {
             const url = `/api/v1/stores/${storeId}/tables`;
-            const response = await axios.get<StoreTable[]>(url);
+            const response = await UserApi.get<StoreTable[]>(url);
             setTables(response.data);
         } catch (error) {
             console.error("매장 테이블 데이터 조회 실패:", error);
@@ -34,7 +34,7 @@ export function StoreTableList() {
         if (!storeId) return;
 
         try {
-            const response = await axios.get(`/api/v1/stores/${storeId}`);
+            const response = await UserApi.get(`/api/v1/stores/${storeId}`);
             setStoreName(response.data.name);
         } catch (error) {
             console.error("매장 이름 조회 실패:", error);
@@ -48,8 +48,8 @@ export function StoreTableList() {
     const tableNumberSubmit = async () => {
         if (!storeId) return;
         try {
-            const url = `/api/v1/stores/${storeId}/tables`;
-            await axios.post(url);
+            const url = `/api/v1/admin/stores/${storeId}/tables`;
+            await UserApi.post(url);
             alert("테이블 등록이 완료되었습니다.");
             await fetchTables();
         } catch (error) {

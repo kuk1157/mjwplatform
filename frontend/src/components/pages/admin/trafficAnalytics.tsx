@@ -40,7 +40,7 @@ function AdminTrafficAnalyticsPage() {
             if (endAt) params.append("end", formatDate(endAt));
 
             const res = await UserApi.get(
-                `/api/v1/memberLogs/admin/analytics/traffic?${params.toString()}`
+                `/api/v1/admin/memberLogs/analytics/traffic?${params.toString()}`
             );
             return res.data;
         },
