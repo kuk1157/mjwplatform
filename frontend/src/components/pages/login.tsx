@@ -5,7 +5,6 @@ import { useNavigate } from "react-router-dom";
 import { login } from "../../utils/authLogin";
 import { useCookies } from "react-cookie";
 import { AxiosError } from "axios";
-
 // import DidLoginButton from "../atoms/didLoginButton";
 
 const CustomCheckbox = styled.label`
@@ -148,6 +147,10 @@ const LoginPage = () => {
         }
     }, [cookies]);
 
+    const didButton = () => {
+        alert("준비중입니다.");
+    };
+
     return (
         <section className="w-full min-h-screen bg-[##ffffff] flex justify-center items-center">
             <div className="w-full max-w-[500px] h-fit border border-[rgba(199,203,210,0.3)] bg-white rounded-[25px] flex flex-col items-center p-[50px] mt-[80px] mb-[32px] xs:p-[30px] xs:mt-[50px]">
@@ -211,9 +214,20 @@ const LoginPage = () => {
                         로그인
                     </button>
 
-                    {/* <div>
-                        <DidLoginButton />
-                    </div> */}
+                    {/* 버튼 UI만 */}
+                    <button
+                        className="cursor-pointer relative z-10"
+                        onClick={didButton}
+                    >
+                        <img
+                            src="/assets/image/did/icon_5.png"
+                            alt="Daegu ID Logo"
+                            className="object-contain"
+                        ></img>
+                    </button>
+
+                    {/* 추후 활용 */}
+                    {/* <DidLoginButton /> */}
 
                     {/* 구분선도 주석 */}
                     {/* <div className="w-full border-b border-[#C7CBD2] h-[1px] mt-1"></div> */}

@@ -299,8 +299,6 @@ function OwnerDashBoard() {
             const res = await UserApi.get(
                 `/api/v1/points/admin/owner/analytics/point/${ownerId}?${params.toString()}`
             );
-
-            console.log(res.data);
             return res.data;
         },
         enabled: false,
