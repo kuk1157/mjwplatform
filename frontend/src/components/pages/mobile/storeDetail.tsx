@@ -136,11 +136,13 @@ export function MobileStoreDetail() {
                 {storeDetail ? (
                     <div>
                         <div className="mb-5 flex items-center">
-                            <div
-                                id="map"
-                                ref={mapRef}
-                                className="w-[330px] h-[330px] border-2 border-[#580098] rounded-3xl"
-                            />
+                            <div className="w-full flex justify-center items-center">
+                                <div
+                                    id="map"
+                                    ref={mapRef}
+                                    className="w-[330px] h-[330px] border-2 border-[#580098] rounded-3xl"
+                                />
+                            </div>
                         </div>
 
                         <div className="mb-5 flex items-center">
