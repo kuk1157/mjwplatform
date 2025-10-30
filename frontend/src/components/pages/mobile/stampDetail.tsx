@@ -22,13 +22,6 @@ export function MobileMyStampDetail() {
     const [stamp, setStamp] = useState<StoreStamp>(); // 방문 스탬프 데이터 세팅
     const [store, setStore] = useState<StoreType>(); // 가맹점(매장) 데이터 세팅
 
-    if (id != storeId) {
-        alert(
-            "스탬프 발급받은 매장이 일치하지 않습니다. \n메인페이지로 돌아갑니다."
-        );
-        navigate("/mobile/mainPage");
-    }
-
     // 방문 스탬프, 가맹점 상세보기
     useEffect(() => {
         if (!customerId) return;
@@ -39,7 +32,7 @@ export function MobileMyStampDetail() {
                     axios.get(`/api/v1/stores/${storeId}`),
                 ]);
                 setStamp(stampDetail.data); // 방문 스탬프 추출
-                setStore(storeDetail.data); // 가맹점(매장) 추출
+                setStore(storeDetail.data); // 가맹점(매장) 추출\
             } catch (error) {
                 console.error("데이터 조회 실패:", error);
             }
@@ -95,8 +88,8 @@ export function MobileMyStampDetail() {
                                             &nbsp;초에
                                         </p>
                                         <p>
-                                            {store.name} 매장에서 {stamp.id}
-                                            번째로 발급받은 스탬프 입니다.
+                                            {store.name} 매장에서 발급받은
+                                            스탬프 입니다.
                                         </p>
                                     </span>
                                 </p>
