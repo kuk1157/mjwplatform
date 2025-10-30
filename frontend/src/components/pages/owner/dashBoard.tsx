@@ -278,7 +278,7 @@ function OwnerDashBoard() {
             try {
                 const [pointTotal] = await Promise.all([
                     axios.get(
-                        `/api/v1/points/admin/owner/analytics/point/total/${ownerId}`
+                        `/api/v1/points/owner/analytics/point/total/${ownerId}`
                     ),
                 ]);
                 setPointTotal(pointTotal.data); // 공지사항 추출
@@ -297,7 +297,7 @@ function OwnerDashBoard() {
             if (endAt) params.append("end", formatDate(endAt));
 
             const res = await UserApi.get(
-                `/api/v1/points/admin/owner/analytics/point/${ownerId}?${params.toString()}`
+                `/api/v1/points/owner/analytics/point/${ownerId}?${params.toString()}`
             );
             return res.data;
         },
