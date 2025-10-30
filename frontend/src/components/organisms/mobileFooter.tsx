@@ -22,13 +22,12 @@ const menuList: MenuItem[] = [
         iconName: "visit.svg",
     },
     {
-        label: "나의 정보",
-        path: `/mobile/myPage`,
+        label: "결제내역",
+        path: `/mobile/myPayList`,
         iconName: "myInfo.svg",
-        matchPaths: ["/mobile/myPage", "/mobile/myWallet"],
     },
     {
-        label: "나의 스탬프",
+        label: "스탬프",
         path: `/mobile/myStamp`,
         iconName: "stamp.svg",
         matchPaths: ["/mobile/myStamp", "/mobile/stampDetail"],

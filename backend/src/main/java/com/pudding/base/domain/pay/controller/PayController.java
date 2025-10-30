@@ -66,9 +66,4 @@ public class PayController {
         Page<PayDto> payDto = payService.findByCustomerId(pageable, customerId);
         return ResponseEntity.ok(payDto);
     }
-
-
-
-
-
 }
