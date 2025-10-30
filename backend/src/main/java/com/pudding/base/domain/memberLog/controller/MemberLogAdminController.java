@@ -17,7 +17,7 @@ import java.time.LocalDate;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/v1/admin")
-public class MemberLogController {
+public class MemberLogAdminController {
     private final MemberLogService memberLogService;
 
     @Operation(summary = "접속 통계(로그인 데이터)", description = "전체 데이터 count(검색 항목 4가지 포함)")

@@ -55,28 +55,8 @@ public class PointController {
         return ResponseEntity.ok(pointDto);
     }
 
-    @Operation(summary = "포인트 통계", description = "데이터 개수, 합계금액 2가지 차트")
-    @GetMapping("/admin/analytics/point")
-    public ResponseEntity<SearchPriceDto> pointAnalytics(@RequestParam(required = false) LocalDate start, @RequestParam(required = false) LocalDate end, @RequestParam(required = false) Long ownerId) {
-
-        if(start == null){
-            start = LocalDate.of(1900,1,1);
-        }
-        if(end == null){
-            end = LocalDate.of(9999,12,31);
-        }
-        SearchPriceDto searchPriceDto = pointService.pointAnalytics(start,end);
-        return ResponseEntity.ok(searchPriceDto);
-    }
-
-    @Operation(summary = "포인트 최종 통계", description = "대시보드 형태로 8개 형태(전체 데이터 기준)")
-    @GetMapping("/admin/analytics/point/total")
-    public PriceCount getPointTotal(){
-        return pointService.getPointTotal();
-    }
-
     @Operation(summary = "점주 포인트 통계", description = "데이터 개수, 합계금액 2가지 차트")
-    @GetMapping("/admin/owner/analytics/point/{ownerId}")
+    @GetMapping("/owner/analytics/point/{ownerId}")
     public ResponseEntity<SearchPriceDto> pointOwnerIdByAnalytics(@RequestParam(required = false) LocalDate start, @RequestParam(required = false) LocalDate end, @PathVariable Integer ownerId) {
 
         if(start == null){
@@ -90,7 +70,7 @@ public class PointController {
     }
 
     @Operation(summary = "점주 포인트 최종 통계", description = "대시보드 형태로 4개 형태(전체 데이터 기준)")
-    @GetMapping("/admin/owner/analytics/point/total/{ownerId}")
+    @GetMapping("/owner/analytics/point/total/{ownerId}")
     public PriceCount getOwnerIdByPointTotal(@PathVariable Integer ownerId){
         return pointService.getOwnerIdByPointTotal(ownerId);
     }
