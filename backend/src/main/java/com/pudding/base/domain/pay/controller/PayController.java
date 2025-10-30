@@ -1,6 +1,7 @@
 package com.pudding.base.domain.pay.controller;
 
 
+import com.pudding.base.domain.common.dto.PriceCount;
 import com.pudding.base.domain.pay.dto.PayDto;
 import com.pudding.base.domain.pay.service.PayService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -66,4 +67,13 @@ public class PayController {
         Page<PayDto> payDto = payService.findByCustomerId(pageable, customerId);
         return ResponseEntity.ok(payDto);
     }
+
+    @Operation(summary = "모바일 고객 3가지 금액 통계", description = "가로 막대 그래프로 3개 보여줄 예정(날짜 컨트롤 x)")
+    @GetMapping("/analytics/customer/{customerId}")
+    public PriceCount getCustomerByPayTotal(@PathVariable Integer customerId){
+        return payService.getCustomerByPayTotal(customerId);
+    }
+
+
+
 }

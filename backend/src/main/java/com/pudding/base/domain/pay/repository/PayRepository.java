@@ -1,4 +1,5 @@
 package com.pudding.base.domain.pay.repository;
+import com.pudding.base.domain.common.dto.PriceCount;
 import com.pudding.base.domain.pay.entity.Pay;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -42,4 +43,10 @@ public interface PayRepository extends JpaRepository<Pay, Integer>{
 
     // 고객 기준 결제 조회
     Page<Pay> findAllByCustomerId(Pageable pageable, Integer customerId);
+
+    // 고객(모바일) 기준 3가지 금액 통계
+    @Query("SELECT new com.pudding.base.domain.common.dto.PriceCount(" +
+            "SUM(p.amount), SUM(p.discountAmount), SUM(p.finalAmount)) " +
+            "FROM Pay p WHERE p.customerId = :customerId")
+    PriceCount getCustomerByPayTotal(@Param("customerId") Integer customerId);
 }

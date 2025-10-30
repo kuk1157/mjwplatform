@@ -1,4 +1,5 @@
 package com.pudding.base.domain.pay.service;
+import com.pudding.base.domain.common.dto.PriceCount;
 import com.pudding.base.domain.pay.dto.PayDto;
 import com.pudding.base.domain.pay.entity.Pay;
 import org.springframework.data.domain.Page;
@@ -20,4 +21,6 @@ public interface PayService {
     // 결제 customerId 기준 점주기준 조회
     Page<PayDto> findByCustomerId(Pageable pageable, Integer customerId);
 
+    // 고객 모바일 3가지 금액 통계
+    PriceCount getCustomerByPayTotal(Integer customerId);
 }

@@ -1,5 +1,6 @@
 package com.pudding.base.domain.pay.service;
 
+import com.pudding.base.domain.common.dto.PriceCount;
 import com.pudding.base.domain.common.enums.IsVisitStatus;
 import com.pudding.base.domain.common.exception.CustomException;
 import com.pudding.base.domain.member.entity.Member;
@@ -161,5 +162,14 @@ public class PayServiceImpl implements PayService {
     public Page<PayDto> findByCustomerId(Pageable pageable, Integer customerId) {
         Page<Pay> pays = payRepository.findAllByCustomerId(pageable, customerId);
         return pays.map(PayDto::fromEntity);
+    }
+
+
+    public PriceCount getCustomerByPayTotal(Integer customerId){
+
+        System.out.println("뭐든찍혀봐라");
+        System.out.println(customerId);
+        System.out.println(payRepository.getCustomerByPayTotal(customerId));
+        return payRepository.getCustomerByPayTotal(customerId);
     }
 }

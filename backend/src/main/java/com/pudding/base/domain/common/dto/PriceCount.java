@@ -30,6 +30,13 @@ public class PriceCount {
     private Number maxCash;
 
 
+    // 고객(모바일) 금액 3가지 통계
+    private Number sumAmount; // 입력 주문금액
+    private Number sumDiscountAmount; // 할인 금액
+    private Number sumFinalAmount; // 최종 주문금액
+
+
+
     // 전체 통계용 생성자
     public PriceCount(Object date, Long count, Double sumPoint, Long sumOrderPrice,
                       Double avgPoint, Double avgOrderPrice,
@@ -81,6 +88,13 @@ public class PriceCount {
         this.avgCash = avgCash;
         this.minCash = minCash;
         this.maxCash = maxCash;
+    }
+
+    // 고객 모바일 통계 추출용
+    public PriceCount(Number sumAmount, Number sumDiscountAmount, Number sumFinalAmount) {
+        this.sumAmount = sumAmount;
+        this.sumDiscountAmount = sumDiscountAmount;
+        this.sumFinalAmount = sumFinalAmount;
     }
 
 
