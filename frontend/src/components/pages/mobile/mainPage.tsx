@@ -19,6 +19,7 @@ import { Customer } from "src/types"; // 고객 인터페이스(고객등급, �
 import { StoreStamp } from "src/types"; // 방문스탬프 인터페이스
 import { Nft } from "src/types"; // NFT 인터페이스
 import { VisitLog } from "src/types"; // 방문기록 인터페이스
+import { Pay } from "src/types"; // 결제 인터페이스
 
 // [swiper 플러그인]
 import { Swiper, SwiperSlide } from "swiper/react";
@@ -36,7 +37,10 @@ export function MobileMainPage() {
     const [stamps, setStamp] = useState<StoreStamp[]>([]); // 방문 스탬프 데이터 세팅
     const [nftLogs, setNfts] = useState<Nft[]>([]); // NFT 데이터 세팅
     const [visitLogs, setVisitLogs] = useState<VisitLog[]>([]); // 방문 기록 데이터 세팅
-    const itemsPerPage = 3; // 공지사항 3개 고정
+    const [pays, setPays] = useState<Pay[]>([]);
+
+    const noticePage = 3; // 공지사항 3개 고정
+    const recentPayPage = 1;
 
     // 고객 등급 객체
     const CustomerGrades: Record<string, string> = {
@@ -54,6 +58,7 @@ export function MobileMainPage() {
                     // 고객이 로그인되어 있을 때
                     const [
                         storeList,
+                        payList,
                         noticeList,
                         customerDetail,
                         storeStamp,
@@ -61,7 +66,10 @@ export function MobileMainPage() {
                         visits,
                     ] = await Promise.all([
                         axios.get("/api/v1/stores"),
-                        axios.get(`/api/v1/notice?size=${itemsPerPage}`),
+                        axios.get(
+                            `/api/v1/pay/customer/${customerId}?size=${recentPayPage}`
+                        ),
+                        axios.get(`/api/v1/notice?size=${noticePage}`),
                         axios.get(`/api/v1/customers/${customerId}`),
                         axios.get(`/api/v1/storeStamps/customer/${customerId}`),
                         axios.get(
@@ -72,6 +80,7 @@ export function MobileMainPage() {
                         ),
                     ]);
                     setStores(storeList.data.content); // 가맹점 데이터 추출
+                    setPays(payList.data.content); // 결제 데이터 추출
                     setNotices(noticeList.data.content); // 공지사항 데이터 추출
                     setCustomer(customerDetail.data); // 고객 정보 추출
                     setStamp(storeStamp.data); // 방문 스탬프 추출
@@ -81,7 +90,7 @@ export function MobileMainPage() {
                     // 로그인 안 된 경우
                     const [storeList, noticeList] = await Promise.all([
                         axios.get("/api/v1/stores"),
-                        axios.get(`/api/v1/notice?size=${itemsPerPage}`),
+                        axios.get(`/api/v1/notice?size=${noticePage}`),
                     ]);
                     setStores(storeList.data.content); // 가맹점 데이터 추출
                     setNotices(noticeList.data.content); // 공지사항 데이터 추출
@@ -92,7 +101,7 @@ export function MobileMainPage() {
         };
 
         fetchData();
-    }, [customerId, itemsPerPage, navigate]);
+    }, [customerId, noticePage, recentPayPage, navigate]);
 
     // 나의 스탬프 페이지로 이동
     const myStampButton = () => {
@@ -242,10 +251,24 @@ export function MobileMainPage() {
                                 </Link>
                                 <div className="p-5">
                                     <div>최근 결제 내역</div>
-                                    <div className="flex flex-col bg-[#ededed] rounded-lg p-4 mt-2 text-sm font-semibold">
-                                        <span>금액 : 15,000원</span>
-                                        <span>시간 : 2025.10.10 14:02:17</span>
-                                    </div>
+                                    {pays.map((pay, idx) => (
+                                        <div
+                                            className="flex flex-col bg-[#ededed] rounded-lg p-4 mt-2 text-sm font-semibold"
+                                            key={idx}
+                                        >
+                                            <span>
+                                                금액 :{" "}
+                                                {pay.amount.toLocaleString()} 원
+                                            </span>
+                                            <span>
+                                                시간 : {""}
+                                                {pay.createdAt.replace(
+                                                    "T",
+                                                    " "
+                                                )}
+                                            </span>
+                                        </div>
+                                    ))}
                                 </div>
                             </div>
                         </div>
