@@ -337,6 +337,11 @@ const MobileStoreInquirySearch = Loadable({
     Component: lazy(() => import("../components/pages/mobile/inquirySearch")),
 });
 
+// 모바일 나의 결제 내역
+const MobileMyPayList = Loadable({
+    Component: lazy(() => import("../components/pages/mobile/myPayList")),
+});
+
 const Router = createBrowserRouter([
     {
         path: "/",
@@ -704,6 +709,12 @@ const Router = createBrowserRouter([
     {
         path: "/mobile/inquirySearch",
         element: <MobileStoreInquirySearch />,
+    },
+
+    // 모바일 나의 결제 내역
+    {
+        path: "/mobile/myPayList",
+        element: <MobileMyPayList />,
     },
 ]);
 

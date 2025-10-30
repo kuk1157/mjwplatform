@@ -237,3 +237,16 @@ export interface CashAnalytics {
     minCash?: number;
     maxCash?: number;
 }
+
+// 결제
+export interface Pay {
+    id: number;
+    storeId: number;
+    customerId: number;
+    ownerId: number;
+    visitLogId: number;
+    amount: number;
+    discountAmount: number;
+    finalAmount: number;
+    createdAt: string;
+}

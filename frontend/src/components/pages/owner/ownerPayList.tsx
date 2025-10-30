@@ -5,21 +5,14 @@ import { useState, useEffect } from "react";
 
 import { MdArrowBackIosNew } from "react-icons/md"; // 페이징 이전 아이콘
 import { MdArrowForwardIos } from "react-icons/md"; // 페이징 다음 아이콘
+import { Pay } from "src/types";
 
 function OwnerPayList() {
     const ownerId = localStorage.getItem("ownerId"); // 점주 ID 로그인 시 저장한거 추출
 
     const navigate = useNavigate();
 
-    interface OwnerPay {
-        id: number;
-        amount: number;
-        discountAmount: number;
-        finalAmount: number;
-        createdAt: string;
-    }
-
-    const [ownerPays, setOwnerPays] = useState<OwnerPay[]>([]);
+    const [ownerPays, setOwnerPays] = useState<Pay[]>([]);
     const [page, setPage] = useState(0);
     const [pageSize] = useState(5);
     const [totalPages, setTotalPages] = useState(0);
