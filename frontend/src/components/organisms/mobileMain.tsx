@@ -11,6 +11,10 @@ const MobileMain = ({ param }: MobileMainProps) => {
         localStorage.removeItem("customerId");
         navigate("/mobile/mainPage");
     };
+
+    const loginButton = () => {
+        navigate("/mobile/login/1/1");
+    };
     return (
         <div className="mb-3 p-1">
             <div className="flex items-center gap-2 mb-2 justify-between">
@@ -34,7 +38,7 @@ const MobileMain = ({ param }: MobileMainProps) => {
                     <div>
                         <button
                             className="cursor-poiner flex items-center justify-center bg-[#580098] rounded-[25px] py-[8px] px-[14.5px] text-[#fff] font-Pretendard"
-                            onClick={() => alert("준비중 입니다.")}
+                            onClick={loginButton}
                         >
                             로그인
                         </button>
