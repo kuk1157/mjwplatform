@@ -39,4 +39,7 @@ public interface PayRepository extends JpaRepository<Pay, Integer>{
 
     // 점주 기준 결제 조회
     Page<Pay> findAllByOwnerId(Pageable pageable, Integer ownerId);
+
+    // 고객 기준 결제 조회
+    Page<Pay> findAllByCustomerId(Pageable pageable, Integer customerId);
 }

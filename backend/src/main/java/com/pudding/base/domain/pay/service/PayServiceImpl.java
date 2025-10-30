@@ -140,7 +140,6 @@ public class PayServiceImpl implements PayService {
     }
 
     // 결제 전체 조회
-    @Transactional(readOnly = true)
     public Page<PayDto> findAllPays(Pageable pageable) {
         Page<Pay> pays = payRepository.findAll(pageable);
         return pays.map(PayDto::fromEntity);
@@ -158,4 +157,9 @@ public class PayServiceImpl implements PayService {
         return pays.map(PayDto::fromEntity);
     }
 
+    // 고객 기준 결제 조회
+    public Page<PayDto> findByCustomerId(Pageable pageable, Integer customerId) {
+        Page<Pay> pays = payRepository.findAllByCustomerId(pageable, customerId);
+        return pays.map(PayDto::fromEntity);
+    }
 }

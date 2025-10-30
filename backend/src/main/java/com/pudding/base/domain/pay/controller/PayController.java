@@ -60,6 +60,13 @@ public class PayController {
         return ResponseEntity.ok(payDto);
     }
 
+    @Operation(summary = "고객의 결제 조회", description = "customerId 기준으로 조회")
+    @GetMapping("/customer/{customerId}")
+    public ResponseEntity<Page<PayDto>> getCustomerIdByPays(@PageableDefault(sort = "createdAt", direction = Sort.Direction.DESC) Pageable pageable, @PathVariable Integer customerId) {
+        Page<PayDto> payDto = payService.findByCustomerId(pageable, customerId);
+        return ResponseEntity.ok(payDto);
+    }
+
 
 
 
