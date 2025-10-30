@@ -11,14 +11,25 @@ import { MdArrowBackIosNew } from "react-icons/md"; // 이전 페이지이동 �
 import { MobileMain } from "src/components/organisms/mobileMain"; // 모바일 상단 타이틀
 import { MobileFooter } from "src/components/organisms/mobileFooter"; // 하단 모바일 footer 공통 컴포넌트
 import { MobileFooter2 } from "src/components/organisms/mobileFooter2"; // 하단 모바일 footer 공통 컴포넌트
+import {
+    BarChart,
+    Bar,
+    XAxis,
+    YAxis,
+    Tooltip,
+    CartesianGrid,
+    Cell,
+    LabelList,
+} from "recharts";
 
 // [공통 데이터 인터페이스]
-import { StoreDetailType, Pay } from "src/types"; // 가맹점(매장) 인터페이스
+import { StoreDetailType, Pay, MyPayCustomer } from "src/types"; // 가맹점(매장) 인터페이스
 
 export function MobilePayList() {
     const navigate = useNavigate();
     const customerId = localStorage.getItem("customerId");
     const [pays, setPays] = useState<(Pay & { store?: StoreDetailType })[]>([]); // 결제 내역 세팅
+    const [paystats, setPayStats] = useState<MyPayCustomer>(); // 나의 결제내역 통계
 
     useEffect(() => {
         if (!customerId) {
@@ -27,6 +38,12 @@ export function MobilePayList() {
         }
         const fetchData = async () => {
             try {
+                const payAnalytics = await axios.get(
+                    `/api/v1/pay/analytics/customer/${customerId}`
+                );
+
+                setPayStats(payAnalytics.data);
+
                 const { data } = await axios.get(
                     `/api/v1/pay/customer/${customerId}`
                 );
@@ -65,6 +82,55 @@ export function MobilePayList() {
         navigate(-1); // 뒤로 가기
     };
 
+    const MyPayChart = () => {
+        const amount = paystats?.sumAmount ?? 0;
+        const discountAmount = paystats?.sumDiscountAmount ?? 0;
+        const finamAmount = paystats?.sumFinalAmount ?? 0;
+
+        const dataToRender = [
+            { name: "미할인주문금액합계", value: amount, color: "#14b8a6" },
+            { name: "할인금액합계", value: discountAmount, color: "#cc3333" },
+            { name: "최종주문금액합계", value: finamAmount, color: "#3b82f6" },
+        ];
+
+        return (
+            <BarChart
+                width={500}
+                height={350}
+                data={dataToRender}
+                layout="vertical"
+                margin={{ top: 20, right: 30, left: 30, bottom: 20 }}
+            >
+                <CartesianGrid strokeDasharray="3 3" />
+                <XAxis
+                    type="number"
+                    domain={[0, 500000]} // 최대값 50만
+                    tick={{ fontSize: 12 }}
+                />
+                <YAxis type="category" dataKey="name" tick={{ fontSize: 14 }} />
+                <Tooltip
+                    cursor={{ fill: "#ededed" }} // 막대 뒤에 회색 배경
+                    formatter={(value: number | string) => {
+                        // payload 타입 안전하게 가져오기
+                        return [`${Number(value).toLocaleString()}원`];
+                    }}
+                />
+                <Bar dataKey="value">
+                    {dataToRender.map((entry, index) => (
+                        <Cell key={`cell-${index}`} fill={entry.color} />
+                    ))}
+                    <LabelList
+                        dataKey="value"
+                        position="right"
+                        formatter={(value) =>
+                            `${(value as number).toLocaleString()}원`
+                        }
+                    />
+                </Bar>
+            </BarChart>
+        );
+    };
+
     return (
         <div className="min-h-screen bg-white font-Pretendard">
             <div className="p-4 mb-20">
@@ -85,6 +151,10 @@ export function MobilePayList() {
                         </button>
                     </div>
                 </div>
+                <div className="bg-white rounded-xl shadow-sm border border-gray-100 p-4 mb-3 flex items-center">
+                    {MyPayChart()}
+                </div>
+
                 {/* NFT 목록 */}
                 <section>
                     {pays.length > 0 ? (
@@ -101,9 +171,9 @@ export function MobilePayList() {
                                             className="w-16 h-16 rounded-md object-cover"
                                         />
                                         <div className="flex flex-col ml-3">
-                                            {/* <p className="text-base font-bold mb-1">
-                                                {store.name}
-                                            </p> */}
+                                            <p className="text-base font-bold mb-1">
+                                                결제한 매장 : {pay.store?.name}
+                                            </p>
                                             <p className="text-sm text-[#000] mb-1">
                                                 주문 금액 :{" "}
                                                 {pay.amount.toLocaleString()}원

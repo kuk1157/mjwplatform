@@ -250,3 +250,10 @@ export interface Pay {
     finalAmount: number;
     createdAt: string;
 }
+
+// 고객(모바일) 결제 통계
+export interface MyPayCustomer {
+    sumAmount?: number;
+    sumDiscountAmount?: number;
+    sumFinalAmount?: number;
+}
