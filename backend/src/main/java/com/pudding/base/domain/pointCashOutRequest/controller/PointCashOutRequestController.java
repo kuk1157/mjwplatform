@@ -49,7 +49,7 @@ public class PointCashOutRequestController {
     }
 
     @Operation(summary = "현금화 통계", description = "데이터 개수, 합계금액 2가지 차트")
-    @GetMapping("/admin/analytics/cash")
+    @GetMapping("/owner/analytics/cash")
     public ResponseEntity<SearchPriceDto> cashAnalytics(@RequestParam(required = false) LocalDate start, @RequestParam(required = false) LocalDate end) {
 
         if(start == null){
@@ -63,7 +63,7 @@ public class PointCashOutRequestController {
     }
 
     @Operation(summary = "현금화 최종 통계", description = "대시보드 형태로 4개 형태(전체 데이터 기준)")
-    @GetMapping("/admin/analytics/cash/total")
+    @GetMapping("/owner/analytics/cash/total")
     public PriceCount getCashTotal(){
         return pointCashOutRequestService.getCashTotal();
     }
