@@ -78,6 +78,12 @@ function MainPage() {
         alert("로그인 후에 확인할 수 있습니다.");
     };
 
+    const mainBanner = [
+        { url: "/assets/image/homePage/banner/mainTitle_1.png" },
+        { url: "/assets/image/homePage/banner/mainTitle_2.png" },
+        { url: "/assets/image/homePage/banner/mainTitle_3.png" },
+    ];
+
     return (
         <MainContainer className="bg-[#FFF] py-[100px] lg:py-[150px] sm:py-[100px] xs:py-[60px]">
             <div className="w-full">
@@ -100,10 +106,10 @@ function MainPage() {
                                     navigation={true}
                                     className="rounded-2xl overflow-hidden"
                                 >
-                                    {Array.from({ length: 5 }).map((_, idx) => (
+                                    {mainBanner.map((banner, idx) => (
                                         <SwiperSlide key={idx}>
                                             <img
-                                                src={`/assets/image/mainTitle.png`}
+                                                src={banner.url}
                                                 alt={`메인 타이틀 ${idx + 1}`}
                                                 className="w-full h-auto block"
                                             />
@@ -163,7 +169,7 @@ function MainPage() {
                                     slidesPerView="auto"
                                     spaceBetween={20}
                                     loop={true}
-                                    allowTouchMove={false}
+                                    allowTouchMove={true}
                                     autoplay={{
                                         delay: 0,
                                         disableOnInteraction: false,

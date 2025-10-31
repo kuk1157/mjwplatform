@@ -28,6 +28,33 @@ import "swiper/css";
 import "swiper/css/navigation";
 import "swiper/css/autoplay";
 
+// 슬라이드 화살표 커스텀
+const customSwiperStyle = `
+.swiper-button-next,
+.swiper-button-prev {
+  color: #010b6a;
+  width: 25px;
+  height: 25px;
+  background-color: #FFF;
+  border-radius: 50%;
+  padding: 15px 0px;
+}
+
+.swiper-button-next::after,
+.swiper-button-prev::after {
+  font-size: 15px;
+  font-weight: bold;
+
+}
+.swiper-button-next { right: 10px !important; top: 85px !important;  }
+.swiper-button-prev { left: 10px !important; top: 85px !important; }
+
+
+.swiper-button-next > svg { width:25px; height:10px; }
+.swiper-button-prev > svg { width:25px; height:10px; }
+
+`;
+
 export function MobileMainPage() {
     const navigate = useNavigate();
     const customerId = localStorage.getItem("customerId"); // 로그인 후 고객ID 세팅
@@ -145,7 +172,7 @@ export function MobileMainPage() {
                         }}
                         speed={1500}
                         spaceBetween={20}
-                        navigation={false}
+                        navigation={true}
                         className="rounded-2xl overflow-hidden"
                     >
                         {mobileBanner.map((banner, idx) => (
@@ -158,6 +185,7 @@ export function MobileMainPage() {
                             </SwiperSlide>
                         ))}
                     </Swiper>
+                    <style>{customSwiperStyle}</style>
                 </div>
 
                 {/* 가맹점 썸네일 슬라이드 */}
@@ -168,7 +196,7 @@ export function MobileMainPage() {
                             slidesPerView="auto"
                             spaceBetween={20}
                             loop={true}
-                            allowTouchMove={false}
+                            allowTouchMove={true}
                             autoplay={{
                                 delay: 0,
                                 disableOnInteraction: false,
