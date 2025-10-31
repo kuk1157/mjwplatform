@@ -72,7 +72,7 @@ export function MobileNoticeList() {
                                         <div className="flex items-center w-full">
                                             {notice.thumbnail ? (
                                                 <img
-                                                    src={`${cdn}/${noticeFolder}/${notice.thumbnail}${notice.extension}`}
+                                                    src={`${cdn}/${noticeFolder}/${notice.uuid}/${notice.thumbnail}${notice.extension}`}
                                                     alt={`${notice.title}`}
                                                     className="w-12 h-12 rounded-md object-cover"
                                                 />

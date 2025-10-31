@@ -10,7 +10,7 @@ import { noticeFolder } from "src/constans"; // 첨부 디렉토리 경로 notic
 // [아이콘 및 공통 컴포넌트]
 import { CiImageOff } from "react-icons/ci"; // 데이터없음 아이콘
 import { MdArrowBackIosNew } from "react-icons/md"; // 이전 페이지이동 좌측 화살표 아이콘
-import { formatedDate } from "src/utils/common";
+import { formatedDate, updateContentsWithImages } from "src/utils/common";
 import { MobileMain } from "src/components/organisms/mobileMain"; // 모바일 상단 타이틀
 import { MobileFooter } from "src/components/organisms/mobileFooter"; // 하단 모바일 footer 공통 컴포넌트
 import { MobileFooter2 } from "src/components/organisms/mobileFooter2"; // 하단 모바일 footer 공통 컴포넌트
@@ -32,6 +32,19 @@ export function MobileNoticeDetail() {
                     axios.get(`/api/v1/notice/${id}`),
                 ]);
                 setNotice(noticeDetail.data); // 공지사항 추출
+
+                if (
+                    noticeDetail.data.description &&
+                    noticeDetail.data.filePaths
+                ) {
+                    const updatedContents = updateContentsWithImages(
+                        noticeDetail.data.description,
+                        noticeDetail.data.filePaths
+                    );
+
+                    noticeDetail.data.description = updatedContents;
+                }
+                return noticeDetail.data;
             } catch (error) {
                 console.error("데이터 조회 실패:", error);
             }
@@ -70,7 +83,7 @@ export function MobileNoticeDetail() {
                             <div className="w-full flex justify-center items-center">
                                 {notice.thumbnail ? (
                                     <img
-                                        src={`${cdn}/${noticeFolder}/${notice.thumbnail}${notice.extension}`}
+                                        src={`${cdn}/${noticeFolder}/${notice.uuid}/${notice.thumbnail}${notice.extension}`}
                                         alt={notice.title}
                                     />
                                 ) : (
