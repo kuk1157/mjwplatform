@@ -121,6 +121,12 @@ export function MobileMainPage() {
         navigate(`/mobile/storeDetail/${storeId}`);
     };
 
+    const mobileBanner = [
+        { url: "/assets/image/mobile/banner/mobileTitle_1.png" },
+        { url: "/assets/image/mobile/banner/mobileTitle_2.png" },
+        { url: "/assets/image/mobile/banner/mobileTitle_3.png" },
+    ];
+
     return (
         <div className="min-h-screen bg-[#fbfbfc] font-Pretendard overflow-y-auto">
             <div className="p-4 mb-20">
@@ -142,11 +148,11 @@ export function MobileMainPage() {
                         navigation={false}
                         className="rounded-2xl overflow-hidden"
                     >
-                        {Array.from({ length: 5 }).map((_, idx) => (
+                        {mobileBanner.map((banner, idx) => (
                             <SwiperSlide key={idx}>
                                 <img
-                                    src={`/assets/image/mainTitle.png`}
-                                    alt={`메인 타이틀 ${idx + 1}`}
+                                    src={banner.url}
+                                    alt={`모바일 배너 ${idx + 1}`}
                                     className="w-full h-[150px] block"
                                 />
                             </SwiperSlide>
