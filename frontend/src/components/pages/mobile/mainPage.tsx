@@ -365,18 +365,26 @@ export function MobileMainPage() {
                                     ></img>
                                 </span>
                             </div>
-                            <div className="bg-white rounded-xl border shadow-md p-5 mb-3 flex items-center">
-                                <span>
-                                    쿠폰 발급 가능 여부{" "}
-                                    {customer?.couponAvailable === "Y"
-                                        ? "✅"
-                                        : "❌"}
-                                </span>
-                                {/* 실제로 활용하게 될 경우 이벤트 만들기 */}
+                            {/* 쿠폰 발급 여부 임시 주석 */}
+                            {/*}
+                            <div className="bg-white rounded-xl border shadow-md p-5 mb-3 flex flex-col">
+                                <div className="w-full flex justify-center">
+                                    <span>
+                                        쿠폰 발급 가능 여부{" "}
+                                        {customer?.couponAvailable === "Y"
+                                            ? "✅"
+                                            : "❌"}
+                                    </span>
+                                </div>
+
+                                
                                 {customer?.couponAvailable === "Y" && (
-                                    <button>쿠폰신청 하기</button>
+                                    <div className="w-full flex justify-center bg-[#580098] text-[#fff] rounded-md py-2 mt-4">
+                                        <button>쿠폰신청 하기</button>
+                                    </div>
                                 )}
                             </div>
+                            */}
                         </div>
                         {/* 내 스탬프 타이틀 영역 */}
                         <div className="mt-8 mb-3">
