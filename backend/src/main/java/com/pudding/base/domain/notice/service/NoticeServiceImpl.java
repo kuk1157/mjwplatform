@@ -28,7 +28,7 @@ public class NoticeServiceImpl implements NoticeService {
     private final AuthRepository authRepository;
     private final S3Service s3Service;
 
-    String folderName = "base/notice";
+    String folderName = "coex/notice";
 
 
     // 공지사항 등록
