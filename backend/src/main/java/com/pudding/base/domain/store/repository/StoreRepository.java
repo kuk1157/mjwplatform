@@ -1,6 +1,7 @@
 package com.pudding.base.domain.store.repository;
 
 import com.pudding.base.domain.member.dto.MemberDto;
+import com.pudding.base.domain.member.entity.Member;
 import com.pudding.base.domain.store.dto.StoreDto;
 import com.pudding.base.domain.store.entity.Store;
 import jakarta.validation.constraints.NotNull;
@@ -71,7 +72,7 @@ public interface StoreRepository extends JpaRepository<Store, Integer> {
               SELECT 1 FROM Store s WHERE s.ownerId = m.id
           )
     """)
-    List<MemberDto> findAvailableOwners();
+    List<Member> findAvailableOwners();
 
     // 매장 수정시 매장이름 중복체크
     boolean existsByName(@NotNull(message = "매장 이름을 입력해주세요.") String name);

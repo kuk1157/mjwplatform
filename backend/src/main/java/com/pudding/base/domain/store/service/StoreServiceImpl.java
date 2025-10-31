@@ -121,6 +121,7 @@ public class StoreServiceImpl implements StoreService{
     }
 
     public List<MemberDto> getAvailableOwners(){
-        return storeRepository.findAvailableOwners();
+
+        return storeRepository.findAvailableOwners().stream().map(MemberDto::fromEntity).toList();
     }
 }
