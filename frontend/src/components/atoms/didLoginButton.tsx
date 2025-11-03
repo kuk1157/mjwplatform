@@ -28,7 +28,7 @@ declare global {
 }
 
 const SITE_ID = "AuyVJfyBUnUGcFzqSih27NT"; // 발급받은 사이트 ID
-const REQUIRED_VC = "Name"; // 필요 VC 항목
+const REQUIRED_VC = "Name:PhoneNum"; // 필요 VC 항목
 
 interface DidLoginButtonProps {
     storeNum?: number;
