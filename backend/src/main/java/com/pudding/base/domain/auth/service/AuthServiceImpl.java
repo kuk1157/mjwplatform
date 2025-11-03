@@ -79,7 +79,7 @@ public class AuthServiceImpl implements AuthService {
             Member newMember = Member.builder()
                     .did(info.getDid())
                     .name(info.getName())
-                    //.phoneNumber(info.getPhoneNumber())
+                    .phoneNumber(info.getPhoneNumber())
                     //.gender(info.getGender())
                     //.ci(info.getCi())
                     .role(Role.valueOf("user"))
