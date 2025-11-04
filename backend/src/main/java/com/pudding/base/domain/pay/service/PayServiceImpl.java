@@ -42,6 +42,7 @@ public class PayServiceImpl implements PayService {
 
     // 결제 등록
     @Transactional
+    @Override
     public PayDto createPay(PayDto.Request payDto, Integer visitLogId){
 
         // 방문(주문)과 결제는 1대1 매칭되어야 하기때문에 체크필요함.
@@ -141,35 +142,36 @@ public class PayServiceImpl implements PayService {
     }
 
     // 결제 전체 조회
+    @Override
     public Page<PayDto> findAllPays(Pageable pageable) {
         Page<Pay> pays = payRepository.findAll(pageable);
         return pays.map(PayDto::fromEntity);
     }
 
     // 결제 상세 조회
+    @Override
     public PayDto findByPayId(Integer id){
         Pay pay = payRepository.findById(id).orElseThrow(() -> new CustomException("존재하지 않는 결제입니다"));
         return PayDto.fromEntity(pay);
     }
 
     // 점주 기준 결제 조회
+    @Override
     public Page<PayDto> findByOwnerId(Pageable pageable, Integer ownerId) {
         Page<Pay> pays = payRepository.findAllByOwnerId(pageable, ownerId);
         return pays.map(PayDto::fromEntity);
     }
 
     // 고객 기준 결제 조회
+    @Override
     public Page<PayDto> findByCustomerId(Pageable pageable, Integer customerId) {
         Page<Pay> pays = payRepository.findAllByCustomerId(pageable, customerId);
         return pays.map(PayDto::fromEntity);
     }
 
 
+    @Override
     public PriceCount getCustomerByPayTotal(Integer customerId){
-
-        System.out.println("뭐든찍혀봐라");
-        System.out.println(customerId);
-        System.out.println(payRepository.getCustomerByPayTotal(customerId));
         return payRepository.getCustomerByPayTotal(customerId);
     }
 }

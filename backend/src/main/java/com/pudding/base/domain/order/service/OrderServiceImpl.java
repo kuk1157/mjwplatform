@@ -21,6 +21,7 @@ public class OrderServiceImpl implements OrderService {
     private final StoreRepository storeRepository;
 
     @Transactional
+    @Override
     public OrderDto createOrder(OrderDto.Request orderDto, Integer storeNum, Integer tableNumber){
         // 매장 체크
         Store store = storeRepository.findById(storeNum)

@@ -16,6 +16,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
@@ -31,6 +32,8 @@ public class StoreServiceImpl implements StoreService{
     String folderName = "coex/store";
 
     // 매장 등록
+    @Transactional
+    @Override
     public StoreDto createStore(StoreRequestDto storeRequestDto, MultipartFile file){
         // 매장 이미 보유하고 있는 점주 예외처리
         boolean exists = storeRepository.existsByOwnerId(storeRequestDto.getOwnerId());
@@ -70,6 +73,8 @@ public class StoreServiceImpl implements StoreService{
         return StoreDto.fromEntity(savedStore);
     }
 
+    @Transactional
+    @Override
     public StoreDto updateStore(StoreUpdateDto storeUpdateDto, Integer id, MultipartFile file){
         Store store = storeRepository.findById(id).orElseThrow(() -> new CustomException("존재하지 않는 매장 입니다."));
         // 매장 수정시 매장 이름 중복체크
@@ -106,22 +111,25 @@ public class StoreServiceImpl implements StoreService{
     }
 
     // 매장 전체 조회
+    @Override
     public Page<StoreDto> getAllStore(Pageable pageable, String keyword){
         return storeRepository.findByStoreSearch(pageable, keyword);
     }
 
     // 매장 상세 조회
+    @Override
     public StoreDto findStoreById(Integer id){
         return storeRepository.findByStoreIdSearch(id);
     }
 
     // 매장 상세 조회 - 메인 대시보드 용도
+    @Override
     public StoreDto findStoreByOwnerId(Integer ownerId){
         return storeRepository.findByOwnerIdSearch(ownerId);
     }
 
+    @Override
     public List<MemberDto> getAvailableOwners(){
-
         return storeRepository.findAvailableOwners().stream().map(MemberDto::fromEntity).toList();
     }
 }

@@ -14,6 +14,7 @@ public class CustomerServiceImpl implements CustomerService{
     private final CustomerRepository customerRepository;
 
     @Transactional
+    @Override
     public CustomerDto createCustomer(CustomerDto.Request customerDto){
 
         // 임시로 postman 진행
@@ -26,6 +27,7 @@ public class CustomerServiceImpl implements CustomerService{
     }
 
     // 고객 상세 조회
+    @Override
     public CustomerDto getCustomerById(Integer customerId){
         Customer customer = customerRepository.findById(customerId).orElseThrow(() -> new EntityNotFoundException("존재하지 않는 고객입니다."));
         return CustomerDto.fromEntity(customer);

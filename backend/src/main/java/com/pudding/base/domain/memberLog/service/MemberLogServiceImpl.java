@@ -17,6 +17,7 @@ public class MemberLogServiceImpl implements MemberLogService{
     private final MemberLogRepository memberLogRepository;
 
     // 접속 통계 - 전체 데이터 갯수 조회(검색일 넣기)
+    @Override
     public SearchDateDto trafficCount(LocalDate start, LocalDate end){
         List<DateCount> daily = memberLogRepository.countDaily(start, end);
         List<DateCount> monthly = memberLogRepository.countMonthly(start, end);

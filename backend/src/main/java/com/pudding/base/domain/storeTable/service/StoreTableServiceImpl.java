@@ -21,6 +21,7 @@ public class StoreTableServiceImpl implements StoreTableService {
     private final StoreRepository storeRepository;
 
     @Transactional
+    @Override
     public StoreTableDto createStoreTable(Integer storeId){
         Store store = findByStoreEntity(storeId);
 

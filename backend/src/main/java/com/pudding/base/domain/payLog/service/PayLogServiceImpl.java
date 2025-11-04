@@ -19,6 +19,7 @@ public class PayLogServiceImpl implements PayLogService {
 
     // 결제내역 등록
     @Transactional
+    @Override
     public PayLogDto createPayLogs(Integer payId, Integer ownerId, Integer amount, Double discountAmount, Integer finalAmount) {
         PayLog paylog = PayLog.builder()
                 .payId(payId)
@@ -32,12 +33,14 @@ public class PayLogServiceImpl implements PayLogService {
     }
 
     // 결제내역 전체 조회
+    @Override
     public Page<PayLogDto> findAllPayLogs(Pageable pageable){
         Page<PayLog> payLogs = payLogRepository.findAll(pageable);
         return payLogs.map(PayLogDto::fromEntity);
     }
 
     // 결제내역 전체 조회
+    @Override
     public Page<PayLogDto> findByOwnerIdPayLogs(Pageable pageable, Integer ownerId){
         Page<PayLog> payLogs = payLogRepository.findAllByOwnerId(pageable,ownerId);
         return payLogs.map(PayLogDto::fromEntity);

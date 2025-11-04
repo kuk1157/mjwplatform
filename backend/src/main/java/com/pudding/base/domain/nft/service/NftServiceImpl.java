@@ -13,6 +13,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.io.ByteArrayOutputStream;
 import java.io.InputStream;
@@ -34,6 +35,8 @@ public class NftServiceImpl implements NftService {
     private final EncMetaManager encMetaManager;
 
 
+    @Transactional
+    @Override
     public NftDto createNft(String did, String tokenHash, Integer storeTableId, Integer nftIdx, String nftUrl, Integer encId, Integer storeId, Integer customerId){
         String finalToken = UUID.randomUUID().toString();
 
@@ -84,6 +87,7 @@ public class NftServiceImpl implements NftService {
     }
 
     // 고객 NFT 전체 조회
+    @Override
     public List<NftDto> getLimitedNftSorted(Integer customerId, String sort, Integer limit){
 
         // 정렬 direction 세팅
@@ -116,11 +120,13 @@ public class NftServiceImpl implements NftService {
                 .collect(Collectors.toList());
     }
 
+    @Override
     public boolean nftExists(Integer storeId, Integer customerId){
         return nftRepository.existsByStoreIdAndCustomerId(storeId,customerId);
     }
 
     // NFT 상세보기
+    @Override
     public NftDto getNftById(Integer id) {
         Nft nft = nftRepository.findById(id).orElseThrow(() -> new CustomException("존재하지 않는 NFT 입니다."));
         byte[] encBytes;

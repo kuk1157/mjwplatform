@@ -30,6 +30,7 @@ public class PointCashOutRequestServiceImpl implements PointCashOutRequestServic
    private final MemberRepository memberRepository; // 회원 테이블
 
     @Transactional
+    @Override
     public PointCashOutRequestDto createCashRequest(PointCashOutRequestDto.Request pointCashOutRequestDto, Integer memberId){
 
         // 회원(memberId)아이디로 store 테이블에서 매장 id 가져오기
@@ -61,12 +62,14 @@ public class PointCashOutRequestServiceImpl implements PointCashOutRequestServic
     }
 
     // 현금화 신청 가맹점 별 조회
+    @Override
     public Page<PointCashOutRequestDto> getStoreIdCashRequests(Integer storeId, Pageable pageable) {
         Page<PointCashOutRequest> pointCashOutRequests = pointCashOutRequestRepository.findByStoreId(storeId, pageable);
         return pointCashOutRequests.map(PointCashOutRequestDto::fromEntity);
     }
 
     // 현금화 통계 - 합계금액, 합계 수
+    @Override
     public SearchPriceDto cashAnalytics(LocalDate start, LocalDate end){
         List<PriceCount> daily = pointCashOutRequestRepository.countDaily(start, end);
         List<PriceCount> monthly = pointCashOutRequestRepository.countMonthly(start, end);
@@ -83,6 +86,7 @@ public class PointCashOutRequestServiceImpl implements PointCashOutRequestServic
     }
 
     // 현금화 통계 - 4가지 금액
+    @Override
     public PriceCount getCashTotal(){
         return pointCashOutRequestRepository.getCashTotal();
     }

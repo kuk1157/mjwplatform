@@ -24,6 +24,7 @@ public class PointServiceImpl implements PointService {
 
     // 포인트 등록
     @Transactional
+    @Override
     public PointDto createPoints(Integer payId, Integer storeId, Integer ownerId, Integer finalAmount, Double discount) {
         Point point = Point.builder()
                 .payId(payId)
@@ -39,12 +40,14 @@ public class PointServiceImpl implements PointService {
 
 
     // 포인트 전체 조회
+    @Override
     public Page<PointDto> findAllPoint(Pageable pageable){
         Page<Point> point = pointRepository.findAll(pageable);
         return point.map(PointDto::fromEntity);
     }
 
     // 포인트 전체 조회
+    @Override
     public Page<PointDto> findByOwnerIdPoint(Pageable pageable, Integer ownerId){
         Page<Point> point = pointRepository.findByOwnerId(pageable, ownerId);
         return point.map(PointDto::fromEntity);
@@ -66,11 +69,13 @@ public class PointServiceImpl implements PointService {
                 .build();
     }
 
+    @Override
     public PriceCount getPointTotal(){
         return pointRepository.getPointTotal(null);
     }
 
     // 점주 포인트 통계 - 합계금액, 합계 수
+    @Override
     public SearchPriceDto pointOwnerIdByAnalytics(LocalDate start, LocalDate end, Integer ownerId){
         List<PriceCount> daily = pointRepository.countDaily(start, end, ownerId);
         List<PriceCount> monthly = pointRepository.countMonthly(start, end, ownerId);
@@ -86,6 +91,7 @@ public class PointServiceImpl implements PointService {
                 .build();
     }
 
+    @Override
     public PriceCount getOwnerIdByPointTotal(Integer ownerId){
         return pointRepository.getPointTotal(ownerId);
     }

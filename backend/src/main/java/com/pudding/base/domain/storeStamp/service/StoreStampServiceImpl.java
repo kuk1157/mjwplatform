@@ -26,6 +26,7 @@ public class StoreStampServiceImpl implements StoreStampService{
 
     // 가맹점 스탬프 등록
     @Transactional
+    @Override
     public StoreStampDto createStoreStamps(Integer customerId, Integer storeId) {
         StoreStamp storeStamp = StoreStamp.builder()
                 .customerId(customerId)
@@ -74,17 +75,20 @@ public class StoreStampServiceImpl implements StoreStampService{
     }
 
     // 가맹점 스탬프 중복 체크 메서드
+    @Override
     public boolean checkStoreStampExists(Integer customerId, Integer storeId){
         return storeStampRepository.existsByCustomerIdAndStoreId(customerId,storeId);
     }
 
     // 고객 매장 방문 스탬프 조회
+    @Override
     public List<StoreStampDto> getCustomerIdStamps(Integer customerId) {
         List<StoreStamp> storeStamps = storeStampRepository.findByCustomerId(customerId);
         return storeStamps.stream().map(StoreStampDto::fromEntity).toList();
     }
 
     // 고객 매장 방문 스탬프 상세 조회
+    @Override
     public StoreStampDto getStoreStampById(Integer id){
         StoreStamp storeStamp = storeStampRepository.findById(id).orElseThrow(() -> new CustomException("존재하지 않는 방문 스탬프입니다."));
         return StoreStampDto.fromEntity(storeStamp);

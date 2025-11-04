@@ -53,6 +53,7 @@ public class VisitLogServiceImpl implements VisitLogService {
     private EntityManager entityManager;
 
     @Transactional
+    @Override
     public VisitLogDto createVisitLog(String did, Integer storeNum, Integer tableNumber){
         Customer customer = customerRepository.findByDid(did).orElseThrow(() -> new EntityNotFoundException("존재하지 않는 고객입니다."));
         Store store = storeRepository.findById(storeNum).orElseThrow(() -> new EntityNotFoundException("존재하지 않는 매장입니다."));
@@ -108,6 +109,7 @@ public class VisitLogServiceImpl implements VisitLogService {
         }
     }
 
+    @Override
     public List<VisitLogDto> getAllVisitLogSorted(Integer customerId, String sort) {
         Sort.Direction direction = "asc".equalsIgnoreCase(sort) ? Sort.Direction.ASC : Sort.Direction.DESC;
         Sort sortObj = Sort.by(direction, "createdAt");
@@ -127,6 +129,7 @@ public class VisitLogServiceImpl implements VisitLogService {
                 .collect(Collectors.toList());
     }
 
+    @Override
     public List<VisitLogDto> getLimitedVisitLogSorted(Integer customerId, String sort, Integer limit) {
         Sort.Direction direction = "asc".equalsIgnoreCase(sort) ? Sort.Direction.ASC : Sort.Direction.DESC;
         Sort sortObj = Sort.by(direction, "createdAt");
@@ -148,12 +151,14 @@ public class VisitLogServiceImpl implements VisitLogService {
     }
 
     // 가맹점 별 전체 방문기록
+    @Override
     public Page<VisitLogDto> getAllVisitLog(Integer storeNum, Pageable pageable){
         return visitLogRepository.findByAllVisitLog(storeNum, pageable);
     }
 
 
     // 최신 - 가맹점 별 신규 방문기록
+    @Override
     public List<VisitLogDto> getNewVisitLog(Integer storeNum){
         return visitLogRepository.findUnpaidAndUnvisitedByStoreId(storeNum);
     }
