@@ -28,7 +28,7 @@ export function MobileMyStamp() {
             try {
                 const [storeStamp, storeList] = await Promise.all([
                     axios.get(`/api/v1/storeStamps/customer/${customerId}`),
-                    axios.get("/api/v1/stores"),
+                    axios.get("/api/v1/stores?size=100"),
                 ]);
                 setStamp(storeStamp.data); // 방문 스탬프 추출
                 setStore(storeList.data.content); // 가맹점(매장) 추출
