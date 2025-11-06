@@ -32,7 +32,7 @@ public class StoreController {
 
     @Operation(summary = "매장(store) 리스트", description = "매장 목록 조회")
     @GetMapping
-    public ResponseEntity<Page<StoreDto>> getAllStore(@PageableDefault(sort = "createdAt", direction = Sort.Direction.DESC) Pageable pageable,
+    public ResponseEntity<Page<StoreDto>> getAllStore(@PageableDefault(sort = "createdAt", direction = Sort.Direction.ASC) Pageable pageable,
                                                       @RequestParam(value ="keyword",required = false) String keyword){
         Page<StoreDto> getStores = storeService.getAllStore(pageable, keyword);
         return ResponseEntity.ok(getStores);
