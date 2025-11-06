@@ -34,6 +34,10 @@ public class Customer {
     @Schema(description = "로그인 계정 고유번호")
     private Integer memberId;
 
+    @Column(name = "store_id")
+    @Schema(description = "가맹점 고유번호")
+    private Integer storeId;
+
     @Column(name = "customer_grade")
     @Enumerated(EnumType.STRING)
     @Schema(description = "고객 등급")
@@ -59,10 +63,11 @@ public class Customer {
     private LocalDateTime createdAt;
 
     @Builder
-    public Customer(Integer id, String did, Integer memberId, CustomerGrade customerGrade,CouponAvailable couponAvailable,CouponStatus couponStatus, IsActive isActive, LocalDateTime createdAt){
+    public Customer(Integer id, String did, Integer memberId, Integer storeId, CustomerGrade customerGrade,CouponAvailable couponAvailable,CouponStatus couponStatus, IsActive isActive, LocalDateTime createdAt){
         this.id = id;
         this.did = did;
         this.memberId = memberId;
+        this.storeId = storeId;
         this.customerGrade = customerGrade;
         this.couponAvailable = couponAvailable;
         this.couponStatus = couponStatus;

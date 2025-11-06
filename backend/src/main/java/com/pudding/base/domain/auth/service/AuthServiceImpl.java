@@ -97,6 +97,7 @@ public class AuthServiceImpl implements AuthService {
                             Customer.builder()
                                     .did(info.getDid())
                                     .memberId(member.getId())
+                                    .storeId(storeId)
                                     .build()
                     );
                 });

@@ -10,4 +10,7 @@ public interface CustomerService {
 
     // 고객 상세 조회
     CustomerDto getCustomerById(Integer customerId);
+
+    // 신규 가입자 수 추출
+    CustomerDto getNewCustomers();
 }

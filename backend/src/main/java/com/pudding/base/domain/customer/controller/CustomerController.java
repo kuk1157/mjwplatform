@@ -30,4 +30,13 @@ public class CustomerController {
         return ResponseEntity.ok(customer);
     }
 
+    @Operation(summary = "매장 별 신규가입자수 추출", description = "customer 에서 LEFT JOIN과 GROUP BY 활용")
+    @GetMapping("/newCustomers")
+    public ResponseEntity<CustomerDto> getNewCustomers(){
+        CustomerDto newCustomers = customerService.getNewCustomers();
+        return ResponseEntity.ok(newCustomers);
+    }
+
+
+
 }

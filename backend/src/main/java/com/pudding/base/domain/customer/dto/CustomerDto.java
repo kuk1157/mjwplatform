@@ -4,12 +4,10 @@ import com.pudding.base.domain.common.enums.CouponStatus;
 import com.pudding.base.domain.common.enums.CustomerGrade;
 import com.pudding.base.domain.common.enums.IsActive;
 import com.pudding.base.domain.customer.entity.Customer;
-import lombok.AccessLevel;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
@@ -17,6 +15,7 @@ public class CustomerDto {
     private Integer id;
     private String did;
     private Integer memberId;
+    private Integer storeId;
     private CustomerGrade customerGrade;
     private CouponAvailable couponAvailable;
     private CouponStatus couponStatus;
@@ -24,10 +23,11 @@ public class CustomerDto {
     private LocalDateTime createdAt;
 
     @Builder
-    public CustomerDto(Integer id, String did, Integer memberId, CustomerGrade customerGrade,CouponAvailable couponAvailable,CouponStatus couponStatus, IsActive isActive, LocalDateTime createdAt){
+    public CustomerDto(Integer id, String did, Integer memberId, Integer storeId, CustomerGrade customerGrade,CouponAvailable couponAvailable,CouponStatus couponStatus, IsActive isActive, LocalDateTime createdAt){
         this.id = id;
         this.did = did;
         this.memberId = memberId;
+        this.storeId = storeId;
         this.customerGrade = customerGrade;
         this.couponAvailable = couponAvailable;
         this.couponStatus = couponStatus;
@@ -40,6 +40,7 @@ public class CustomerDto {
                 .id(customer.getId())
                 .did(customer.getDid())
                 .memberId(customer.getMemberId())
+                .storeId(customer.getStoreId())
                 .customerGrade(customer.getCustomerGrade())
                 .couponAvailable(customer.getCouponAvailable())
                 .couponStatus(customer.getCouponStatus())
@@ -58,6 +59,19 @@ public class CustomerDto {
             this.did = did;
             this.name = name;
         }
+    }
+
+
+    // 신규 가입자 수 세팅
+    private List<StoreNewCustomer> stores;
+    public CustomerDto(List<StoreNewCustomer> stores) {
+        this.stores = stores;
+    }
+    @Data
+    @AllArgsConstructor
+    public static class StoreNewCustomer {
+        private String storeName;
+        private int newCustomerCount;
     }
 
 }
