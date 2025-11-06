@@ -41,6 +41,11 @@ const ChangePassword = Loadable({
     Component: lazy(() => import("../components/pages/myPage/changePassword")),
 });
 
+// 신규 가입자 수(가맹점 별)
+const CountStores = Loadable({
+    Component: lazy(() => import("../components/pages/countStore")),
+});
+
 // [홈페이지에서 메뉴]
 
 // 가맹점 리스트
@@ -372,6 +377,12 @@ const Router = createBrowserRouter([
                 element: <StoreVisit />,
             },
 
+            // 신규 가입자 수(가맹점 별)
+
+            {
+                path: "/countStore",
+                element: <CountStores />,
+            },
             // [홈페이지]
 
             // 가맹점 목록
