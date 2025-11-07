@@ -21,11 +21,11 @@ public class WebClientConfig {
     public WebClient daeguWebClient(WebClient.Builder builder) {
         HttpClient httpClient = HttpClient.create()
                 .compress(true)                                   // 응답 압축
-                .responseTimeout(Duration.ofSeconds(10))          // 전체 응답 타임아웃
-                .option(ChannelOption.CONNECT_TIMEOUT_MILLIS, 3000)
+                .responseTimeout(Duration.ofSeconds(30))          // 전체 응답 타임아웃
+                .option(ChannelOption.CONNECT_TIMEOUT_MILLIS, 5000)
                 .doOnConnected(conn -> conn
-                        .addHandlerLast(new ReadTimeoutHandler(10))   // 소켓 read 타임아웃
-                        .addHandlerLast(new WriteTimeoutHandler(10))); // 소켓 write 타임아웃
+                        .addHandlerLast(new ReadTimeoutHandler(30))   // 소켓 read 타임아웃
+                        .addHandlerLast(new WriteTimeoutHandler(30))); // 소켓 write 타임아웃
 
         return builder
                 .baseUrl("https://www.daegu.go.kr/daeguchain")
