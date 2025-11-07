@@ -1,4 +1,4 @@
-package com.pudding.base.naver.api;
+package com.pudding.base.domain.naver.api;
 
 import com.pudding.base.domain.store.dto.StoreAddressDto;
 import lombok.RequiredArgsConstructor;
@@ -6,7 +6,6 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import org.springframework.web.reactive.function.client.WebClient;
 
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 

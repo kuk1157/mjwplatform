@@ -1,4 +1,4 @@
-package com.pudding.base.naver.controller;
+package com.pudding.base.domain.naver.controller;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
