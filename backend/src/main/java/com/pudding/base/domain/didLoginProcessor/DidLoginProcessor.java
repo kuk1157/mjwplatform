@@ -1,4 +1,4 @@
-package com.pudding.base.domain.DidLoginProcessor;
+package com.pudding.base.domain.didLoginProcessor;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;

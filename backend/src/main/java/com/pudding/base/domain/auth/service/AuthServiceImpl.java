@@ -1,11 +1,9 @@
 package com.pudding.base.domain.auth.service;
 
-import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.pudding.base.crypto.service.EncMetaManager;
 import com.pudding.base.dchain.DaeguChainClient;
-import com.pudding.base.dchain.dto.DaeguChainNftMetadataDto;
-import com.pudding.base.domain.DidLoginProcessor.DidLoginProcessor;
+import com.pudding.base.domain.didLoginProcessor.DidLoginProcessor;
 import com.pudding.base.domain.auth.dto.AuthRequestDto;
 import com.pudding.base.domain.auth.dto.AuthResponseDto;
 import com.pudding.base.domain.auth.dto.DidLoginResponseDto;
@@ -13,8 +11,6 @@ import com.pudding.base.domain.auth.entity.Auth;
 import com.pudding.base.domain.auth.repository.AuthRepository;
 import com.pudding.base.domain.common.enums.ActType;
 import com.pudding.base.domain.common.enums.IsActive;
-import com.pudding.base.domain.common.enums.IsPaymentStatus;
-import com.pudding.base.domain.common.enums.IsVisitStatus;
 import com.pudding.base.domain.common.exception.CustomException;
 import com.pudding.base.domain.customer.entity.Customer;
 import com.pudding.base.domain.customer.repository.CustomerRepository;
@@ -23,14 +19,9 @@ import com.pudding.base.domain.member.enums.Role;
 import com.pudding.base.domain.member.repository.MemberRepository;
 import com.pudding.base.domain.memberLog.entity.MemberLog;
 import com.pudding.base.domain.memberLog.repository.MemberLogRepository;
-import com.pudding.base.domain.nft.entity.Nft;
 import com.pudding.base.domain.nft.service.NftService;
-import com.pudding.base.domain.store.entity.Store;
 import com.pudding.base.domain.store.repository.StoreRepository;
-import com.pudding.base.domain.storeStamp.repository.StoreStampRepository;
 import com.pudding.base.domain.storeStamp.service.StoreStampService;
-import com.pudding.base.domain.visit.dto.VisitLogDto;
-import com.pudding.base.domain.visit.entity.VisitLog;
 import com.pudding.base.domain.visit.repository.VisitLogRepository;
 import com.pudding.base.domain.visit.service.VisitLogService;
 import com.pudding.base.domain.visit.service.VisitLogServiceImpl;
@@ -39,14 +30,11 @@ import com.pudding.base.security.JwtUtil;
 import com.rootlab.did.ClaimInfo;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
-import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import java.nio.charset.StandardCharsets;
-import java.util.*;
 
 
 @Service
