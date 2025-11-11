@@ -348,6 +348,32 @@ export const DataTable = ({
                         return cellValue ?? "-";
                 }
 
+            case "admin_FAQ":
+                switch (column.key) {
+                    case "question":
+                        return row.question;
+                    case "answer":
+                        return row.answer;
+                    case "detail":
+                        return (
+                            <Button
+                                className="px-[16px] py-[9px] bg-[#21A089] text-white mx-auto text-[15px] rounded"
+                                // 고유번호 넘기는 navigate (공지사항)
+                                onClick={() =>
+                                    navigate(`/admin/faq/faqDetail/${row.id}`, {
+                                        state: row,
+                                    })
+                                }
+                                // onClick={(e) => handleDetailButtonClick(row, e)}
+                            >
+                                상세보기
+                            </Button>
+                        );
+
+                    default:
+                        return cellValue ?? "-";
+                }
+
             // 매장 관리 상세보기 버튼
             case "admin_store":
                 switch (column.key) {

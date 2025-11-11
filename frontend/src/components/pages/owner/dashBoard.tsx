@@ -106,7 +106,7 @@ function OwnerDashBoard() {
                 socketRef.current = null;
             }
         };
-    }, [ownerId, storeId]);
+    }, [ownerId]);
 
     // [신규 방문 데이터 클릭 시 동적 처리]
     const parsedAmount = Number(amount) || 0;

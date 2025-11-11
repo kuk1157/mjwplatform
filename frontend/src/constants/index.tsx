@@ -2,6 +2,7 @@ import { FiUsers } from "react-icons/fi"; // 사용자 아이콘
 import { CiCircleList } from "react-icons/ci"; // 공지사항 아이콘
 import { IoStorefrontOutline } from "react-icons/io5"; // 매장관리 아이콘
 import { ImStatsBars } from "react-icons/im"; // 통계 아이콘
+import { FaQuestionCircle } from "react-icons/fa"; // FAQ 아이콘
 
 // Header 메뉴
 const MenuList = [
@@ -52,8 +53,18 @@ const AdminMenuList = [
         is_active: "Y",
         icon: <CiCircleList />,
     },
+
     {
         id: 3,
+        name: "FAQ",
+        path: "/admin/faq",
+        parent_id: null,
+        seq: 3,
+        is_active: "Y",
+        icon: <FaQuestionCircle />,
+    },
+    {
+        id: 4,
         name: "매장관리",
         path: "/admin/store",
         parent_id: null,
@@ -62,24 +73,24 @@ const AdminMenuList = [
         icon: <IoStorefrontOutline />,
     },
     {
-        id: 4,
+        id: 5,
         name: "매장관리",
         path: "/admin/store",
-        parent_id: 3,
+        parent_id: 4,
         seq: 3,
         is_active: "Y",
     },
     {
-        id: 5,
+        id: 6,
         name: "매장테이블 관리",
         path: "/admin/store/storeTablePage",
-        parent_id: 3,
+        parent_id: 4,
         seq: 3,
         is_active: "Y",
     },
 
     {
-        id: 6,
+        id: 7,
         name: "통계",
         path: "/admin/analytics/trafficAnalytics",
         parent_id: null,
@@ -89,28 +100,28 @@ const AdminMenuList = [
     },
 
     {
-        id: 7,
+        id: 8,
         name: "접속 통계",
         path: "/admin/analytics/trafficAnalytics",
-        parent_id: 6,
-        seq: 3,
-        is_active: "Y",
-    },
-
-    {
-        id: 8,
-        name: "포인트 통계",
-        path: "/admin/analytics/pointAnalytics",
-        parent_id: 6,
+        parent_id: 7,
         seq: 3,
         is_active: "Y",
     },
 
     {
         id: 9,
+        name: "포인트 통계",
+        path: "/admin/analytics/pointAnalytics",
+        parent_id: 7,
+        seq: 3,
+        is_active: "Y",
+    },
+
+    {
+        id: 10,
         name: "현금화 통계",
         path: "/admin/analytics/cashAnalytics",
-        parent_id: 6,
+        parent_id: 7,
         seq: 3,
         is_active: "Y",
     },

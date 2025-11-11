@@ -112,6 +112,27 @@ const AdminNoticeEdit = Loadable({
     Component: lazy(() => import("../components/pages/admin/noticeEdit")),
 });
 
+// FAQ 관리)
+// FAQ 관리 - FAQ 목록
+const AdminFaq = Loadable({
+    Component: lazy(() => import("../components/pages/admin/faq")),
+});
+
+// FAQ 관리 - FAQ 상세보기
+const AdminFaqDetail = Loadable({
+    Component: lazy(() => import("../components/pages/admin/faqDetail")),
+});
+
+// FAQ 관리 - FAQ 등록
+const AdminFaqCreate = Loadable({
+    Component: lazy(() => import("../components/pages/admin/faqCreate")),
+});
+
+// FAQ 관리 - FAQ 수정
+const AdminFaqEdit = Loadable({
+    Component: lazy(() => import("../components/pages/admin/faqEdit")),
+});
+
 // 사용자 관리)
 // 사용자 관리 - 사용자 목록
 const AdminUser = Loadable({
@@ -520,6 +541,30 @@ const Router = createBrowserRouter([
             {
                 path: "notice/noticeEdit/:id",
                 element: <AdminNoticeEdit />,
+            },
+
+            // FAQ 관리)
+            {
+                path: "/admin/faq",
+                element: <AdminFaq />,
+            },
+
+            // FAQ 관리 - FAQ 등록
+            {
+                path: "faq/faqCreate",
+                element: <AdminFaqCreate />,
+            },
+
+            // FAQ 관리 - FAQ 상세보기
+            {
+                path: "faq/faqDetail/:id",
+                element: <AdminFaqDetail />,
+            },
+
+            // FAQ 관리 - FAQ 수정
+            {
+                path: "faq/faqEdit/:id",
+                element: <AdminFaqEdit />,
             },
 
             // 사용자관리)
