@@ -81,6 +81,11 @@ const HomePageStoreInquirySearch = Loadable({
     ),
 });
 
+// 홈페이지 FAQ
+const HomePageFaq = Loadable({
+    Component: lazy(() => import("../components/pages/homePage/faq/faq")),
+});
+
 // [관리자 전산] /admin
 
 const AdminLogin = Loadable({
@@ -434,6 +439,12 @@ const Router = createBrowserRouter([
             {
                 path: "/inquiry/storeInquirySearch",
                 element: <HomePageStoreInquirySearch />,
+            },
+
+            // 홈페이지 faq
+            {
+                path: "/faq/faq",
+                element: <HomePageFaq />,
             },
 
             // socket 테스트 페이지

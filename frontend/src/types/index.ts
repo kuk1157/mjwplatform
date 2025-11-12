@@ -101,7 +101,7 @@ export interface NoticeDetail {
 
 // FAQ
 export interface FaqData {
-    id: string;
+    id: number;
     question: string;
     answer?: string;
     createdAt?: string;
