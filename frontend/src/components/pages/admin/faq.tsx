@@ -1,8 +1,7 @@
 import { useEffect, useState } from "react";
-import { NoticeDataType } from "../../../types";
+import { FaqData } from "../../../types";
 import { useQuery } from "react-query";
 import { UserApi } from "src/utils/userApi";
-import { updateContentsWithImages } from "src/utils/common";
 import { useRecoilValue } from "recoil";
 import { sortState } from "src/recoil/sortState";
 import { GenericDataTable } from "src/components/organisms/genericDataTable";
@@ -18,37 +17,25 @@ const searchOption = [
 function AdminFaq() {
     const [page, setPage] = useState(1);
     const [totalElements, setTotalElements] = useState(0);
-    const [filteredData, setFilteredData] = useState<NoticeDataType[]>(); // 필터링된 데이터
+    const [filteredData, setFilteredData] = useState<FaqData[]>(); // 필터링된 데이터
     const [searchQuery, setSearchQuery] = useState("");
     const sortConfig = useRecoilValue(sortState);
 
-    const { data: noticeList, isFetching } = useQuery({
-        queryKey: ["noticeList", page, searchQuery, sortConfig],
+    const { data: faqList, isFetching } = useQuery({
+        queryKey: ["faqList", page, searchQuery, sortConfig],
         queryFn: async () => {
-            const url = `/api/v1/admin/notices?page=${page - 1}&sort=${sortConfig.key},${sortConfig.array}&size=${itemsPerPage}${searchQuery}`;
+            const url = `/api/v1/admin/faqs?page=${page - 1}&sort=${sortConfig.key},${sortConfig.array}&size=${itemsPerPage}${searchQuery}`;
             const res = await UserApi.get(url);
-
-            const updatedData = res.data.content.map((data: any) => {
-                if (!data.description || !data.filePaths) return data;
-                const updatedContents = updateContentsWithImages(
-                    data.description,
-                    data.filePaths,
-                    { onlyLast: true } // 마지막 uuid 추출 조건(true일때 마지막만)
-                );
-                return { ...data, description: updatedContents };
-            });
-            res.data.content = updatedData;
             return res.data;
-            // return res.data;
         },
         refetchOnWindowFocus: false,
     });
     useEffect(() => {
-        if (!isFetching) {
-            setFilteredData(noticeList.content);
-            setTotalElements(noticeList.totalElements);
+        if (!isFetching && faqList?.content) {
+            setFilteredData(faqList.content);
+            setTotalElements(faqList.totalElements);
         }
-    }, [noticeList, isFetching]);
+    }, [faqList, isFetching]);
     useEffect(() => {
         setPage(1);
     }, [searchQuery]);

@@ -99,6 +99,14 @@ export interface NoticeDetail {
     createdAt?: string;
 }
 
+// FAQ
+export interface FaqData {
+    id: string;
+    question: string;
+    answer?: string;
+    createdAt?: string;
+}
+
 export interface BookDataType {
     id: string;
     uuid: string;

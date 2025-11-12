@@ -26,7 +26,7 @@ export function AdminFaqCreate() {
         navigate("/admin/faq");
     };
 
-    // FAQ 등록(파일첨부 다중 버전)
+    // FAQ 등록
     const handleSubmit = async () => {
         if (!formData.question) {
             alert("질문을 입력해주세요.");
@@ -36,13 +36,10 @@ export function AdminFaqCreate() {
             alert("답변을 입력해주세요.");
             return;
         }
-        const form = new FormData();
-
         try {
-            await UserApi.post("/api/v1/admin/notices", form, {
-                headers: {
-                    "Content-Type": "multipart/form-data",
-                },
+            await UserApi.post(`/api/v1/admin/faqs`, {
+                question: formData.question,
+                answer: formData.answer,
             });
             alert("등록이 완료되었습니다.");
             navigate("/admin/faq");
