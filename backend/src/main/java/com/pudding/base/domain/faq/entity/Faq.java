@@ -2,6 +2,7 @@ package com.pudding.base.domain.faq.entity;
 
 import com.pudding.base.domain.common.entity.BaseTimeEntity;
 import com.pudding.base.domain.common.entity.TimeAndStatusEntity;
+import com.pudding.base.domain.common.enums.IsActive;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
@@ -29,6 +30,10 @@ public class Faq extends TimeAndStatusEntity {
     @Schema(description = "답변")
     private String answer;
 
+    @Column(name = "is_active")
+    @Enumerated(EnumType.STRING)
+    private IsActive isActive; // 삭제 여부
+
 
     @Builder
     public Faq(Integer id, String question, String answer){
@@ -41,5 +46,16 @@ public class Faq extends TimeAndStatusEntity {
     public void updateFaqInfo(String question, String answer){
         this.question = question;
         this.answer = answer;
+    }
+
+    @PrePersist
+    public void prePersist() {
+        super.prePersist();
+        this.isActive = IsActive.y;
+    }
+
+    // Faq 삭제
+    public void DeleteFaq(){
+        this.isActive = IsActive.n;
     }
 }

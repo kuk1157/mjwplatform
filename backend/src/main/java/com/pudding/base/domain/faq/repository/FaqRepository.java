@@ -12,10 +12,13 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface FaqRepository extends JpaRepository<Faq, Integer> {
 
-    // 질문과 답변 모두 keyword 검색
+    // FAQ 전체 조회
     @Query("SELECT f FROM Faq f " +
-            "WHERE LOWER(f.question) LIKE LOWER(CONCAT('%', :keyword, '%')) " +
-            "   OR LOWER(f.answer) LIKE LOWER(CONCAT('%', :keyword, '%'))")
-    Page<Faq> findAll(Pageable pageable, @Param("keyword") String keyword);
+            "WHERE f.isActive = com.pudding.base.domain.common.enums.IsActive.y " + // 추가
+            "AND (:keyword IS NULL OR :keyword = '' " +
+            "   OR LOWER(f.question) LIKE LOWER(CONCAT('%', :keyword, '%')) " +
+            "   OR LOWER(f.answer) LIKE LOWER(CONCAT('%', :keyword, '%'))) " +
+            "ORDER BY f.createdAt DESC")
+    Page<Faq> searchFaq(Pageable pageable, @Param("keyword") String keyword);
 
 }

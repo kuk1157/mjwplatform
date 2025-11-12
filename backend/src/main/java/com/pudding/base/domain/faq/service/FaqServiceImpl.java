@@ -34,7 +34,7 @@ public class FaqServiceImpl implements FaqService {
     @Override
     public FaqDto updateFaq(FaqDto.Request faqDto, Integer id){
         Faq faq = faqRepository.findById(id).orElseThrow(()-> new CustomException("존재하지 않는 FAQ 입니다."));
-        faq.updateFaqInfo(faqDto.getQuestion(), faq.getAnswer());
+        faq.updateFaqInfo(faqDto.getQuestion(), faqDto.getAnswer());
         faqRepository.save(faq);
         return FaqDto.fromEntity(faq);
     }
@@ -42,7 +42,7 @@ public class FaqServiceImpl implements FaqService {
 
     @Override
     public Page<FaqDto> getAllFaq(Pageable pageable, String keyword) {
-        Page<Faq> faqPage = faqRepository.findAll(pageable, keyword);
+        Page<Faq> faqPage = faqRepository.searchFaq(pageable, keyword);
         return faqPage.map(FaqDto::fromEntity); // DTO 변환
     }
 
@@ -59,7 +59,7 @@ public class FaqServiceImpl implements FaqService {
     @Override
     public FaqDto deleteFaq(Integer id) {
         Faq faq = faqRepository.findById(id).orElseThrow(()-> new CustomException("존재하지 않는 FAQ 입니다."));
-        faq.updateIsActive(IsActive.n);
+        faq.DeleteFaq();
         faqRepository.save(faq);
         return FaqDto.fromEntity(faq);
     }
