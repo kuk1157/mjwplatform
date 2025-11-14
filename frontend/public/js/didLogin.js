@@ -797,6 +797,7 @@
                     const response = await this.postAjax(chkUrl, chkData);
 
                     if (response.success && response.returnUrl !== 'Failed') {
+                        consecutiveFailures = 0;
                         this.cleanup();
                         await this.handleLoginResult(response.returnData, data);
                         return; // 성공 시 더 이상 체크하지 않음
