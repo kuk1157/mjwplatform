@@ -825,9 +825,10 @@
                     currentInterval = Math.min(currentInterval * 1.5, maxInterval);
 
                     if (consecutiveFailures >= maxFailures) {
+                        alert('다대구 로그인 인증시간(약 1분 이내)을 초과하였습니다. \n잠시 후 다시 시도해주세요. ');
                         this.cleanup();
                         console.error('Max consecutive failures reached');
-                        alert('서버 연결에 문제가 발생했습니다. 잠시 후 다시 시도해주세요.');
+                        // alert('서버 연결에 문제가 발생했습니다. 잠시 후 다시 시도해주세요.');
                         return;
                     }
                 } finally {
