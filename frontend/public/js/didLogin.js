@@ -54,7 +54,7 @@
         ADAPTIVE_POLLING: {
             MIN_INTERVAL: 1000,    // 최소 간격: 1초
             MAX_INTERVAL: 5000,    // 최대 간격: 5초
-            MAX_FAILURES: 3,       // 최대 연속 실패
+            MAX_FAILURES: 60,       // 최대 연속 실패
             DEBOUNCE_DELAY: 300    // 디바운스 지연시간
         },
         // 타이밍 관련 상수
@@ -797,7 +797,6 @@
                     const response = await this.postAjax(chkUrl, chkData);
 
                     if (response.success && response.returnUrl !== 'Failed') {
-                        consecutiveFailures = 0;
                         this.cleanup();
                         await this.handleLoginResult(response.returnData, data);
                         return; // 성공 시 더 이상 체크하지 않음
