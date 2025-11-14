@@ -1,20 +1,15 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import axios from "axios";
 import LoadingSpinner from "src/utils/loadingSpinner";
 
-// 타입 확장
 declare global {
     interface Window {
         DIDLogin?: {
             init: (opts?: any) => void;
             isReady: () => boolean;
             loginPersonal: (opts: any) => void;
-            setOptions?: (opts: any) => void;
-            reset?: () => void;
-            getVersion?: () => string;
         };
         didLogin?: {
-            setOption?: (opts: any) => void;
             loginPopup: (opts: any) => void;
         };
         daeguIdLogin?: () => void;
@@ -31,13 +26,24 @@ interface DidLoginButtonProps {
     tableNumber?: number;
 }
 
+const MAX_CONSECUTIVE_FAILURES = 5; // 최대 연속 실패 횟수
+const POLLING_INTERVAL = 500; // 기본 polling 간격(ms)
+const MAX_POLLING_INTERVAL = 3000; // 최대 간격(ms)
+
 const DidLoginButton = ({ storeNum, tableNumber }: DidLoginButtonProps) => {
     const [loading, setLoading] = useState(false);
+    const [sdkReady, setSdkReady] = useState(false);
+    const consecutiveFailures = useRef(0);
+    const pollingTimer = useRef<number | null>(null);
+    const pollingInterval = useRef(POLLING_INTERVAL);
 
+    // ===============================
+    // 전역 JS 에러 핸들링
+    // ===============================
     useEffect(() => {
         const handleGlobalError = (event: ErrorEvent) => {
             console.error(
-                "전역 JS 에러 발생:",
+                "전역 JS 에러:",
                 event.message,
                 event.filename,
                 event.lineno
@@ -47,13 +53,26 @@ const DidLoginButton = ({ storeNum, tableNumber }: DidLoginButtonProps) => {
             );
         };
         const handlePromiseRejection = (event: PromiseRejectionEvent) => {
-            console.error("비동기 JS 에러 발생:", event.reason);
+            console.error("비동기 JS 에러:", event.reason);
             alert("로그인 모듈 비동기 오류 발생. 잠시 후 다시 시도해주세요.");
         };
 
         window.addEventListener("error", handleGlobalError);
         window.addEventListener("unhandledrejection", handlePromiseRejection);
 
+        return () => {
+            window.removeEventListener("error", handleGlobalError);
+            window.removeEventListener(
+                "unhandledrejection",
+                handlePromiseRejection
+            );
+        };
+    }, []);
+
+    // ===============================
+    // 글로벌 로그인 콜백
+    // ===============================
+    useEffect(() => {
         window.didLoginCallback = async (encrypted) => {
             const returnData =
                 typeof encrypted === "string"
@@ -98,10 +117,12 @@ const DidLoginButton = ({ storeNum, tableNumber }: DidLoginButtonProps) => {
         window.iosCallback = function (encrypted: any) {
             window.didLoginCallback?.(encrypted);
         };
+    }, [storeNum, tableNumber]);
 
-        // =====================
-        // 3️⃣ 스크립트 로드 유틸
-        // =====================
+    // ===============================
+    // SDK 로드 및 초기화
+    // ===============================
+    useEffect(() => {
         const loadScript = (src: string) =>
             new Promise<void>((resolve, reject) => {
                 const script = document.createElement("script");
@@ -112,83 +133,98 @@ const DidLoginButton = ({ storeNum, tableNumber }: DidLoginButtonProps) => {
                 document.body.appendChild(script);
             });
 
-        (async () => {
+        const initSdk = async () => {
             try {
-                await loadScript("https://code.jquery.com/jquery-3.6.0.min.js");
-                console.log("jQuery loaded");
+                if (!(window as any).jQuery) {
+                    await loadScript(
+                        "https://code.jquery.com/jquery-3.6.0.min.js"
+                    );
+                    console.log("jQuery loaded");
+                }
 
                 await loadScript("/js/didLogin.js");
                 console.log("didLogin.js loaded");
 
                 if (window.DIDLogin) {
-                    window.DIDLogin.init({
-                        logActive: process.env.NODE_ENV !== "production",
-                        mbActive: true,
-                    });
+                    window.DIDLogin.init({ logActive: true, mbActive: true });
 
-                    window.daeguIdLogin = () => {
-                        if (!window.DIDLogin?.isReady()) {
-                            alert("로그인 모듈 초기화에 실패했습니다.");
-                            return;
-                        }
+                    // SDK 준비 확인 + polling
+                    const checkReady = () => {
+                        if (window.DIDLogin?.isReady()) {
+                            setSdkReady(true);
+                            console.log("SDK 준비 완료");
+                        } else {
+                            consecutiveFailures.current++;
+                            pollingInterval.current = Math.min(
+                                pollingInterval.current * 1.5,
+                                MAX_POLLING_INTERVAL
+                            );
 
-                        window.DIDLogin.loginPersonal({
-                            siteId: SITE_ID,
-                            requiredVC: REQUIRED_VC,
-                            callbackFunc: "didLoginCallback",
-                            iosCallbackFuncName: "iosCallback",
-                        });
-
-                        // 앱 미설치 fallback
-                        const timer = setTimeout(() => {
-                            if (/Android/i.test(navigator.userAgent)) {
-                                window.location.href =
-                                    "https://play.google.com/store/apps/details?id=com.dreamsecurity.daegudid";
-                            } else if (
-                                /iPhone|iPad|iPod/i.test(navigator.userAgent)
+                            if (
+                                consecutiveFailures.current >=
+                                MAX_CONSECUTIVE_FAILURES
                             ) {
-                                window.location.href =
-                                    "https://apps.apple.com/kr/app/%EB%8B%A4%EB%8C%80%EA%B5%AC/id1565818679";
+                                alert(
+                                    "로그인 모듈 준비에 실패했습니다. 잠시 후 다시 시도해주세요."
+                                );
+                                console.error(
+                                    "Max consecutive failures reached"
+                                );
+                            } else {
+                                pollingTimer.current = window.setTimeout(
+                                    checkReady,
+                                    pollingInterval.current
+                                );
                             }
-                        }, 1200);
-
-                        document.addEventListener("visibilitychange", () => {
-                            if (document.hidden) clearTimeout(timer);
-                        });
+                        }
                     };
+                    checkReady();
                 } else if (window.didLogin) {
-                    // 구버전 호환
-                    window.daeguIdLogin = () => {
-                        window.didLogin!.loginPopup({
-                            siteId: SITE_ID,
-                            requiredVC: REQUIRED_VC,
-                            callbackFunc: "didLoginCallback",
-                            iosCallbackFuncName: "iosCallback",
-                        });
-                    };
+                    setSdkReady(true);
                 } else {
-                    console.error("didLogin.js 로드됨. 전역 객체 미탑재.");
-                    alert("로그인 모듈을 로드할 수 없습니다.");
+                    throw new Error("로그인 모듈 전역 객체 미탑재");
                 }
             } catch (err) {
-                console.error("스크립트 로드 실패:", err);
+                console.error("SDK 초기화 실패:", err);
                 alert(
-                    "로그인 모듈 로드에 실패했습니다. 네트워크를 확인해주세요."
+                    "로그인 모듈을 로드할 수 없습니다. 네트워크를 확인해주세요."
                 );
             }
-        })();
+        };
+
+        initSdk();
 
         return () => {
-            window.removeEventListener("error", handleGlobalError);
-            window.removeEventListener(
-                "unhandledrejection",
-                handlePromiseRejection
-            );
+            if (pollingTimer.current) clearTimeout(pollingTimer.current);
         };
-    }, [storeNum, tableNumber]);
+    }, []);
 
+    // ===============================
+    // 로그인 클릭
+    // ===============================
     const loginClick = () => {
-        window.daeguIdLogin?.();
+        if (!sdkReady) {
+            alert(
+                "로그인 모듈이 아직 준비되지 않았습니다. 잠시 후 다시 시도해주세요."
+            );
+            return;
+        }
+
+        if (window.DIDLogin) {
+            window.DIDLogin.loginPersonal({
+                siteId: SITE_ID,
+                requiredVC: REQUIRED_VC,
+                callbackFunc: "didLoginCallback",
+                iosCallbackFuncName: "iosCallback",
+            });
+        } else if (window.didLogin) {
+            window.didLogin.loginPopup({
+                siteId: SITE_ID,
+                requiredVC: REQUIRED_VC,
+                callbackFunc: "didLoginCallback",
+                iosCallbackFuncName: "iosCallback",
+            });
+        }
     };
 
     return (
