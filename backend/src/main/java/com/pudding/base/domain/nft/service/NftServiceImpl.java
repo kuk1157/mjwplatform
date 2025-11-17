@@ -37,12 +37,13 @@ public class NftServiceImpl implements NftService {
 
     @Transactional
     @Override
-    public NftDto createNft(String did, String tokenHash, Integer storeTableId, Integer nftIdx, String nftUrl, Integer encId, Integer storeId, Integer customerId){
+    public NftDto createNft(String did, String tokenHash, String mintHash, Integer storeTableId, Integer nftIdx, String nftUrl, Integer encId, Integer storeId, Integer customerId){
         String finalToken = UUID.randomUUID().toString();
 
         Nft nft = Nft.builder()
                 .tokenId(finalToken)
                 .tokenHash(tokenHash)
+                .mintHash(mintHash)
                 .storeId(storeId)
                 .customerId(customerId)
                 .storeTableId(storeTableId)

@@ -193,6 +193,7 @@ public class DidLoginProcessor {
             // [NFT Mint 진행하기]
             Map<String, Object> mintResult = null; // 예외 처리를 위한 NFT Mint 객체 초기화
             String factHash = null; // factHash 초기화(NFT ID 추출을 위해 필요한 값)
+            String mintHash = null; // nft 거래내역 확인용 hash mint_hash
             if (nftFileUri != null) {
 
                 mintResult = daeguChainClient.nftMint(
@@ -204,9 +205,13 @@ public class DidLoginProcessor {
                 );
                 JsonNode root = objectMapper.valueToTree(mintResult);
                 factHash = root.path("data").path("tx").path("fact_hash").asText();
+                mintHash = root.path("data").path("tx").path("hash").asText();
             } else {
                 throw new RuntimeException("NFT Mint 및 factHash 추출을 실패하였습니다.");
             }
+
+            System.out.println("민트해쉬 담기나 안담기나");
+            System.out.println(mintHash);
 
             // [NFT ID API 실행]
             Map<String, Object> nftIdxResult = null; // 예외 처리를 위한 NFT ID 객체 초기화
@@ -242,7 +247,7 @@ public class DidLoginProcessor {
             Integer encId = encResult.getId(); // INT
 
             // [NFT DB에 저장]
-            nftService.createNft(savedCustomer.getDid(), tokenHash, tableNumber, nftIdx, nftTokenImageUrl, encId, storeId, visitLogDto.getCustomerId());
+            nftService.createNft(savedCustomer.getDid(), tokenHash, mintHash, tableNumber, nftIdx, nftTokenImageUrl, encId, storeId, visitLogDto.getCustomerId());
 
             // [ 가맹점 스탬프 저장(찍기) ]
             storeStampService.createStoreStamps(visitLogDto.getCustomerId(), storeId);

@@ -19,8 +19,8 @@ public class NftController {
 
     @Operation(summary = "NFT 등록 API", description = "NFT 발급 API")
     @PostMapping("/stores/{storeId}/customers/{customerId}/nfts")
-    public ResponseEntity<NftDto> createNft(String did, String tokenHash, Integer storeTableId, Integer nftIdx, String nftUrl, Integer encId, @PathVariable Integer storeId, @PathVariable Integer customerId){
-        NftDto savedNft = nftService.createNft(did, tokenHash, storeTableId, nftIdx, nftUrl, encId, storeId, customerId);
+    public ResponseEntity<NftDto> createNft(String did, String tokenHash, String mintHash, Integer storeTableId, Integer nftIdx, String nftUrl, Integer encId, @PathVariable Integer storeId, @PathVariable Integer customerId){
+        NftDto savedNft = nftService.createNft(did, tokenHash, mintHash, storeTableId, nftIdx, nftUrl, encId, storeId, customerId);
         return ResponseEntity.ok(savedNft);
     }
 

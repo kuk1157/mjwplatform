@@ -29,6 +29,10 @@ public class Nft {
     @Schema(description = "token 진위여부 검증값")
     private String tokenHash;
 
+    @Column(name = "mint_hash")
+    @Schema(description = "nft 거래내역 검증용 mint hash")
+    private String mintHash;
+
     @Column(name = "store_id")
     @Schema(description = "매장 고유번호")
     private Integer storeId;
@@ -58,10 +62,11 @@ public class Nft {
     private LocalDateTime createdAt;
 
     @Builder
-    public Nft(Integer id, String tokenId, String tokenHash, Integer storeId, Integer customerId, Integer storeTableId, Integer nftIdx, String nftUrl, Integer encId, LocalDateTime createdAt) {
+    public Nft(Integer id, String tokenId, String tokenHash, String mintHash, Integer storeId, Integer customerId, Integer storeTableId, Integer nftIdx, String nftUrl, Integer encId, LocalDateTime createdAt) {
         this.id = id;
         this.tokenId = tokenId;
         this.tokenHash = tokenHash;
+        this.mintHash = mintHash;
         this.storeId = storeId;
         this.customerId = customerId;
         this.storeTableId = storeTableId;
