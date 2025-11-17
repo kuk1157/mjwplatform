@@ -47,7 +47,7 @@ const DidLoginButton = ({ storeNum, tableNumber }: DidLoginButtonProps) => {
 
             console.log("returnData", returnData);
             try {
-                setLoading(true); // 스피너 켜기
+                // setLoading(true); // 스피너 켜기
                 const response = await axios.post(
                     `/api/v1/auth/did/${storeNum}/${tableNumber}`,
                     {
@@ -178,6 +178,7 @@ const DidLoginButton = ({ storeNum, tableNumber }: DidLoginButtonProps) => {
     }, [storeNum, tableNumber]);
 
     const loginClick = () => {
+        setLoading(true); // 스피너 켜기
         window.daeguIdLogin?.();
     };
 
