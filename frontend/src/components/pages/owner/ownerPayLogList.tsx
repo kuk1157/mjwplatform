@@ -21,7 +21,7 @@ function OwnerPayLogList() {
 
     const [ownerPayLogs, setOwnerPayLogs] = useState<OwnerPayLog[]>([]);
     const [page, setPage] = useState(0);
-    const [pageSize] = useState(5);
+    const [pageSize] = useState(10);
     const [totalPages, setTotalPages] = useState(0);
 
     useEffect(() => {
@@ -46,6 +46,11 @@ function OwnerPayLogList() {
     const OwnerDashBoard = () => {
         navigate("/owner/dashBoard/");
     };
+
+    const maxPageButtons = 5; // 한 번에 보여줄 버튼 개수
+    const startPage = Math.floor(page / maxPageButtons) * maxPageButtons;
+    const endPage = Math.min(startPage + maxPageButtons, totalPages);
+
     return (
         <MainContainer className="py-[230px] bg-[#F6F6F6] lg:py-[150px] sm:py-[100px]">
             <div className="min-h-screen w-full max-w-[1000px] mx-auto bg-gray-50 p-8">
@@ -145,19 +150,22 @@ function OwnerPayLogList() {
                             <MdArrowBackIosNew />
                         </button>
 
-                        {Array.from({ length: totalPages }, (_, i) => (
-                            <button
-                                key={i}
-                                onClick={() => setPage(i)}
-                                className={`px-4 py-2 flex items-center justify-center ${
-                                    page === i
-                                        ? "bg-[#E61F2C] text-[#fff] rounded-[25px]"
-                                        : "text-[#C7CBD2] hover:text-[#E61F2C]"
-                                }`}
-                            >
-                                {i + 1}
-                            </button>
-                        ))}
+                        {Array.from({ length: endPage - startPage }, (_, i) => {
+                            const pageNumber = startPage + i;
+                            return (
+                                <button
+                                    key={pageNumber}
+                                    onClick={() => setPage(pageNumber)}
+                                    className={`px-4 py-2 flex items-center justify-center ${
+                                        page === pageNumber
+                                            ? "bg-[#E61F2C] text-white rounded-[25px]"
+                                            : "text-[#C7CBD2] hover:text-[#E61F2C]"
+                                    }`}
+                                >
+                                    {pageNumber + 1}
+                                </button>
+                            );
+                        })}
 
                         <button
                             disabled={page + 1 >= totalPages}
