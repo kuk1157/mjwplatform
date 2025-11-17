@@ -156,6 +156,7 @@ export type CouponStatus = "Y" | "N";
 export interface Customer {
     id: number;
     memberId: number;
+    stampCount: number;
     customerGrade: CustomerGrade;
     couponAvailable: CouponAvailable;
     couponStatus: CouponStatus;

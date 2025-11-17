@@ -986,7 +986,7 @@ function OwnerDashBoard() {
 
                                     <div className="flex items-center bg-[#fafafa] rounded-md px-3 py-2 border border-[#eee] transition w-full">
                                         <span className="w-28 text-gray-600 font-medium flex-shrink-0">
-                                            적용포인트
+                                            적립 포인트
                                         </span>
                                         <span className="flex-1 text-right font-bold text-gray-900">
                                             {points.toLocaleString()}P

@@ -124,6 +124,16 @@ const MyInfo = ({
                         disabled
                     />
                 </div>
+                <div className="flex flex-col gap-[10px]">
+                    <span className="text-[#333] text-[17px] xs:text-[15px] leading-[25px] font-bold">
+                        계좌 번호
+                    </span>
+                    <input
+                        type="text"
+                        className="w-full bg-[#f7f7f7] text-[15px] rounded-[5px] h-[40px] px-[15px]"
+                        disabled
+                    />
+                </div>
                 <div>
                     <div className="flex flex-col gap-[10px]">
                         <span className="text-[#333] text-[17px] xs:text-[15px] leading-[25px] font-bold">

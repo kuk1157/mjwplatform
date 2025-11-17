@@ -53,6 +53,7 @@ function StoreDetail() {
                     <LabelDetail label="점주 이름" value={store?.ownerName} />
                     <LabelDetail label="매장 이름" value={store?.name} />
                     <LabelDetail label="매장 주소" value={store?.address} />
+                    <LabelDetail label="계좌번호" value="058-11-092012" />
                     <LabelDetail label="매장 등록일" value={store?.createdAt} />
                 </div>
                 {/* 상세보기 공통 버튼영역 */}

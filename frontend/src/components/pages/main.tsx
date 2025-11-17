@@ -1,6 +1,6 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 // [파일 첨부 경로]
 import { cdn } from "src/constans"; // 파일첨부 경로(네이버클라우드)
@@ -47,6 +47,7 @@ const customSwiperStyle = `
 `;
 
 function MainPage() {
+    const navigate = useNavigate();
     const [stores, setStores] = useState<StoreType[]>([]); // 가맹점(매장) 데이터 세팅
     const [notices, setNotices] = useState<NoticeDataType[]>([]); // 공지사항 데이터 세팅
     const itemsPerPage = 3; // 공지사항 3개 고정
@@ -69,13 +70,14 @@ function MainPage() {
         fetchData();
     }, [itemsPerPage]);
 
-    // 점주 결제 목록 조회 페이지로 이동
-    const btn1 = () => {
-        alert("로그인 후에 확인할 수 있습니다.");
+    // 입점 문의
+    const Inquiry = () => {
+        navigate("/inquiry/storeInquiry");
     };
 
-    const btn2 = () => {
-        alert("로그인 후에 확인할 수 있습니다.");
+    // FAQ
+    const FAQ = () => {
+        navigate("/faq/faq");
     };
 
     const mainBanner = [
@@ -92,7 +94,7 @@ function MainPage() {
                         {/* 첫번째 영역 */}
                         <div className="w-full flex">
                             {/* 메인 슬라이드 영역 */}
-                            <div className="relative w-full max-w-[1200px]">
+                            <div className="relative w-full">
                                 <Swiper
                                     modules={[Navigation, Autoplay]}
                                     slidesPerView={1}
@@ -111,53 +113,12 @@ function MainPage() {
                                             <img
                                                 src={banner.url}
                                                 alt={`메인 타이틀 ${idx + 1}`}
-                                                className="w-full h-auto block"
+                                                className="w-full block"
                                             />
                                         </SwiperSlide>
                                     ))}
                                 </Swiper>
                                 <style>{customSwiperStyle}</style>
-                            </div>
-
-                            {/* 포인트 영역 */}
-                            <div className="w-[400px] h-[460px] mx-3 flex flex-col border border-[#580098] rounded-xl text-lg font-bold shadow-xl">
-                                <div className="flex justify-between border-b border-[#580098] p-5">
-                                    <span>현재 보유 포인트</span>
-                                    <span className="text-[#580098]">
-                                        13,500P
-                                    </span>
-                                </div>
-                                <div className="flex flex-col">
-                                    <div className="flex justify-between border-b border-[#580098] p-5">
-                                        <div className="flex flex-col">
-                                            <span>현재 나의 등급</span>
-                                            <span className="mt-3">
-                                                일반 회원
-                                            </span>
-                                        </div>
-                                        <div className="flex items-end">
-                                            <span className="text-[#A19CB4] text-sm font-normal">
-                                                적립률 3%
-                                            </span>
-                                            <span>
-                                                <img
-                                                    src="/assets/image/mainNft.png"
-                                                    alt="영수증"
-                                                    className="block"
-                                                />
-                                            </span>
-                                        </div>
-                                    </div>
-                                    <div className="p-5">
-                                        <div>최근 결제 내역</div>
-                                        <div className="flex flex-col bg-[#ededed] rounded-lg p-4 mt-2 text-sm font-semibold">
-                                            <span>금액 : 15,000원</span>
-                                            <span>
-                                                시간 : 2025.10.10 14:02:17
-                                            </span>
-                                        </div>
-                                    </div>
-                                </div>
                             </div>
                         </div>
 
@@ -257,29 +218,29 @@ function MainPage() {
                             <div className="w-[850px] text-xl flex">
                                 <button
                                     className="w-[390px] p-5 mx-2 bg-[#580098] rounded-xl text-[#fff] flex flex-col items-center justify-center"
-                                    onClick={btn1}
+                                    onClick={Inquiry}
                                 >
                                     <img
                                         src="/assets/image/mainbutton1.svg"
-                                        alt="영수증"
+                                        alt="입점문의"
                                         className="block"
                                     />
                                     <span className="mt-2 text-center">
-                                        영수증
+                                        입점문의
                                     </span>
                                 </button>
 
                                 <button
                                     className="w-[390px] p-5 mx-2 bg-[#580098] rounded-xl text-[#fff] flex flex-col items-center justify-center"
-                                    onClick={btn2}
+                                    onClick={FAQ}
                                 >
                                     <img
-                                        src="/assets/image/mainbutton2.svg"
-                                        alt="적립내역"
+                                        src="/assets/image/mainbutton4.svg"
+                                        alt="FAQ"
                                         className="block"
                                     />
                                     <span className="mt-2 text-center">
-                                        적립내역
+                                        FAQ
                                     </span>
                                 </button>
 

@@ -47,7 +47,7 @@ export function MobileGradeGuide() {
                                 실버(SILVER)
                             </p>
                             <p className="text-sm mb-1 text-[#999CA2]">
-                                - 가게 1개 방문(최초)
+                                - 가게 1개 방문(최초) / 적립률 1%
                             </p>
                         </div>
                     </div>
@@ -65,7 +65,7 @@ export function MobileGradeGuide() {
                                 골드(GOLD)
                             </p>
                             <p className="text-sm mb-1 text-[#999CA2]">
-                                - 가게 4개 방문
+                                - 가게 4개 방문 / 적립률 1%
                             </p>
                         </div>
                     </div>
@@ -83,7 +83,7 @@ export function MobileGradeGuide() {
                                 플래티넘(PLATINUM)
                             </p>
                             <p className="text-sm mb-1 text-[#999CA2]">
-                                - 가게 7개 방문
+                                - 가게 7개 방문 / 적립률 1%
                             </p>
                         </div>
                     </div>
@@ -101,7 +101,7 @@ export function MobileGradeGuide() {
                                 다이아(DIAMOND)
                             </p>
                             <p className="text-sm mb-1 text-[#999CA2]">
-                                - 모든 가게 방문(10개)
+                                - 모든 가게 방문(10개) / 적립률 1%
                             </p>
                         </div>
                     </div>

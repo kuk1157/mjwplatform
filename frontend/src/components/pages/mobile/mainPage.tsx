@@ -251,38 +251,99 @@ export function MobileMainPage() {
                 <div className="mb-5 p-5 font-semibold text-base truncate shadow-md bg-white rounded-xl  border">
                     {customerId ? (
                         <div>
-                            <div className="flex justify-between border-b p-5">
+                            {/* <div className="flex justify-between border-b p-5">
                                 <span>현재 보유 포인트</span>
                                 <span className="text-[#580098]">13,500P</span>
+                            </div> */}
+
+                            <div className="p-5 text-center border border-[#580098] text-[#580098] font-bold">
+                                <Link to={`/mobile/gradeGuide`}>등급 안내</Link>
                             </div>
-                            <div className="flex flex-col">
-                                <Link to={`/mobile/gradeGuide`}>
-                                    <div className="flex justify-between border-b p-5">
-                                        <div className="flex flex-col">
-                                            <span>현재 나의 등급</span>
-                                            <span className="mt-3">
-                                                [ {""}
-                                                {CustomerGrades[
-                                                    customer?.customerGrade ??
-                                                        ""
-                                                ] ?? "-"}{" "}
-                                                회원 ]
-                                            </span>
-                                        </div>
-                                        <div className="flex items-end">
-                                            <span className="text-[#A19CB4] text-sm font-normal">
-                                                적립률 3%
-                                            </span>
-                                            <span>
-                                                <img
-                                                    src={`/assets/image/customerGrade/${customer?.customerGrade?.toLowerCase()}Grade.png`}
-                                                    alt={`${CustomerGrades[customer?.customerGrade ?? ""] ?? "-"} 등급`}
-                                                    className="block"
-                                                ></img>
-                                            </span>
-                                        </div>
+                            <div className="flex flex-col mt-5">
+                                <div className="flex justify-between border-b p-5">
+                                    <div className="flex flex-col">
+                                        <span>현재 나의 등급</span>
+                                        <span className="mt-3">
+                                            [ {""}
+                                            {CustomerGrades[
+                                                customer?.customerGrade ?? ""
+                                            ] ?? "-"}{" "}
+                                            회원 ]
+                                        </span>
                                     </div>
-                                </Link>
+                                    <div className="flex items-end">
+                                        <span className="text-[#A19CB4] text-sm font-normal">
+                                            적립률 1%
+                                        </span>
+                                        <span>
+                                            <img
+                                                src={`/assets/image/customerGrade/${customer?.customerGrade?.toLowerCase()}Grade.png`}
+                                                alt={`${CustomerGrades[customer?.customerGrade ?? ""] ?? "-"} 등급`}
+                                                className="block"
+                                            ></img>
+                                        </span>
+                                    </div>
+                                </div>
+
+                                <div className="flex border-b p-5">
+                                    <div className="flex flex-col">
+                                        <span>
+                                            현재 스탬프 갯수 :{" "}
+                                            {customer?.stampCount} 개
+                                        </span>
+                                        <span className="mt-3">
+                                            {(() => {
+                                                switch (customer?.stampCount) {
+                                                    case 3:
+                                                        return (
+                                                            <div className="flex gap-2">
+                                                                <span className="text-xs flex leading-5 text-[#feca1e] font-bold">
+                                                                    다음 등급 :
+                                                                    골드
+                                                                    <img
+                                                                        src="/assets/image/customerGrade/goldGrade.png"
+                                                                        alt="골드"
+                                                                        className="w-5 h-5 ml-1"
+                                                                    />
+                                                                </span>
+                                                            </div>
+                                                        );
+                                                    case 6:
+                                                        return (
+                                                            <div className="flex gap-2">
+                                                                <span className="text-xs flex leading-5 text-[#657cbc] font-bold">
+                                                                    다음 등급 :
+                                                                    플래티넘
+                                                                    <img
+                                                                        src="/assets/image/customerGrade/platinumGrade.png"
+                                                                        alt="플래티넘"
+                                                                        className="w-5 h-5 ml-1"
+                                                                    />
+                                                                </span>
+                                                            </div>
+                                                        );
+                                                    case 9:
+                                                        return (
+                                                            <div className="flex gap-2">
+                                                                <span className="text-xs flex leading-5 text-[#74caf3] font-bold">
+                                                                    다음 등급 :
+                                                                    다이아몬드
+                                                                    <img
+                                                                        src="/assets/image/customerGrade/diamondGrade.png"
+                                                                        alt="다이아몬드"
+                                                                        className="w-5 h-5 ml-1"
+                                                                    />
+                                                                </span>
+                                                            </div>
+                                                        );
+                                                    default:
+                                                        return null; // 3,6,9 외에는 아무것도 안 보여줌
+                                                }
+                                            })()}
+                                        </span>
+                                    </div>
+                                </div>
+
                                 <div className="p-5">
                                     <div>최근 결제 내역</div>
                                     {pays.map((pay, idx) => (
@@ -360,9 +421,15 @@ export function MobileMainPage() {
                 </div>
 
                 {customerId ? (
-                    <div>
+                    <div className="mt-8 mb-3">
+                        <div className="flex items-center gap-2 mb-2">
+                            <h2 className="text-2xl font-semibold ">
+                                나의 정보
+                            </h2>
+                        </div>
+
                         {/* 나의 정보 영역 */}
-                        <div className="bg-[#fff] border-collapse rounded-2xl shadow-md mt-8 border ">
+                        <div className="bg-[#fff] border-collapse rounded-2xl shadow-md border ">
                             <button
                                 className="w-full px-4 py-5 flex items-center justify-between"
                                 onClick={myInfoButton}
@@ -376,15 +443,15 @@ export function MobileMainPage() {
                             </button>
                         </div>
                         {/* 나의 등급 타이틀 영역 */}
-                        <div className="mt-8 mb-3">
+                        {/* <div className="mt-8 mb-3">
                             <div className="flex items-center gap-2 mb-2">
                                 <h2 className="text-2xl font-semibold ">
                                     나의 등급
                                 </h2>
                             </div>
-                        </div>
+                        </div> */}
                         {/* 나의 등급 컨텐츠 영역 */}
-                        <div>
+                        {/* <div>
                             <div className="grid grid-cols-3 gap-4 bg-white rounded-xl shadow-md border p-5 mb-3 items-center">
                                 <span>
                                     {CustomerGrades[
@@ -399,8 +466,6 @@ export function MobileMainPage() {
                                     ></img>
                                 </span>
                             </div>
-                            {/* 쿠폰 발급 여부 임시 주석 */}
-                            {/*}
                             <div className="bg-white rounded-xl border shadow-md p-5 mb-3 flex flex-col">
                                 <div className="w-full flex justify-center">
                                     <span>
@@ -411,15 +476,13 @@ export function MobileMainPage() {
                                     </span>
                                 </div>
 
-                                
                                 {customer?.couponAvailable === "Y" && (
                                     <div className="w-full flex justify-center bg-[#580098] text-[#fff] rounded-md py-2 mt-4">
                                         <button>쿠폰신청 하기</button>
                                     </div>
                                 )}
                             </div>
-                            */}
-                        </div>
+                        </div> */}
                         {/* 내 스탬프 타이틀 영역 */}
                         <div className="mt-8 mb-3">
                             <div className="flex items-center gap-2 mb-2">
