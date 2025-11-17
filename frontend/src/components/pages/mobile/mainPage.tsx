@@ -256,8 +256,13 @@ export function MobileMainPage() {
                                 <span className="text-[#580098]">13,500P</span>
                             </div> */}
 
-                            <div className="p-5 text-center border border-[#580098] text-[#580098] font-bold">
-                                <Link to={`/mobile/gradeGuide`}>등급 안내</Link>
+                            <div className="text-center border border-[#580098] text-[#580098] font-bold">
+                                <Link
+                                    to={`/mobile/gradeGuide`}
+                                    className="p-5 block w-full"
+                                >
+                                    등급 안내
+                                </Link>
                             </div>
                             <div className="flex flex-col mt-5">
                                 <div className="flex justify-between border-b p-5">
