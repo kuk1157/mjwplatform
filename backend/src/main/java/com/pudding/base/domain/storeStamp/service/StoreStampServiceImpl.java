@@ -48,6 +48,9 @@ public class StoreStampServiceImpl implements StoreStampService{
             Integer customerStampCount = storeStampRepository.countByCustomerId(customerId);
             System.out.println(customerStampCount);
 
+            // 현재 스탬프 개수 업데이트 해주기
+            customer.updateStampCount(customerStampCount);
+
             // 스탬프 개수에 따른 고객 등급 업그레이드
             switch(customerStampCount){
                 case 4: // 4개 골드

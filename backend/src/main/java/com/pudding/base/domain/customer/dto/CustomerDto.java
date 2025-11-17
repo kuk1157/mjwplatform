@@ -16,6 +16,7 @@ public class CustomerDto {
     private String did;
     private Integer memberId;
     private Integer storeId;
+    private Integer stampCount; // 현재 스탬프 개수
     private CustomerGrade customerGrade;
     private CouponAvailable couponAvailable;
     private CouponStatus couponStatus;
@@ -23,11 +24,12 @@ public class CustomerDto {
     private LocalDateTime createdAt;
 
     @Builder
-    public CustomerDto(Integer id, String did, Integer memberId, Integer storeId, CustomerGrade customerGrade,CouponAvailable couponAvailable,CouponStatus couponStatus, IsActive isActive, LocalDateTime createdAt){
+    public CustomerDto(Integer id, String did, Integer memberId, Integer storeId, Integer stampCount, CustomerGrade customerGrade,CouponAvailable couponAvailable,CouponStatus couponStatus, IsActive isActive, LocalDateTime createdAt){
         this.id = id;
         this.did = did;
         this.memberId = memberId;
         this.storeId = storeId;
+        this.stampCount = stampCount;
         this.customerGrade = customerGrade;
         this.couponAvailable = couponAvailable;
         this.couponStatus = couponStatus;
@@ -41,6 +43,7 @@ public class CustomerDto {
                 .did(customer.getDid())
                 .memberId(customer.getMemberId())
                 .storeId(customer.getStoreId())
+                .stampCount(customer.getStampCount())
                 .customerGrade(customer.getCustomerGrade())
                 .couponAvailable(customer.getCouponAvailable())
                 .couponStatus(customer.getCouponStatus())

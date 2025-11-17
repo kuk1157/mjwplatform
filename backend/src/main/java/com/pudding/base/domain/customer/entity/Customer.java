@@ -38,6 +38,10 @@ public class Customer {
     @Schema(description = "가맹점 고유번호")
     private Integer storeId;
 
+    @Column(name = "stamp_count")
+    @Schema(description = "현재 스탬프 개수")
+    private Integer stampCount;
+
     @Column(name = "customer_grade")
     @Enumerated(EnumType.STRING)
     @Schema(description = "고객 등급")
@@ -63,16 +67,22 @@ public class Customer {
     private LocalDateTime createdAt;
 
     @Builder
-    public Customer(Integer id, String did, Integer memberId, Integer storeId, CustomerGrade customerGrade,CouponAvailable couponAvailable,CouponStatus couponStatus, IsActive isActive, LocalDateTime createdAt){
+    public Customer(Integer id, String did, Integer memberId, Integer storeId, Integer stampCount, CustomerGrade customerGrade,CouponAvailable couponAvailable,CouponStatus couponStatus, IsActive isActive, LocalDateTime createdAt){
         this.id = id;
         this.did = did;
         this.memberId = memberId;
         this.storeId = storeId;
+        this.stampCount = stampCount;
         this.customerGrade = customerGrade;
         this.couponAvailable = couponAvailable;
         this.couponStatus = couponStatus;
         this.isActive = isActive;
         this.createdAt = createdAt;
+    }
+
+    // 현재 스탬프 개수 업데이트 하기
+    public void updateStampCount(Integer stampCount){
+        this.stampCount = stampCount;
     }
 
     // 고객 등급 골드 업그레이드 (스탬프 4개)
