@@ -28,6 +28,8 @@ public interface NftRepository extends JpaRepository<Nft, Integer> {
         n.storeTableId,
         s.name,
         s.nftImage,
+        s.thumbnail,
+        s.extension,
         n.createdAt
     )
     FROM Nft n
