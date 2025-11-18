@@ -266,3 +266,19 @@ export interface MyPayCustomer {
     sumDiscountAmount?: number;
     sumFinalAmount?: number;
 }
+
+// NFT 인터페이스
+export interface NftList {
+    id: number;
+    tokenId: string;
+    mintHash: string;
+    storeId: number;
+    customerId: number;
+    nftIdx: number;
+    storeTableId: number;
+    storeName: string;
+    nftImage: string;
+    thumbnail: string;
+    extension: string;
+    createdAt: string;
+}

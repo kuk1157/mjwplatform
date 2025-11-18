@@ -7,6 +7,7 @@ import React, {
     useImperativeHandle,
     useCallback,
 } from "react";
+import { Link } from "react-router-dom";
 import { useNavigate, useLocation } from "react-router-dom";
 import { DataTableProps, IPaginationProps } from "../../types";
 import { Button } from "../atoms/button";
@@ -21,6 +22,7 @@ import { cdn } from "src/constans"; // 공지사항 첨부파일 경로 참조
 import { noticeFolder } from "src/constans"; // 공지사항 첨부파일 경로 참조
 import { storeFolder } from "src/constans"; // 가맹점 첨부파일 경로 참조
 // import parse from "html-react-parser"; // 공지사항 내용 html 태그 적용
+import { GoArrowUpRight } from "react-icons/go"; // mintHash에 주는 화살표
 
 export const DataTable = ({
     isFetching,
@@ -344,6 +346,24 @@ export const DataTable = ({
                             </Button>
                         );
 
+                    default:
+                        return cellValue ?? "-";
+                }
+
+            case "admin_transactionLog":
+                switch (column.key) {
+                    case "mintHash":
+                        return (
+                            <Link
+                                className="flex items-center justify-center gap-1"
+                                to={`https://www.daegu.go.kr/daeguchain/scan/operations/${row.mintHash}`}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                            >
+                                {row.mintHash}
+                                <GoArrowUpRight />
+                            </Link>
+                        );
                     default:
                         return cellValue ?? "-";
                 }

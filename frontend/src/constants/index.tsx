@@ -3,6 +3,7 @@ import { CiCircleList } from "react-icons/ci"; // 공지사항 아이콘
 import { IoStorefrontOutline } from "react-icons/io5"; // 매장관리 아이콘
 import { ImStatsBars } from "react-icons/im"; // 통계 아이콘
 import { FaQuestionCircle } from "react-icons/fa"; // FAQ 아이콘
+import { RiNftLine } from "react-icons/ri"; // nft 트랜잭션 내역 메뉴 아이콘
 
 // Header 메뉴
 const MenuList = [
@@ -131,6 +132,16 @@ const AdminMenuList = [
         parent_id: 7,
         seq: 3,
         is_active: "Y",
+    },
+
+    {
+        id: 11,
+        name: "NFT 트랜잭션 내역",
+        path: "/admin/transactionLog",
+        parent_id: null,
+        seq: 3,
+        is_active: "Y",
+        icon: <RiNftLine />,
     },
 ];
 

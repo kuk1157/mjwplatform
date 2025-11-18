@@ -215,6 +215,11 @@ const AdminCashAnalyticsPage = Loadable({
     Component: lazy(() => import("../components/pages/admin/cashAnalytics")),
 });
 
+// NFT 트랜잭션 내역
+const AdminTransactionLog = Loadable({
+    Component: lazy(() => import("../components/pages/admin/transactionLog")),
+});
+
 // [ 메인에서 곧바로 진행되는 페이지들 ] - 곧 정리할 예정
 
 // PC - 고객 매장선택 페이지
@@ -668,6 +673,12 @@ const Router = createBrowserRouter([
             {
                 path: "/admin/analytics/CashAnalytics",
                 element: <AdminCashAnalyticsPage />,
+            },
+
+            // NFT 트랜잭션 내역
+            {
+                path: "/admin/transactionLog",
+                element: <AdminTransactionLog />,
             },
 
             // {

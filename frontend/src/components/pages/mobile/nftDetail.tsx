@@ -10,19 +10,7 @@ import { AxiosError } from "axios";
 import { cdn } from "src/constans";
 import { storeFolder } from "src/constans";
 
-interface NftList {
-    id: number;
-    tokenId: string;
-    storeId: number;
-    customerId: number;
-    nftIdx: number;
-    storeTableId: number;
-    storeName: string;
-    nftImage: string;
-    thumbnail: string;
-    extension: string;
-    createdAt: string;
-}
+import { NftList } from "src/types";
 
 export function MobileMyWallet() {
     const { id } = useParams();
