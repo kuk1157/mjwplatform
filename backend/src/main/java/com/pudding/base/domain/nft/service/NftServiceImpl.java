@@ -1,5 +1,4 @@
 package com.pudding.base.domain.nft.service;
-import com.pudding.base.crypto.entity.EncMetaEntity;
 import com.pudding.base.crypto.repository.EncMetaRepository;
 import com.pudding.base.crypto.service.EncMetaManager;
 import com.pudding.base.domain.common.exception.CustomException;
@@ -9,6 +8,7 @@ import com.pudding.base.domain.nft.repository.NftRepository;
 import com.pudding.base.domain.store.entity.Store;
 import com.pudding.base.domain.store.repository.StoreRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
@@ -113,6 +113,7 @@ public class NftServiceImpl implements NftService {
         return nfts.stream().map(nft -> NftDto.builder()
                         .id(nft.getId())
                         .tokenId(nft.getTokenId())
+                        .mintHash(nft.getMintHash())
                         .storeId(nft.getStoreId())
                         .customerId(nft.getCustomerId())
                         .storeName(storeIdNameMap.get(nft.getStoreId()))
@@ -165,5 +166,13 @@ public class NftServiceImpl implements NftService {
             throw new CustomException("NFT 온체인 검증에 실패하였습니다. \n 메인 페이지로 이동합니다.");
         }
     }
+
+
+    // NFT 트랜잭션 내역
+    @Override
+    public Page<NftDto> getNftTransactions(Pageable pageable, String keyword) {
+        return nftRepository.nftTransactions(pageable, keyword);
+    }
+
 }
 

@@ -22,6 +22,7 @@ public interface NftRepository extends JpaRepository<Nft, Integer> {
     SELECT new com.pudding.base.domain.nft.dto.NftDto(
         n.id,
         n.tokenId,
+        n.mintHash,
         n.storeId,
         n.customerId,
         n.nftIdx,
@@ -37,6 +38,36 @@ public interface NftRepository extends JpaRepository<Nft, Integer> {
     WHERE n.id = :id
 """)
     NftDto findNftById(@Param("id") Integer id);
+
+
+
+    // nft 트랜잭션 내역
+    @Query("""
+    SELECT new com.pudding.base.domain.nft.dto.NftDto(
+        n.id,
+        n.tokenId,
+        n.mintHash,
+        n.storeId,
+        n.customerId,
+        n.nftIdx,
+        n.storeTableId,
+        s.name,
+        s.nftImage,
+        s.thumbnail,
+        s.extension,
+        n.createdAt
+    )
+    FROM Nft n
+    LEFT JOIN Store s ON n.storeId = s.id
+    WHERE n.mintHash IS NOT NULL
+      AND n.mintHash <> ''
+      AND (
+            :keyword IS NULL OR :keyword = ''
+            OR LOWER(s.name) LIKE LOWER(CONCAT('%', :keyword, '%'))
+            OR LOWER(n.mintHash) LIKE LOWER(CONCAT('%', :keyword, '%'))
+        )
+""")
+    Page<NftDto> nftTransactions(Pageable pageable, @Param("keyword") String keyword);
 
 
 }

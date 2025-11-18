@@ -12,6 +12,7 @@ import java.time.LocalDateTime;
 public class NftDto {
     private Integer id;
     private String tokenId;
+    private String mintHash; // NFT 트랜잭션 내역 해쉬 값
     private Integer storeId;
     private Integer customerId;
     private Integer nftIdx;
@@ -24,9 +25,10 @@ public class NftDto {
 
 
     @Builder
-    public NftDto(Integer id, String tokenId, Integer storeId, Integer customerId, Integer nftIdx, Integer storeTableId, String storeName, String nftImage, String thumbnail, String extension, LocalDateTime createdAt) {
+    public NftDto(Integer id, String tokenId, String mintHash, Integer storeId, Integer customerId, Integer nftIdx, Integer storeTableId, String storeName, String nftImage, String thumbnail, String extension, LocalDateTime createdAt) {
         this.id = id;
         this.tokenId = tokenId;
+        this.mintHash = mintHash;
         this.storeId = storeId;
         this.customerId = customerId;
         this.nftIdx = nftIdx;
@@ -42,6 +44,7 @@ public class NftDto {
         return NftDto.builder()
                 .id(nft.getId())
                 .tokenId(nft.getTokenId())
+                .mintHash(nft.getMintHash())
                 .storeId(nft.getStoreId())
                 .customerId(nft.getCustomerId())
                 .createdAt(nft.getCreatedAt())
