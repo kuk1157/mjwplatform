@@ -16,6 +16,7 @@ import { SectionWrapper } from "src/components/atoms/wrapper";
 import { SectionCard } from "src/components/molecules/card";
 import { DateRangeInput } from "src/components/atoms/input";
 import { UserApi } from "src/utils/userApi";
+import { IoArrowDown } from "react-icons/io5";
 
 import { PointAnalytics } from "src/types";
 
@@ -30,6 +31,8 @@ const formatDate = (date: Date) => {
 function AdminPointAnalyticsPage() {
     const [startAt, setStartAt] = useState<Date | null>(null);
     const [endAt, setEndAt] = useState<Date | null>(null);
+    const [controlList, setControlList] = useState(false); // 상권 목록 컨트롤 state
+
     const [trendTab, setTrendTab] = useState<"daily" | "monthly" | "yearly">(
         "daily"
     );
@@ -287,9 +290,37 @@ function AdminPointAnalyticsPage() {
         );
     };
 
+    const handleToggleList = () => {
+        setControlList((prev) => !prev);
+    };
+
     return (
         <SectionCard className="h-full text-[15px] leading-[18px]">
             <PageTitle className="p-10">포인트 통계</PageTitle>
+
+            {/* 상권 목록 버튼 및 상권 활성화 */}
+            <div className="justify-end flex m-5">
+                <div className="flex flex-col">
+                    <button
+                        type="button"
+                        className="bg-[#21A089] text-[#fff] p-3 flex"
+                        onClick={handleToggleList}
+                    >
+                        상권 목록 <IoArrowDown className="ml-1" />
+                    </button>
+                    <div
+                        className={`bg-[#21A089] text-[#fff] mt-2 text-center p-2 ${
+                            controlList ? "block" : "hidden"
+                        }`}
+                    >
+                        <p>동대구 상인회</p>
+                        <p>-</p>
+                        <p>-</p>
+                        <p>-</p>
+                        <p>-</p>
+                    </div>
+                </div>
+            </div>
             <SectionWrapper>
                 <div className="p-[20px]">
                     {/* 트렌드 탭 */}
