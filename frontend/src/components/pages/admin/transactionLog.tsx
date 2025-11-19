@@ -51,8 +51,13 @@ export function AdminTransactionLog() {
         },
         {
             key: "storeName",
-            value: "매장 이름",
-            width: "30%",
+            value: "발급 매장 이름",
+            width: "15%",
+        },
+        {
+            key: "customerName",
+            value: "고객 이름",
+            width: "15%",
         },
         {
             key: "mintHash",

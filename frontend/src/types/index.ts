@@ -277,6 +277,7 @@ export interface NftList {
     nftIdx: number;
     storeTableId: number;
     storeName: string;
+    customerName: string;
     nftImage: string;
     thumbnail: string;
     extension: string;
