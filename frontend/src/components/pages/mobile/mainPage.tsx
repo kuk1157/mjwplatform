@@ -154,6 +154,10 @@ export function MobileMainPage() {
         { url: "/assets/image/mobile/banner/mobileTitle_3.png" },
     ];
 
+    const surveyButton = () => {
+        window.open("https://forms.gle/eB5VmbdrHBbPQPe17", "_blank");
+    };
+
     return (
         <div className="min-h-screen bg-[#fbfbfc] font-Pretendard overflow-y-auto">
             <div className="p-4 mb-20">
@@ -239,6 +243,12 @@ export function MobileMainPage() {
                         </Swiper>
                     </div>
                 )}
+
+                <div className="bg-[#580098] text-[#fff] py-3 text-center rounded-md flex">
+                    <button className="w-full" onClick={surveyButton}>
+                        설문조사
+                    </button>
+                </div>
 
                 {/* 금액 타이틀 영역 */}
                 <div className="mt-8 mb-3">
