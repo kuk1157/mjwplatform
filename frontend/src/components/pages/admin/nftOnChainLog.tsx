@@ -78,7 +78,7 @@ export function AdminNftOnChainLog() {
 
     return (
         <GenericDataTable
-            sectionTitle={"온체인 검증 실패 로그"}
+            sectionTitle={"온체인 검증 로그"}
             type="admin_OnChainFailLog"
             data={filteredData!}
             isFetching={isFetching}
