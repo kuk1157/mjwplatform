@@ -5,6 +5,8 @@ import com.pudding.base.domain.common.exception.CustomException;
 import com.pudding.base.domain.nft.dto.NftDto;
 import com.pudding.base.domain.nft.entity.Nft;
 import com.pudding.base.domain.nft.repository.NftRepository;
+import com.pudding.base.domain.nftFailLog.entity.NftFailLog;
+import com.pudding.base.domain.nftFailLog.repository.NftFailLogRepository;
 import com.pudding.base.domain.store.entity.Store;
 import com.pudding.base.domain.store.repository.StoreRepository;
 import lombok.RequiredArgsConstructor;
@@ -15,11 +17,17 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.crypto.AEADBadTagException;
+import javax.crypto.BadPaddingException;
 import java.io.ByteArrayOutputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.io.InputStream;
 import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
+import java.security.InvalidKeyException;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
@@ -33,6 +41,7 @@ public class NftServiceImpl implements NftService {
     private final StoreRepository storeRepository;
     private final EncMetaRepository encMetaRepository;
     private final EncMetaManager encMetaManager;
+    private final NftFailLogRepository nftFailLogRepository;
 
 
     @Transactional
@@ -141,6 +150,7 @@ public class NftServiceImpl implements NftService {
             if (status >= 200 && status < 300) {
                 try (InputStream in = conn.getInputStream();
                      ByteArrayOutputStream out = new ByteArrayOutputStream()) {
+
                     byte[] buffer = new byte[8192];
                     int bytesRead;
                     while ((bytesRead = in.read(buffer)) != -1) {
@@ -149,22 +159,74 @@ public class NftServiceImpl implements NftService {
                     encBytes = out.toByteArray();
                 }
             } else {
-                throw new RuntimeException("enc 파일 다운로드 실패: " + status);
+                encDownloadError(id, "DOWNLOAD_HTTP_ERROR", "NFT 다운로드 실패 (HTTP 상태 코드 " + status + ")", "HTTP 상태: " + status);
+                throw new CustomException("enc 파일 다운로드에 실패하였습니다.");
             }
+        } catch (MalformedURLException e) {
+            encDownloadError(id, "DOWNLOAD_URL_INVALID", "NFT 다운로드 실패 (URL 형식 오류)", e.getMessage());
+            throw new CustomException("enc 파일 다운로드에 실패하였습니다.");
+        } catch (FileNotFoundException e) {
+            encDownloadError(id, "DOWNLOAD_FILE_NOT_FOUND", "NFT 다운로드 실패 (파일 없음)", e.getMessage());
+            throw new CustomException("enc 파일 다운로드에 실패하였습니다.");
+        } catch (IOException e) {
+            encDownloadError(id, "DOWNLOAD_IO_ERROR", "NFT 다운로드 실패 (서버 연결 또는 IO 오류)", e.getMessage());
+            throw new CustomException("enc 파일 다운로드에 실패하였습니다.");
         } catch (Exception e) {
-            throw new CustomException("enc 파일 다운로드 에러");
+            encDownloadError(id, "DOWNLOAD_UNKNOWN_ERROR", "NFT 다운로드 실패 (알 수 없는 오류)", e.getMessage());
+            throw new CustomException("enc 파일 다운로드에 실패하였습니다.");
         }
+
 
         // [ NFT 온체인 검증 ]
         String decryptedJson;
-        try{
+        try {
             byte[] plainBytes = encMetaManager.decryptBytes(nft.getEncId(), encBytes);
             decryptedJson = new String(plainBytes, StandardCharsets.UTF_8);
-            System.out.println("json 파일 파일"+decryptedJson);
+            System.out.println("json 파일 파일: " + decryptedJson);
             return nftRepository.findNftById(id);
-        }catch(Exception e){
-            throw new CustomException("NFT 온체인 검증에 실패하였습니다. \n 메인 페이지로 이동합니다.");
+
+        } catch (Exception e) {
+            String errorType;
+            String koreanMsg;
+
+            Throwable cause = (e.getCause() != null) ? e.getCause() : e;
+
+            if (cause instanceof InvalidKeyException) {
+                errorType = "DECRYPT_KEY_MISMATCH";
+                koreanMsg = "NFT 온체인 검증 실패 (복호화 키 불일치)";
+            } else if (cause instanceof BadPaddingException) {
+                errorType = "DECRYPT_INVALID_PADDING";
+                koreanMsg = "NFT 온체인 검증 실패 (잘못된 패딩, enc 파일 손상 가능)";
+            } else if (cause instanceof javax.crypto.AEADBadTagException) {
+                errorType = "DECRYPT_TAMPERED_DATA";
+                koreanMsg = "NFT 온체인 검증 실패 (데이터 위변조 의심)";
+            } else {
+                errorType = "DECRYPT_UNKNOWN_ERROR";
+                koreanMsg = "NFT 온체인 검증 실패 (알 수 없는 오류)";
+            }
+
+            NftFailLog nftFailLog = NftFailLog.builder()
+                    .nftId(id)
+                    .errorCategory("NFT_ONCHAIN")
+                    .errorType(errorType)
+                    .koreanMsg(koreanMsg)
+                    .errorMsg(e.getMessage())
+                    .build();
+            nftFailLogRepository.save(nftFailLog);
+
+            throw new CustomException("NFT 온체인 검증에 실패하였습니다.\n메인 페이지로 이동합니다.");
         }
+    }
+
+    private void encDownloadError(Integer nftId, String errorType, String koreanMsg, String errorMsg) {
+        NftFailLog nftFailLog = NftFailLog.builder()
+                .nftId(nftId)
+                .errorCategory("ENC_FILE_DOWNLOAD")
+                .errorType(errorType)
+                .koreanMsg(koreanMsg)
+                .errorMsg(errorMsg)
+                .build();
+        nftFailLogRepository.save(nftFailLog);
     }
 
 
