@@ -220,6 +220,11 @@ const AdminTransactionLog = Loadable({
     Component: lazy(() => import("../components/pages/admin/transactionLog")),
 });
 
+// 온체인 검증 실패 로그
+const AdminOnChainFailLog = Loadable({
+    Component: lazy(() => import("../components/pages/admin/onChainFailLog")),
+});
+
 // [ 메인에서 곧바로 진행되는 페이지들 ] - 곧 정리할 예정
 
 // PC - 고객 매장선택 페이지
@@ -679,6 +684,12 @@ const Router = createBrowserRouter([
             {
                 path: "/admin/transactionLog",
                 element: <AdminTransactionLog />,
+            },
+
+            // 온체인 검증 실패 로그
+            {
+                path: "/admin/onChainFailLog",
+                element: <AdminOnChainFailLog />,
             },
 
             // {

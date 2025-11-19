@@ -4,6 +4,7 @@ import { IoStorefrontOutline } from "react-icons/io5"; // 매장관리 아이콘
 import { ImStatsBars } from "react-icons/im"; // 통계 아이콘
 import { FaQuestionCircle } from "react-icons/fa"; // FAQ 아이콘
 import { RiNftLine } from "react-icons/ri"; // nft 트랜잭션 내역 메뉴 아이콘
+import { SiChainlink } from "react-icons/si"; // 온체인 검증 실패내역 아이콘
 
 // Header 메뉴
 const MenuList = [
@@ -142,6 +143,16 @@ const AdminMenuList = [
         seq: 3,
         is_active: "Y",
         icon: <RiNftLine />,
+    },
+
+    {
+        id: 12,
+        name: "온체인 검증 실패 로그",
+        path: "/admin/onChainFailLog",
+        parent_id: null,
+        seq: 3,
+        is_active: "Y",
+        icon: <SiChainlink />,
     },
 ];
 

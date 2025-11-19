@@ -13,7 +13,7 @@ const searchOption = [
     },
 ];
 
-export function AdminTransactionLog() {
+export function AdminOnChainFailLog() {
     const [page, setPage] = useState(1);
     const [totalElements, setTotalElements] = useState(0);
     const [filteredData, setFilteredData] = useState<NftList[]>(); // 필터링된 데이터
@@ -23,7 +23,7 @@ export function AdminTransactionLog() {
     const { data: NftTransactionLog, isFetching } = useQuery({
         queryKey: ["NftTransactionLog", page, searchQuery, sortConfig],
         queryFn: async () => {
-            const url = `/api/v1/admin/nfts?page=${page - 1}&sort=${sortConfig.key},${sortConfig.array}&size=${itemsPerPage}${searchQuery}`;
+            const url = `/api/v1/admin/nftFailLog?page=${page - 1}&sort=${sortConfig.key},${sortConfig.array}&size=${itemsPerPage}${searchQuery}`;
             const res = await UserApi.get(url);
             return res.data;
         },
@@ -47,17 +47,27 @@ export function AdminTransactionLog() {
         {
             key: "id",
             value: "번호",
+            width: "5%",
+        },
+        {
+            key: "errorCategory",
+            value: "에러 종류",
             width: "10%",
         },
         {
-            key: "storeName",
-            value: "매장 이름",
+            key: "errorType",
+            value: "에러 타입",
+            width: "15%",
+        },
+        {
+            key: "koreanMsg",
+            value: "에러 메시지(kr)",
             width: "30%",
         },
         {
-            key: "mintHash",
-            value: "트랜잭션 해시",
-            width: "50%",
+            key: "errorMsg",
+            value: "에러메시지(en)",
+            width: "30%",
         },
         {
             key: "createdAt",
@@ -68,8 +78,8 @@ export function AdminTransactionLog() {
 
     return (
         <GenericDataTable
-            sectionTitle={"NFT 트랜잭션 내역"}
-            type="admin_transactionLog"
+            sectionTitle={"온체인 검증 실패 로그"}
+            type="admin_OnChainFailLog"
             data={filteredData!}
             isFetching={isFetching}
             columns={columnsInquiry}
@@ -84,4 +94,4 @@ export function AdminTransactionLog() {
     );
 }
 
-export default AdminTransactionLog;
+export default AdminOnChainFailLog;
