@@ -147,8 +147,8 @@ const AdminMenuList = [
 
     {
         id: 12,
-        name: "온체인 검증 실패 로그",
-        path: "/admin/onChainFailLog",
+        name: "온체인 검증 로그",
+        path: "/admin/nftOnChainLog",
         parent_id: null,
         seq: 3,
         is_active: "Y",

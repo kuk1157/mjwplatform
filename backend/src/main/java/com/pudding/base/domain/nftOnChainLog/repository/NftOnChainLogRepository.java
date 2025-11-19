@@ -1,6 +1,6 @@
-package com.pudding.base.domain.nftFailLog.repository;
+package com.pudding.base.domain.nftOnChainLog.repository;
 
-import com.pudding.base.domain.nftFailLog.entity.NftFailLog;
+import com.pudding.base.domain.nftOnChainLog.entity.NftOnChainLog;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -9,15 +9,15 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface NftFailLogRepository extends JpaRepository<NftFailLog, Integer> {
+public interface NftOnChainLogRepository extends JpaRepository<NftOnChainLog, Integer> {
 
 
     @Query("""
-        SELECT l FROM NftFailLog l WHERE
-            l.errorCategory LIKE %:keyword% OR
+        SELECT l FROM NftOnChainLog l WHERE
+            l.onChainCategory LIKE %:keyword% OR
             l.errorType LIKE %:keyword% OR
             l.koreanMsg LIKE %:keyword% OR
             l.errorMsg LIKE %:keyword%
     """)
-    Page<NftFailLog> findByKeyword(@Param("keyword") String keyword, Pageable pageable);
+    Page<NftOnChainLog> findByKeyword(@Param("keyword") String keyword, Pageable pageable);
 }

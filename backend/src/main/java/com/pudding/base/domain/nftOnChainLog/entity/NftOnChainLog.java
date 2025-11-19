@@ -1,4 +1,4 @@
-package com.pudding.base.domain.nftFailLog.entity;
+package com.pudding.base.domain.nftOnChainLog.entity;
 import com.pudding.base.domain.common.entity.BaseTimeEntity;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.persistence.*;
@@ -10,8 +10,8 @@ import lombok.NoArgsConstructor;
 @Entity
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
-@Table(name = "nft_fail_log") // NFT 실패 로그
-public class NftFailLog extends BaseTimeEntity {
+@Table(name = "nft_on_chain_log") // NFT 실패 로그
+public class NftOnChainLog extends BaseTimeEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -23,9 +23,9 @@ public class NftFailLog extends BaseTimeEntity {
     @Schema(description = "nft 고유번호")
     private Integer nftId;
 
-    @Column(name = "error_category")
-    @Schema(description = "에러 종류(검증실패, 다운로드)")
-    private String errorCategory;
+    @Column(name = "on_chain_category")
+    @Schema(description = "검증 유형(성공,실패)")
+    private String onChainCategory;
 
     @Column(name = "error_type")
     @Schema(description = "에러타입")
@@ -40,10 +40,10 @@ public class NftFailLog extends BaseTimeEntity {
     private String errorMsg;
 
     @Builder
-    public NftFailLog(Integer id,Integer nftId, String errorCategory, String errorType, String koreanMsg, String errorMsg){
+    public NftOnChainLog(Integer id, Integer nftId, String onChainCategory, String errorType, String koreanMsg, String errorMsg){
         this.id = id;
         this.nftId = nftId;
-        this.errorCategory = errorCategory;
+        this.onChainCategory = onChainCategory;
         this.errorType = errorType;
         this.koreanMsg = koreanMsg;
         this.errorMsg = errorMsg;

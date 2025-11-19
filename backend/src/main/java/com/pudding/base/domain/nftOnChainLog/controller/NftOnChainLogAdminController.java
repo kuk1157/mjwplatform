@@ -1,8 +1,8 @@
-package com.pudding.base.domain.nftFailLog.controller;
+package com.pudding.base.domain.nftOnChainLog.controller;
 
 
-import com.pudding.base.domain.nftFailLog.dto.NftFailLogDto;
-import com.pudding.base.domain.nftFailLog.service.NftFailLogService;
+import com.pudding.base.domain.nftOnChainLog.dto.NftOnChainLogDto;
+import com.pudding.base.domain.nftOnChainLog.service.NftOnChainLogService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
@@ -20,16 +20,16 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/v1/admin/nftFailLog")
-public class NftFailLogAdminController {
-    private final NftFailLogService nftFailLogService;
+public class NftOnChainLogAdminController {
+    private final NftOnChainLogService nftOnChainLogService;
 
 
     @Operation(summary = "온체인 검증 실패 로그 API", description = "온체인 검증 실패 로그")
     @GetMapping
-    public ResponseEntity<Page<NftFailLogDto>> getNftFailLogs(@PageableDefault(sort = "createdAt", direction = Sort.Direction.DESC) Pageable pageable,
-                                                              @RequestParam(value ="keyword",required = false) String keyword){
-        Page<NftFailLogDto> nftFailLogs = nftFailLogService.getNftFailLogs(pageable, keyword);
-        return ResponseEntity.ok(nftFailLogs);
+    public ResponseEntity<Page<NftOnChainLogDto>> getNftOnChainLogs(@PageableDefault(sort = "createdAt", direction = Sort.Direction.DESC) Pageable pageable,
+                                                                 @RequestParam(value ="keyword",required = false) String keyword){
+        Page<NftOnChainLogDto> nftOnChainLogs = nftOnChainLogService.getNftOnChainLogs(pageable, keyword);
+        return ResponseEntity.ok(nftOnChainLogs);
     }
 
 

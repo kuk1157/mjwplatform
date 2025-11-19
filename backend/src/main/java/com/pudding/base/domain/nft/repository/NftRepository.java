@@ -31,10 +31,13 @@ public interface NftRepository extends JpaRepository<Nft, Integer> {
         s.nftImage,
         s.thumbnail,
         s.extension,
+        m.name,
         n.createdAt
     )
     FROM Nft n
     LEFT JOIN Store s ON n.storeId = s.id
+    LEFT JOIN Customer c ON n.customerId = c.id
+    LEFT JOIN Member m ON c.memberId = m.id
     WHERE n.id = :id
 """)
     NftDto findNftById(@Param("id") Integer id);
@@ -55,7 +58,7 @@ SELECT new com.pudding.base.domain.nft.dto.NftDto(
     s.nftImage,
     s.thumbnail,
     s.extension,
-    m.name,        
+    m.name,
     n.createdAt
 )
 FROM Nft n

@@ -5,8 +5,8 @@ import com.pudding.base.domain.common.exception.CustomException;
 import com.pudding.base.domain.nft.dto.NftDto;
 import com.pudding.base.domain.nft.entity.Nft;
 import com.pudding.base.domain.nft.repository.NftRepository;
-import com.pudding.base.domain.nftFailLog.entity.NftFailLog;
-import com.pudding.base.domain.nftFailLog.repository.NftFailLogRepository;
+import com.pudding.base.domain.nftOnChainLog.entity.NftOnChainLog;
+import com.pudding.base.domain.nftOnChainLog.repository.NftOnChainLogRepository;
 import com.pudding.base.domain.store.entity.Store;
 import com.pudding.base.domain.store.repository.StoreRepository;
 import lombok.RequiredArgsConstructor;
@@ -17,7 +17,6 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import javax.crypto.AEADBadTagException;
 import javax.crypto.BadPaddingException;
 import java.io.ByteArrayOutputStream;
 import java.io.FileNotFoundException;
@@ -41,7 +40,7 @@ public class NftServiceImpl implements NftService {
     private final StoreRepository storeRepository;
     private final EncMetaRepository encMetaRepository;
     private final EncMetaManager encMetaManager;
-    private final NftFailLogRepository nftFailLogRepository;
+    private final NftOnChainLogRepository nftOnChainLogRepository;
 
 
     @Transactional
@@ -183,8 +182,6 @@ public class NftServiceImpl implements NftService {
             byte[] plainBytes = encMetaManager.decryptBytes(nft.getEncId(), encBytes);
             decryptedJson = new String(plainBytes, StandardCharsets.UTF_8);
             System.out.println("json 파일 파일: " + decryptedJson);
-            return nftRepository.findNftById(id);
-
         } catch (Exception e) {
             String errorType;
             String koreanMsg;
@@ -205,28 +202,40 @@ public class NftServiceImpl implements NftService {
                 koreanMsg = "NFT 온체인 검증 실패 (알 수 없는 오류)";
             }
 
-            NftFailLog nftFailLog = NftFailLog.builder()
+            NftOnChainLog nftOnChainLog = NftOnChainLog.builder()
                     .nftId(id)
-                    .errorCategory("NFT_ONCHAIN")
+                    .onChainCategory("onChain Fail")
                     .errorType(errorType)
                     .koreanMsg(koreanMsg)
                     .errorMsg(e.getMessage())
                     .build();
-            nftFailLogRepository.save(nftFailLog);
+            nftOnChainLogRepository.save(nftOnChainLog);
 
             throw new CustomException("NFT 온체인 검증에 실패하였습니다.\n메인 페이지로 이동합니다.");
         }
+
+        // 성공 로그는 try-catch 끝난 뒤
+        NftOnChainLog nftOnChainLog = NftOnChainLog.builder()
+                .nftId(id)
+                .onChainCategory("success")
+                .errorType(null)
+                .koreanMsg("온체인 검증 성공")
+                .errorMsg(null)
+                .build();
+        nftOnChainLogRepository.save(nftOnChainLog);
+
+        return nftRepository.findNftById(id);
     }
 
     private void encDownloadError(Integer nftId, String errorType, String koreanMsg, String errorMsg) {
-        NftFailLog nftFailLog = NftFailLog.builder()
+        NftOnChainLog nftOnChainLog = NftOnChainLog.builder()
                 .nftId(nftId)
-                .errorCategory("ENC_FILE_DOWNLOAD")
+                .onChainCategory("ENC download fail")
                 .errorType(errorType)
                 .koreanMsg(koreanMsg)
                 .errorMsg(errorMsg)
                 .build();
-        nftFailLogRepository.save(nftFailLog);
+        nftOnChainLogRepository.save(nftOnChainLog);
     }
 
 

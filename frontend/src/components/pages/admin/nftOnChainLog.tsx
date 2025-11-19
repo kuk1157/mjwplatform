@@ -13,7 +13,7 @@ const searchOption = [
     },
 ];
 
-export function AdminOnChainFailLog() {
+export function AdminNftOnChainLog() {
     const [page, setPage] = useState(1);
     const [totalElements, setTotalElements] = useState(0);
     const [filteredData, setFilteredData] = useState<NftList[]>(); // 필터링된 데이터
@@ -50,8 +50,8 @@ export function AdminOnChainFailLog() {
             width: "5%",
         },
         {
-            key: "errorCategory",
-            value: "에러 종류",
+            key: "onChainCategory",
+            value: "검증 유형",
             width: "10%",
         },
         {
@@ -61,7 +61,7 @@ export function AdminOnChainFailLog() {
         },
         {
             key: "koreanMsg",
-            value: "에러 메시지(kr)",
+            value: "메시지(kr)",
             width: "30%",
         },
         {
@@ -94,4 +94,4 @@ export function AdminOnChainFailLog() {
     );
 }
 
-export default AdminOnChainFailLog;
+export default AdminNftOnChainLog;

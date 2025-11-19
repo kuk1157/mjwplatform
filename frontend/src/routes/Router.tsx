@@ -221,8 +221,8 @@ const AdminTransactionLog = Loadable({
 });
 
 // 온체인 검증 실패 로그
-const AdminOnChainFailLog = Loadable({
-    Component: lazy(() => import("../components/pages/admin/onChainFailLog")),
+const AdminNftOnChainLog = Loadable({
+    Component: lazy(() => import("../components/pages/admin/nftOnChainLog")),
 });
 
 // [ 메인에서 곧바로 진행되는 페이지들 ] - 곧 정리할 예정
@@ -688,8 +688,8 @@ const Router = createBrowserRouter([
 
             // 온체인 검증 실패 로그
             {
-                path: "/admin/onChainFailLog",
-                element: <AdminOnChainFailLog />,
+                path: "/admin/nftOnChainLog",
+                element: <AdminNftOnChainLog />,
             },
 
             // {
