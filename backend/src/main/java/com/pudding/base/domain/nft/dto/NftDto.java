@@ -21,11 +21,12 @@ public class NftDto {
     private String nftImage; // 서브쿼리 NFT 이미지
     private String thumbnail; // 서브쿼리 썸네일
     private String extension; // 서브쿼리 확장자
+    private String customerName; // 고객명
     private LocalDateTime createdAt;
 
 
     @Builder
-    public NftDto(Integer id, String tokenId, String mintHash, Integer storeId, Integer customerId, Integer nftIdx, Integer storeTableId, String storeName, String nftImage, String thumbnail, String extension, LocalDateTime createdAt) {
+    public NftDto(Integer id, String tokenId, String mintHash, Integer storeId, Integer customerId, Integer nftIdx, Integer storeTableId, String storeName, String nftImage, String thumbnail, String extension, String customerName, LocalDateTime createdAt) {
         this.id = id;
         this.tokenId = tokenId;
         this.mintHash = mintHash;
@@ -37,6 +38,7 @@ public class NftDto {
         this.nftImage = nftImage;
         this.thumbnail = thumbnail;
         this.extension = extension;
+        this.customerName = customerName;
         this.createdAt = createdAt;
     }
 
