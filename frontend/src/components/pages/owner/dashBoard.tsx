@@ -677,7 +677,12 @@ function OwnerDashBoard() {
                             <span className="w-[150px] border px-3 py-1 ml-3 md:w-full md:mt-2 md:mx-0">
                                 <p className="font-normal">전체 평균 포인트</p>
                                 <p className="text-[red] font-bold">
-                                    {pointTotal?.avgPoint} P
+                                    {pointTotal?.avgPoint != null
+                                        ? Math.trunc(
+                                              pointTotal.avgPoint
+                                          ).toLocaleString()
+                                        : "0"}{" "}
+                                    P
                                 </p>
                             </span>
                             <span className="mx-3 w-[150px] border px-3 py-1 md:w-full md:my-2 md:mx-0">
@@ -690,7 +695,12 @@ function OwnerDashBoard() {
                             <span className="w-[150px] border px-3 py-1 md:w-full">
                                 <p className="font-normal">전체 평균 금액</p>
                                 <p className="text-[green] font-bold ">
-                                    {pointTotal?.avgOrderPrice} 원
+                                    {pointTotal?.avgOrderPrice != null
+                                        ? Math.trunc(
+                                              pointTotal.avgOrderPrice
+                                          ).toLocaleString()
+                                        : "0"}{" "}
+                                    원
                                 </p>
                             </span>
                         </div>

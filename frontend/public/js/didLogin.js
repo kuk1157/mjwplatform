@@ -798,6 +798,7 @@
 
                     if (response.success && response.returnUrl !== 'Failed') {
                         this.cleanup();
+
                         await this.handleLoginResult(response.returnData, data);
                         return; // 성공 시 더 이상 체크하지 않음
                     } else if (response.msg.includes('폐기된 VC')) {

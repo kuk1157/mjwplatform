@@ -377,7 +377,12 @@ function AdminCashAnalyticsPage() {
                         <span className="w-[150px] border p-3 ml-3">
                             <p className="font-normal">전체 평균 현금</p>
                             <p className="text-[red] font-bold mt-1">
-                                {cashTotal?.avgCash} 원
+                                {cashTotal?.avgCash != null
+                                    ? Math.trunc(
+                                          cashTotal.avgCash
+                                      ).toLocaleString()
+                                    : "0"}{" "}
+                                원
                             </p>
                         </span>
                         <span className="mx-3 w-[150px] border p-3">

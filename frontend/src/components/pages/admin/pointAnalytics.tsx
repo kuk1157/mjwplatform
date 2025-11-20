@@ -382,7 +382,12 @@ function AdminPointAnalyticsPage() {
                         <span className="w-[150px] border p-3 ml-3">
                             <p className="font-normal">전체 평균 포인트</p>
                             <p className="text-[red] font-bold mt-1">
-                                {pointTotal?.avgPoint} P
+                                {pointTotal?.avgPoint != null
+                                    ? Math.trunc(
+                                          pointTotal.avgPoint
+                                      ).toLocaleString()
+                                    : "0"}{" "}
+                                P
                             </p>
                         </span>
                         <span className="mx-3 w-[150px] border p-3">
@@ -408,7 +413,12 @@ function AdminPointAnalyticsPage() {
                         <span className="w-[150px] border p-3 ml-3">
                             <p className="font-normal">전체 평균 주문금액</p>
                             <p className="text-[red] font-bold mt-1">
-                                {pointTotal?.avgOrderPrice} 원
+                                {pointTotal?.avgOrderPrice != null
+                                    ? Math.trunc(
+                                          pointTotal.avgOrderPrice
+                                      ).toLocaleString()
+                                    : "0"}{" "}
+                                원
                             </p>
                         </span>
                         <span className="mx-3 w-[150px] border p-3">

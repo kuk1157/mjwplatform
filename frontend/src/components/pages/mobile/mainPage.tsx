@@ -288,7 +288,7 @@ export function MobileMainPage() {
                                     </div>
                                     <div className="flex items-end">
                                         <span className="text-[#A19CB4] text-sm font-normal">
-                                            적립률 1%
+                                            적립률 3%
                                         </span>
                                         <span>
                                             <img
