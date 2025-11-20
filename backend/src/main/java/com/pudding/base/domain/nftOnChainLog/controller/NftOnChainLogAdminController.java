@@ -16,15 +16,15 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-@Tag(name = "온체인 검증 실패 로그", description = "온체인 검증 실패 로그")
+@Tag(name = "온체인 검증 로그", description = "온체인 검증 로그")
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/api/v1/admin/nftFailLog")
+@RequestMapping("/api/v1/admin/nftOnChainLog")
 public class NftOnChainLogAdminController {
     private final NftOnChainLogService nftOnChainLogService;
 
 
-    @Operation(summary = "온체인 검증 실패 로그 API", description = "온체인 검증 실패 로그")
+    @Operation(summary = "온체인 검증 로그 API", description = "온체인 검증 로그")
     @GetMapping
     public ResponseEntity<Page<NftOnChainLogDto>> getNftOnChainLogs(@PageableDefault(sort = "createdAt", direction = Sort.Direction.DESC) Pageable pageable,
                                                                  @RequestParam(value ="keyword",required = false) String keyword){
