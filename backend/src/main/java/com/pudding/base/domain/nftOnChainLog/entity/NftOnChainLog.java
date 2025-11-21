@@ -39,14 +39,24 @@ public class NftOnChainLog extends BaseTimeEntity {
     @Schema(description = "영어 에러 메시지")
     private String errorMsg;
 
+    @Column(name = "tx_hash")
+    @Schema(description = "트랜잭션 해시")
+    private String txHash;
+
+    @Column(name = "tx_hash_message")
+    @Schema(description = "트랜잭션 해시 메시지")
+    private String txHashMessage;
+
     @Builder
-    public NftOnChainLog(Integer id, Integer nftId, String onChainCategory, String errorType, String koreanMsg, String errorMsg){
+    public NftOnChainLog(Integer id, Integer nftId, String onChainCategory, String errorType, String koreanMsg, String errorMsg, String txHash, String txHashMessage){
         this.id = id;
         this.nftId = nftId;
         this.onChainCategory = onChainCategory;
         this.errorType = errorType;
         this.koreanMsg = koreanMsg;
         this.errorMsg = errorMsg;
+        this.txHash = txHash;
+        this.txHashMessage= txHashMessage;
     }
 
 }

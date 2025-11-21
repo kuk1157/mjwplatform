@@ -16,17 +16,21 @@ public class NftOnChainLogDto {
     private String errorType;
     private String koreanMsg;
     private String errorMsg;
+    private String txHash;
+    private String txHashMessage;
     private LocalDateTime createdAt;
 
 
     @Builder
-    public NftOnChainLogDto(Integer id, Integer nftId, String onChainCategory, String errorType, String koreanMsg, String errorMsg, LocalDateTime createdAt){
+    public NftOnChainLogDto(Integer id, Integer nftId, String onChainCategory, String errorType, String koreanMsg, String errorMsg, String txHash, String txHashMessage, LocalDateTime createdAt){
         this.id = id;
         this.nftId = nftId;
         this.onChainCategory = onChainCategory;
         this.errorType = errorType;
         this.koreanMsg = koreanMsg;
         this.errorMsg = errorMsg;
+        this.txHash = txHash;
+        this.txHashMessage = txHashMessage;
         this.createdAt = createdAt;
     }
 
@@ -38,6 +42,8 @@ public class NftOnChainLogDto {
                 .errorType(nftOnChainLog.getErrorType())
                 .koreanMsg(nftOnChainLog.getKoreanMsg())
                 .errorMsg(nftOnChainLog.getErrorMsg())
+                .txHash(nftOnChainLog.getTxHash())
+                .txHashMessage(nftOnChainLog.getTxHashMessage())
                 .createdAt(nftOnChainLog.getCreatedAt())
                 .build();
     }

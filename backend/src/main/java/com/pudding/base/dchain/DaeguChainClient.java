@@ -4,9 +4,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.pudding.base.dchain.dto.DaeguChainNftMetadataDto;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.RequiredArgsConstructor;
+import lombok.*;
 import org.apache.hc.client5.http.classic.methods.HttpPost;
 import org.apache.hc.client5.http.entity.mime.MultipartEntityBuilder;
 import org.apache.hc.client5.http.impl.classic.CloseableHttpClient;
@@ -15,9 +13,11 @@ import org.apache.hc.core5.http.ContentType;
 import org.apache.hc.core5.http.HttpEntity;
 import org.apache.hc.core5.http.io.entity.EntityUtils;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.HttpStatusCode;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Component;
 import org.springframework.web.reactive.function.client.WebClient;
+import reactor.core.publisher.Mono;
 import reactor.util.retry.Retry;
 import java.io.File;
 import java.io.FileOutputStream;
@@ -291,4 +291,91 @@ public class DaeguChainClient {
     public interface OwnerKeyProvider {
         String getOwnerPrivateKeyFor(String contractAddress);
     }
+
+
+
+
+    public Mono<TimestampResponse> requestTimestampAsync(
+            String projectId,
+            long requestTs,
+            String timestampKey,
+            String timestampData
+    ) {
+        var req = TimestampRequestPayload.builder()
+                .token(appToken)
+                .chain(chainId)
+                .project_id(projectId)
+                .request_ts(requestTs)
+                .timestamp_key(timestampKey)
+                .timestamp_data(timestampData)
+                .build();
+
+        return daeguWebClient.post()
+                .uri("/v2/mitum/ts/request")
+                .contentType(MediaType.APPLICATION_JSON)
+                .accept(MediaType.APPLICATION_JSON)
+                .bodyValue(req)
+                .retrieve()
+                .onStatus(HttpStatusCode::isError, r ->
+                        r.bodyToMono(String.class)
+                                .defaultIfEmpty("")
+                                .flatMap(msg -> Mono.error(
+                                        new DaeguChainException("timestamp request failed: " + r.statusCode() + " - " + msg)
+                                ))
+                )
+                .bodyToMono(String.class)
+                .timeout(Duration.ofSeconds(25))  // 비동기는 약간 더 여유 줘도 됨
+                .map(body -> {
+                    try {
+                        JsonNode root = objectMapper.readTree(body);
+
+                        if (!"OK".equalsIgnoreCase(root.path("state").asText())) {
+                            throw new DaeguChainException("timestamp not OK: " + root.path("msg").asText());
+                        }
+
+                        JsonNode dataNode = root.path("data");
+                        if (dataNode.isMissingNode() || dataNode.isNull()) {
+                            throw new DaeguChainException("timestamp ok but no 'data'");
+                        }
+
+                        return new TimestampResponse(
+                                dataNode.path("tx").path("hash").asText(),
+                                dataNode.path("receipt").path("height").asText(),
+                                dataNode.path("data").path("timestamp_key").asText(),
+                                dataNode.path("data").path("timestamp_data").asText()
+                        );
+
+                    } catch (Exception e) {
+                        throw new DaeguChainException("failed to parse timestamp response");
+                    }
+                });
+    }
+
+
+
+    // -----------dto
+
+    @Data
+    @Builder
+    @NoArgsConstructor
+    @AllArgsConstructor
+    public static class TimestampRequestPayload {
+        private String token;
+        private String chain;
+        private String project_id;
+        private long request_ts;
+        private String timestamp_key;
+        private String timestamp_data;
+    }
+
+    @Data
+    @NoArgsConstructor
+    @AllArgsConstructor
+    public static class TimestampResponse {
+        private String txHash;
+        private String blockHeight;
+        private String timestamp_key;
+        private String timestamp_data;
+    }
+
 }
