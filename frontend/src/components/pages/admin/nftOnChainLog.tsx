@@ -55,19 +55,19 @@ export function AdminNftOnChainLog() {
             width: "10%",
         },
         {
-            key: "errorType",
-            value: "에러 타입",
-            width: "15%",
+            key: "txHashMessage",
+            value: "메시지",
+            width: "25%",
         },
         {
-            key: "koreanMsg",
-            value: "메시지(kr)",
-            width: "30%",
+            key: "txHash",
+            value: "트랜잭션 해시",
+            width: "40%",
         },
         {
             key: "errorMsg",
-            value: "에러메시지(en)",
-            width: "30%",
+            value: "에러메시지",
+            width: "10%",
         },
         {
             key: "createdAt",

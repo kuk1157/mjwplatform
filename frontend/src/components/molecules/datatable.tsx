@@ -368,6 +368,24 @@ export const DataTable = ({
                         return cellValue ?? "-";
                 }
 
+            case "admin_OnChainFailLog":
+                switch (column.key) {
+                    case "txHash":
+                        return (
+                            <Link
+                                className="flex items-center justify-center gap-1"
+                                to={`https://www.daegu.go.kr/daeguchain/scan/operations/${row.txHash}`}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                            >
+                                {row.txHash}
+                                <GoArrowUpRight />
+                            </Link>
+                        );
+                    default:
+                        return cellValue ?? "-";
+                }
+
             case "admin_FAQ":
                 switch (column.key) {
                     case "question":
