@@ -193,10 +193,10 @@ function OwnerDashBoard() {
         navigate(`/owner/ownerPayList`);
     };
 
-    // 점주 결제내역 목록 조회 페이지로 이동
-    const OwnerPayLog = () => {
-        navigate(`/owner/ownerPayLogList`);
-    };
+    // // 점주 결제내역 목록 조회 페이지로 이동
+    // const OwnerPayLog = () => {
+    //     navigate(`/owner/ownerPayLogList`);
+    // };
 
     // 점주 포인트 목록 조회 페이지로 이동
     const OwnerPoint = () => {
@@ -584,15 +584,15 @@ function OwnerDashBoard() {
                             </button>
                             <button
                                 className="flex-1 xs:min-w-[18%] xxs:min-w-[18%] py-3 hover:text-[#E61F2C]"
-                                onClick={OwnerPayLog}
+                                onClick={OwnerCash}
                             >
                                 <img
                                     className="w-[50px] h-[50px] mb-1 inline-block"
                                     src="/assets/image/dashboard/payLog.svg"
-                                    alt="결제 내역 조회"
+                                    alt="현금화 신청 내역 조회"
                                 />
                                 <p className="text-sm font-semibold">
-                                    결제 내역
+                                    현금신청 내역
                                 </p>
                             </button>
                             <button
