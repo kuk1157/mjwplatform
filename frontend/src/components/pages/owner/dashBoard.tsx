@@ -42,6 +42,7 @@ function OwnerDashBoard() {
     const [name, setStoreName] = useState(); // 가맹점 이름 세팅
     const [ownerName, setOwnerName] = useState(); // 점주 이름 세팅
     const [storeId, setStoreId] = useState(); // 가맹점 id 세팅
+    const [storeGrade, setStoreGrade] = useState(); // 가맹점 등급 세팅
     const [totalPoint, setTotalPoint] = useState(); // 합계포인트(점주 보유포인트)
     const [newVisitLogs, setNewVisits] = useState<VisitLog[]>([]); // 최근 방문 기록 세팅
     const [requestPrice, setRequestPrice] = useState(""); // 현금화 금액
@@ -73,6 +74,7 @@ function OwnerDashBoard() {
                 setStoreId(storeId); // 가맹점 고유번호 세팅
                 setStoreName(storeRes.data.name); // 가맹점 이름 세팅
                 setOwnerName(storeRes.data.ownerName); // 점주 이름 세팅
+                setStoreGrade(storeRes.data.grade); // 점주 등급 세팅
 
                 // 신규 방문(주문) 기록
                 const [newVisitLogRes] = await Promise.all([
@@ -216,6 +218,22 @@ function OwnerDashBoard() {
     // 점주 현금화 신청 목록 조회 페이지로 이동
     const OwnerCash = () => {
         navigate(`/owner/ownerCashList/${storeId}`);
+    };
+
+    // 등급 객체
+    const rateMap = {
+        1: "50%",
+        2: "60%",
+        3: "70%",
+        4: "80%",
+    };
+
+    // 등급 객체
+    const gradeText = {
+        1: "실버",
+        2: "골드",
+        3: "플래티넘",
+        4: "다이아",
     };
 
     const TestPostcash = async () => {
@@ -709,51 +727,82 @@ function OwnerDashBoard() {
 
                 {/* 현금화 신청 영역 */}
                 <div className="w-full bg-[#FFF] p-6 mt-6">
-                    <div className="w-full max-w-[880px] mx-auto p-6 flex flex-col placeholder:items-center justify-between bg-white rounded-[20px] shadow-md border-2 border-[#E61F2C]">
-                        {/* 좌측: 포인트 정보 */}
-                        <div className="flex flex-col text-center">
-                            <p className="text-gray-600 text-sm">보유 포인트</p>
-                            <p className="text-2xl font-bold text-[#E61F2C]">
-                                {(totalPoint ?? 0).toLocaleString()} P
-                            </p>
-                            <p className="text-xs text-gray-400 mt-1">
-                                1,000P 이상부터 현금화 신청 가능
-                            </p>
-                        </div>
-                        {/* 우측: 입력 + 버튼 */}
-                        <div className="flex flex-col items-center md:items-end w-full md:w-auto mt-4">
-                            <div className="flex items-center gap-2 md:mr-6">
-                                <input
-                                    type="number"
-                                    placeholder="신청 금액 입력"
-                                    value={requestPrice}
-                                    onChange={(e) =>
-                                        setRequestPrice(e.target.value)
-                                    }
-                                    className="border border-gray-300 rounded-lg px-3 py-2 text-sm w-[140px] focus:outline-none focus:ring-2 focus:ring-[#E61F2C]"
-                                />
-                                <button
-                                    className="px-5 py-2 rounded-lg font-semibold shadow-sm bg-[#E61F2C] hover:bg-[#c51b25] text-white"
-                                    onClick={TestPostcash}
-                                >
-                                    신청
-                                </button>
+                    <div className="text-center mb-5">
+                        <span className="font-semibold text-2xl">
+                            현금화 신청 하기
+                        </span>
+                    </div>
+
+                    <div className="w-full max-w-[880px] mx-auto px-10 py-4 flex flex-row md:flex-col items-center justify-between bg-white rounded-[20px] shadow-md border-2 border-[#E61F2C]">
+                        {/* 좌측 + 중앙 */}
+                        <div className="w-full flex md:px-10 xs:p-0 xxs:p-0 xs:flex-row md:justify-between sm:justify-between xxs:flex-row xs:justify-between xxs:justify-between">
+                            {/* 좌측: 매장/점주 정보 */}
+                            <div className="w-full flex flex-col justify-center xs:w-[48%] xxs:w-[48%]">
+                                <p className="text-lg lg:text-sm md:text-sm text-gray-500">
+                                    나의 등급 :{" "}
+                                    <span className="font-semibold text-gray-900">
+                                        {gradeText[storeGrade] ?? "-"}
+                                    </span>
+                                </p>
+                                <p className="text-lg lg:text-sm md:text-sm text-gray-500">
+                                    정산률 :{" "}
+                                    <span className="font-semibold text-gray-900">
+                                        {rateMap[storeGrade] ?? "-"}
+                                    </span>
+                                </p>
                             </div>
-                            <div className="text-xs text-gray-400 mt-2 w-full flex justify-center">
-                                관리자 승인 후 입금 처리됩니다.
+
+                            {/* 중앙: 보유 포인트 */}
+                            <div className="flex flex-col items-center xs:ml-0 xxs:ml-0 justify-center border-2 border-[#E61F2C] rounded-lg py-3 px-2 shadow-sm min-w-[140px] xs:w-[48%] xxs:w-[48%]">
+                                <p className="text-sm text-[#E61F2C] font-medium tracking-wide">
+                                    보유 포인트
+                                </p>
+                                <p className="text-xl font-extrabold text-[#E61F2C] mt-1">
+                                    {(totalPoint ?? 0).toLocaleString()} P
+                                </p>
+                            </div>
+                            <div className="flex flex-col items-center md:items-end w-full md:w-auto mt-4">
+                                <div className="flex items-center gap-2 md:mr-6">
+                                    <input
+                                        type="number"
+                                        placeholder="신청 금액 입력"
+                                        value={requestPrice}
+                                        onChange={(e) =>
+                                            setRequestPrice(e.target.value)
+                                        }
+                                        className="border border-gray-300 rounded-lg px-3 py-2 text-sm w-[140px] focus:outline-none focus:ring-2 focus:ring-[#E61F2C]"
+                                    />
+                                    <button
+                                        className="px-5 py-2 rounded-lg font-semibold shadow-sm bg-[#E61F2C] hover:bg-[#c51b25] text-white"
+                                        onClick={TestPostcash}
+                                    >
+                                        신청
+                                    </button>
+                                </div>
+                                <div className="text-xs text-gray-400 mt-2 w-full flex justify-center">
+                                    관리자 승인 후 입금 처리됩니다.
+                                </div>
+                                <div className="text-xs text-gray-400 mt-2 w-full flex justify-center">
+                                    <button
+                                        onClick={OwnerCash}
+                                        className="px-5 py-2 rounded-lg text-sm font-semibold border border-gray-300 text-gray-600 hover:bg-gray-50 transition"
+                                    >
+                                        현금화 신청 내역 보기
+                                    </button>
+                                </div>
                             </div>
                         </div>
                     </div>
 
                     {/* 중앙 정렬 내역 보기 버튼 */}
-                    <div className="w-full max-w-[880px] mx-auto mt-4 flex justify-center">
+                    {/* <div className="w-full max-w-[880px] mx-auto mt-4 flex justify-center">
                         <button
                             onClick={OwnerCash}
                             className="px-5 py-2 rounded-lg text-sm font-semibold border border-gray-300 text-gray-600 hover:bg-gray-50 transition"
                         >
                             현금화 신청 내역 보기
                         </button>
-                    </div>
+                    </div> */}
                 </div>
                 {/* 신규 방문 기록 섹션 */}
                 <div className="w-full bg-[#FBFBFC] py-12">

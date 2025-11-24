@@ -74,7 +74,7 @@ function OwnerCashList() {
                                         번호
                                     </th>
                                     <th className="py-4 px-6 text-center border-r border-l">
-                                        금액
+                                        포인트
                                     </th>
                                     <th className="py-4 px-6 text-center">
                                         신청 일시
@@ -95,7 +95,7 @@ function OwnerCashList() {
                                                 {(
                                                     cashOutRequests.cash ?? 0
                                                 ).toLocaleString()}{" "}
-                                                원
+                                                P
                                             </td>
                                             <td className="py-4 px-6 text-center whitespace-nowrap">
                                                 {new Date(
