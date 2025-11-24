@@ -48,31 +48,31 @@ public class PointCashOutRequestServiceImpl implements PointCashOutRequestServic
         Integer grade = store.getGrade();
 
         // 등급별 정산 비율
-        double rate = switch (grade) {
-            case 1 -> 0.50;  // 실버
-            case 2 -> 0.60;  // 골드
-            case 3 -> 0.70;  // 플래티넘
-            case 4 -> 0.80;  // 다이아
-            default -> throw new IllegalArgumentException("알 수 없는 등급입니다.");
-        };
+//        double rate = switch (grade) {
+//            case 1 -> 0.50;  // 실버
+//            case 2 -> 0.60;  // 골드
+//            case 3 -> 0.70;  // 플래티넘
+//            case 4 -> 0.80;  // 다이아
+//            default -> throw new IllegalArgumentException("알 수 없는 등급입니다.");
+//        };
 
         // 등급별 정산된 금액
-        int calculatedCash = (int) Math.floor(originalCash * rate);
+//        int calculatedCash = (int) Math.floor(originalCash * rate);
 
         PointCashOutRequest request = PointCashOutRequest.builder()
                 .storeId(store.getId())
                 .ownerId(memberId)
-                .cash(calculatedCash)   // ★ 등급별 금액
+                .cash(pointCashOutRequestDto.getCash())   // ★ 등급별 금액
                 .requestAt(LocalDateTime.now())
                 .build();
         pointCashOutRequestRepository.save(request);
 
 
         // 현금화 신청 금액 (+) - 점주 보유현금 (+)
-        member.addTotalCash(calculatedCash);
+        member.addTotalCash(pointCashOutRequestDto.getCash());
 
         // 현금화 신청 금액 (-) - 점주 보유포인트 (-)
-        member.useTotalPoint(calculatedCash);
+        member.useTotalPoint(pointCashOutRequestDto.getCash());
         return PointCashOutRequestDto.fromEntity(request);
     }
 

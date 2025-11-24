@@ -55,7 +55,6 @@ public class Store {
     @Column(name = "extension")
     private String extension;
 
-
     @Column(name = "nft_contract")
     @Schema(description = "nft 계약주소")
     private String nftContract;
@@ -73,13 +72,14 @@ public class Store {
     private LocalDateTime createdAt;
 
     @Builder
-    public Store(Integer id, Integer ownerId, String name, String address, Double latitude, Double longitude, String nftContract, String nftImage,  String nftUrl, LocalDateTime createdAt){
+    public Store(Integer id, Integer ownerId, String name, String address, Double latitude, Double longitude, Integer grade, String nftContract, String nftImage,  String nftUrl, LocalDateTime createdAt){
         this.id = id;
         this.ownerId = ownerId;
         this.name = name;
         this.address = address;
         this.latitude = latitude;
         this.longitude = longitude;
+        this.grade = grade;
         this.nftContract = nftContract;
         this.nftImage = nftImage;
         this.nftUrl = nftUrl;

@@ -50,7 +50,7 @@ public interface StoreRepository extends JpaRepository<Store, Integer> {
     // 메인 대시보드 용도
     @Query("""
         SELECT new com.pudding.base.domain.store.dto.StoreDto(
-            s.id, s.ownerId, s.name, s.address, s.latitude, s.longitude, s.thumbnail, s.extension, m.name, s.createdAt
+            s.id, s.ownerId, s.name, s.address, s.latitude, s.longitude, s.grade, s.thumbnail, s.extension, m.name, s.createdAt
         )
         FROM Store s
         JOIN Member m ON s.ownerId = m.id
