@@ -28,7 +28,7 @@ function OwnerPointList() {
 
         const fetchData = async () => {
             try {
-                const url = `/api/v1/points/owner/${ownerId}`;
+                const url = `/api/v1/points/owner/${ownerId}?page=${page}&size=${pageSize}`;
                 const response = await axios.get(url);
                 setOwnerPoints(response.data.content || []);
                 setTotalPages(response.data.totalPages);
@@ -38,7 +38,7 @@ function OwnerPointList() {
         };
 
         fetchData();
-    }, [ownerId]);
+    }, [ownerId, page, pageSize]);
 
     // 점주 대시보드로 이동
     const OwnerDashBoard = () => {
@@ -77,9 +77,6 @@ function OwnerPointList() {
                                         번호
                                     </th>
                                     <th className="py-4 px-6 text-center">
-                                        결제 고유번호
-                                    </th>
-                                    <th className="py-4 px-6 text-center">
                                         주문 금액
                                     </th>
                                     <th className="py-4 px-6 text-center">
@@ -91,39 +88,47 @@ function OwnerPointList() {
                                 </tr>
                             </thead>
                             <tbody>
-                                {ownerPoints.map((points, index) => (
-                                    <tr
-                                        key={points.id}
-                                        className="transition-colors duration-200 cursor-default"
-                                    >
-                                        <td className="py-4 px-6 text-center whitespace-nowrap font-semibold">
-                                            {page * pageSize + index + 1}
-                                        </td>
-                                        <td className="py-4 px-6 text-center whitespace-nowrap">
-                                            {points.payId} 번
-                                        </td>
-                                        <td className="py-4 px-6 text-center whitespace-nowrap">
-                                            {(
-                                                points.orderPrice ?? 0
-                                            ).toLocaleString()}{" "}
-                                            원
-                                        </td>
-                                        <td className="py-4 px-6 text-center whitespace-nowrap font-semibold">
-                                            {(
-                                                points.point ?? 0
-                                            ).toLocaleString()}{" "}
-                                            원
-                                        </td>
-                                        <td className="py-4 px-6 text-center whitespace-nowrap">
-                                            {points.createdAt
-                                                ? points.createdAt.replace(
-                                                      "T",
-                                                      " "
-                                                  )
-                                                : "데이터 없음"}
+                                {ownerPoints && ownerPoints.length > 0 ? (
+                                    ownerPoints.map((points, index) => (
+                                        <tr
+                                            key={points.id}
+                                            className="transition-colors duration-200 cursor-default"
+                                        >
+                                            <td className="py-4 px-6 text-center whitespace-nowrap font-semibold">
+                                                {page * pageSize + index + 1}
+                                            </td>
+                                            <td className="py-4 px-6 text-center whitespace-nowrap">
+                                                {(
+                                                    points.orderPrice ?? 0
+                                                ).toLocaleString()}{" "}
+                                                원
+                                            </td>
+                                            <td className="py-4 px-6 text-center whitespace-nowrap font-semibold">
+                                                {(
+                                                    points.point ?? 0
+                                                ).toLocaleString()}{" "}
+                                                원
+                                            </td>
+                                            <td className="py-4 px-6 text-center whitespace-nowrap">
+                                                {points.createdAt
+                                                    ? points.createdAt.replace(
+                                                          "T",
+                                                          " "
+                                                      )
+                                                    : "데이터 없음"}
+                                            </td>
+                                        </tr>
+                                    ))
+                                ) : (
+                                    <tr>
+                                        <td
+                                            colSpan={4}
+                                            className="py-4 px-6 text-center text-gray-500 font-semibold"
+                                        >
+                                            데이터가 존재하지 않습니다.
                                         </td>
                                     </tr>
-                                ))}
+                                )}
                             </tbody>
                         </table>
                     </div>

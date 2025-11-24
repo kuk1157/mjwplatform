@@ -97,45 +97,56 @@ function OwnerPayLogList() {
                                 </tr>
                             </thead>
                             <tbody>
-                                {ownerPayLogs.map((payLogs, index) => (
-                                    <tr
-                                        key={payLogs.id}
-                                        className="transition-colors duration-200 cursor-default"
-                                    >
-                                        <td className="py-4 px-6 text-center whitespace-nowrap font-semibold">
-                                            {page * pageSize + index + 1}
-                                        </td>
-                                        <td className="py-4 px-6 text-center whitespace-nowrap">
-                                            {payLogs.payId} 번
-                                        </td>
-                                        <td className="py-4 px-6 text-center whitespace-nowrap">
-                                            {(
-                                                payLogs.amount ?? 0
-                                            ).toLocaleString()}{" "}
-                                            원
-                                        </td>
-                                        <td className="py-4 px-6 text-center whitespace-nowrap">
-                                            {(
-                                                payLogs.discountAmount ?? 0
-                                            ).toLocaleString()}{" "}
-                                            원
-                                        </td>
-                                        <td className="py-4 px-6 text-center whitespace-nowrap font-semibold">
-                                            {(
-                                                payLogs.finalAmount ?? 0
-                                            ).toLocaleString()}{" "}
-                                            원
-                                        </td>
-                                        <td className="py-4 px-6 text-center whitespace-nowrap">
-                                            {payLogs.createdAt
-                                                ? payLogs.createdAt.replace(
-                                                      "T",
-                                                      " "
-                                                  )
-                                                : "데이터 없음"}
+                                {ownerPayLogs && ownerPayLogs.length > 0 ? (
+                                    ownerPayLogs.map((payLogs, index) => (
+                                        <tr
+                                            key={payLogs.id}
+                                            className="transition-colors duration-200 cursor-default"
+                                        >
+                                            <td className="py-4 px-6 text-center whitespace-nowrap font-semibold">
+                                                {page * pageSize + index + 1}
+                                            </td>
+                                            <td className="py-4 px-6 text-center whitespace-nowrap">
+                                                {payLogs.payId} 번
+                                            </td>
+                                            <td className="py-4 px-6 text-center whitespace-nowrap">
+                                                {(
+                                                    payLogs.amount ?? 0
+                                                ).toLocaleString()}{" "}
+                                                원
+                                            </td>
+                                            <td className="py-4 px-6 text-center whitespace-nowrap">
+                                                {(
+                                                    payLogs.discountAmount ?? 0
+                                                ).toLocaleString()}{" "}
+                                                원
+                                            </td>
+                                            <td className="py-4 px-6 text-center whitespace-nowrap font-semibold">
+                                                {(
+                                                    payLogs.finalAmount ?? 0
+                                                ).toLocaleString()}{" "}
+                                                원
+                                            </td>
+                                            <td className="py-4 px-6 text-center whitespace-nowrap">
+                                                {payLogs.createdAt
+                                                    ? payLogs.createdAt.replace(
+                                                          "T",
+                                                          " "
+                                                      )
+                                                    : "데이터 없음"}
+                                            </td>
+                                        </tr>
+                                    ))
+                                ) : (
+                                    <tr>
+                                        <td
+                                            colSpan={5}
+                                            className="py-4 px-6 text-center text-gray-500 font-semibold"
+                                        >
+                                            데이터가 존재하지 않습니다.
                                         </td>
                                     </tr>
-                                ))}
+                                )}
                             </tbody>
                         </table>
                     </div>

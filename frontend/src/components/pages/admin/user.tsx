@@ -61,12 +61,8 @@ function UserPage() {
             value: "이름",
         },
         {
-            key: "loginId",
-            value: "아이디",
-        },
-        {
-            key: "birthday",
-            value: "생년월일",
+            key: "phoneNumber",
+            value: "전화번호",
         },
         {
             key: "role",

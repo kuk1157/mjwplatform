@@ -93,27 +93,38 @@ function OwnerAllVisitLogList() {
                                 </tr>
                             </thead>
                             <tbody>
-                                {ownerAllLogs.map((visitLog, index) => (
-                                    <tr
-                                        key={visitLog.id}
-                                        className="transition-colors duration-200 cursor-default"
-                                    >
-                                        <td className="py-4 px-6 text-center whitespace-nowrap font-semibold">
-                                            {page * pageSize + index + 1}
-                                        </td>
-                                        <td className="py-4 px-6 text-center whitespace-nowrap">
-                                            {visitLog.memberName}
-                                        </td>
-                                        <td className="py-4 px-6 text-center whitespace-nowrap">
-                                            {visitLog.storeTableId}
-                                        </td>
-                                        <td className="py-4 px-6 text-center whitespace-nowrap">
-                                            {new Date(
-                                                visitLog.createdAt
-                                            ).toLocaleString()}
+                                {ownerAllLogs && ownerAllLogs.length > 0 ? (
+                                    ownerAllLogs.map((visitLog, index) => (
+                                        <tr
+                                            key={visitLog.id}
+                                            className="transition-colors duration-200 cursor-default"
+                                        >
+                                            <td className="py-4 px-6 text-center whitespace-nowrap font-semibold">
+                                                {page * pageSize + index + 1}
+                                            </td>
+                                            <td className="py-4 px-6 text-center whitespace-nowrap">
+                                                {visitLog.memberName}
+                                            </td>
+                                            <td className="py-4 px-6 text-center whitespace-nowrap">
+                                                {visitLog.storeTableId}
+                                            </td>
+                                            <td className="py-4 px-6 text-center whitespace-nowrap">
+                                                {new Date(
+                                                    visitLog.createdAt
+                                                ).toLocaleString()}
+                                            </td>
+                                        </tr>
+                                    ))
+                                ) : (
+                                    <tr>
+                                        <td
+                                            colSpan={5}
+                                            className="py-4 px-6 text-center text-gray-500 font-semibold"
+                                        >
+                                            데이터가 존재하지 않습니다.
                                         </td>
                                     </tr>
-                                ))}
+                                )}
                             </tbody>
                         </table>
                     </div>

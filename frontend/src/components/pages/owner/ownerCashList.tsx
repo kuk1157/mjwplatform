@@ -82,27 +82,38 @@ function OwnerCashList() {
                                 </tr>
                             </thead>
                             <tbody>
-                                {ownerCashs.map((cashOutRequests, index) => (
-                                    <tr
-                                        key={cashOutRequests.id}
-                                        className="transition-colors duration-200 cursor-default"
-                                    >
-                                        <td className="py-4 px-6 text-center whitespace-nowrap font-semibold">
-                                            {page * pageSize + index + 1}
-                                        </td>
-                                        <td className="py-4 px-6 text-center whitespace-nowrap border-r border-l">
-                                            {(
-                                                cashOutRequests.cash ?? 0
-                                            ).toLocaleString()}{" "}
-                                            원
-                                        </td>
-                                        <td className="py-4 px-6 text-center whitespace-nowrap">
-                                            {new Date(
-                                                cashOutRequests.requestAt
-                                            ).toLocaleString()}
+                                {ownerCashs && ownerCashs.length > 0 ? (
+                                    ownerCashs.map((cashOutRequests, index) => (
+                                        <tr
+                                            key={cashOutRequests.id}
+                                            className="transition-colors duration-200 cursor-default"
+                                        >
+                                            <td className="py-4 px-6 text-center whitespace-nowrap font-semibold">
+                                                {page * pageSize + index + 1}
+                                            </td>
+                                            <td className="py-4 px-6 text-center whitespace-nowrap border-r border-l">
+                                                {(
+                                                    cashOutRequests.cash ?? 0
+                                                ).toLocaleString()}{" "}
+                                                원
+                                            </td>
+                                            <td className="py-4 px-6 text-center whitespace-nowrap">
+                                                {new Date(
+                                                    cashOutRequests.requestAt
+                                                ).toLocaleString()}
+                                            </td>
+                                        </tr>
+                                    ))
+                                ) : (
+                                    <tr>
+                                        <td
+                                            colSpan={5}
+                                            className="py-4 px-6 text-center text-gray-500 font-semibold"
+                                        >
+                                            데이터가 존재하지 않습니다.
                                         </td>
                                     </tr>
-                                ))}
+                                )}
                             </tbody>
                         </table>
                     </div>
