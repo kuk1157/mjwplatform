@@ -26,6 +26,11 @@ public class Store {
     @Schema(description = "점주 고유번호")
     private Integer ownerId;
 
+    @Column(name = "grade")
+    @Schema(description = "점주 등급")
+    private Integer grade; // 1,2,3,4 (실버,골드,플래티넘,다이아)
+    // 50%, 60%, 70%, 80%
+
     @Column(name = "name")
     @Schema(description = "매장 이름")
     private String name;

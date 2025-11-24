@@ -43,21 +43,36 @@ public class PointCashOutRequestServiceImpl implements PointCashOutRequestServic
 
         // 점주의 보유포인트 업데이트를 하기 위함
         Member member = memberRepository.findById(memberId).orElseThrow(() -> new EntityNotFoundException("점주가 존재하지 않습니다."));
+        // 원래 신청 금액
+        int originalCash = pointCashOutRequestDto.getCash();
+        Integer grade = store.getGrade();
+
+        // 등급별 정산 비율
+        double rate = switch (grade) {
+            case 1 -> 0.50;  // 실버
+            case 2 -> 0.60;  // 골드
+            case 3 -> 0.70;  // 플래티넘
+            case 4 -> 0.80;  // 다이아
+            default -> throw new IllegalArgumentException("알 수 없는 등급입니다.");
+        };
+
+        // 등급별 정산된 금액
+        int calculatedCash = (int) Math.floor(originalCash * rate);
 
         PointCashOutRequest request = PointCashOutRequest.builder()
-                .storeId(store.getId()) // 매장 고유번호
-                .ownerId(memberId) // 점주 고유번호
-                .cash(pointCashOutRequestDto.getCash())
+                .storeId(store.getId())
+                .ownerId(memberId)
+                .cash(calculatedCash)   // ★ 등급별 금액
                 .requestAt(LocalDateTime.now())
                 .build();
         pointCashOutRequestRepository.save(request);
 
 
         // 현금화 신청 금액 (+) - 점주 보유현금 (+)
-        member.addTotalCash(pointCashOutRequestDto.getCash());
+        member.addTotalCash(calculatedCash);
 
         // 현금화 신청 금액 (-) - 점주 보유포인트 (-)
-        member.useTotalPoint(pointCashOutRequestDto.getCash());
+        member.useTotalPoint(calculatedCash);
         return PointCashOutRequestDto.fromEntity(request);
     }
 
