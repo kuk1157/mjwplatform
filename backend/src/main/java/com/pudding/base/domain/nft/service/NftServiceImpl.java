@@ -1,10 +1,15 @@
 package com.pudding.base.domain.nft.service;
+
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.pudding.base.crypto.repository.EncMetaRepository;
 import com.pudding.base.crypto.service.EncMetaManager;
 import com.pudding.base.dchain.DaeguChainClient;
 import com.pudding.base.domain.common.exception.CustomException;
+import com.pudding.base.domain.customer.entity.Customer;
+import com.pudding.base.domain.customer.repository.CustomerRepository;
+import com.pudding.base.domain.member.entity.Member;
+import com.pudding.base.domain.member.repository.MemberRepository;
 import com.pudding.base.domain.nft.dto.NftDto;
 import com.pudding.base.domain.nft.entity.Nft;
 import com.pudding.base.domain.nft.repository.NftRepository;
@@ -50,6 +55,8 @@ public class NftServiceImpl implements NftService {
     private final EncMetaManager encMetaManager;
     private final NftOnChainLogRepository nftOnChainLogRepository;
     private final DaeguChainClient daeguChainClient;
+    private final CustomerRepository customerRepository;
+    private final MemberRepository memberRepository;
 
     @Autowired
     private ObjectMapper objectMapper;
@@ -58,10 +65,9 @@ public class NftServiceImpl implements NftService {
     private String timeStampProjectId;
 
 
-
     @Transactional
     @Override
-    public NftDto createNft(String did, String tokenHash, String mintHash, Integer storeTableId, Integer nftIdx, String nftUrl, Integer encId, Integer storeId, Integer customerId){
+    public NftDto createNft(String did, String tokenHash, String mintHash, Integer storeTableId, Integer nftIdx, String nftUrl, Integer encId, Integer storeId, Integer customerId) {
         String finalToken = UUID.randomUUID().toString();
 
         Nft nft = Nft.builder()
@@ -113,7 +119,7 @@ public class NftServiceImpl implements NftService {
 
     // 고객 NFT 전체 조회
     @Override
-    public List<NftDto> getLimitedNftSorted(Integer customerId, String sort, Integer limit){
+    public List<NftDto> getLimitedNftSorted(Integer customerId, String sort, Integer limit) {
 
         // 정렬 direction 세팅
         Sort.Direction direction = "asc".equalsIgnoreCase(sort) ? Sort.Direction.ASC : Sort.Direction.DESC;
@@ -147,8 +153,8 @@ public class NftServiceImpl implements NftService {
     }
 
     @Override
-    public boolean nftExists(Integer storeId, Integer customerId){
-        return nftRepository.existsByStoreIdAndCustomerId(storeId,customerId);
+    public boolean nftExists(Integer storeId, Integer customerId) {
+        return nftRepository.existsByStoreIdAndCustomerId(storeId, customerId);
     }
 
     // NFT 상세보기
@@ -195,19 +201,26 @@ public class NftServiceImpl implements NftService {
 
             Map<String, Object> jsonMap;
             try {
-                jsonMap = objectMapper.readValue(decryptedJson, new TypeReference<Map<String, Object>>() {});
+                jsonMap = objectMapper.readValue(decryptedJson, new TypeReference<Map<String, Object>>() {
+                });
             } catch (Exception e) {
                 System.out.println("파싱 실패 JSON: " + decryptedJson);
                 e.printStackTrace();
                 throw new RuntimeException("JSON 파싱 실패", e);
             }
-            String localHash = jsonMap.get("res_hash") != null ? jsonMap.get("res_hash").toString() : "";
-            String chainResHash = nft.getTokenHash();
+            Map<String, Object> holderMap = (Map<String, Object>) jsonMap.get("holder");
+            String localWallet = holderMap != null ? (String) holderMap.get("wallet") : "";
 
-            if (localHash.equalsIgnoreCase(chainResHash)) {
-                txHashMessage = "해시값 일치 (온체인 res_hash와 원본 이미지 일치)";
+
+            Customer customer = customerRepository.findById(nft.getCustomerId()).orElseThrow(() -> new CustomException("존재하지 Customer 입니다."));
+            Member member = memberRepository.findById(customer.getMemberId()).orElseThrow(() -> new CustomException("존재하지 member 입니다."));
+            String memberWallet = member.getWalletAddress();
+            //String chainResHash = nft.getTokenHash();
+
+            if (localWallet.equalsIgnoreCase(memberWallet)) {
+                txHashMessage = "Store 체크인 증명(holder 정보 일치) 성공";
             } else {
-                txHashMessage = "해시값 불일치 (온체인 res_hash와 원본 이미지 불일치)";
+                txHashMessage = "Store 체크인 증명(holder 정보 불일치) 실패";
             }
 
             long now = System.currentTimeMillis();
@@ -222,6 +235,7 @@ public class NftServiceImpl implements NftService {
             String tsKey = UUID.randomUUID().toString().replace("-", "").substring(0, 8);
 
             // 4. Timestamp 요청 및 성공 로그 저장 (비동기)
+            String finalTxHashMessage = txHashMessage;
             daeguChainClient.requestTimestampAsync(timeStampProjectId, now, tsKey, timestampData)
                     .subscribe(tsResp -> {
                         String txHash = tsResp.getTxHash();
@@ -232,7 +246,7 @@ public class NftServiceImpl implements NftService {
                                 .koreanMsg("온체인 검증 성공")
                                 .errorMsg(null)
                                 .txHash(txHash)
-                                .txHashMessage("해시값 일치 (온체인 res_hash와 원본 이미지 일치)")
+                                .txHashMessage(finalTxHashMessage)
                                 .build();
                         nftOnChainLogRepository.save(nftOnChainLog);
                     });
@@ -265,7 +279,7 @@ public class NftServiceImpl implements NftService {
                     .koreanMsg(koreanMsg)
                     .errorMsg(e.getMessage())
                     .txHash(null)
-                    .txHashMessage(txHashMessage.isEmpty() ? "해시값 불일치 (온체인 res_hash와 원본 이미지 불일치)" : txHashMessage)
+                    .txHashMessage(txHashMessage.isEmpty() ? "Store 체크인 증명(holder 정보 불일치) 실패" : txHashMessage)
                     .build();
             nftOnChainLogRepository.save(nftOnChainLog);
 
