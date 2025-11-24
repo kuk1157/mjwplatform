@@ -741,13 +741,13 @@ function OwnerDashBoard() {
                                 <p className="text-lg lg:text-sm md:text-sm text-gray-500">
                                     나의 등급 :{" "}
                                     <span className="font-semibold text-gray-900">
-                                        {gradeText[storeGrade] ?? "-"}
+                                        {gradeText[storeGrade!] ?? "-"}
                                     </span>
                                 </p>
                                 <p className="text-lg lg:text-sm md:text-sm text-gray-500">
                                     정산률 :{" "}
                                     <span className="font-semibold text-gray-900">
-                                        {rateMap[storeGrade] ?? "-"}
+                                        {rateMap[storeGrade!] ?? "-"}
                                     </span>
                                 </p>
                             </div>
