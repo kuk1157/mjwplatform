@@ -30,7 +30,7 @@ function UserPage() {
     const { data: userList, isFetching } = useQuery({
         queryKey: ["userList", page, searchQuery, sortConfig],
         queryFn: async () => {
-            const url = `/api/v1/admin/member?page=${page - 1}&sort=${sortConfig.key},${sortConfig.array}&size=${itemsPerPage}${searchQuery}`;
+            const url = `/api/v1/admin/member?page=${page - 1}&sort=id,desc&sort=${sortConfig.key},${sortConfig.array}&size=${itemsPerPage}${searchQuery}`;
             const res = await UserApi.get(url);
 
             return res.data;

@@ -23,7 +23,7 @@ export function AdminNftOnChainLog() {
     const { data: NftTransactionLog, isFetching } = useQuery({
         queryKey: ["NftTransactionLog", page, searchQuery, sortConfig],
         queryFn: async () => {
-            const url = `/api/v1/admin/nftOnChainLog?page=${page - 1}&sort=${sortConfig.key},${sortConfig.array}&size=${itemsPerPage}${searchQuery}`;
+            const url = `/api/v1/admin/nftOnChainLog?page=${page - 1}&sort=id,desc&sort=${sortConfig.key},${sortConfig.array}&size=${itemsPerPage}${searchQuery}`;
             const res = await UserApi.get(url);
             return res.data;
         },

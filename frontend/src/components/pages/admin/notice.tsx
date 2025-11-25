@@ -25,7 +25,7 @@ function NoticeTestPage() {
     const { data: noticeList, isFetching } = useQuery({
         queryKey: ["noticeList", page, searchQuery, sortConfig],
         queryFn: async () => {
-            const url = `/api/v1/admin/notices?page=${page - 1}&sort=${sortConfig.key},${sortConfig.array}&size=${itemsPerPage}${searchQuery}`;
+            const url = `/api/v1/admin/notices?page=${page - 1}&sort=id,desc&sort=${sortConfig.key},${sortConfig.array}&size=${itemsPerPage}${searchQuery}`;
             const res = await UserApi.get(url);
 
             const updatedData = res.data.content.map((data: any) => {
