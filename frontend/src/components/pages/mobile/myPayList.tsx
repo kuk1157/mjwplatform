@@ -45,7 +45,7 @@ export function MobilePayList() {
                 setPayStats(payAnalytics.data);
 
                 const { data } = await axios.get(
-                    `/api/v1/pay/customer/${customerId}`
+                    `/api/v1/pay/customer/${customerId}?size=1000`
                 );
                 const payList: Pay[] = data.content;
                 const storeIds = [
