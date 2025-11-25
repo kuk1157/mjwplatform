@@ -112,6 +112,11 @@ export function UserCreate() {
             return;
         }
 
+        if (!formData.role) {
+            alert("권한을 선택해주시기 바랍니다.");
+            return;
+        }
+
         const finalEmail = `${emailId}@${emailDomain}`;
 
         try {
@@ -225,6 +230,7 @@ export function UserCreate() {
                             onChange={handleChange}
                             className="border border-gray-300 rounded px-2 py-2"
                         >
+                            <option>선택안함</option>
                             {UserRoleList.map((item) => (
                                 <option key={item.name} value={item.name}>
                                     {item.value}
