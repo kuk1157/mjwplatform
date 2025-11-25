@@ -15,8 +15,8 @@ public interface NftOnChainLogRepository extends JpaRepository<NftOnChainLog, In
     @Query("""
         SELECT l FROM NftOnChainLog l WHERE
             l.onChainCategory LIKE %:keyword% OR
-            l.errorType LIKE %:keyword% OR
-            l.koreanMsg LIKE %:keyword% OR
+            l.txHash LIKE %:keyword% OR
+            l.txHashMessage LIKE %:keyword% OR
             l.errorMsg LIKE %:keyword%
     """)
     Page<NftOnChainLog> findByKeyword(@Param("keyword") String keyword, Pageable pageable);
