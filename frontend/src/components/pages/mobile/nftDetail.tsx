@@ -7,8 +7,8 @@ import { MobileFooter } from "src/components/organisms/mobileFooter"; // 하단 
 import { MdArrowBackIosNew } from "react-icons/md"; // 이전 페이지이동 좌측 화살표 아이콘
 import { AxiosError } from "axios";
 
-import { cdn } from "src/constans";
-import { storeFolder } from "src/constans";
+// import { cdn } from "src/constans";
+// import { storeFolder } from "src/constans";
 
 import { NftList } from "src/types";
 
@@ -76,11 +76,7 @@ export function MobileMyWallet() {
                         <div className=" px-3 py-3 mb-3 flex items-center">
                             <div className="w-full flex justify-center items-center">
                                 <img
-                                    src={
-                                        nftDetails.storeId === 1
-                                            ? nftDetails.nftImage
-                                            : `${cdn}/${storeFolder}/${nftDetails.thumbnail}${nftDetails.extension}`
-                                    }
+                                    src={nftDetails.nftImage}
                                     alt={nftDetails.storeName}
                                 />
                             </div>
